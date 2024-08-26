@@ -1,0 +1,176 @@
+// Librerias
+import { hash, compare } from "bcrypt";
+
+// Base de datos
+import connection from "../database.js";
+
+class UserModel {
+    /**
+     * 
+     * @param {string} username - nombre de usuario
+     * @param {string} password - la contraseña del usuario
+     * @param {string} email - el correo electronico del usuario 
+     */
+    static async createUser({ username, password, email }) {
+        const db = await connection()
+
+        // Verificar si el email no esta usado por otra persona
+        const isEmailUsed = await userExists({ email, db })
+        if(isEmailUsed) return 'email_used'
+
+        // Encriptar la contraseña
+        const hashedPassword = await hash(password, 10)
+
+        // Insertar usuario
+        await db.query(`INSERT INTO usuarios (Nombre, CorreoElectronico, Contrasenia) VALUES ('${username}', '${email}', '${hashedPassword}')`)
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario 
+     */
+    static async getFavorites({ userId }) {
+        const db = await connection()
+
+        const [books] = await db.query(`SELECT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN favoritos f ON f.LibroID = l.LibroID WHERE f.UsuarioID = ${userId}`)
+
+        return books
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario 
+     */
+    static async getLikes({ userId }) {
+        const db = await connection()
+
+        const [books] = await db.query(`SELECT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN gustados f ON f.LibroID = l.LibroID WHERE f.UsuarioID = ${userId}`)
+
+        return books
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario  
+     */
+    static async getLater({ userId }) {
+        const db = await connection()
+
+        const [books] = await db.query(`SELECT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN ver_mas_tarde f ON f.LibroID = l.LibroID WHERE f.UsuarioID = ${userId}`)
+
+        return books
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {integer} bookId - id del libro 
+     */
+    static async addFavorite({ userId, bookId }) {
+        const db = await connection()
+
+        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'favoritos', db })
+        if(isAlreadyAdded) return 'duplicated'
+
+        await db.query(`INSERT INTO favoritos (UsuarioID, LibroID) VALUES ('${userId}', '${libroId}');`)
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {integer} bookId - id del libro 
+     */
+    static async addLike({ userId, bookId }) {
+        const db = await connection()
+
+        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'gustados', db })
+        if(isAlreadyAdded) return 'duplicated'
+
+        await db.query(`INSERT INTO gustados (UsuarioID, LibroID) VALUES ('${userId}', '${libroId}');`)
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {integer} bookId - id del libro 
+     */
+    static async addSeeLater({ userId, bookId }) {
+        const db = await connection()
+
+        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'ver_mas_tarde', db })
+        if(isAlreadyAdded) return 'duplicated'
+
+        await db.query(`INSERT INTO ver_mas_tarde (UsuarioID, LibroID) VALUES ('${userId}', '${libroId}');`)
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {integer} bookId - id del libro 
+     */
+    static async deleteFavorite({ userId, bookId }) {
+        const db = await connection()
+
+        await db.query(`DELETE FROM favoritos WHERE UsuarioID = '${userId}' AND LibroID = '${libroId}'`)
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {integer} bookId - id del libro 
+     */
+    static async deleteLike({ userId, bookId }) {
+        const db = await connection()
+
+        await db.query(`DELETE FROM gustados WHERE UsuarioID = '${userId}' AND LibroID = '${libroId}'`)
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {integer} bookId - id del libro 
+     */
+    static async deleteSeeLater({ userId, bookId }) {
+        const db = await connection()
+
+        await db.query(`DELETE FROM ver_mas_tarde WHERE UsuarioID = '${userId}' AND LibroID = '${libroId}'`)
+    }
+}
+
+/**
+ * 
+ * @param {integer} userId - id del usuario
+ * @param {integer} bookId - id del libro 
+ * @param {string} type - nombre de la tabla en la base de datos a utilizar (gustados, favoritos, ver_mas_tarde)
+ * @param {object} db - variable de la base de datos
+ */
+async function isDuplicated({ userId, bookId, type, db }) {
+    const [verify] = await db.query(`SELECT * FROM ${type} WHERE UsuarioID = '${userId}' AND LibroID = '${libroId}';`)
+    if(verify.length > 0) {
+        return true
+    }
+
+    return false
+}
+
+/**
+ * 
+ * @param {string} email - correo electronico del usuario
+ * @param {object} db - variable de la base de datos 
+ * @returns 
+ */
+async function userExists({ email, db }) {
+    const [user] = await db.query(`SELECT * FROM usuarios WHERE CorreoElectronico = '${email}'`)
+
+    // Si se encuentra un usuario o mas en la base de datos
+    // retorna que existe un usuario con este email
+    if(user.length >= 1) {
+        return true
+    }
+
+    // Si no hay nadie registrado con este email
+    // retorna que no hay nadie
+    return false
+}
+
+export default UserModel

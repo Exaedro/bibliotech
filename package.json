@@ -1,0 +1,19 @@
+{
+  "name": "bibliotech",
+  "version": "1.0.0",
+  "description": "Aplicación de una biblioteca virtual",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch web/index.js"
+  },
+  "author": "Exaedro",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.11.0"
+  }
+}
