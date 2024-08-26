@@ -99,8 +99,6 @@ indexRouter.get('/book/:bookId', async (req, res) => {
     const { username, role, userId } = req.session
     const { bookId } = req.params
 
-    corsMiddleware(res, 'http://localhost:4000')
-
     const book = await (await fetch(`${apiUrl}/book/${bookId}`)).json()
     const comments = await (await fetch(`${apiUrl}/comment/all?bookId=${bookId}`)).json()
 

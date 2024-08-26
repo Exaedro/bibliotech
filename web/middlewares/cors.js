@@ -4,6 +4,5 @@ const ACCEPTED_ORIGINS = [
 ]
 
 export const corsMiddleware = (res, origin) => {
-    if(ACCEPTED_ORIGINS.includes(origin))
-        res.header('Access-Control-Allow-Origin', origin)
+    
 }

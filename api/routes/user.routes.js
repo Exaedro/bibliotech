@@ -8,7 +8,16 @@ import UserController from "../controllers/user.controller.js";
 import config from '../config.json' with { type: 'json' }
 const prefix = config["api-prefix"]
 
+
+// Cors
+import { cors } from "../utils/cors.js";
+
 // Rutas
+userRouter.get('/*', (req, res, next) => {
+    cors(res, 'http://localhost:4000')
+    next()
+})
+
 userRouter.post(`${prefix}/user/create`, (req, res) => { UserController.createUser(req, res) })
 userRouter.post(`${prefix}/user/login`, (req, res) => { UserController.login(req, res) })
 
