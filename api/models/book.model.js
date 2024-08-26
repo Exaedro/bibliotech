@@ -12,12 +12,69 @@ class BookModel {
 
     /**
      * 
+     * @param {integer} genre - id del genero
+     * @returns 
+     */
+    static async getAllByGenreId({ genre }) {
+        const db = await connection()
+
+        const [books] = await db.query(`SELECT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE c.CategoriaID = ${genre}`)
+    
+        return books
+    }
+
+    static async getCategories() {
+        const db = await connection()
+
+        const [categories] = await db.query('SELECT c.CategoriaID, c.NombreCategoria FROM categorias c')
+
+        return categories
+    }
+
+    /**
+     * 
+     * @param {integer} limit - cantidad de libros que se va a obtener 
+     */
+    static async getRecent({ limit } = 8) {
+        const db = await connection()
+
+        const [books] = await db.query(`SELECT * FROM libros LIMIT ${limit}`)
+
+        return books
+    }
+
+    /**
+     * 
+     * @param {integer} limit - cantidad de libros que se va a obtener 
+     */
+    static async getMostLiked({ limit }) {
+        const db = await connection()
+
+        const [books] = await db.query(`SELECT * FROM libros ORDER BY Gustados ASC LIMIT ${limit}`)
+
+        return books
+    }
+
+    /**
+     * 
+     * @param {integer} limit - cantidad de libros que se va a obtener 
+     */
+    static async getMostVisited({ limit }) {
+        const db = await connection()
+
+        const [books] = await db.query(`SELECT * FROM libros ORDER BY Visitas ASC LIMIT ${limit}`)
+
+        return books
+    }
+
+    /**
+     * 
      * @param {integer} id - id del libro 
      */
     static async getById({ id }) {
         const db = await connection()
 
-        const [book] = await db.query(`SELECT * FROM libros WHERE LibroID = ${id}`)
+        const [book] = await db.query(`SELECT * FROM libros JOIN libros_categorias lc ON lc.LibroID = libros.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE libros.LibroID = ${id}`)
 
         return book
     }

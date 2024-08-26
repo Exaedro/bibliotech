@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head.ejs') %>
+</head>
+<body>
+    <%- include('partials/navbar.ejs') %>
+
+    <main class="perfil">
+        <section class="info">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png">
+            <h3><%- user.username %></h3>
+        </section>
+        <section class="libros">
+            <article>
+                <h2>Mis me gusta</h2>
+                <div class="librosContenedor">
+                    <% likedBooks.forEach(book => {%>
+                        <div class="libro">
+                            <figure>
+                                <a href="/book/<%- book.LibroID %>">
+                                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                </a>
+                            </figure>
+                            <a href="/book/<%- book.LibroID %>">
+                                <p><%- book.Titulo %></p>
+                            </a>
+                        </div>
+                    <%})%>
+                </div>
+                <a href="/profile/liked" class="botonVerTodo">Ver todo</a>
+            </article>
+            <article>
+                <h2>Mis favoritos</h2>
+                <div class="librosContenedor">
+                    <% favoriteBooks.forEach(book => {%>
+                        <div class="libro">
+                            <figure>
+                                <a href="/book/<%- book.LibroID %>">
+                                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                </a>
+                            </figure>
+                            <a href="/book/<%- book.LibroID %>">
+                                <p><%- book.Titulo %></p>
+                            </a>
+                        </div>
+                    <%})%>
+                </div>
+                <a href="/profile/favorite" class="botonVerTodo">Ver todo</a>
+            </article>
+            <article>
+                <h2>Ver mas tarde</h2>
+                <div class="librosContenedor">
+                    <% seeLaterBooks.forEach(book => {%>
+                        <div class="libro">
+                            <figure>
+                                <a href="/book/<%- book.LibroID %>">
+                                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                </a>
+                            </figure>
+                            <a href="/book/<%- book.LibroID %>">
+                                <p><%- book.Titulo %></p>
+                            </a>
+                        </div>
+                    <%})%>
+                </div>
+                <a href="/profile/see-later" class="botonVerTodo">Ver todo</a>
+            </article>
+        </section>
+    </main>
+    <footer class="footerContainer">
+        <%- include('partials/footer.ejs') %>
+    </footer>
+</body>
+</html>

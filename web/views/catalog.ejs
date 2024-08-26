@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head.ejs') %>
+  </head>
+  <body>
+    <header>
+      <%- include('partials/navbar.ejs') %>
+    </header>
+    <div class="wrapper">
+      <main class="catalogo-container">
+        <section class="busqueda">
+          <h3>Buscar obra...</h3>
+          <form action="/catalog" method="GET">
+            <div class="barraBusqueda">
+              <input type="text" name="title" placeholder="Titulo...">
+              <button type="submit">Buscar</button>
+              <a href="/catalog" class="recargar">
+                <img src="/img/recargar.png" alt="Recargar">
+              </a>
+            </div>
+            <div class="filtro">
+              <p>Genero</p>
+              <select name="generoId">
+                <option value="off">Seleccionar</option>
+                <% categories.forEach(categorie => { %> 
+                    <option value="<%- categorie.CategoriaID %>">
+                      <%- categorie.NombreCategoria %>
+                    </option>
+                <% }) %>
+              </select>
+            </div>
+          </form>
+        </section>
+        <h2>Libros disponibles</h2>
+        <div class="catalogo">
+          <% if(books.length > 0) {%>
+            <% books.forEach(book => { %>
+              <div class="serie">
+                <figure>
+                  <a href="/book/<%- book.LibroID %>"><img src="<%- book.imagen %>" /></a>
+                </figure>
+                <div class="title">
+                  <a href="/book/<%- book.LibroID %>"><%- book.Titulo %></a>
+                </div>
+              </div>
+            <% })%>
+          <% } else { %>
+            <h2 class="mensajeError">No hemos encontrado nada...</h2>
+          <% } %>
+        </div>
+      </main>
+      <footer class="footerContainer">
+        <%- include('partials/footer.ejs') %>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+.logeoFondo {
+    z-index: 1;
+}
+
+.logeoFondo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: -50;
+    filter: brightness(45.66666%)
+}
+
+.logeoHeader {
+    position: absolute;
+    margin: 40px 0px 0px 40px
+}
+
+.logeoHeader a {
+    font-weight: bold;
+    font-size: 22px;
+    position: relative;
+    text-decoration: none;
+    color: #fff;
+}
+
+.logeoForm {
+    height: 96vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 10px;
+}
+
+.logeoForm h1 {
+    color: #fff;
+}
+
+.logeoForm form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-fondo);
+    color: var(--color-letra);
+    border-radius: 10px;
+    padding: 25px;
+    width: 400px;
+    max-width: 100%;
+    z-index: 100;
+    box-shadow: 0px 3px 100px -20px rgba(0,0,0);
+}
+
+.logeoForm form p {
+    color: red;
+    opacity: 0.7;
+    margin-top: 5px;
+    font-size: 0.8rem;
+}
+
+.logeoForm h1 {
+    margin-bottom: 20px;
+}
+
+.logeoForm form label {
+    font-size: 24px;
+}
+
+.logeoForm form label:nth-child(n+2) {
+    margin-top: 35px;
+}
+
+.hidden {
+    display: none;
+}
+
+.logeoForm .error {
+    margin-top: 35px;
+    text-align: center;
+    display: block;
+    padding: 15px 0;
+    background: #f37f7f;
+    color: #fff;
+    border-radius: 5px;
+    border: 1px solid #e50000;
+    cursor: pointer;
+}
+
+.logeoForm form button {
+    border-radius: 5px;
+    background-color: var(--color-primario);
+    color: #fff;
+    padding: 10px;
+    height: 45px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-top: 35px;
+}
+
+.logeoForm form button:hover {
+    background-color: var(--color-primario-hover);
+}
+
+.logeoForm form input {
+    border: none;
+    background-color: var(--color-input);
+    height: 50px;
+    margin-top: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: var(--color-input-letra);
+    padding-left: 10px;
+    transition: border 0.3s ease;
+}
+
+.logeoForm form input:focus {
+    border: none;
+    border-bottom: 2px solid var(--color-fondo-secundario);
+    outline: none;
+}
+
+.logeoForm a {
+    margin-top: 20px;
+    z-index: 100;
+    color: #fff;
+    text-align: center;
+}
+
+@media (max-width:440px) {
+    .logeoHeader {
+        margin-left: 10px;
+    }
+}

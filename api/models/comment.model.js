@@ -12,7 +12,7 @@ class CommentModel {
         const db = await connection()
 
         if(bookTitle || bookId) {
-            const [comments] = await db.query(`SELECT c.ComentarioID, c.UsuarioID, c.LibroID, c.Comentario, c.FechaComentario FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID WHERE l.Titulo = '${bookTitle}' OR l.LibroID = '${bookId}'`)
+            const [comments] = await db.query(`SELECT c.ComentarioID, c.UsuarioID, c.LibroID, c.Comentario, c.FechaComentario, u.Nombre, u.Imagen FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID JOIN usuarios u ON c.UsuarioID = u.UsuarioID WHERE l.Titulo = '${bookTitle}' OR l.LibroID = '${bookId}'`)
             return comments
         }
 

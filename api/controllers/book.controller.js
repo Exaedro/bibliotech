@@ -4,11 +4,23 @@ import { responseMessage } from "../utils/error.js";
 
 class BookController {
     static async getAll(req, res) {
-        const { title } = req.query
+        const { title, genre } = req.query
 
         if(title) {
             try {
                 const books = await BookModel.getByTitle({ title })
+                res.status(200).json(books)
+            } catch(err) {
+                res.status(404).json(err)
+                console.error(err)
+            }
+
+            return
+        }
+
+        if(genre) {
+            try {
+                const books = await BookModel.getAllByGenreId({ genre })
                 res.status(200).json(books)
             } catch(err) {
                 res.status(404).json(err)
@@ -27,11 +39,63 @@ class BookController {
         }
     }
 
+    static async getCategories(req, res) {
+        try {
+            const categories = await BookModel.getCategories()
+            res.status(200).json(categories)
+        } catch(err) {
+            res.status(404).json(err)
+            console.error(err)
+        }
+    }
+
+    static async getRecent(req, res) {
+        let { limit } = req.query
+
+        if(!limit) limit = 8
+
+        try {
+            const books = await BookModel.getRecent({ limit })
+            res.status(200).json(books)
+        } catch(err) {
+            res.status(404).json(err)
+            console.error(err)
+        }
+    }
+
+    static async getMostLiked(req, res) {
+        let { limit } = req.query
+
+        if(!limit) limit = 4
+
+        try {
+            const books = await BookModel.getMostLiked({ limit })
+            res.status(200).json(books)
+        } catch(err) {
+            res.status(404).json(err)
+            console.error(err)
+        }
+    }
+
+    static async getMostVisited(req, res) {
+        let { limit } = req.query
+
+        if(!limit) limit = 6
+
+        try {
+            const books = await BookModel.getMostVisited({ limit })
+            res.status(200).json(books)
+        } catch(err) {
+            res.status(404).json(err)
+            console.error(err)
+        }
+    }
+
     static async getById(req, res) {
         const { id } = req.params
 
         try {
-            const [book] = await BookModel.getById({ id })
+            const book = await BookModel.getById({ id })
             res.status(200).json(book)
         } catch(err) {
             res.status(404).json(err)

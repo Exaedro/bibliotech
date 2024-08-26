@@ -14,6 +14,10 @@ class UserModel {
     static async createUser({ username, password, email }) {
         const db = await connection()
 
+        // Verificar si el nombre de usuario no esta usado por otra persona
+        const isUsernameUsed = await usernameExists({ username, db })
+        if(isUsernameUsed) return 'username_used'
+
         // Verificar si el email no esta usado por otra persona
         const isEmailUsed = await userExists({ email, db })
         if(isEmailUsed) return 'email_used'
@@ -23,6 +27,24 @@ class UserModel {
 
         // Insertar usuario
         await db.query(`INSERT INTO usuarios (Nombre, CorreoElectronico, Contrasenia) VALUES ('${username}', '${email}', '${hashedPassword}')`)
+    }
+
+    /**
+     * 
+     * @param {string} email - email del usuario
+     * @param {string} password - contraseña del usuario 
+     * @returns 
+     */
+    static async LogUser({ email, password }) {
+        const db = await connection()
+
+        const [user] = await db.query(`SELECT r.NombreRol as role, u.Contrasenia as password, u.Nombre as username, u.UsuarioID as id FROM usuarios u JOIN roles r ON u.RollID = r.RollID  WHERE u.CorreoElectronico = '${email}';`)
+        if(user.length == 0) return 'user_not_exist'
+
+        const validPassword = await compare(password, user[0].password)
+        if(!validPassword) return 'invalid_password'
+
+        return user
     }
 
     /**
@@ -145,11 +167,30 @@ class UserModel {
  * @param {object} db - variable de la base de datos
  */
 async function isDuplicated({ userId, bookId, type, db }) {
-    const [verify] = await db.query(`SELECT * FROM ${type} WHERE UsuarioID = '${userId}' AND LibroID = '${libroId}';`)
-    if(verify.length > 0) {
-        return true
-    }
+    const [verify] = await db.query(`SELECT * FROM ${type} WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}';`)
 
+    if(verify.length > 0)
+        return true
+
+    return false
+}
+
+/**
+ * 
+ * @param {string} username - nombre de usuario
+ * @param {object} db - variable de la base de datos 
+ * @returns 
+ */
+async function usernameExists({ username, db }) {
+    const [user] = await db.query(`SELECT * FROM usuarios WHERE Nombre = ${username}`)
+
+    // Si encuentra un usuario con el nombre ingresado
+    // retorna que este nombre ya esta registrado
+    if(user.length >= 1)
+        return true
+
+    // Si no encuentra nada
+    // retorna que el nombre no esta registrado
     return false
 }
 
@@ -164,9 +205,8 @@ async function userExists({ email, db }) {
 
     // Si se encuentra un usuario o mas en la base de datos
     // retorna que existe un usuario con este email
-    if(user.length >= 1) {
+    if(user.length >= 1)
         return true
-    }
 
     // Si no hay nadie registrado con este email
     // retorna que no hay nadie

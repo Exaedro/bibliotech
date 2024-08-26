@@ -1,0 +1,218 @@
+.panel aside {
+    background-color: var(--color-fondo);
+    width: 300px;
+    position: fixed;
+    height: 100%;
+    z-index: 700;
+    border-right: 1px solid var(--color-fondo-secundario);
+}
+
+.panel aside h2 {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.panel .sideContainer {
+    margin: 0 15px 15px 0;
+}
+
+.panel aside .sideTitle {
+    padding-top: 15px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.panel aside .sidemenu {
+    margin-top: 10px;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--color-fondo-secundario);
+}
+
+.panel .sidemenu a {
+    padding: 10px;
+    color: var(--color-letra);
+    text-decoration: none;
+    width: 100%;
+}
+
+.panel .sidemenu a:hover {
+    background-color: var(--color-primario-hover);
+    color: var(--color-letra-secundario);
+}
+
+.panel main {
+    color: var(--color-fondo);
+    padding-left: 300px;
+}
+
+.panel nav {
+    height: 61px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 15px;
+    border-bottom: 1px solid var(--color-fondo-secundario);
+    background-color: var(--color-fondo);
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 500;
+    width: 100%;
+}
+
+.panel h1 {
+    color: var(--color-letra);
+    margin: 40px 0 5px 40px;
+}
+
+.panel .contenedor {
+    padding-top: 60px;
+}
+
+.panel section {
+    color: var(--color-letra);
+    background-color: var(--color-fondo);
+    border: 1px solid var(--color-fondo-secundario);
+    border-radius: 8px;
+    padding: 40px;
+    margin: 0 40px 40px 40px;
+}
+
+.panel .libros {
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 280px 280px 280px;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.panel .libros p {
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-wrap: balance;
+}
+
+.panel .libros .libro {
+    width: 130px;
+    height: 230px;
+    position: relative;
+}
+
+.panel .libros figure {
+    width: 130px;
+    height: 200px;
+} 
+
+.panel .libros figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.panel .borrar {
+    width: 30px!important;
+    height: 30px!important;
+    position: absolute;
+    background-color: red;
+    padding: 15px;
+    border-radius: 5px;
+    right: 10px;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel .editar {
+    position: absolute;
+    width: 25px!important;
+    height: 25px!important;
+    background-color: orange;
+    padding: 15px;
+    border-radius: 5px;
+    right: 50px;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel section h1 {
+    font-size: 44px;
+}
+
+.panel hr {
+    height: 1px;
+    background-color: var(--color-fondo-secundario);
+}
+
+dialog[open] {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 200px;
+    border-radius: 5px;
+    border: 1px solid var(--color-fondo-secundario);
+    background-color: var(--color-fondo);
+    color: var(--color-letra);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    scale: 1;
+    transition: scale .3s ease;
+
+    @starting-style {
+        scale: 0;
+    }
+}
+
+dialog {
+    transition: scale .3s ease, display .3s ease allow-discrete;
+    scale: 0;
+}
+
+dialog h3 {
+    text-align: center;
+    text-wrap: balance;
+}
+
+dialog .botones {
+    display: flex;
+    margin-top: 10px;
+    gap: 15px;
+}
+
+dialog .botones .cancelarEliminar {
+    padding: 10px 30px;
+    border-radius: 5px;
+    color: var(--color-letra-secundario);
+    margin-top: 10px;
+    background-color: red;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+dialog .botones .confirmarEliminar {
+    padding: 10px 30px;
+    border-radius: 5px;
+    color: var(--color-letra-secundario);
+    margin-top: 10px;
+    background-color: var(--color-primario-hover);
+    cursor: pointer;
+    font-weight: 700;
+    transition: background .3s ease;
+}
+
+dialog .botones .confirmarEliminar:hover {
+    background-color: var(--color-primario-hover);
+}

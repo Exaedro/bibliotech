@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap');
+
+.libroContainer {
+    margin: 4rem auto 0px auto;
+}
+
+.libroIndividual {
+    display: flex;
+    gap: 20px;
+}
+
+.libroIndividual img {
+    width: 312px;
+    height: 480px;
+    border-radius: 7px;
+}
+
+.libroIndividual figure {
+    display: flex;
+    flex-direction: column;
+}
+
+.libroIndividual h1 {
+    font-family: 'Fugaz One', cursive;
+    font-size: 50px;
+    font-weight: 200;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.libroIndividual h4 {
+    font-size: 20px;
+    margin-bottom: 7px;
+}
+
+.libroIndividual p {
+    margin-bottom: 15px;
+}
+
+.libroIndividual .generos {
+    height: 40px;
+    display: flex;
+    margin-top: 5px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.libroIndividual .genero {
+    padding: 13px;
+    border: rgb(95, 95, 95) solid 2px;
+    border-radius: 10px;
+    background-color: var();
+    margin: 5px 2.5px 0;
+}
+
+.libroContainer .pdf {
+    width: 1200px;
+    height: 100vh;
+    margin-top: 20px;
+}
+
+.libroContainer .acciones {
+    color: var(--color-letra);
+    border: 1px solid var(--color-fondo-secundario);
+    background-color: var(--color-fondo-secundario);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    margin-top: 25px;
+}
+
+.libroContainer .acciones p, .libroContainer .acciones i {
+    cursor: pointer;
+}
+
+.libroContainer .acciones .accion::after {
+    content: '';
+    height: 3px;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    z-index: -1;
+    transition: all 0.3s ease-in-out;
+}
+
+.libroContainer .acciones #espera::after {
+    background-color: orange;
+}
+
+.libroContainer .acciones #gustado::after {
+    background-color: rgb(241, 50, 50);
+}
+
+.libroContainer .acciones #seguido::after {
+    background-color: #09f;
+}
+
+.libroContainer .acciones div:hover::after {
+    height: 100%!important;
+    color: #fff!important;
+}
+
+.libroContainer .acciones i {
+    margin-right: 10px;
+}
+
+.libroContainer .acciones div {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 50;
+    cursor: pointer;
+}
+
+.comentarios {
+    width: 700px;
+    margin-top: 40px;
+}
+
+.comentarios #comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comentarios #comentario textarea {
+    flex-grow: 1;
+    max-height: 250px;
+    min-height: 45px;
+    padding: 10px;
+    height: 100px;
+    font-size: 18px;
+    background-color: transparent;
+    border: 1px solid var(--color-fondo-secundario);
+    color: var(--color-letra);
+    resize: vertical;
+    border-radius: 5px;
+    outline: none;
+}
+
+.comentarios #comentario button {
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+    font-weight: 600;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.comentarios #comentario button:hover {
+    background-color: var(--color-primario-hover);
+}
+
+.comentarios .comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--color-fondo-secundario);
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 25px;
+    position: relative;
+}
+
+.comentarios .comentario .texto p {
+    line-height: 25px;
+}
+
+.comentarios .comentario .usuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comentarios .modAcciones {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.comentarios .modAcciones .borrar {
+    background-color: red;
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 100%;
+    color: #fff;
+    cursor: pointer;
+}
+
+.comentarios .usuario img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+@media (max-width: 575.98px) {
+    .libroContainer, .navbar, .pdf {
+        width: 100%!important;
+    }   
+
+    .libroIndividual {
+        flex-direction: column;
+        margin: 30px
+    }
+
+    .libroIndividual h1 {
+        text-align: center;
+        font-size: 42px;
+    }
+
+    .libroIndividual figure {
+        text-align: center;
+    }
+
+    .libroIndividual img {
+        width: 100%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+    .libroContainer, .navbar, .pdf {
+        width: 540px!important;
+        margin: 0 auto;
+    }
+
+    .libroIndividual {
+        flex-direction: column;
+    }
+
+    .libroIndividual h1 {
+        text-align: center;
+    }
+    
+    .libroIndividual figure {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .libroIndividual figure a {
+        width: 100%;
+    }
+
+    .libroIndividual img {
+        width: 80%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+    .libroContainer, .navbar, .pdf {
+        width: 720px!important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .libroContainer, .navbar, .pdf {
+        width: 960px!important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .libroContainer, .navbar {
+        width: 1200px;
+    }
+}

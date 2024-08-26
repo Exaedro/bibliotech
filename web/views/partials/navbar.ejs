@@ -1,0 +1,24 @@
+<nav class="navbar">
+    <div class="navbar-header">
+      <a href="/">Bibliotech</a>
+    </div>
+    <img src="img/menu-negro.png" class="menuImg" id="navbarMenu">
+    <ul class="navbar-body" id="navbarBody">
+      <li><img src="/img/sol.svg" id="sol" class="sol"></li>
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/catalog">Catálogo</a></li>
+      <% if(typeof user.role != 'undefined') { %>
+        <% if(user.role == 'admin') { %>
+          <li><a href="/panel">Panel</a></li>
+        <% } %>
+      <% } %>
+      <% if(typeof user.username == 'undefined') { %>
+        <li><a href="/login">Iniciar sesion</a></li>
+      <% } else { %>
+        <li><a href="/profile"><%- user.username %></a></li>
+      <% } %>
+    </ul>
+  </nav>
+
+  <script src="js/navbar.js"></script>
+  

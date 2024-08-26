@@ -1,0 +1,11 @@
+{
+    "editor.cursorBlinking": "expand",
+    "editor.cursorStyle": "underline",
+    "editor.find.addExtraSpaceOnTop": true,
+    "editor.fontFamily": "'Cascadia Code', monospace",
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "500",
+    "editor.formatOnSave": true,
+    "workbench.tree.enableStickyScroll": false,
+    "doki.statusbar.name": "Cony"
+}

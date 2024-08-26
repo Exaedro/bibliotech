@@ -1,12 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>hola negras</h1>
-    <h2><%- nombre %></h2>
-</body>
+  <head>
+    <%- include('partials/head.ejs') %>
+    <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
+  </head>
+  <body>
+    <header>
+      <%- include('partials/navbar.ejs') %>
+    </header>
+    <div class="wrapper">
+      <section class="slider">
+        <div class="swiffy-slider slider-nav-autohide slider-nav-autoplay slider-nav-autopause slider-item-snapstart">
+          <ul class="slider-container" style="overflow-x: none;">
+            <% mostVisited.forEach(book => { %>
+              <a href="/book/<%- book.LibroID %>">
+                <li>
+                  <div class="texto">
+                    <h3><%- book.Titulo %></h3>
+                    <p><%- book.Sinopsis %></p>
+                  </div>
+                  <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                </li>
+              </a>
+            <% })%>
+          </ul>
+          <div class="slider-indicators">
+              <% mostVisited.forEach(book => { %>
+                <button></button>
+              <% }) %>
+          </div>
+        </div>
+      </section>
+      <main class="container">
+        <section>
+          <h2>Libros más vistos</h2>
+          <div class="series" id="series">
+            <% recents.forEach(book => { %>
+              <div class="serie">
+                <figure>
+                  <a href="/book/<%- book.LibroID %>"><img src="<%- book.imagen %>" alt="<%- book.Titulo %>"/></a>
+                </figure>
+                <div class="title">
+                  <a href="/book/<%- book.LibroID %>"><%- book.Titulo %></a>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </section>
+        <section>
+          <h2 class="centrar">Populares</h2>
+          <div class="populares">
+            <% mostLiked.forEach(book => { %>
+              <a href="/book/<%- book.LibroID %>">
+                <div class="popular">
+                  <h3><%- book.Titulo %></h3>
+                  <figure>
+                    <img
+                      src="<%- book.imagen %>"
+                      alt="<%- book.Titulo %>"
+                    />
+                  </figure>
+                </div>
+              </a>
+            <% })%>
+          </div>
+        </section>
+      </main>
+      <footer class="footerContainer">
+        <%- include('partials/footer.ejs') %>
+      </footer>
+    </div>
+  </body>
+  <script src="js/dropdown.js"></script>
 </html>

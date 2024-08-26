@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head.ejs') %>
+    
+  </head>
+  <body>
+    <header>
+        <%- include('partials/navbar.ejs') %>
+    </header>
+    <div class="wrapper">
+      <main class="libroContainer">
+        <div class="libroIndividual">
+            <figure>
+                <img src="<%- book[0].imagen %>">
+
+                <%  if(user.role == 'admin') { %>
+                  <!-- Botón para editar el libro -->
+
+                  <a href="/book/<%- book[0].LibroID %>/edit" class="editar-libro-btn">Editar Libro</a>
+                <% } %>
+            </figure>
+            <div class="info">
+                <h1><%- book[0].Titulo %></h1>
+                <h4>Sinopsis</h4>
+                <p><%- book[0].Sinopsis %></p>
+                <h4>Idioma</h4>
+                <p><%- book[0].Idioma %></p>
+                <h4>Paginas</h4>
+                <p><%- book[0].CantidadPaginas %> en total</p>
+                <h4>Géneros</h4>
+                <div class="generos">
+                    <% book.forEach(l => { %>
+                      <a href="/catalog?genre=<%- l.CategoriaID %>">
+                        <span class="genero"><%- l.NombreCategoria %></span>
+                      </a>
+                    <%})%>
+                </div>      
+            </div>
+        </div>
+        <div class="notificacion" id="notificacion">
+          <i class="fa-solid fa-x"></i>
+          <p>Este libro ya esta añadido a tu lista de ver luego.</p>
+        </div>
+        <div class="acciones">
+          <div class="accion" id="espera" data-libroId="<%- book[0].LibroID %>">
+            <i class="fa-solid fa-star"></i>
+            <p>Ver luego</p>
+          </div>
+          <div class="accion" id="gustado" data-libroId="<%- book[0].LibroID %>">
+            <i class="fa-solid fa-heart"></i>
+            <p>Me gusta</p>
+          </div>
+          <div class="accion" id="seguido" data-libroId="<%- book[0].LibroID %>">
+            <i class="fa-solid fa-check"></i>
+            <p>Seguir</p>
+          </div>
+        </div>
+        <iframe class="pdf" src="<%- book[0].pdf_link %>" frameborder="0"></iframe>
+        <section class="comentarios">
+          <h2>Comentarios</h2>
+          <div id="comentario" data-libroId="<%- book[0].LibroID %>">
+            <textarea name="comentario" id="texto" placeholder="Tú opinion..."></textarea>
+            <div class="botones">
+              <button type="submit" id="enviarComentario">Comentar</button>
+            </div>
+          </div>
+          <hr>
+          <div class="todo">
+            <% comments.forEach(comment => { %>
+              <div class="comentario">
+                <div class="usuario">
+                  <img src="<%- comment.Imagen %>" alt="<%- comment.Nombre %>">
+                  <p><%- comment.Nombre %></p>
+                  <% if(user.role == 'admin' || user.role == 'mod') { %>
+                    <div class="modAcciones">
+                      <i class="fa-solid fa-x borrar" data-comentarioId="<%- comment.ComentarioID %>"></i>
+                    </div>
+                  <% } %>
+                </div>
+                <div class="texto">
+                  <p><%- comment.Comentario %></p>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </section>
+    </main>
+    <footer class="footerContainer">
+      <%- include('partials/footer.ejs') %>
+    </footer>
+    </div>
+    <script src="js/acciones.js"></script>
+  </body>
+</html>

@@ -10,10 +10,11 @@ const prefix = config["api-prefix"]
 
 // Rutas
 userRouter.post(`${prefix}/user/create`, (req, res) => { UserController.createUser(req, res) })
+userRouter.post(`${prefix}/user/login`, (req, res) => { UserController.login(req, res) })
 
-userRouter.get(`${prefix}/user/favorite/all`, (req, res) => { UserController.getFavorites(req, res) })
-userRouter.get(`${prefix}/user/like/all`, (req, res) => { UserController.getLikes(req, res) })
-userRouter.get(`${prefix}/user/later/all`, (req, res) => { UserController.getLater(req, res) })
+userRouter.post(`${prefix}/user/favorite/all`, (req, res) => { UserController.getFavorites(req, res) })
+userRouter.post(`${prefix}/user/like/all`, (req, res) => { UserController.getLikes(req, res) })
+userRouter.post(`${prefix}/user/later/all`, (req, res) => { UserController.getLater(req, res) })
 
 userRouter.post(`${prefix}/user/favorite/add`, (req, res) => { UserController.addFavorite(req, res) })
 userRouter.post(`${prefix}/user/like/add`, (req, res) => { UserController.addLike(req, res) })

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head.ejs') %>
+</head>
+<body>
+    <div class="logeoFondo">
+        <img src="img/fondo.jpg" id="logeoFondoImg">
+    </div>
+    <header class="logeoHeader">
+        <a href="/">Bibliotech</a>
+    </header>
+    <main class="logeoForm">
+        <h1>Registro</h1>
+        <form action="/register" id="registerForm" method="POST">
+            <label for="username">Nombre de usuario</label>
+            <input type="text" id="username" name="username" placeholder=". . ." required maxlength="16">
+            <p class="hidden" id="lengthError">Escribe más de tres letras como mínimo.</p>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder=". . ." required>
+            <p class="hidden" id="emailMessageError">Escribe un email valido.</p>
+
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" placeholder=". . ." required maxlength="16">
+            <p class="hidden" id="messageMessageError">Escribe más de tres caracteres como minimo.</p>
+
+            <button id="formButton" type="submit">Registrarse</button>
+        </form>
+        <a href="/login">¿Ya tienes una cuenta? Inicia sesión.</a>
+    </main>
+
+    <script src="js/cambiarTema.js"></script>
+    <script src="js/validarFormulario.js"></script>
+</body>
+</html>

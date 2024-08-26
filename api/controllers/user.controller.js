@@ -8,10 +8,31 @@ class UserController {
         try {
             const response = await UserModel.createUser({ username, password, email })
             
+            if(response == 'username_used')
+                return res.status(404).json({ message: 'this username is already used', error: response })
+
             if(response == 'email_used')
-                return res.status(404).json({ message: 'this email is already used' })
+                return res.status(404).json({ message: 'this email is already used', error: response })
             
             res.status(200).json({ message: 'created' })
+        } catch(err) {
+            res.status(404).json(err)
+        }
+    }
+
+    static async login(req, res) {
+        const { email, password } = req.body
+
+        try {
+            const response = await UserModel.LogUser({ email, password })
+
+            if(response == 'user_not_exist') 
+                return res.status(404).json({ message: 'this user not exists', error: response })
+
+            if(response == 'invalid_password')
+                return res.status(404).json({ message: 'incorrect password', error: response })
+
+            res.status(200).json(response)
         } catch(err) {
             res.status(404).json(err)
         }
@@ -21,7 +42,7 @@ class UserController {
         const { userId } = req.body
 
         try {
-            const [books] = await UserModel.getFavorites({ userId })
+            const books = await UserModel.getFavorites({ userId })
             res.status(200).json(books)
         } catch(err) {
             res.status(404).json(err)
@@ -33,7 +54,7 @@ class UserController {
         const { userId } = req.body
 
         try {
-            const [books] = await UserModel.getLikes({ userId })
+            const books = await UserModel.getLikes({ userId })
             res.status(200).json(books)
         } catch(err) {
             res.status(404).json(err)
@@ -45,7 +66,7 @@ class UserController {
         const { userId } = req.body
 
         try {
-            const [books] = await UserModel.getLater({ userId })
+            const books = await UserModel.getLater({ userId })
             res.status(200).json(books)
         } catch(err) {
             res.status(404).json(err)
