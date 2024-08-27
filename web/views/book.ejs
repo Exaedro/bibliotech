@@ -74,7 +74,7 @@
                   <p><%- comment.Nombre %></p>
                   <% if(user.role == 'admin' || user.role == 'mod') { %>
                     <div class="modAcciones">
-                      <i class="fa-solid fa-x borrar" data-comentarioId="<%- comment.ComentarioID %>"></i>
+                      <i class="fa-solid fa-x borrar" data-commentId="<%- comment.ComentarioID %>"></i>
                     </div>
                   <% } %>
                 </div>

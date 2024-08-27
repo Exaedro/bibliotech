@@ -10,7 +10,7 @@ const prefix = config["api-prefix"]
 
 // Rutas
 commentRouter.post(`${prefix}/comment/create`, (req, res) => { CommentController.createComment(req, res) })
-commentRouter.post(`${prefix}/comment/delete/:id`, (req, res) => { CommentController.deleteCommentById(req, res) })
+commentRouter.post(`${prefix}/comment/delete`, (req, res) => { CommentController.deleteCommentById(req, res) })
 commentRouter.get(`${prefix}/comment/all`, (req, res) => { CommentController.getComments(req, res) })
 
 export default commentRouter

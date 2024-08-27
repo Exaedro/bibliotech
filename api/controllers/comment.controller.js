@@ -29,10 +29,10 @@ class CommentController {
     }
 
     static async deleteCommentById(req, res) {
-        const { id } = req.params
+        const { commentId } = req.body
 
         try {
-            await CommentModel.deleteCommentById({ id })
+            await CommentModel.deleteCommentById({ id: commentId })
             res.status(200).json({ message: 'deleted' })
         } catch(err) {
             console.error(err)
