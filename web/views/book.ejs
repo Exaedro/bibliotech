@@ -73,7 +73,7 @@
                 <div class="usuario">
                   <img src="<%- comment.Imagen %>" alt="<%- comment.Nombre %>">
                   <p><%- comment.Nombre %></p>
-                  <% if(user.role == 'admin' || user.role == 'mod') { %>
+                  <% if(user.role == 'admin' || user.role == 'mod' || user.userId == comment.UsuarioID) { %>
                     <div class="modAcciones">
                       <i class="fa-solid fa-x borrar" data-commentId="<%- comment.ComentarioID %>"></i>
                     </div>

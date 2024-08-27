@@ -182,7 +182,7 @@ async function isDuplicated({ userId, bookId, type, db }) {
  * @returns 
  */
 async function usernameExists({ username, db }) {
-    const [user] = await db.query(`SELECT * FROM usuarios WHERE Nombre = ${username}`)
+    const [user] = await db.query(`SELECT * FROM usuarios WHERE Nombre = '${username}'`)
 
     // Si encuentra un usuario con el nombre ingresado
     // retorna que este nombre ya esta registrado
