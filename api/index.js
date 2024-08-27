@@ -1,5 +1,6 @@
 import express from 'express'
 import morgan from 'morgan'
+import cors from 'cors'
 
 export const appApi = express()
 
@@ -11,6 +12,7 @@ appApi.set('json spaces', 2)
 appApi.use(morgan('dev'))
 appApi.use(express.urlencoded({ extended: false }))
 appApi.use(express.json())
+appApi.use(cors())
 
 // Rutas
 import bookRouter from './routes/book.routes.js'

@@ -104,7 +104,7 @@ indexRouter.get('/book/:bookId', async (req, res) => {
 
     res.render('book',
         {
-            title: `Bibliotech - ${book.Titulo}`, book, comments,
+            title: `Bibliotech - ${book[0].Titulo}`, book, comments,
             user: { username, role, userId }
         }
     )

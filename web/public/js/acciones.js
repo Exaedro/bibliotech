@@ -17,7 +17,8 @@ botonesBorrar.forEach(boton => {
         const comentarioId = elem.target.getAttribute('data-comentarioId')
 
         fetch(`http://localhost:3000/comment/delete/${comentarioId}`, {
-            method: 'POST'
+            method: 'POST',
+            mode: 'no-cors'
         })
         .then(response => {
             if(response.ok) {
@@ -25,12 +26,10 @@ botonesBorrar.forEach(boton => {
                 return
             }
 
+            console.log(response)
+
             if(response.statusText == 'user_not_logged') {
-                notificacion.style.display = 'flex'
-                notificacion.style.borderTopColor = 'red'
-    
-                notificacionIcon.className = 'fa-solid fa-arrow-down'
-                notificacionMensaje.innerHTML = 'Inicia sesión para poder utilizar esto.'
+                
     
                 return
             }

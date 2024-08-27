@@ -1,5 +1,6 @@
 const ACCEPTED_ORIGINS = [
-    "http://localhost:4000"
+    "http://localhost:4000",
+    "http://localhost:3000"
 ]
 
 export const cors = (res, origin) => {

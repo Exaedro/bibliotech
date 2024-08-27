@@ -94,7 +94,7 @@ class UserModel {
         const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'favoritos', db })
         if(isAlreadyAdded) return 'duplicated'
 
-        await db.query(`INSERT INTO favoritos (UsuarioID, LibroID) VALUES ('${userId}', '${libroId}');`)
+        await db.query(`INSERT INTO favoritos (UsuarioID, LibroID) VALUES ('${userId}', '${bookId}');`)
     }
 
     /**
@@ -108,7 +108,7 @@ class UserModel {
         const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'gustados', db })
         if(isAlreadyAdded) return 'duplicated'
 
-        await db.query(`INSERT INTO gustados (UsuarioID, LibroID) VALUES ('${userId}', '${libroId}');`)
+        await db.query(`INSERT INTO gustados (UsuarioID, LibroID) VALUES ('${userId}', '${bookId}');`)
     }
 
     /**
@@ -122,7 +122,7 @@ class UserModel {
         const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'ver_mas_tarde', db })
         if(isAlreadyAdded) return 'duplicated'
 
-        await db.query(`INSERT INTO ver_mas_tarde (UsuarioID, LibroID) VALUES ('${userId}', '${libroId}');`)
+        await db.query(`INSERT INTO ver_mas_tarde (UsuarioID, LibroID) VALUES ('${userId}', '${bookId}');`)
     }
 
     /**

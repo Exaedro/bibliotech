@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bookId="<%- book[0].LibroID %>" data-userId="<%- user.userId %>">
   <head>
     <%- include('partials/head.ejs') %>
     
@@ -43,23 +43,23 @@
           <p>Este libro ya esta añadido a tu lista de ver luego.</p>
         </div>
         <div class="acciones">
-          <div class="accion" id="espera" data-libroId="<%- book[0].LibroID %>">
+          <div class="accion" id="espera">
             <i class="fa-solid fa-star"></i>
             <p>Ver luego</p>
           </div>
-          <div class="accion" id="gustado" data-libroId="<%- book[0].LibroID %>">
+          <div class="accion" id="gustado">
             <i class="fa-solid fa-heart"></i>
             <p>Me gusta</p>
           </div>
-          <div class="accion" id="seguido" data-libroId="<%- book[0].LibroID %>">
+          <div class="accion" id="favorito">
             <i class="fa-solid fa-check"></i>
-            <p>Seguir</p>
+            <p>Favorito</p>
           </div>
         </div>
         <iframe class="pdf" src="<%- book[0].pdf_link %>" frameborder="0"></iframe>
         <section class="comentarios">
           <h2>Comentarios</h2>
-          <div id="comentario" data-libroId="<%- book[0].LibroID %>">
+          <div id="comentario">
             <textarea name="comentario" id="texto" placeholder="Tú opinion..."></textarea>
             <div class="botones">
               <button type="submit" id="enviarComentario">Comentar</button>
@@ -90,6 +90,7 @@
       <%- include('partials/footer.ejs') %>
     </footer>
     </div>
-    <script src="js/acciones.js"></script>
+    <script src="js/book.js"></script>
+    <!-- <script src="js/acciones.js"></script> -->
   </body>
 </html>

@@ -1,6 +1,6 @@
 {
     "editor.cursorBlinking": "expand",
-    "editor.cursorStyle": "underline",
+    "editor.cursorStyle": "line",
     "editor.find.addExtraSpaceOnTop": true,
     "editor.fontFamily": "'Cascadia Code', monospace",
     "editor.fontLigatures": true,

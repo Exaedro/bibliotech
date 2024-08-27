@@ -1,6 +1,8 @@
 // Modelo del comentario
 import CommentModel from "../models/comment.model.js"
 
+import { cors } from "../utils/cors.js"
+
 class CommentController {
     static async getComments(req, res) {
         const { bookTitle, bookId } = req.query

@@ -97,7 +97,7 @@
     background-color: rgb(241, 50, 50);
 }
 
-.libroContainer .acciones #seguido::after {
+.libroContainer .acciones #favorito::after {
     background-color: #09f;
 }
 
