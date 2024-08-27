@@ -12,7 +12,7 @@ import { corsMiddleware } from './middlewares/cors.js'
 
 // Configuracion
 app.set('PORT', process.env.PORT || 4000)
-app.set('views', path.join(process.cwd(), 'web/views'))
+app.set('views', path.join(process.cwd(), 'src/web/views'))
 app.set('view engine', 'ejs')
 
 // Middlewares
@@ -35,9 +35,9 @@ app.use(profileRouter)
 app.use(indexRouter)
 
 // Estaticos
-app.use('/', express.static(path.join(process.cwd(), 'web/public')))
-app.use('/book', express.static(path.join(process.cwd(), 'web/public')))
-app.use('/profile', express.static(path.join(process.cwd(), 'web/public')))
+app.use('/', express.static(path.join(process.cwd(), 'src/web/public')))
+app.use('/book', express.static(path.join(process.cwd(), 'src/web/public')))
+app.use('/profile', express.static(path.join(process.cwd(), 'src/web/public')))
 
 app.listen(app.get('PORT'), () => {
     console.log('Web en funcionamiento')

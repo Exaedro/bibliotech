@@ -4,7 +4,7 @@
   "description": "Aplicación de una biblioteca virtual",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch web/index.js"
+    "dev": "node --watch src/web/index.js"
   },
   "author": "Exaedro",
   "license": "MIT",
