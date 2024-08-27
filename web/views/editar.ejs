@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/admin/head.ejs') %>
+</head>
+<body>
+    <div class="panel">
+            <%- include('../partials/admin/sidebar.ejs') %>
+            <main>
+                <%- include('../partials/admin/navbar.ejs') %>
+                <div class="contenedor">
+                   <h1>Editar Perfil</h1>
+                    <form class="editarUserContainer" action="/user/<%- user.UsuarioID %>/editar" method="POST" enctype="multipart/form-data">
+
+                        <!-- Imagen a un costado -->
+                        <div class="userInfo">
+                            <figure>
+                                <img id="imagen" src="<%- user.Imagen %>" alt="imagen de perfil">
+                            </figure>
+                            <input type="file" id="imagenInput" name="imagen">
+
+                            <hr>
+                            <p><strong>Rol:</strong><%- user.Rol%></p>
+                            <p><strong>Username:</strong><%- user.Nombre%></p>
+                            <p><strong>Correo Electronico:</strong><%- CorreoElectronico.Rol%></p>
+
+                        </div>
+
+                        <!-- Formulario en el otro costado -->
+                        <div class="datos">
+                            <div class="row">
+                                <div class="columna">
+                                    <h4>Nombre de Usuario</h4>
+                                    <input type="text" value="<%- user.Nombre %>" placeholder="..." name="username">
+                                    <h4>Correo Electronico</h4>
+                                    <input type="text" value="<%- user.CorreoElectronico %>" placeholder="..." name="correo_electronico">
+
+                                    <!--Cuando apretas aca sale el formulario de cambiar contraseña que esta en el boceto-->
+                                    <div class="txt_cambiar_clave_lector" align="center" onclick="$('.table_clave', $(this).parent()).toggle(500)">Cambiar contraseña</div>
+                                    <table class="table_clave" cellpadding="5" style="display: table;">
+                                        <tbody><tr>
+                                            <td class="txt_laber_clave_lector" title="Actual contraseña">Actual</td>
+                                            <td><input type="password" class="contactField txt_clave_actual" placeholder="Contraseña actual" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt_laber_clave_lector" title="Nueva contraseña">Nueva</td>
+                                            <td><input type="password" class="contactField txt_clave" placeholder="Nueva contraseña" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt_laber_clave_lector" title="Confirmar la nueva contraseña">Confirmar</td>
+                                            <td><input type="password" class="contactField txt_clave_confirm" placeholder="Confirmar contraseña" value=""></td>
+                                        </tr>
+                                    </tbody></table>
+
+                                </div>
+                            </div>
+                            <div class="botones">
+                                <a href="/panel/libros">Cancelar</a>
+                                <button type="submit">Editar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <footer class="footerContainer">
+                    <%- include('../partials/footer.ejs') %>
+                </footer>
+            </main>
+        </div>
+
+    <script src="js/cambiarTema.js"></script>
+</body>
+</html>
+
+<script src="js/previsualizarImagen.js"></script>
