@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-userId="<%- user.userId %>">
+<head>
+    <%- include('../partials/head.ejs') %>
+</head>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="perfil">
+        <section class="info">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png">
+            <h3><%- user.username %></h3>
+        </section>
+        <section class="libros">
+            <article>
+                <h2>Libros que leeré mas tarde</h2>
+                <div class="librosContenedor" id="libros" data-bookType="later">
+                    <% books.forEach(book => {%>
+                        <div class="libro">
+                            <figure>
+                                <a href="/book/<%- book.LibroID %>">
+                                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                </a>
+                                <div class="acciones">
+                                    <i class="fa-solid fa-x borrar" data-bookId="<%- book.LibroID %>"></i>
+                                </div>
+                            </figure>
+                            <a href="/book/<%- book.LibroID %>">
+                                <p><%- book.Titulo %></p>
+                            </a>
+                        </div>
+                    <%})%>
+                </div>
+            </article>
+        </section>
+    </main>
+    <footer class="footerContainer">
+        <%- include('../partials/footer.ejs') %>
+    </footer>
+    <script src="js/profile.js"></script>
+</body>
+</html>

@@ -7,6 +7,7 @@ const botonFavorito = document.getElementById('favorito')
 const botonEnviarComentario = document.getElementById('enviarComentario')
 const divComentario = document.getElementById('comentario')
 const comentario = document.getElementById('texto')
+const comentarioError = document.getElementById('commentError')
 
 // Botones para eliminar los comentarios
 const botonesBorrar = document.querySelectorAll('.comentarios .borrar')
@@ -22,6 +23,19 @@ const API_URL = 'http://localhost:3000/api/v1'
 // Enviar comentarios
 botonEnviarComentario.addEventListener('click', async (elem) => {
     await BookActions.commentBook()
+})
+
+/**
+ * Si el error del formulario de comentarios esta visible,
+ * al escribir en el formulario se oculta el error automaticamente
+ * de lo contrario seguira el error ahi hasta que el usuario escriba algo
+*/
+comentario.addEventListener('keydown', (elem) => {
+    const isErrorShowed = comentarioError.className
+
+    if(isErrorShowed.includes('show'))
+        comentario.style.borderColor = 'var(--color-fondo-secundario)'
+        comentarioError.className = 'hidden error'
 })
 
 // Eliminar comentarios
@@ -72,6 +86,7 @@ class BookActions {
 
         if(comment == '') {
             comentario.style.borderColor = 'red'
+            comentarioError.className = 'show error'
             return
         }
 

@@ -27,11 +27,17 @@ app.use(session({
 
 // Rutas
 import indexRouter from './routes/index.routes.js'
+import profileRouter from './routes/profile.routes.js'
+import userRouter from './routes/user.routes.js'
+
+app.use(userRouter)
+app.use(profileRouter)
 app.use(indexRouter)
 
 // Estaticos
 app.use('/', express.static(path.join(process.cwd(), 'web/public')))
 app.use('/book', express.static(path.join(process.cwd(), 'web/public')))
+app.use('/profile', express.static(path.join(process.cwd(), 'web/public')))
 
 app.listen(app.get('PORT'), () => {
     console.log('Web en funcionamiento')

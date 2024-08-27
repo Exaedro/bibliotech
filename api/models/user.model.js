@@ -133,7 +133,7 @@ class UserModel {
     static async deleteFavorite({ userId, bookId }) {
         const db = await connection()
 
-        await db.query(`DELETE FROM favoritos WHERE UsuarioID = '${userId}' AND LibroID = '${libroId}'`)
+        await db.query(`DELETE FROM favoritos WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}'`)
     }
 
     /**
@@ -144,7 +144,7 @@ class UserModel {
     static async deleteLike({ userId, bookId }) {
         const db = await connection()
 
-        await db.query(`DELETE FROM gustados WHERE UsuarioID = '${userId}' AND LibroID = '${libroId}'`)
+        await db.query(`DELETE FROM gustados WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}'`)
     }
 
     /**
@@ -155,7 +155,7 @@ class UserModel {
     static async deleteSeeLater({ userId, bookId }) {
         const db = await connection()
 
-        await db.query(`DELETE FROM ver_mas_tarde WHERE UsuarioID = '${userId}' AND LibroID = '${libroId}'`)
+        await db.query(`DELETE FROM ver_mas_tarde WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}'`)
     }
 }
 

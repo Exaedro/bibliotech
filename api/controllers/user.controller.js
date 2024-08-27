@@ -39,7 +39,7 @@ class UserController {
     }
 
     static async getFavorites(req, res) {
-        const { userId } = req.body
+        const { userId } = req.query
 
         try {
             const books = await UserModel.getFavorites({ userId })
@@ -51,7 +51,7 @@ class UserController {
     }
 
     static async getLikes(req, res) {
-        const { userId } = req.body
+        const { userId } = req.query
 
         try {
             const books = await UserModel.getLikes({ userId })
@@ -63,7 +63,7 @@ class UserController {
     }
 
     static async getLater(req, res) {
-        const { userId } = req.body
+        const { userId } = req.query
 
         try {
             const books = await UserModel.getLater({ userId })
