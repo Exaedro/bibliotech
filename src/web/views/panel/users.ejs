@@ -8,9 +8,31 @@
             <%- include('../partials/admin/sidebar.ejs') %>
             <main>
                 <%- include('../partials/admin/navbar.ejs') %>
-                <section>
-                    <h1>Bienvenido <%- user.username %></h1>
-                </section>
+                <div class="contenedor">
+                    <h1>Usuarios</h1>
+                    <div class="usuarios">
+                        <% users.forEach(user => { %>
+                            <div class="usuario">
+                                <div class="info">
+                                    <figure>
+                                        <img src="<%- user.Imagen %>" alt="<%- user.Nombre %>">
+                                    </figure>
+                                    <div class="data">
+                                        <p>ID: <%- user.UsuarioID %></p>
+                                        <p>Nombre: <%- user.Nombre %></p>  
+                                        <p>Correo: <%- user.CorreoElectronico %></p>
+                                        <p>Rol: <%- user.RollID %></p>
+                                    </div>
+                                </div>
+                                <div class="acciones">
+                                    <a href="/profile/<%- user.UsuarioID %>" class="boton ver" target="_blank">Ver perfil</a>
+                                    <a href="/panel/users/edit/<%- user.UsuarioID %>" class="boton edita">Editar</a>
+                                    <a href="#" class="boton eliminar">Eliminar</a>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
             </main>
         </div>
 

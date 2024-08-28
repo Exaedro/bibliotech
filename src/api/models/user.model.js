@@ -5,6 +5,14 @@ import { hash, compare } from "bcrypt";
 import connection from "../database.js";
 
 class UserModel {
+    static async getAll() {
+        const db = await connection()
+
+        const [users] = await db.query('SELECT UsuarioID, Nombre, CorreoElectronico, Imagen, RollID FROM usuarios')
+
+        return users
+    }
+
     /**
      * 
      * @param {string} username - nombre de usuario

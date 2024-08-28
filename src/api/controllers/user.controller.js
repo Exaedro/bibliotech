@@ -2,6 +2,16 @@
 import UserModel from "../models/user.model.js";
 
 class UserController {
+    static async getAll(req, res) {
+        try {
+            const users = await UserModel.getAll()
+            res.status(200).json(users)
+        } catch(err) {
+            console.error(err)
+            res.status(404).json(err)
+        }
+    }
+
     static async createUser(req, res) {
         const { username, password, email } = req.body
 

@@ -85,4 +85,31 @@ panelRouter.post('/panel/books/add', async (req, res) => {
     res.redirect('/panel/books')
 })
 
+panelRouter.get('/panel/users', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    const users = await (await fetch(`${apiUrl}/user/all`, { method: 'GET' })).json()
+
+    res.render('panel/users',
+        {
+            title: 'Bibliotech - Usuarios', users,
+            user: { username, role, userId }
+        }
+    )
+})
+
+panelRouter.get('/panel/users/edit', async (req, res) => {
+    const { username, role, userId } = req.session
+    const { userId: id } = req.params
+
+    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+
+    res.render('panel/editUser',
+        {
+            title: 'Bibliotech - Editar Usuario', user,
+            user: { username, role, userId }
+        }
+    )
+})
+
 export default panelRouter
