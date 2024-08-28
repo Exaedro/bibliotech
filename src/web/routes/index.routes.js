@@ -12,9 +12,11 @@ indexRouter.get('/', async (req, res) => {
     const mostLiked = await (await fetch(`${apiUrl}/book/liked`)).json()
     const mostVisited = await (await fetch(`${apiUrl}/book/visited`)).json()
 
+    const userRecord = await (await fetch(`${apiUrl}/user/record/${userId}`)).json()
+
     res.render('index',
         {
-            title: 'Bibliotech - Inicio', recents, mostLiked, mostVisited,
+            title: 'Bibliotech - Inicio', recents, mostLiked, mostVisited, userRecord,
             user: {
                 username, role, userId
             }
@@ -56,7 +58,19 @@ indexRouter.get('/book/:bookId', async (req, res) => {
     const book = await (await fetch(`${apiUrl}/book/${bookId}`)).json()
     const comments = await (await fetch(`${apiUrl}/comment/all?bookId=${bookId}`)).json()
 
-    console.log(book)
+    if(userId) {
+        const response = await fetch(`${apiUrl}/user/record/add`, 
+            { 
+                method: 'POST', 
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId, bookId: book[0].LibroID }) 
+            }
+        )
+    }
+
     res.render('book',
         {
             title: `Bibliotech - ${book[0].Titulo}`, book, comments,

@@ -31,6 +31,21 @@
               <% }) %>
           </div>
         </div>
+        <div class="historial">
+          <h2>Historial</h2>
+          <% if(userRecord.length > 0) { %>
+            <div class="historialContenedor">
+              <% userRecord.forEach(book => { %>
+                <a class="historialItem" href="/book/<%- book.LibroID %>">
+                  <figure>
+                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                  </figure>
+                  <p><%- book.Titulo %></p>
+                </a>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
       </section>
       <main class="container">
         <section>

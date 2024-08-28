@@ -107,6 +107,33 @@ class UserModel {
 
     /**
      * 
+     * @param {integer} userId - id del usuario
+     * @returns 
+     */
+    static async getUserRecord({ userId }) {
+        const db = await connection()
+
+        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = ${userId} ORDER BY FechaAccion DESC LIMIT 3`) 
+
+        return books
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {integer} bookId - id del libro
+     */
+    static async addRecord({ userId, bookId }) {
+        const db = await connection()
+
+        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'historial', db })
+        if(isAlreadyAdded) return 'duplicated'
+
+        await db.query(`INSERT INTO historial (UsuarioID, LibroID) VALUES ('${userId}', '${bookId}');`)
+    }
+
+    /**
+     * 
      * @param {integer} userId - id del usuario 
      */
     static async getFavorites({ userId }) {

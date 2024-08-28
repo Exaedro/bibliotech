@@ -85,6 +85,34 @@ class UserController {
         }
     }
 
+    static async getUserRecord(req, res) {
+        const { userId } = req.params
+
+        try {
+            const response = await UserModel.getUserRecord({ userId })
+
+            res.status(200).json(response)
+        } catch(err) {
+            console.error(err)
+            res.status(404).json(err)
+        }
+    }
+
+    static async addRecord(req, res) {
+        const { userId, bookId } = req.body
+
+        try {
+            const response = await UserModel.addRecord({ userId, bookId })
+            if(response == 'duplicated')
+                return res.status(404).json({ message: 'this book is already in this list', error: response })
+
+            res.status(200).json({ message: 'added' })
+        } catch(err) {
+            console.error(err)
+            res.status(404).json(err)
+        }
+    }
+
     static async getFavorites(req, res) {
         const { userId } = req.query
 
