@@ -56,8 +56,16 @@
                 boton.addEventListener('click', (elem) => {
                     const libroId = boton.getAttribute('data-libro')
                     
-                    fetch(`http://localhost:3000/libro/${libroId}/eliminar`, { method: 'POST' })
-                    .then(response => {
+                    fetch(`http://localhost:3000/api/v1/book/delete`, 
+                        { 
+                            method: 'POST', 
+                            headers: 
+                                { 
+                                    'Accept': 'application/json', 
+                                    'Content-Type': 'application/json' 
+                                }, 
+                            body: JSON.stringify({ userId: libroId }) }
+                    ).then(response => {
                         if(response.ok) {
                             window.location.reload()
                         }

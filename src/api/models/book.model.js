@@ -128,12 +128,12 @@ class BookModel {
 
     /**
      * 
-     * @param {integer} id - id del libro 
+     * @param {integer} userId - id del libro 
      */
-    static async deleteById({ id }) {
+    static async deleteById({ userId }) {
         const db = await connection()
 
-        await db.query(`DELETE FROM libros WHERE LibroID = ${id}`)
+        await db.query(`DELETE FROM libros WHERE LibroID = ${userId}`)
     }
 }
 

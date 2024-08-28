@@ -18,5 +18,6 @@ bookRouter.get(`${prefix}/book/visited`, (req, res) => { BookController.getMostV
 
 bookRouter.get(`${prefix}/book/:id`, (req, res) => { BookController.getById(req, res) })
 bookRouter.post(`${prefix}/book/create`, (req, res) => { BookController.createBook(req, res) })
+bookRouter.post(`${prefix}/book/delete`, (req, res) => { BookController.deleteById(req, res) })
 
 export default bookRouter
