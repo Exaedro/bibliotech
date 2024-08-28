@@ -103,6 +103,7 @@ class UserController {
 
         try {
             const response = await UserModel.addRecord({ userId, bookId })
+
             if(response == 'duplicated')
                 return res.status(404).json({ message: 'this book is already in this list', error: response })
 

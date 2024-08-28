@@ -108,12 +108,15 @@ class UserModel {
     /**
      * 
      * @param {integer} userId - id del usuario
+     * @param {string} order - orden de la consulta
      * @returns 
      */
-    static async getUserRecord({ userId }) {
+    static async getUserRecord({ userId, order }) {
         const db = await connection()
 
-        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = ${userId} ORDER BY FechaAccion DESC LIMIT 3`) 
+        if(userId == undefined) return 'user_not_logged'
+
+        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = '${userId}' ORDER BY FechaAccion ${order ? order : 'DESC'}`) 
 
         return books
     }
@@ -125,6 +128,13 @@ class UserModel {
      */
     static async addRecord({ userId, bookId }) {
         const db = await connection()
+
+        // Si el usuario tiene 3 libros en su historial, se elimina el libro mas reciente
+        const books = await this.getUserRecord({ userId, order: 'ASC' })
+        if(books.length == 3) {
+            const bookId = books[0].LibroID
+            await db.query(`DELETE FROM historial WHERE LibroID = '${bookId}' AND UsuarioID = '${userId}'`)
+        }
 
         const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'historial', db })
         if(isAlreadyAdded) return 'duplicated'
