@@ -26,8 +26,8 @@
                                 </div>
                                 <div class="acciones">
                                     <a href="/profile/<%- user.UsuarioID %>" class="boton ver" target="_blank">Ver perfil</a>
-                                    <a href="/panel/users/edit/<%- user.UsuarioID %>" class="boton edita">Editar</a>
-                                    <a href="#" class="boton eliminar">Eliminar</a>
+                                    <!--<a href="/panel/users/edit/<%- user.UsuarioID %>" class="boton edita">Editar</a>-->
+                                    <button href="#" data-userId="<%- user.UsuarioID %>" class="boton eliminar">Eliminar</button>
                                 </div>
                             </div>
                         <% }) %>
@@ -35,6 +35,29 @@
                 </div>
             </main>
         </div>
+        <script>
+            const botones = document.querySelectorAll('.eliminar')
+            botones.forEach(boton => {
+                boton.addEventListener('click', async (e) => {
+                    const userId = boton.getAttribute('data-userId')
+
+                    const response = await fetch('http://localhost:3000/api/v1/user/delete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ userId })
+                    })
+                    
+                    if(response.ok)
+                        return window.location.reload()
+
+                    const { error } = await response.json()
+                    console.error(error)
+                })
+            })
+        </script>
 
         <script src="js/cambiarTema.js"></script>
 	</body>

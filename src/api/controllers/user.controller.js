@@ -66,6 +66,22 @@ class UserController {
         }
     }
 
+    static async deleteUser(req, res) {
+        const { userId } = req.body
+
+        try {
+            const response = await UserModel.deleteUser({ userId })
+
+            if(response == 'user_not_exist')
+                return res.status(404).json({ message: 'this user not exists', error: response })
+
+            res.status(200).json({ message: 'deleted' })
+        } catch(err) {
+            console.error(err)
+            res.status(404).json(err)
+        }
+    }
+
     static async validPassword(req, res) {
         const { userId, password } = req.body
 
