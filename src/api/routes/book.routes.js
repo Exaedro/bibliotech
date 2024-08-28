@@ -17,5 +17,6 @@ bookRouter.get(`${prefix}/book/liked`, (req, res) => { BookController.getMostLik
 bookRouter.get(`${prefix}/book/visited`, (req, res) => { BookController.getMostVisited(req, res) })
 
 bookRouter.get(`${prefix}/book/:id`, (req, res) => { BookController.getById(req, res) })
+bookRouter.post(`${prefix}/book/create`, (req, res) => { BookController.createBook(req, res) })
 
 export default bookRouter

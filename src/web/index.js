@@ -36,15 +36,20 @@ app.use(multer({ storage }).single('image'))
 import indexRouter from './routes/index.routes.js'
 import profileRouter from './routes/profile.routes.js'
 import userRouter from './routes/user.routes.js'
+import panelRouter from './routes/panel.routes.js'
 
 app.use(userRouter)
 app.use(profileRouter)
 app.use(indexRouter)
+app.use(panelRouter)
 
 // Estaticos
 app.use('/', express.static(path.join(process.cwd(), 'src/web/public')))
 app.use('/book', express.static(path.join(process.cwd(), 'src/web/public')))
 app.use('/profile', express.static(path.join(process.cwd(), 'src/web/public')))
+app.use('/panel', express.static(path.join(process.cwd(), 'src/web/public')))
+app.use('/panel/books', express.static(path.join(process.cwd(), 'src/web/public')))
+app.use('/panel/books/:id', express.static(path.join(process.cwd(), 'src/web/public')))
 
 app.listen(app.get('PORT'), () => {
     console.log('Web en funcionamiento')

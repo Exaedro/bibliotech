@@ -100,8 +100,7 @@ h1, h2, h4, h5, p {
     left: 50%;
     z-index: 1000;
     border: 1px solid var(--color-fondo-secundario);
-    border-bottom-left-radius: 7px;
-    border-bottom-right-radius: 7px;
+    border-radius: 5px;
     padding: 0 15px;
     background-color: var(--color-fondo);
     transform: translate(-50%, -50%);

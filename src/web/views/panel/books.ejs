@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../partials/admin/head.ejs') %>
+	</head>
+	<body>
+		<div class="panel">
+            <%- include('../partials/admin/sidebar.ejs') %>
+            <main>
+                <%- include('../partials/admin/navbar.ejs') %>
+                <div class="contenedor">
+                    <h1>Catálogo de libros</h1>
+                    <section class="libros">
+                        <% books.forEach(book => { %>
+                            <article class="libro">
+                                <a href="/panel/books/<%- book.LibroID %>/edit" class="editar">
+                                    <img src="/img/lapiz.png">
+                                </a>
+                                <a href="#" class="borrar" data-modal="modal<%- book.LibroID %>">
+                                    <img src="/img/cubo-basura.png">
+                                </a>
+                                <figure>
+                                    <img src="<%- book.imagen %>" loading="lazy">
+                                </figure>
+                                <p><%- book.Titulo %></p>
+                            </article>
+                        <% }) %>
+                    </section>
+                </div>
+                <footer class="footerContainer">
+                    <%- include('../partials/footer.ejs') %>
+                </footer>
+            </main>
+        </div>
+
+        <% books.forEach(book => { %>
+            <dialog  data-modal="modal<%- book.LibroID %>">
+                <h3>¿Esta seguro que quiere eliminar este libro?</h3>
+                <div class="botones">
+                    <form method="dialog">
+                        <button class="cancelarEliminar">Cancelar</button>
+                    </form>
+                    <a href="#" class="confirmarEliminar" data-libro="<%- book.LibroID %>">Eliminar</a>
+                </div>
+            </dialog>
+        <% }) %>
+
+        <script>
+            const modales = document.querySelectorAll('dialog')
+
+            const botonesBorrar = document.querySelectorAll('.libro .borrar')
+            const botonesCancelar = document.querySelectorAll('dialog .cancelarEliminar')
+            const botonesEliminar = document.querySelectorAll('dialog .confirmarEliminar')
+
+            botonesEliminar.forEach(boton => {
+                boton.addEventListener('click', (elem) => {
+                    const libroId = boton.getAttribute('data-libro')
+                    
+                    fetch(`http://localhost:3000/libro/${libroId}/eliminar`, { method: 'POST' })
+                    .then(response => {
+                        if(response.ok) {
+                            window.location.reload()
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err)
+                    })
+                })
+            })
+
+            botonesBorrar.forEach(boton => {
+                boton.addEventListener('click', (elem) => {
+                    const modalId = boton.getAttribute('data-modal')
+
+                    verificarModal({ botonId: modalId })
+                })
+            })
+
+            const verificarModal = ({ botonId }) => {
+                modales.forEach(modal => {
+                    const modalId = modal.getAttribute('data-modal')
+
+                    if(botonId == modalId) {
+                        console.log(modalId)
+                        modal.showModal()
+                    }
+                })
+            }
+
+
+        </script>
+
+        <script src="js/cambiarTema.js"></script>
+	</body>
+</html>

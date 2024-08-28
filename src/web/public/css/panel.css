@@ -152,6 +152,26 @@
     background-color: var(--color-fondo-secundario);
 }
 
+.panel .editarLibroContainer .categorias {
+    display: grid;
+    margin-top: 5px;
+    grid-template-columns: 1fr 1fr 1fr;
+    color: var(--color-letra);
+    margin-bottom: 15px;
+}
+
+.panel .editarLibroContainer input[type='checkbox'] {
+    margin: 0;
+}
+
+.panel .editarLibroContainer .categoria {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: end;
+    margin: 10px 0;
+}
+
+
 dialog[open] {
     position: fixed;
     top: 50%;

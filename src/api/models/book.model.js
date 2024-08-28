@@ -31,6 +31,19 @@ class BookModel {
         return categories
     }
 
+    static async createBook({ title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories }) {
+        const db = await connection()
+
+        await db.query(`INSERT INTO libros (Titulo, Autor, ISBN, FechaLanzamiento, CantidadPaginas, Idioma, Editorial, Sinopsis, imagen, pdf_link, Estado) VALUES ('${title}', '${author}', '${isbn}', '${date}', '${pages}', '${language}', '${publisher}', '${synopsis}', '${image}', '${pdfLink}', '${state}')`)
+    
+        // Insertar categorías en la tabla de libros_categorias
+        const [bookId] = await db.query(`SELECT LibroID FROM libros WHERE Titulo = '${title}'`)
+    
+        categories.forEach(async categorie => {
+            await db.query(`INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES ('${bookId[0].LibroID}', '${categorie}')`)
+        })
+    }
+
     /**
      * 
      * @param {integer} limit - cantidad de libros que se va a obtener 

@@ -49,6 +49,21 @@ class BookController {
         }
     }
 
+    static async createBook(req, res) {
+        const { title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories } = req.body
+
+        if(!title || !author || !isbn || !date || !pages || !language || !publisher || !synopsis || !image || !pdfLink || !state || !categories)
+            return res.status(404).json({ message: 'invalid fields', error: 'required_fields' })
+
+        try {
+            await BookModel.createBook({ title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories })
+            res.status(200).json({ message: 'created' })
+        } catch(err) {
+            console.error(err)
+            res.status(404).json(err)
+        }
+    }
+
     static async getRecent(req, res) {
         let { limit } = req.query
 

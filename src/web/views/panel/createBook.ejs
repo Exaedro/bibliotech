@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/admin/head.ejs') %>
+</head>
+<body>
+    <div class="panel">
+        <%- include('../partials/admin/sidebar.ejs') %>
+        <main>
+            <%- include('../partials/admin/navbar.ejs') %>
+            <div class="contenedor">
+                <h1>Añadir Libro</h1>
+                <form class="editarLibroContainer" action="/panel/books/add" method="POST" enctype="multipart/form-data">
+
+                    <!-- Imagen a un costado -->
+                    <div class="portada">
+                        <figure>
+                            <img id="imagen" src="https://edit.org/images/cat/portadas-libros-big-2019101610.jpg" alt="">
+                        </figure>
+                        <input type="file" id="imagenInput" name="image">
+                    </div>
+
+                    <!-- Formulario en el otro costado -->
+                    <div class="datos">
+                        <div class="row">
+                            <div class="columna">
+                                <h4>Título</h4>
+                                <input type="text" placeholder=". . ." name="title">
+                                <h4>Autor</h4>
+                                <input type="text" placeholder=". . ." name="author">
+                                <h4>ISBN</h4>
+                                <input type="text" placeholder=". . ." name="isbn">
+                                <h4>Fecha de Lanzamiento</h4>
+                                <input type="date" name="date">
+                            </div>
+                            <div class="columna">
+                                <h4>Cantidad de páginas</h4>
+                                <input type="text" placeholder=". . ." name="pages">
+                                <h4>Idioma</h4>
+                                <input type="text" placeholder=". . ." name="language">
+                                <h4>Estado</h4>
+                                <select name="state">
+                                    <option value="disponible">Disponible</option>
+                                    <option value="prestado">Prestado</option>
+                                </select>
+                                <h4>Editorial</h4>
+                                <input type="text" placeholder=". . ." name="publisher">
+                            </div>
+                        </div>
+
+                        <!-- Sinopsis -->
+                        <h4>Sinopsis</h4>
+                        <textarea name="synopsis" placeholder=". . ." class="sinopsis"></textarea>
+
+                        <!-- PDF Link -->
+                        <h4>PDF Link</h4>
+                        <input type="text" placeholder=". . ." name="pdfLink">
+
+                        <!-- Categorías (checkboxes) -->
+                        <h4>Categorías</h4>
+                        <div class="categorias">
+                            <div>
+                                <div class="categoria">
+                                    <label>Ficción</label>
+                                    <input type="checkbox" id="ficcion" name="categories" value="1">                         
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="no_ficcion">No Ficción</label>
+                                    <input type="checkbox" id="no_ficcion" name="categories" value="2">   
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="ciencia">Ciencia</label>
+                                    <input type="checkbox" id="ciencia" name="categories" value="3">                                 
+                                </div>
+                                    
+                                <div class="categoria">
+                                    <label for="historia">Historia</label>
+                                    <input type="checkbox" id="historia" name="categories" value="4">                               
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="romantico">Romántico</label>
+                                    <input type="checkbox" id="romantico" name="categories" value="5">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="categoria">
+                                    <label for="thriller">Thriller</label>
+                                    <input type="checkbox" id="thriller" name="categories" value="6">
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="fantastico">Fantástico</label>
+                                    <input type="checkbox" id="fantastico" name="categories" value="7">
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="biografia">Biografía</label>
+                                    <input type="checkbox" id="biografia" name="categories" value="8">
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="tecnologia">Tecnología</label>
+                                    <input type="checkbox" id="tecnologia" name="categories" value="9">
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="cultura">Cultura</label>
+                                    <input type="checkbox" id="cultura" name="categories" value="10">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="categoria">
+                                    <label for="misterio">Misterio</label>
+                                    <input type="checkbox" id="misterio" name="categories" value="11">
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="aventura">Aventura</label>
+                                    <input type="checkbox" id="aventura" name="categories" value="12">
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="infantil">Infantil</label>
+                                    <input type="checkbox" id="infantil" name="categories" value="13">
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="juvenil">Juvenil</label>
+                                    <input type="checkbox" id="juvenil" name="categories" value="14">
+                                </div>
+
+                                <div class="categoria">
+                                    <label for="clasico">Clásico</label>
+                                    <input type="checkbox" id="clasico" name="categories" value="15">
+                                </div>
+                           </div>
+                        </div>
+                        
+
+
+                        <!-- Botones -->
+                        <div class="botones">
+                            <a href="/panel/books">Cancelar</a>
+                            <button type="submit">Agregar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <footer class="footerContainer">
+                <%- include('../partials/footer.ejs') %>
+            </footer>
+        </main>
+    </div>
+
+    <script src="js/cambiarTema.js"></script>
+</body>
+</html>
+
+<script src="js/previsualizarImagen.js"></script>

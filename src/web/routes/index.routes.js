@@ -56,6 +56,7 @@ indexRouter.get('/book/:bookId', async (req, res) => {
     const book = await (await fetch(`${apiUrl}/book/${bookId}`)).json()
     const comments = await (await fetch(`${apiUrl}/comment/all?bookId=${bookId}`)).json()
 
+    console.log(book)
     res.render('book',
         {
             title: `Bibliotech - ${book[0].Titulo}`, book, comments,

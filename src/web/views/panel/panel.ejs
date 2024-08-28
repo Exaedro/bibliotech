@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../partials/admin/head.ejs') %>
+	</head>
+	<body>
+		<div class="panel">
+            <%- include('../partials/admin/sidebar.ejs') %>
+            <main>
+                <%- include('../partials/admin/navbar.ejs') %>
+                <section id="section_1">
+                    <h1>Bienvenido <%- user.username %></h1>
+                </section>
+            </main>
+        </div>
+
+        <script src="js/cambiarTema.js"></script>
+	</body>
+</html>
