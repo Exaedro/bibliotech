@@ -91,6 +91,15 @@ class UserModel {
         await db.query(`UPDATE usuarios SET Nombre = '${username}', CorreoElectronico = '${email}', Imagen = '${avatar}' WHERE UsuarioID = '${userId}'`)
     }
 
+    static async deleteUser({ userId }) {
+        const db = await connection()
+        
+        const [user] = await db.query(`SELECT * FROM usuarios WHERE UsuarioID = '${userId}'`)
+        if(user.length <= 0) return 'user_not_exist'
+
+        await db.query(`DELETE FROM usuarios WHERE UsuarioID = '${userId}'`)
+    }
+
     /**
      * 
      * @param {integer} userId - id del usuario

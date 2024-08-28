@@ -14,6 +14,7 @@ userRouter.get(`${prefix}/user/data/:userId`, (req, res) => { UserController.get
 userRouter.get(`${prefix}/user/record/:userId`, (req, res) => { UserController.getUserRecord(req, res) })
 
 userRouter.post(`${prefix}/user/create`, (req, res) => { UserController.createUser(req, res) })
+userRouter.post(`${prefix}/user/delete`, (req, res) => { UserController.deleteUser(req, res) })
 userRouter.post(`${prefix}/user/password`, (req, res) => { UserController.validPassword(req, res) })
 userRouter.post(`${prefix}/user/login`, (req, res) => { UserController.login(req, res) })
 userRouter.post(`${prefix}/user/edit`, (req, res) => { UserController.editUser(req, res) })
