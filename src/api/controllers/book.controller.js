@@ -3,6 +3,18 @@ import BookModel from "../models/book.model.js";
 import { responseMessage } from "../utils/error.js";
 
 class BookController {
+    static async search(req, res) {
+        const { title, author, date } = req.query
+
+        try {
+            const books = await BookModel.search({ title, author, date })
+            res.status(200).json(books)
+        } catch(err) {
+            res.status(404).json(err)
+            console.error(err)
+        }
+    }
+
     static async getAll(req, res) {
         const { title, genre } = req.query
 
