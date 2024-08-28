@@ -15,7 +15,17 @@
       <% if(typeof user.username == 'undefined') { %>
         <li><a href="/login">Iniciar sesion</a></li>
       <% } else { %>
-        <li><a href="/profile"><%- user.username %></a></li>
+        <div class="dropdownNavbar">
+          <li>
+            <p id="dropdown"><%- user.username %></p>
+            <div class="dropdownContent" id="dropdownContent">
+              <a href="/profile">Mi Perfil</a>
+              <a href="/profile/edit">Editar Perfil</a>
+              <hr>
+              <a href="/logout" class="logout">Cerrar Sesión</a>
+            </div>
+          </li>
+        </div>
       <% } %>
     </ul>
   </nav>

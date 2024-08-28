@@ -69,4 +69,13 @@ userRouter.post('/register', async (req, res) => {
     res.status(200).redirect('/login')
 })
 
+userRouter.get('/logout', async (req, res) => {
+    const { userId } = req.session
+    
+    if(userId) {
+        req.session.destroy()
+        res.redirect('/')
+    }
+})
+
 export default userRouter
