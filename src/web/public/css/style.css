@@ -43,6 +43,13 @@
     --color-primario: rgb(99 102 241);
     --color-primario-hover: rgb(77, 79, 219);
 
+    .navbar-body .dropdownNavbar .dropdownContent {
+        color: var(--color-letra);
+        background-color: var(--color-fondo);
+        border: 1px solid var(--color-fondo-secundario);
+    }
+    
+
     .swiffy-slider .texto {
         color: #fff!important;
         text-shadow: 0px 0px 7px rgba(0,0,0);
@@ -138,10 +145,11 @@ h1, h2, h4, h5, p {
     width: 270px;
     align-items: flex-start;
     right: 0;
-    top: 60px;
+    top: 59px;
     flex-direction: column;
     background-color: #535353;
-    border-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     padding: 10px;
 }
 
