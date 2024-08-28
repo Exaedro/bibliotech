@@ -1,14 +1,13 @@
 import express from 'express'
 import path from 'node:path'
 import session from 'express-session'
+import { randomUUID } from 'node:crypto'
+import multer from 'multer'
 
 const app = express()
 
 // API
 import { appApi } from '../api/index.js'
-
-// Cors
-import { corsMiddleware } from './middlewares/cors.js'
 
 // Configuracion
 app.set('PORT', process.env.PORT || 4000)
@@ -24,6 +23,14 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }))
+
+const storage = multer.diskStorage({
+    destination: path.join(process.cwd(), 'src/web/public/uploads'),
+    filename: (req, file, cb, filename) => {
+        cb(null, randomUUID() + path.extname(file.originalname))
+    }
+}) 
+app.use(multer({ storage }).single('image'))
 
 // Rutas
 import indexRouter from './routes/index.routes.js'

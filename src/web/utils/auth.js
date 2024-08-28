@@ -6,3 +6,12 @@ export const isLogged = (req, res, next) => {
 
     next()
 }
+
+export const isAdmin = (req, res, next) => {
+    const { role } = req.session
+
+    if(role != 'admin')
+        return res.redirect('/login')
+
+    next()
+}

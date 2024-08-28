@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %>
+</head>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="editContainer">
+        <h2>Editar perfil</h2>
+        <form action="/profile/edit" method="POST" enctype="multipart/form-data">
+            <article class="info">
+                <div class="image">
+                    <figure>
+                        <img src="<%- data.Imagen %>" id="imagen" alt="<%- data.Nombre %>">
+                    </figure>
+                    <input type="file" name="image" id="imagenInput">
+                </div>
+                <h3>Tus datos</h3>
+                <p>Nombre: <span><%- data.Nombre %></span></p>
+                <p>Correo: <span><%- data.CorreoElectronico %></span></p>
+            </article>
+            <article class="data">
+                <h3>Nombre de usuario</h3>
+                <input type="text" name="username" placeholder=". . .">
+                <h3>Correo electronico</h3>
+                <input type="email" name="email" placeholder=". . .">
+                <div class="changePassword">
+                    <h3 class="title">Cambiar contraseña</h3>
+                    <div class="row">
+                        <h3>Actual</h3>
+                        <input type="password" name="actualPassword" placeholder="Contraseña actual">
+                    </div>
+                    <div class="row">
+                        <h3>Nueva</h3>
+                        <input type="password" name="newPassword" placeholder="Nueva contraseña">
+                    </div>
+                    <div class="row">
+                        <h3>Confirmar</h3>
+                        <input type="password" name="confirmPassword" placeholder="Confirmar contraseña">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="/profile">Cancelar</a>
+                    <button type="submit">Editar</button>
+                </div>
+            </article>
+        </form>
+    </main>
+    <footer class="footerContainer">
+        <%- include('../partials/footer.ejs') %>
+    </footer>
+    <script src="js/cambiarTema.js"></script>
+    <script src="js/previsualizarImagen.js"></script>
+</body>
+</html>
+

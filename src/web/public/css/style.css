@@ -3,6 +3,7 @@
 @import url('editar.css');
 @import url('panel.css');
 @import url('perfil.css');
+@import url('editUser.css');
 
 * {
     margin: 0;
@@ -12,7 +13,7 @@
 }
 
 @font-face{
-    font-family: "F51R7G2yy";
+    font-family: "letra";
     src: url("../fonts/mudnotoya.woff2")format("woff2");
     font-weight: normal;
     font-style: normal;
@@ -63,7 +64,7 @@
 body {
     background-color: var(--color-fondo);
     color: var(--color-letra);
-    font-family: "F51R7G2yy";
+    font-family: "letra";
     overflow-x: hidden;
 }
 
@@ -577,7 +578,7 @@ h1, h2, h4, h5, p {
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 @media (max-width: 575.98px) {
-    .container, .navbar, .catalogo-container, .slider, .footerContainer {
+    .container, .navbar, .catalogo-container, .slider, .footerContainer, .editContainer {
         width: 100%;
     }   
 
@@ -624,7 +625,7 @@ h1, h2, h4, h5, p {
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) { 
-    .container, .navbar, .catalogo-container, .slider, .footerContainer {
+    .container, .navbar, .catalogo-container, .slider, .footerContainer, .editContainer {
         width: 540px;
         margin: 0 auto;
     }
@@ -649,7 +650,7 @@ h1, h2, h4, h5, p {
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) { 
-    .container, .navbar, .catalogo-container, .slider, .footerContainer {
+    .container, .navbar, .catalogo-container, .slider, .footerContainer, .editContainer {
         width: 720px;
     }
 
@@ -703,7 +704,7 @@ h1, h2, h4, h5, p {
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .container, .navbar, .catalogo-container, .slider, .footerContainer {
+    .container, .navbar, .catalogo-container, .slider, .footerContainer, .editContainer {
         width: 960px;
     }
 
@@ -721,7 +722,7 @@ h1, h2, h4, h5, p {
 }
 
 @media (min-width: 1200px) {
-    .container, .navbar {
+    .container, .navbar, .editContainer {
         width: 1200px;
     }
 }

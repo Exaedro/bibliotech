@@ -16,6 +16,7 @@ class UserController {
             
             res.status(200).json({ message: 'created' })
         } catch(err) {
+            console.error(err)
             res.status(404).json(err)
         }
     }
@@ -34,6 +35,52 @@ class UserController {
 
             res.status(200).json(response)
         } catch(err) {
+            console.error(err)
+            res.status(404).json(err)
+        }
+    }
+
+    static async editUser(req, res) {
+        const { userId, username, email, password, role, avatar } = req.body
+
+        try {
+            const response = await UserModel.editUser({ userId, username, email, password, role, avatar })
+
+            if(response == 'user_not_exist')
+                return res.status(404).json({ message: 'this user not exists', error: response })
+
+            res.status(200).json({ message: 'edited', data: { ... req.body } })
+        } catch(err) {
+            console.error(err)
+            res.status(404).json(err)
+        }
+    }
+
+    static async validPassword(req, res) {
+        const { userId, password } = req.body
+
+        try {
+            const response = await UserModel.validPassword({ userId, password })
+
+            if(response == 'user_not_exist')
+                return res.status(404).json({ message: 'this user not exists', error: response })
+
+            res.status(200).json(response)
+        } catch(err) {
+            console.error(err)
+            res.status(404).json()
+        }
+    }
+
+    static async getUserById(req, res) {
+        const { userId } = req.params
+
+        try {
+            const [response] = await UserModel.getUserById({ userId })
+
+            res.status(200).json(response)
+        } catch(err) {
+            console.error(err)
             res.status(404).json(err)
         }
     }

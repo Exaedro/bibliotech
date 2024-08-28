@@ -9,8 +9,12 @@ import config from '../config.json' with { type: 'json' }
 const prefix = config["api-prefix"]
 
 // Rutas
+userRouter.get(`${prefix}/user/data/:userId`, (req, res) => { UserController.getUserById(req, res) })
+
 userRouter.post(`${prefix}/user/create`, (req, res) => { UserController.createUser(req, res) })
+userRouter.post(`${prefix}/user/password`, (req, res) => { UserController.validPassword(req, res) })
 userRouter.post(`${prefix}/user/login`, (req, res) => { UserController.login(req, res) })
+userRouter.post(`${prefix}/user/edit`, (req, res) => { UserController.editUser(req, res) })
 
 userRouter.get(`${prefix}/user/favorite/all`, (req, res) => { UserController.getFavorites(req, res) })
 userRouter.get(`${prefix}/user/like/all`, (req, res) => { UserController.getLikes(req, res) })

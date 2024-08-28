@@ -51,6 +51,64 @@ class UserModel {
      * 
      * @param {integer} userId - id del usuario 
      */
+    static async getUserById({ userId }) {
+        const db = await connection()
+
+        const [user] = await db.query(`SELECT * FROM usuarios WHERE UsuarioID = '${userId}'`)
+
+        return user
+    }
+
+    /**
+     * 
+     * @param {integer} id - id del usuario
+     * @param {string} username - nombre del usuario
+     * @param {string} email - correo electronico del usuario
+     * @param {string} password - contraseña del usuario
+     * @param {string} role - rol en la aplicacion del usuario
+     * @param {string} avatar - foto de perfil del usuario
+     */
+    static async editUser({ userId, username, email, password, role, avatar }) {
+        const db = await connection()
+
+        const [user] = await this.getUserById({ userId })
+        if(!user) return 'user_not_exist'
+
+        username = username ? username : user.Nombre
+        email    = email ? email : user.CorreoElectronico
+        password = password ? password : user.Contrasenia
+        role     = role ? role : user.RollID
+        avatar   = avatar ? avatar : user.Imagen
+
+        await db.query(`UPDATE usuarios SET Nombre = '${username}', CorreoElectronico = '${email}', Imagen = '${avatar}' WHERE UsuarioID = '${userId}'`)
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {string} password - contraseña que ingreso el usuario 
+     */
+    static async validPassword({ userId, password }) {
+        const db = await connection()
+
+        const user = await this.getUserById({ userId })
+
+        if(user.length <= 0) {
+            return 'user_not_exist'
+        }
+
+        const verify = await compare(password, user[0].Contrasenia)
+
+        if(!verify)
+            return false
+
+        return true
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario 
+     */
     static async getFavorites({ userId }) {
         const db = await connection()
 
@@ -206,7 +264,7 @@ async function userExists({ email, db }) {
     // Si se encuentra un usuario o mas en la base de datos
     // retorna que existe un usuario con este email
     if(user.length >= 1)
-        return true
+        return user
 
     // Si no hay nadie registrado con este email
     // retorna que no hay nadie

@@ -26,6 +26,80 @@ profileRouter.get('/profile', async (req, res) => {
     )
 })
 
+profileRouter.get('/profile/edit', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    const data = await (await fetch(`${apiUrl}/user/data/${userId}`, { method: 'GET' })).json()
+
+    res.render('profile/edit', 
+        {
+            title: 'Bibliotech - Editar usuario',
+            user: { username, role, userId },
+            data
+        }
+    )
+})
+
+profileRouter.post('/profile/edit', async (req, res) => {
+    const { userId } = req.session
+    const { username, email } = req.body
+    const file = req.file
+
+    const { actualPassword, newPassword, confirmPassword } = req.body
+
+    if(newPassword != confirmPassword)
+        return res.redirect('/profile/edit?error="password_not_match"')
+
+    if(actualPassword != undefined) {
+        const isPasswordValid = await fetch(`${apiUrl}/user/password`, {
+            method: 'POST',
+            headers: { 
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({
+                userId,
+                password: actualPassword
+            })
+        })
+    
+        if(!isPasswordValid.ok && (newPassword == undefined || actualPassword == undefined || confirmPassword == undefined))
+            return res.redirect('/profile/edit?error="invalid_password"')
+    }
+
+    const object = {
+        userId,
+        username, 
+        email,
+        password: newPassword,
+    }
+
+    if(file)
+        object.avatar = '/uploads/' + file.filename
+
+    const response = await fetch(`${apiUrl}/user/edit`, {
+        method: 'POST',
+        headers: { 
+            'Accept': 'application/json', 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(object)
+    })
+
+    const user = await response.json()
+
+    if(!response.ok) {
+        console.error(user.error)
+        return res.redirect('/profile/edit')
+    }
+        
+    req.session.username = user.data.username
+
+    console.log(req.session)
+
+    return res.redirect('/profile')
+})
+
 profileRouter.get('/profile/like', async (req, res) => {
     const { username, role, userId } = req.session
 
