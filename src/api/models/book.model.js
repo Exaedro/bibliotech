@@ -30,7 +30,7 @@ class BookModel {
                     sql += ` AND ${key} LIKE '%${value}%'`
                 } else {
                     if(!whereExists) sql += ` WHERE `
-                    sql += ` ${key} = '${value}'`
+                    sql += ` ${key} LIKE '%${value}%'`
                 }
                 whereExists = true
             }

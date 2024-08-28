@@ -20,15 +20,24 @@
               </a>
             </div>
             <div class="filtro">
-              <p>Genero</p>
-              <select name="genre">
-                <option value="off">Seleccionar</option>
-                <% categories.forEach(categorie => { %> 
-                    <option value="<%- categorie.CategoriaID %>">
-                      <%- categorie.NombreCategoria %>
-                    </option>
-                <% }) %>
-              </select>
+              <div>
+                <p>Genero</p>
+                <select name="genre">
+                  <% categories.forEach(categorie => { %> 
+                      <option value="<%- categorie.CategoriaID %>">
+                        <%- categorie.NombreCategoria %>
+                      </option>
+                  <% }) %>
+                </select>
+              </div>
+              <div>
+                <p>Autor</p>
+                <input type="text" name="author" placeholder=". . .">
+              </div>
+              <div>
+                <p>Fecha de lanzamiento</p>
+                <input type="date" name="date" placeholder=". . .">
+              </div>
             </div>
           </form>
         </section>
