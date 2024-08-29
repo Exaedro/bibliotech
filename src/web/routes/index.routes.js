@@ -26,20 +26,9 @@ indexRouter.get('/', async (req, res) => {
 
 indexRouter.get('/catalog', async (req, res) => {
     const { username, role, userId } = req.session
-    const { genre, title } = req.query
-
-    let books
-    if (genre) {
-        books = await (await fetch(`${apiUrl}/book/all?genre=${genre}`)).json()
-    } else {
-        books = await (await fetch(`${apiUrl}/book/all`)).json()
-    }
-
-    if (title) {
-        books = await (await fetch(`${apiUrl}/book/all?title=${title}`)).json()
-    } else {
-        books = await (await fetch(`${apiUrl}/book/all`)).json()
-    }
+    const { title, genre, author, date } = req.query
+    
+    let books = await (await fetch(`${apiUrl}/book/search?title=${title ? title : ''}&author=${author ? author : ''}&date=${date ? date : ''}`)).json()
 
     const categories = await (await fetch(`${apiUrl}/book/categories`)).json()
 

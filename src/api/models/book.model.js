@@ -2,6 +2,45 @@
 import connection from "../database.js";
 
 class BookModel {
+    /**
+     * 
+     * @param {string} title - titulo del libro
+     * @param {string} author - autor del libro
+     * @param {string} date - fecha de lanzamiento del libro
+     */
+    static async search({ title, author, date }) {
+        const db = await connection()
+
+        const params = {
+            Titulo: title || undefined,
+            Autor: author || undefined,
+            FechaLanzamiento: date || undefined
+        }
+        const paramsKeys = Object.keys(params)
+
+        let sql = `SELECT * FROM libros `
+        let whereExists = false
+
+        for(let i = 0; i < paramsKeys.length; i++) {
+            const key = paramsKeys[i]
+            const value = params[key]
+
+            if(value) {
+                if(whereExists) {
+                    sql += ` AND ${key} LIKE '%${value}%'`
+                } else {
+                    if(!whereExists) sql += ` WHERE `
+                    sql += ` ${key} LIKE '%${value}%'`
+                }
+                whereExists = true
+            }
+        }
+
+        const [books] = await db.query(sql)
+        console.log(sql)
+        return books
+    }
+
     static async getAll() {
         const db = await connection()
 
@@ -10,8 +49,7 @@ class BookModel {
         return books
     }
 
-    /**
-     * 
+    /**     * 
      * @param {integer} genre - id del genero
      * @returns 
      */

@@ -407,8 +407,15 @@ h1, h2, h4, h5, p {
 .catalogo-container .filtro {
     margin-top: 15px;
     display: flex;
-    flex-direction: column;
     align-items: flex-start;
+    gap: 20px;
+}
+
+.catalogo-container .filtro div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-content: stretch;
 }
 
 .catalogo-container .filtro p {
