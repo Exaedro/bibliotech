@@ -30,6 +30,11 @@
     border-radius: 50%;
 }
 
+.crearUsuarioContainer hr {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
 .crearUsuarioContainer .datos .row {
     display: grid;
     grid-template-columns: 1fr 1fr;

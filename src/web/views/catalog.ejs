@@ -19,7 +19,7 @@
                 <img src="/img/recargar.png" alt="Recargar">
               </a>
             </div>
-            <div class="filtro">
+            <div class="filtro" style="display: flex;" id="filtro">
 
               <!--
 
@@ -31,6 +31,7 @@
               <div>
                 <p>Genero</p>
                 <select name="genre">
+                  <option value="off">Seleccionar</option>
                   <% categories.forEach(categorie => { %> 
                       <option value="<%- categorie.CategoriaID %>">
                         <%- categorie.NombreCategoria %>
@@ -43,10 +44,11 @@
                 <input type="text" name="author" placeholder=". . .">
               </div>
               <div>
-                <p>Fecha de lanzamiento</p>
-                <input type="date" name="date" placeholder=". . .">
+                <p>Año de publicación</p>
+                <input type="number" name="date" placeholder=". . .">
               </div>
             </div>
+            <p id="menuTitle">Busqueda avanzada <i class="fa-solid fa-caret-down"></i></p>
           </form>
         </section>
         <h2>Libros disponibles</h2>
@@ -71,5 +73,16 @@
         <%- include('partials/footer.ejs') %>
       </footer>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#filtro').hide()
+
+            $('.catalogo-container #menuTitle').click(function(){
+              $('#filtro').toggle(350)
+            });
+        });
+    </script>
   </body>
 </html>

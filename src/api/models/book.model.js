@@ -7,31 +7,61 @@ class BookModel {
      * @param {string} title - titulo del libro
      * @param {string} author - autor del libro
      * @param {string} date - fecha de lanzamiento del libro
+     * @param {string} genre - categoria del libro
      */
-    static async search({ title, author, date }) {
+    static async search({ title, author, date, genre }) {
         const db = await connection()
 
+        console.log(genre, title, author, date)
+        // Crear un objeto con los parametros 
         const params = {
             Titulo: title || undefined,
             Autor: author || undefined,
-            FechaLanzamiento: date || undefined
+            FechaLanzamiento: date || undefined,
+            CategoriaID: genre || undefined
         }
         const paramsKeys = Object.keys(params)
 
-        let sql = `SELECT * FROM libros `
+        let sql = `SELECT DISTINCT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID`
         let whereExists = false
 
+        // Verificar si existe algun parametro en el objeto
         for(let i = 0; i < paramsKeys.length; i++) {
             const key = paramsKeys[i]
             const value = params[key]
 
+            // Si existe un parametro, se agrega al SELECT
             if(value) {
+                // Si ya existe un parametro, se agrega un AND
                 if(whereExists) {
-                    sql += ` AND ${key} LIKE '%${value}%'`
+
+                    // Si es una categoria se cambia la L del join por una C
+                    if(key == 'CategoriaID') { 
+                        sql += ` AND c.CategoriaID = '${value}'`
+                    }
+                    else { 
+                        if(key == 'FechaLanzamiento') {
+                            sql += ` AND YEAR(l.FechaLanzamiento) = '${value}'`
+                        } else {
+                            sql += ` AND l.${key} LIKE '%${value}%'`
+                        }
+                    }
                 } else {
-                    if(!whereExists) sql += ` WHERE `
-                    sql += ` ${key} LIKE '%${value}%'`
+                    // Si no existe un parametro, se agrega un WHERE
+                    if(!whereExists) sql += ` WHERE ` 
+
+                    if(key == 'CategoriaID')
+                        sql += ` c.CategoriaID = '${value}'`
+                    else { 
+                        if(key == 'FechaLanzamiento') {
+                            sql += ` YEAR(l.FechaLanzamiento) = '${value}'`
+                        } else { 
+                            sql += ` l.${key} LIKE '%${value}%'`
+                        }
+                    }     
                 }
+                
+                // Marcar que existe un parametro
                 whereExists = true
             }
         }

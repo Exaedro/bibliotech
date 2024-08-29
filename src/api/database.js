@@ -7,7 +7,7 @@ const connection = async () => {
             database: 'bibliotech_v2',
             password: '',
             port: 3306,
-            host: 'localhost'
+            host: 'localhost',
         })
         
         db.connect(err => { 

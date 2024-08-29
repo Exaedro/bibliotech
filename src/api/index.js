@@ -9,7 +9,7 @@ appApi.set('PORT', 3000 || process.env.PORT)
 appApi.set('json spaces', 2)
 
 // Middlewares
-appApi.use(morgan('dev'))
+// appApi.use(morgan('dev'))
 appApi.use(express.urlencoded({ extended: false }))
 appApi.use(express.json())
 appApi.use(cors())
