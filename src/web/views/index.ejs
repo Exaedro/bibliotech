@@ -14,13 +14,13 @@
         <div class="swiffy-slider slider-nav-autohide slider-nav-autoplay slider-nav-autopause slider-item-snapstart">
           <ul class="slider-container" style="overflow-x: none;">
             <% mostVisited.forEach(book => { %>
-              <a href="/book/<%- book.LibroID %>">
+              <a href="/book/<%- book.id %>">
                 <li>
                   <div class="texto">
-                    <h3><%- book.Titulo %></h3>
-                    <p><%- book.Sinopsis %></p>
+                    <h3><%- book.title %></h3>
+                    <p><%- book.synopsis %></p>
                   </div>
-                  <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                  <img src="<%- book.image %>" alt="<%- book.title %>" loading="lazy">
                 </li>
               </a>
             <% })%>
@@ -35,12 +35,12 @@
           <h2>Historial</h2>
           <% if(userRecord.length > 0) { %>
             <div class="historialContenedor">
-              <% userRecord.forEach(book => { %>
-                <a class="historialItem" href="/book/<%- book.LibroID %>">
+              <% userRecord.forEach(record => { %>
+                <a class="historialItem" href="/book/<%- record.book.id %>">
                   <figure>
-                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                    <img src="<%- record.book.image %>" alt="<%- record.book.title %>" loading="lazy">
                   </figure>
-                  <p><%- book.Titulo %></p>
+                  <p><%- record.book.title %></p>
                 </a>
               <% }) %>
             </div>
@@ -56,10 +56,12 @@
             <% recents.forEach(book => { %>
               <div class="serie">
                 <figure>
-                  <a href="/book/<%- book.LibroID %>"><img src="<%- book.imagen %>" alt="<%- book.Titulo %>"/></a>
+                  <a href="/book/<%- book.id %>">
+                    <img src="<%- book.image %>" alt="<%- book.title %>" loading="lazy"/>
+                  </a>
                 </figure>
                 <div class="title">
-                  <a href="/book/<%- book.LibroID %>"><%- book.Titulo %></a>
+                  <a href="/book/<%- book.id %>"><%- book.title %></a>
                 </div>
               </div>
             <% }) %>
@@ -69,13 +71,14 @@
           <h2 class="centrar">Populares</h2>
           <div class="populares">
             <% mostLiked.forEach(book => { %>
-              <a href="/book/<%- book.LibroID %>">
+              <a href="/book/<%- book.id %>">
                 <div class="popular">
-                  <h3><%- book.Titulo %></h3>
+                  <h3><%- book.title %></h3>
                   <figure>
                     <img
-                      src="<%- book.imagen %>"
-                      alt="<%- book.Titulo %>"
+                      src="<%- book.image %>"
+                      alt="<%- book.title %>"
+                      loading="lazy"
                     />
                   </figure>
                 </div>

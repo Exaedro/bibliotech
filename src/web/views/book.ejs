@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" data-bookId="<%- book[0].LibroID %>" data-userId="<%- user.userId %>">
+<html lang="en" data-bookId="<%- book.id %>" data-userId="<%- user.userId %>">
   <head>
     <%- include('partials/head.ejs') %>
-    
   </head>
   <body>
     <header>
@@ -12,27 +11,27 @@
       <main class="libroContainer">
         <div class="libroIndividual">
             <figure>
-                <img src="<%- book[0].imagen %>">
+                <img src="<%- book.image %>">
 
                 <%  if(user.role == 'admin') { %>
                   <!-- Botón para editar el libro -->
 
-                  <a href="/panel/books/<%- book[0].LibroID %>/edit" class="editar-libro-btn">Editar Libro</a>
+                  <a href="/panel/books/<%- book.id %>/edit" class="editar-libro-btn">Editar Libro</a>
                 <% } %>
             </figure>
             <div class="info">
-                <h1><%- book[0].Titulo %></h1>
+                <h1><%- book.title %></h1>
                 <h4>Sinopsis</h4>
-                <p><%- book[0].Sinopsis %></p>
+                <p><%- book.synopsis %></p>
                 <h4>Idioma</h4>
-                <p><%- book[0].Idioma %></p>
+                <p><%- book.language %></p>
                 <h4>Paginas</h4>
-                <p><%- book[0].CantidadPaginas %> en total</p>
+                <p><%- book.pages %> en total</p>
                 <h4>Géneros</h4>
                 <div class="generos">
-                    <% book.forEach(l => { %>
-                      <a href="/catalog?genre=<%- l.CategoriaID %>">
-                        <span class="genero"><%- l.NombreCategoria %></span>
+                    <% book.genres.forEach(genre => { %>
+                      <a href="/catalog?genre=<%- genre.id %>">
+                        <span class="genero"><%- genre.name %></span>
                       </a>
                     <%})%>
                 </div>      
@@ -56,7 +55,7 @@
             <p>Favorito</p>
           </div>
         </div>
-        <iframe class="pdf" src="<%- book[0].pdf_link %>" frameborder="0"></iframe>
+        <iframe class="pdf" src="<%- book.pdfLink %>" frameborder="0"></iframe>
         <section class="comentarios">
           <h2>Comentarios</h2>
           <div id="comentario">
@@ -71,16 +70,23 @@
             <% comments.forEach(comment => { %>
               <div class="comentario">
                 <div class="usuario">
-                  <img src="<%- comment.Imagen %>" alt="<%- comment.Nombre %>">
-                  <p><%- comment.Nombre %></p>
-                  <% if(user.role == 'admin' || user.role == 'mod' || user.userId == comment.UsuarioID) { %>
+                  <img src="<%- comment.user.image %>" alt="<%- comment.user.name %>">
+
+                  <!-- ! Traduce el tiempo que ha pasado desde la fecha de la última vez que se comentó -->
+                  <% let date = format(comment.date)  %>
+                  <% date = date.replace('seconds', 'segundos').replace('minute', 'minuto').replace('ago', '').replace('minutes', 'minutos').replace('hours', 'horas').replace('days', 'días').replace('weeks', 'semanas').replace('months', 'meses').replace('years', 'años') %>
+                  <% date.includes('just') ? date = 'hace un momento' : date %>
+                  <% date.includes('segundos') && !date.includes('just') ? date = 'hace ' + date : date = 'hace ' + date %>
+
+                  <p><%- comment.user.username %> <span class="date"><%- date %></span></p>
+                  <% if(user.role == 'admin' || user.role == 'mod' || user.userId == comment.user.id) { %>
                     <div class="modAcciones">
-                      <i class="fa-solid fa-x borrar" data-commentId="<%- comment.ComentarioID %>"></i>
+                      <i class="fa-solid fa-x borrar" data-commentId="<%- comment.id %>"></i>
                     </div>
                   <% } %>
                 </div>
                 <div class="texto">
-                  <p><%- comment.Comentario %></p>
+                  <p><%- comment.comment %></p>
                 </div>
               </div>
             <% }) %>
@@ -92,6 +98,5 @@
     </footer>
     </div>
     <script src="js/book.js"></script>
-    <!-- <script src="js/acciones.js"></script> -->
   </body>
 </html>

@@ -10,7 +10,17 @@ class UserModel {
 
         const [users] = await db.query('SELECT UsuarioID, Nombre, CorreoElectronico, Imagen, RollID FROM usuarios')
 
-        return users
+        const data = users.map(user => {
+            return {
+                id: user.UsuarioID,
+                username: user.Nombre,
+                email: user.CorreoElectronico,
+                image: user.Imagen,
+                roleId: user.RollID
+            }
+        })
+
+        return data
     }
 
     /**
@@ -64,7 +74,17 @@ class UserModel {
 
         const [user] = await db.query(`SELECT * FROM usuarios WHERE UsuarioID = '${userId}'`)
 
-        return user
+        const data = user.map(userInfo => {
+            return {
+                id: userInfo.UsuarioID,
+                username: userInfo.Nombre,
+                email: userInfo.CorreoElectronico,
+                image: userInfo.Imagen,
+                roleId: userInfo.RollID
+            }
+        })
+
+        return data
     }
 
     /**
@@ -135,7 +155,31 @@ class UserModel {
 
         const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = '${userId}' ORDER BY FechaAccion ${order ? order : 'DESC'}`) 
 
-        return books
+        const data = books.map(book => {
+            return {
+                user: {
+                    recordId: book.HistorialID,
+                    recordDate: book.FechaAccion,
+                    id: book.UsuarioID
+                },
+                book: {
+                    id: book.LibroID,
+                    title: book.Titulo,
+                    image: book.imagen,
+                    isbn: book.ISBN,
+                    year: book.FechaLanzamiento.getFullYear(),
+                    pages: book.CantidadPaginas,
+                    publisher: book.Editorial,
+                    synopsis: book.Sinopsis,
+                    language: book.Idioma,
+                    state: book.Estado,
+                    visits: book.Visitas,
+                    likes: book.Gustados
+                }
+            }
+        })
+
+        return data
     }
 
     /**

@@ -13,11 +13,49 @@ class CommentModel {
 
         if(bookTitle || bookId) {
             const [comments] = await db.query(`SELECT c.ComentarioID, c.UsuarioID, c.LibroID, c.Comentario, c.FechaComentario, u.Nombre, u.Imagen FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID JOIN usuarios u ON c.UsuarioID = u.UsuarioID WHERE l.Titulo = '${bookTitle}' OR l.LibroID = '${bookId}'`)
-            return comments
+            
+            const data = comments.map(comment => {
+                return {
+                    id: comment.ComentarioID,
+                    user: {
+                        id: comment.UsuarioID,
+                        username: comment.Nombre,
+                        image: comment.Imagen
+                    },
+                    book: {
+                        id: comment.LibroID,
+                        title: comment.Titulo,
+                        image: comment.imagen
+                    },
+                    comment: comment.Comentario,
+                    date: comment.FechaComentario
+                }
+            })
+
+            return data
         }
 
         const [comments] = await db.query(`SELECT * FROM comentarios`)
-        return comments
+
+        const data = comments.map(comment => {
+            return {
+                id: comment.ComentarioID,
+                user: {
+                    id: comment.UsuarioID,
+                    username: comment.Nombre,
+                    image: comment.Imagen
+                },
+                book: {
+                    id: comment.LibroID,
+                    title: comment.Titulo,
+                    image: comment.imagen
+                },
+                comment: comment.Comentario,
+                date: comment.FechaComentario
+            }
+        })
+
+        return data
     }
 
     /**

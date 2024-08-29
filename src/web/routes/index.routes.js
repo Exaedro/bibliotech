@@ -50,6 +50,7 @@ indexRouter.get('/catalog', async (req, res) => {
 indexRouter.get('/book/:bookId', async (req, res) => {
     const { username, role, userId } = req.session
     const { bookId } = req.params
+    const { format } = res.locals
 
     const book = await (await fetch(`${apiUrl}/book/${bookId}`)).json()
     const comments = await (await fetch(`${apiUrl}/comment/all?bookId=${bookId}`)).json()
@@ -62,14 +63,14 @@ indexRouter.get('/book/:bookId', async (req, res) => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId, bookId: book[0].LibroID }) 
+                body: JSON.stringify({ userId, bookId: book.id }) 
             }
         )
     }
 
     res.render('book',
         {
-            title: `Bibliotech - ${book[0].Titulo}`, book, comments,
+            title: `Bibliotech - ${book.title}`, book, comments, format,
             user: { username, role, userId }
         }
     )

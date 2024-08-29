@@ -13,16 +13,16 @@
                     <section class="libros">
                         <% books.forEach(book => { %>
                             <article class="libro">
-                                <a href="/panel/books/<%- book.LibroID %>/edit" class="editar">
+                                <a href="/panel/books/<%- book.id %>/edit" class="editar">
                                     <img src="/img/lapiz.png">
                                 </a>
-                                <a href="#" class="borrar" data-modal="modal<%- book.LibroID %>">
+                                <a href="#" class="borrar" data-modal="modal<%- book.id %>">
                                     <img src="/img/cubo-basura.png">
                                 </a>
                                 <figure>
-                                    <img src="<%- book.imagen %>" loading="lazy">
+                                    <img src="<%- book.image %>" loading="lazy">
                                 </figure>
-                                <p><%- book.Titulo %></p>
+                                <p><%- book.title %></p>
                             </article>
                         <% }) %>
                     </section>
@@ -34,13 +34,13 @@
         </div>
 
         <% books.forEach(book => { %>
-            <dialog  data-modal="modal<%- book.LibroID %>">
+            <dialog  data-modal="modal<%- book.id %>">
                 <h3>¿Esta seguro que quiere eliminar este libro?</h3>
                 <div class="botones">
                     <form method="dialog">
                         <button class="cancelarEliminar">Cancelar</button>
                     </form>
-                    <a href="#" class="confirmarEliminar" data-libro="<%- book.LibroID %>">Eliminar</a>
+                    <a href="#" class="confirmarEliminar" data-libro="<%- book.id %>">Eliminar</a>
                 </div>
             </dialog>
         <% }) %>

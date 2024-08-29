@@ -11,23 +11,23 @@
                 <div class="contenedor">
                     <h1>Usuarios</h1>
                     <div class="usuarios">
-                        <% users.forEach(user => { %>
+                        <% users.forEach(userInfo => { %>
                             <div class="usuario">
                                 <div class="info">
                                     <figure>
-                                        <img src="<%- user.Imagen %>" alt="<%- user.Nombre %>">
+                                        <img src="<%- userInfo.image %>" alt="<%- userInfo.username %>">
                                     </figure>
                                     <div class="data">
-                                        <p>ID: <%- user.UsuarioID %></p>
-                                        <p>Nombre: <%- user.Nombre %></p>  
-                                        <p>Correo: <%- user.CorreoElectronico %></p>
-                                        <% if (user.RollID == 1) { %>
+                                        <p>ID: <%- userInfo.id %></p>
+                                        <p>Nombre: <%- userInfo.title %></p>  
+                                        <p>Correo: <%- userInfo.email %></p>
+                                        <% if (userInfo.roleId == 1) { %>
                                             <p>Rol: Usuario</p>
-                                        <% } else if (user.RollID == 2) { %>
+                                        <% } else if (userInfo.roleId == 2) { %>
                                             <p>Rol: Moderador</p>
-                                        <% } else if (user.RollID == 3) { %>
+                                        <% } else if (userInfo.roleId == 3) { %>
                                             <p>Rol: Administrador</p>
-                                        <% } else if (user.RollID == 4) { %>
+                                        <% } else if (userInfo.roleId == 4) { %>
                                             <p>Rol: Propietario</p>
                                         <% } %>
                                     </div>
@@ -35,7 +35,7 @@
                                 <div class="acciones">
                                     <!--<a href="/profile/<%- user.UsuarioID %>" class="boton ver" target="_blank">Ver perfil</a>-->
                                     <!--<a href="/panel/users/edit/<%- user.UsuarioID %>" class="boton edita">Editar</a>-->
-                                    <button href="#" data-userId="<%- user.UsuarioID %>" class="boton eliminar">Eliminar</button>
+                                    <button href="#" data-userId="<%- userInfo.id %>" class="boton eliminar">Eliminar</button>
                                 </div>
                             </div>
                         <% }) %>

@@ -33,8 +33,8 @@
                 <select name="genre">
                   <option value="off">Seleccionar</option>
                   <% categories.forEach(categorie => { %> 
-                      <option value="<%- categorie.CategoriaID %>">
-                        <%- categorie.NombreCategoria %>
+                      <option value="<%- categorie.id %>">
+                        <%- categorie.name %>
                       </option>
                   <% }) %>
                 </select>
@@ -57,10 +57,12 @@
             <% books.forEach(book => { %>
               <div class="serie">
                 <figure>
-                  <a href="/book/<%- book.LibroID %>"><img src="<%- book.imagen %>" /></a>
+                  <a href="/book/<%- book.id %>">
+                    <img src="<%- book.image %>" alt="<%- book.title %>" loading="lazy"/>
+                  </a>
                 </figure>
                 <div class="title">
-                  <a href="/book/<%- book.LibroID %>"><%- book.Titulo %></a>
+                  <a href="/book/<%- book.id %>"><%- book.title %></a>
                 </div>
               </div>
             <% })%>

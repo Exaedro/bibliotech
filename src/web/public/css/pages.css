@@ -137,6 +137,14 @@
     gap: 15px;
 }
 
+.comentarios .date {
+    font-size: 0.8rem;
+    color: rgb(179, 179, 179);
+    margin-left: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
 .comentarios #comentario textarea {
     flex-grow: 1;
     max-height: 250px;

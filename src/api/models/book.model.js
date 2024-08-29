@@ -67,8 +67,10 @@ class BookModel {
         }
 
         const [books] = await db.query(sql)
-        console.log(sql)
-        return books
+        
+        const data = books.map(book => { return { id: book.LibroID, title: book.Titulo, image: book.imagen } })
+
+        return data
     }
 
     static async getAll() {
@@ -76,10 +78,12 @@ class BookModel {
 
         const [books] = await db.query('SELECT * FROM libros')
 
-        return books
+        const data = bookObjectComplex({ data: books })
+
+        return data
     }
 
-    /**     * 
+    /** 
      * @param {integer} genre - id del genero
      * @returns 
      */
@@ -96,9 +100,39 @@ class BookModel {
 
         const [categories] = await db.query('SELECT c.CategoriaID, c.NombreCategoria FROM categorias c')
 
+        const data = categories.map(category => { return { id: category.CategoriaID, name: category.NombreCategoria } })
+
+        return data
+    }
+
+    /**
+     * 
+     * @param {integer} bookId - id del libro
+     * @returns 
+     */
+    static async getCategoriesByBookId({ bookId }) {
+        const db = await connection()
+
+        const [categories] = await db.query(`SELECT lc.CategoriaID, c.NombreCategoria FROM libros_categorias lc JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE lc.LibroID = ${bookId}`)
+
         return categories
     }
 
+    /**
+     * 
+     * @param {string} title - titulo del libro
+     * @param {string} author - autor del libro
+     * @param {string} isbn - isbn del libro
+     * @param {string} date - fecha de lanzamiento del libro
+     * @param {string} pages - cantidad de paginas del libro
+     * @param {string} language - idioma del libro
+     * @param {string} publisher - editorial del libro
+     * @param {string} synopsis - sinopsis del libro
+     * @param {string} image - imagen del libro
+     * @param {string} pdfLink - pdf del libro
+     * @param {string} state - estado del libro
+     * @param {array} categories - array de categorias del libro
+     */
     static async createBook({ title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories }) {
         const db = await connection()
 
@@ -121,7 +155,9 @@ class BookModel {
 
         const [books] = await db.query(`SELECT * FROM libros LIMIT ${limit}`)
 
-        return books
+        const data = bookObjectComplex({ data: books })
+
+        return data
     }
 
     /**
@@ -133,7 +169,9 @@ class BookModel {
 
         const [books] = await db.query(`SELECT * FROM libros ORDER BY Gustados ASC LIMIT ${limit}`)
 
-        return books
+        const data = bookObjectComplex({ data: books })
+
+        return data
     }
 
     /**
@@ -145,7 +183,9 @@ class BookModel {
 
         const [books] = await db.query(`SELECT * FROM libros ORDER BY Visitas ASC LIMIT ${limit}`)
 
-        return books
+        const data = bookObjectComplex({ data: books })
+
+        return data
     }
 
     /**
@@ -157,7 +197,9 @@ class BookModel {
 
         const [book] = await db.query(`SELECT * FROM libros JOIN libros_categorias lc ON lc.LibroID = libros.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE libros.LibroID = ${id}`)
 
-        return book
+        const object = bookObject({ data: book })
+
+        return object
     }
 
     /**
@@ -169,20 +211,22 @@ class BookModel {
 
         const [book] = await db.query(`SELECT * FROM libros WHERE Titulo LIKE '%${title}%'`)
 
-        return book
+        const object = bookObject({ data: book })
+
+        return object
     }
 
     /**
      * 
-     * @param {integer} id 
-     * @param {string} title 
-     * @param {string} author 
-     * @param {string} isbn 
-     * @param {integer} pages 
-     * @param {string} language 
-     * @param {string} state
-     * @param {string} synopsis
-     * @param {object} file
+     * @param {integer} id - id del libro
+     * @param {string} title - titulo del libro
+     * @param {string} author - autor del libro
+     * @param {string} isbn - isbn del libro
+     * @param {integer} pages - cantidad de paginas del libro
+     * @param {string} language - idioma del libro
+     * @param {string} state - estado del libro
+     * @param {string} synopsis - sinopsis del libro
+     * @param {object} file - imagen del libro
      */
     static async editById({ id, title, author, isbn, pages, language, state, synopsis, file }) {
         const db = await connection()
@@ -203,6 +247,87 @@ class BookModel {
 
         await db.query(`DELETE FROM libros WHERE LibroID = ${userId}`)
     }
+}
+
+/* 
+    * Funcion para convertir los datos de la base de datos a un objeto 
+    ! SE UTILIZA PARA ARRAYS DE VARIOS LIBROS, NO SOLO UN LIBRO EN PARTICULAR
+    ! SI NECESITA EL OBJETO DE SOLO UN LIBRO, SE DEBE USAR EL METODO bookObject
+*/
+
+/**
+ * 
+ * @param {object} data - array de libros
+ * @returns 
+ */
+function bookObjectComplex({ data }) {
+    const books = Promise.all(data.map(async book => {
+
+        // Obtener los generos de del libro
+        const genresArray = await BookModel.getCategoriesByBookId({ bookId: book.LibroID })
+        const genres = genresArray.map(genre => { return { id: genre.CategoriaID, name: genre.NombreCategoria } })
+        
+        return {
+            id: book.LibroID,
+            title: book.Titulo,
+            author: book.Autor,
+            isbn: book.ISBN,
+            year: book.FechaLanzamiento.getFullYear(),
+            pages: book.CantidadPaginas,
+            publisher: book.Editorial,
+            synopsis: book.Sinopsis,
+            image: book.imagen,
+            pdfLink: book.pdf_link,
+            language: book.Idioma,
+            state: book.Estado,
+            visits: book.Visitas,
+            likes: book.Gustados,
+            genres
+        }
+    }))
+
+    return books
+}
+
+/* 
+    * Funcion para convertir los datos de la base de datos a un objeto 
+    ! SE UTILIZA PARA ARRAYS DE SOLO UN LIBRO EN PARTICULAR
+    ! SI NECESITA EL OBJETO DE VARIOS LIBROS, SE DEBE USAR EL METODO bookObjectComplex
+*/
+
+/**
+ * 
+ * @param {object} data - objeto de un solo libro
+ * @returns 
+ */
+function bookObject({ data }) {
+    let object = {}
+
+    const [info] = data.map(book => {
+        return {
+            id: book.LibroID,
+            title: book.Titulo,
+            author: book.Autor,
+            isbn: book.ISBN,
+            year: book.FechaLanzamiento.getFullYear(),
+            pages: book.CantidadPaginas,
+            publisher: book.Editorial,
+            synopsis: book.Sinopsis,
+            image: book.imagen,
+            pdfLink: book.pdf_link,
+            language: book.Idioma,
+            state: book.Estado,
+            visits: book.Visitas,
+            likes: book.Gustados
+        }
+    })
+
+    const genres = data.map(book => { return { id: book.CategoriaID, name: book.NombreCategoria } })
+
+    object = info
+    object.genres = genres
+
+    return object
 }
 
 export default BookModel

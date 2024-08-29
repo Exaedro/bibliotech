@@ -1,8 +1,9 @@
 import express from 'express'
-import path from 'node:path'
+import path, { resolve } from 'node:path'
 import session from 'express-session'
 import { randomUUID } from 'node:crypto'
 import multer from 'multer'
+import { format } from 'timeago.js'
 
 const app = express()
 
@@ -31,6 +32,12 @@ const storage = multer.diskStorage({
     }
 }) 
 app.use(multer({ storage }).single('image'))
+
+// Variables globales
+app.use((req, res, next) => {
+    res.locals.format = format
+    next()
+})
 
 // Rutas
 import indexRouter from './routes/index.routes.js'

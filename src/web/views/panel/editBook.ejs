@@ -10,12 +10,12 @@
                 <%- include('../partials/admin/navbar.ejs') %>
                 <div class="contenedor">
                    <h1>Editar Libro</h1>
-                    <form class="editarLibroContainer" action="/panel/books/<%- book[0].LibroID %>/edit" method="POST" enctype="multipart/form-data">
+                    <form class="editarLibroContainer" action="/panel/books/<%- book.id %>/edit" method="POST" enctype="multipart/form-data">
 
                         <!-- Imagen a un costado -->
                         <div class="portada">
                             <figure>
-                                <img id="imagen" src="<%- book[0].imagen %>" alt="">
+                                <img id="imagen" src="<%- book.image %>" alt="">
                             </figure>
                             <input type="file" id="imagenInput" name="imagen">
                         </div>
@@ -25,17 +25,17 @@
                             <div class="row">
                                 <div class="columna">
                                     <h4>Titulo</h4>
-                                    <input type="text" value="<%- book[0].Titulo %>" placeholder="..." name="titulo">
+                                    <input type="text" value="<%- book.title %>" placeholder="..." name="titulo">
                                     <h4>Autor</h4>
-                                    <input type="text" value="<%- book[0].Autor %>" placeholder="..." name="autor">
+                                    <input type="text" value="<%- book.author %>" placeholder="..." name="autor">
                                     <h4>ISBN</h4>
-                                    <input type="text" value="<%- book[0].ISBN %>" placeholder="..." name="isbn">
+                                    <input type="text" value="<%- book.isbn %>" placeholder="..." name="isbn">
                                 </div>
                                 <div class="columna">
                                     <h4>Cantidad de paginas</h4>
-                                    <input type="text" value="<%- book[0].CantidadPaginas %>" placeholder="..." name="cantidad_paginas">
+                                    <input type="text" value="<%- book.pages %>" placeholder="..." name="cantidad_paginas">
                                     <h4>Idioma</h4>
-                                    <input type="text" value="<%- book[0].Idioma %>" placeholder="..." name="idioma">
+                                    <input type="text" value="<%- book.language %>" placeholder="..." name="idioma">
                                     <h4>Estado</h4>
                                     <select name="estado">
                                         <option value="disponible">Disponible</option>
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <h4>Sinopsis</h4>
-                            <textarea name="sinopsis" class="sinopsis"><%- book[0].Sinopsis %></textarea>
+                            <textarea name="sinopsis" class="sinopsis"><%- book.synopsis %></textarea>
                             <div class="botones">
                                 <a href="/panel/books">Cancelar</a>
                                 <button type="submit">Editar</button>
