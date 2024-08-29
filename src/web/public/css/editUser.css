@@ -1,128 +1,199 @@
-.editContainer {
+.containerEditar {
     width: 1200px;
-    margin: 7rem auto;
+    margin: 50px auto;
 }
 
-.editContainer form {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-}
-
-.editContainer .info h3 {
-    position: relative;
-    padding-bottom: 7px;
-    margin-bottom: 12px;
-}
-
-.editContainer .info p {
+.containerEditar h1 {
     margin-bottom: 10px;
 }
 
-.editContainer .info h3::before {
-    content: '';
-    background-color: #000;
-    position: absolute;
-    bottom: 0;
-    height: 2px;
-    width: 100%;
-}
-
-.editContainer .info input {
-    font-size: 12px;
-    margin-top: 20px;
-    margin-bottom: 30px;
-}
-
-.editContainer article {
-    padding: 40px;
-    background-color: var(--color-fondo-secundario);
+.crearUsuarioContainer {
+    border: 1px solid var(--color-fondo-secundario);
+    margin: 0 40px 40px 40px;
+    padding: 40px 0;
     border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
 }
 
-.editContainer .data {
-    flex-grow: 1;
-}
-
-.editContainer input {
-    width: 100%;
-    max-width: 100%;
-    padding: 12px;
-    font-size: 17px;
-    background-color: var(--color-input);
-    color: var(--color-input-letra);
-    outline: none;
-    border-radius: 5px;
-    margin: 10px 0 20px 0;
-}
-
-.editContainer .info figure {
+.crearUsuarioContainer figure {
     width: 200px;
     height: 200px;
 }
 
-.editContainer .info img {
+.crearUsuarioContainer img {
     width: 100%;
     height: 100%;
-    border-radius: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-.editContainer .info .image {
+.crearUsuarioContainer .datos .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.crearUsuarioContainer .datos {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
+    width: 900px;
 }
 
-.editContainer .changePassword h3.title {
-    padding-bottom: 15px;
-    margin-top: 35px;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.editContainer .changePassword h3.title:before {
-    content: '';
-    background-color: #000;
-    position: absolute;
-    bottom: 0;
-    height: 2px;
+.crearUsuarioContainer .datos input,
+.crearUsuarioContainer .datos select {
+    background-color: var(--color-input);
+    outline: none;
+    color: var(--color-input-letra);
+    font-size: 18px;
+    margin: 7px 0 15px 0;
+    font-weight: 500;
+    padding: 10px 5px;
+    border-radius: 5px;
     width: 100%;
 }
 
-.editContainer .buttons {
+.crearUsuarioContainer h4 {
+    color: var(--color-letra);
+    font-size: 16px;
+}
+
+.crearUsuarioContainer .imagenPerfil input {
+    padding: 10px;
+    max-width: 200px;
+    background-color: var(--color-input);
+    color: var(--color-input-letra);
+    margin-top: 10px;
+}
+
+.crearUsuarioContainer .botones {
     display: flex;
-    gap: 12px;
+    align-items: center;
     justify-content: flex-end;
 }
 
-.editContainer .data a {
-    background-color: transparent;
-    border: 1px solid red;
-    border-radius: 5px;
-    flex-grow: 1;
-    padding: 15px 35px;
-    text-align: center;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-.editContainer .data a:hover {
-    background-color: red;
-    color: #fff;
-}
-
-.editContainer .data button {
-    font-family: 'letra', system-ui, sans-serif;
-    font-size: 16px;
+.crearUsuarioContainer .botones button {
     background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+    border: none;
+    padding: 12px 35px;
+    margin-left: 15px;
     border-radius: 5px;
-    color: #fff;
-    flex-grow: 1;
-    padding: 15px 35px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
-.editContainer .data button:hover {
+.crearUsuarioContainer .botones button:hover {
     background-color: var(--color-primario-hover);
+}
+
+.crearUsuarioContainer .botones a {
+    background-color: transparent;
+    border: 1px solid red;
+    color: var(--color-letra);
+    padding: 10px 35px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.crearUsuarioContainer .botones a:hover {
+    background-color: red;
+    color: #fff;
+}
+
+@media (max-width: 575.98px) {
+    .containerEditar {
+        width: 100%;
+        padding: 0 10px;
+    }   
+
+    .crearUsuarioContainer {
+        flex-wrap: wrap;
+    }
+
+    .crearUsuarioContainer .datos {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .crearUsuarioContainer .botones {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .crearUsuarioContainer .botones button {
+        margin-bottom: 10px;
+    }
+
+    .crearUsuarioContainer .botones button, .crearUsuarioContainer .botones a {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .crearUsuarioContainer .datos .row {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+    .containerEditar {
+        width: 540px;
+        margin: 0 auto;
+    }
+
+    .crearUsuarioContainer .datos .row {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .crearUsuarioContainer .datos {
+        width: 300px;
+    }
+
+    .crearUsuarioContainer .datos input {
+        max-width: 100%;
+    }
+
+    .containerEditar {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+    .containerEditar {
+        width: 720px;
+    }
+
+    .containerEditar {
+        width: 800px;
+    }
+
+    .crearUsuarioContainer .datos {
+        width: 400px;
+        padding: 0 15px;
+    }
+
+    .containerEditar h1 {
+        padding-left: 15px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .containerEditar {
+        width: 960px;
+    }
+
+    .crearUsuarioContainer .datos {
+        width: 600px;
+    }
 }

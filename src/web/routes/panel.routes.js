@@ -112,4 +112,47 @@ panelRouter.get('/panel/users/edit', async (req, res) => {
     )
 })
 
+panelRouter.get('/panel/users/create', async (req, res) => {
+    const { username, role, userId } = req.session
+    
+    res.render('panel/createUser',
+        {
+            title: 'Bibliotech - Crear Usuario',
+            user: { username, role, userId }
+        }
+    )
+})
+
+panelRouter.post('/panel/users/create', async (req, res) => {
+    const { name, email, password, confirmPassword, role } = req.body
+    const image = req.file ? `/uploads/${req.file.filename}` : null
+
+    console.log(image)
+    if(!name || !email || !password || !confirmPassword || !role || !image)
+        return res.redirect('/panel/users/create?error=required_fields')
+
+    if(password !== confirmPassword)
+        return res.redirect('/panel/users/create?error=passwords_dont_match')
+
+    const user = await fetch(`${apiUrl}/user/create`, 
+        { 
+            method: 'POST',
+            headers: { 
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({ username: name, email, password, role, image })
+        }
+    )
+
+    const response = await user.json()
+
+    if(!user.ok) {
+        console.log(response)
+        return res.redirect('/panel/users/create?error=invalid')
+    }
+
+    res.redirect('/panel/users')
+})
+
 export default panelRouter

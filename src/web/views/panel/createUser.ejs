@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../partials/admin/head.ejs') %>
+</head>
+<body>
+    <div class="panel">
+        <%- include('../partials/admin/sidebar.ejs') %>
+        <main>
+            <%- include('../partials/admin/navbar.ejs') %>
+            <div class="contenedor">
+                <h1>Añadir Usuario</h1>
+                <form class="crearUsuarioContainer" action="/panel/users/create" method="POST" enctype="multipart/form-data">
+
+                    <!-- Imagen a un costado -->
+                    <div class="imagenPerfil">
+                        <figure>
+                            <img id="imagen" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="">
+                        </figure>
+                        <input type="file" id="imagenInput" name="image">
+                    </div>
+
+                    <!-- Formulario en el otro costado -->
+                    <div class="datos">
+                        <div class="row">
+                            <div class="columna">
+                                <h4>Nombre</h4>
+                                <input type="text" placeholder="Nombre del usuario" name="name">
+                                <h4>Correo Electrónico</h4>
+                                <input type="email" placeholder="Correo electrónico" name="email">
+                                <h4>Rol</h4>
+                                <select name="role">
+                                    <option value="1">Usuario</option>
+                                    <option value="2">Moderador</option>
+                                    <option value="3">Administrador</option>
+                                </select>
+                                <hr>
+                                <h4>Contraseña</h4>
+                                <input type="password" placeholder="Contraseña" name="password">
+                                <h4>Confirmar Contraseña</h4>
+                                <input type="password" placeholder="Confirmar contraseña" name="confirmPassword">
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="botones">
+                            <a href="/panel/users">Cancelar</a>
+                            <button type="submit">Agregar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <footer class="footerContainer">
+                <%- include('../partials/footer.ejs') %>
+            </footer>
+        </main>
+    </div>
+
+    <script src="js/cambiarTema.js"></script>
+    <script src="js/previsualizarImagen.js"></script>
+</body>
+</html>

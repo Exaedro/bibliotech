@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<%- include('../partials/admin/head.ejs') %>
-	</head>
-	<body>
-		<div class="panel">
+    <head>
+        <%- include('../partials/admin/head.ejs') %>
+    </head>
+    <body>
+        <div class="panel">
             <%- include('../partials/admin/sidebar.ejs') %>
             <main>
                 <%- include('../partials/admin/navbar.ejs') %>
@@ -21,11 +21,19 @@
                                         <p>ID: <%- user.UsuarioID %></p>
                                         <p>Nombre: <%- user.Nombre %></p>  
                                         <p>Correo: <%- user.CorreoElectronico %></p>
-                                        <p>Rol: <%- user.RollID %></p>
+                                        <% if (user.RollID == 1) { %>
+                                            <p>Rol: Usuario</p>
+                                        <% } else if (user.RollID == 2) { %>
+                                            <p>Rol: Moderador</p>
+                                        <% } else if (user.RollID == 3) { %>
+                                            <p>Rol: Administrador</p>
+                                        <% } else if (user.RollID == 4) { %>
+                                            <p>Rol: Propietario</p>
+                                        <% } %>
                                     </div>
                                 </div>
                                 <div class="acciones">
-                                    <a href="/profile/<%- user.UsuarioID %>" class="boton ver" target="_blank">Ver perfil</a>
+                                    <!--<a href="/profile/<%- user.UsuarioID %>" class="boton ver" target="_blank">Ver perfil</a>-->
                                     <!--<a href="/panel/users/edit/<%- user.UsuarioID %>" class="boton edita">Editar</a>-->
                                     <button href="#" data-userId="<%- user.UsuarioID %>" class="boton eliminar">Eliminar</button>
                                 </div>
@@ -60,5 +68,5 @@
         </script>
 
         <script src="js/cambiarTema.js"></script>
-	</body>
+    </body>
 </html>
