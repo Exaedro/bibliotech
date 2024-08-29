@@ -13,10 +13,10 @@ class UserController {
     }
 
     static async createUser(req, res) {
-        const { username, password, email } = req.body
+        const { username, password, email, image, role } = req.body
 
         try {
-            const response = await UserModel.createUser({ username, password, email })
+            const response = await UserModel.createUser({ username, password, email, image, role })
             
             if(response == 'username_used')
                 return res.status(404).json({ message: 'this username is already used', error: response })

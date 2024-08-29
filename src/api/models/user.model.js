@@ -19,7 +19,7 @@ class UserModel {
      * @param {string} password - la contraseña del usuario
      * @param {string} email - el correo electronico del usuario 
      */
-    static async createUser({ username, password, email }) {
+    static async createUser({ username, password, email, image, role }) {
         const db = await connection()
 
         // Verificar si el nombre de usuario no esta usado por otra persona
@@ -34,7 +34,7 @@ class UserModel {
         const hashedPassword = await hash(password, 10)
 
         // Insertar usuario
-        await db.query(`INSERT INTO usuarios (Nombre, CorreoElectronico, Contrasenia) VALUES ('${username}', '${email}', '${hashedPassword}')`)
+        await db.query(`INSERT INTO usuarios (Nombre, CorreoElectronico, Contrasenia, Imagen, RollID) VALUES ('${username}', '${email}', '${hashedPassword}', '${image}', '${role}')`)
     }
 
     /**
