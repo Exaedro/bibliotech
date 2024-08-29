@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../partials/admin/head.ejs') %>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+	</head>
+	<body>
+		<div class="panel panel-docs">
+			<%- include('../partials/admin/sidebar.ejs') %>
+			<main>
+				<%- include('../partials/admin/navbar.ejs') %>
+				<div class="contenedor">
+                    <!-- <div class="index">
+                        <a href="#introduction">Introducción</a>
+                        <a href="#books">Libros</a>
+                        <a href="#users">Usuarios</a>               
+                    </div> -->
+					<div class="wrapper">
+                        <div class="docs">
+                            <h1 class="title">API de Bibliotech</h1>
+                            <div class="block">
+                                <h3 class="subtitle" id="introduction">Introducción</h3>
+                                <p>La API de Bibliotech es una API RESTful privada diseñada para gestionar una colección de libros, permitiendo a los programadores interactuar con la base de datos de Bibliotech. Esta API maneja las operaciones de lectura y escritura en la base de datos, permitiendo a los usuarios autenticados realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre los recursos de libros, así como proporcionar información sobre la estructura de la base de datos. Esta documentación te guiará en cómo autenticarte y utilizar los diferentes endpoints de la API.</p>
+                                <p>URL base de la API: <code>http://localhost:3000/api/v1</code></p>
+                                <h2>Headers requeridos.</h2>
+                                <pre>
+                                    <code class="language-json"> 
+                                        {
+                                            "Accept": "application/json",
+                                            "Content-Type": "application/json"
+                                        }
+                                    </code>
+                                </pre>
+                            </div>
+
+                            <h2 class="title-small" id="books">Endpoints - Libros</h2>
+                            <div class="block">
+                                <h3 class="subtitle">listar libros</h3>
+                                <p>El endpoint <code>/book/all</code> devuelve una lista de todos los libros disponibles en la base de datos de Bibliotech.</p>
+                                <pre style="height: 300px;">
+                                    <code class="language-json">
+                                        [
+                                            {
+                                                "LibroID": 1,
+                                                "Titulo": "El Gran Gatsby",
+                                                "Autor": "F. Scott Fitzgerald",
+                                                "ISBN": "9780743273565",
+                                                "FechaLanzamiento": "1925-04-10T04:00:00.000Z",
+                                                "CantidadPaginas": 180,
+                                                "Editorial": "Scribner",
+                                                "Sinopsis": "Un retrato de la era del jazz en los Estados Unidos",
+                                                "imagen": "https://www.anagrama-ed.es/uploads/media/portadas/0001/15/b2834bc4ea71357c8b549dfccdd16d611c6586ea.jpeg",
+                                                "pdf_link": "https://www.imprentanacional.go.cr/editorialdigital/libros/literatura%20universal/el_gran_gatsby_edincr.pdf",
+                                                "Idioma": "Español",
+                                                "Estado": "Disponible",
+                                                "Visitas": 100,
+                                                "Gustados": 50
+                                            },
+                                            {
+                                                "LibroID": 2,
+                                                "Titulo": "Cien Años de Soledad",
+                                                "Autor": "Gabriel García Márquez",
+                                                "ISBN": "9780060883287",
+                                                "FechaLanzamiento": "1967-06-05T04:00:00.000Z",
+                                                "CantidadPaginas": 417,
+                                                "Editorial": "Harper & Row",
+                                                "Sinopsis": "La historia de la familia Buendía en el pueblo ficticio de Macondo",
+                                                "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUgsUCPHp3SOTsijY_tNLp8zOiGxJCUZ0yEA&s",
+                                                "pdf_link": "https://www.secst.cl/upfiles/documentos/19072016_1207am_578dc39115fe9.pdf",
+                                                "Idioma": "Español",
+                                                "Estado": "Disponible",
+                                                "Visitas": 200,
+                                                "Gustados": 120
+                                            },
+                                        ]
+                                    </code>
+                                </pre>
+                    
+                                <h2>Buscar por ID</h2>
+                                <p>Para obtener información sobre un libro específico, se debe utilizar el endpoint <code>/book/:colocarIdAqui</code></p>
+
+                                <h2>Filtrando busqueda de libros</h2>
+                                <p>Para realizar una búsqueda de libros filtrada, se debe utilizar el endpoint <code>/book/search</code> y colocar los parámetros en la url con los que se quiere realizar la búsqueda.</p>
+                                <p>Por ejemplo: <code>/book/search?title=el gran gatsby</code></p>
+                                <p>Tambien se puede filtrar utilizando los parametros <strong>author</strong>, <strong>year</strong>, <strong>genre</strong>, <strong>publisher</strong>, <strong>language</strong>, <strong>isbn</strong>, y <strong>pages</strong>.</p>
+                                <p>Ejemplo: <code>/book/search?author=f+scott+fitzgerald&year=1925&genre=fiction</code></p>
+
+                            </div>
+
+                            <h2 class="title-small" id="users">Usuarios <span class="warning-authentication">[Autenticación requerida]</span></h2>
+                            <div class="block">
+                                <h3 class="subtitle">Listar usuarios</h3>
+                                <p>El endpoint <code>/user/all</code> devuelve una lista de todos los usuarios registrados en la base de datos de Bibliotech.</p>
+                                <pre style="height: 300px;">
+                                    <code class="language-json">
+                                        {
+                                            "UsuarioID": 1,
+                                            "Nombre": "dsaasd",
+                                            "CorreoElectronico": "ow@gmail.com",
+                                            "Imagen": "\thttps://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png\t",
+                                            "RollID": 1
+                                        },
+                                        {
+                                            "UsuarioID": 2,
+                                            "Nombre": "elpepe",
+                                            "CorreoElectronico": "owomolo123@gmail.com",
+                                            "Imagen": "\thttps://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png\t",
+                                            "RollID": 1
+                                        },
+                                        {
+                                            "UsuarioID": 3,
+                                            "Nombre": "admin",
+                                            "CorreoElectronico": "oww@gmail.com",
+                                            "Imagen": "\thttps://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png\t",
+                                            "RollID": 3
+                                        }
+                                    </code>
+                                </pre>
+                    
+                                <h2>Buscar por ID</h2>
+                                <p>Para obtener información sobre un usuario específico, se debe utilizar el endpoint <code>/user/data/:colocarIdAqui</code></p>
+
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<footer class="footerContainer">
+					<%- include('../partials/footer.ejs') %>
+				</footer>
+			</main>
+		</div>
+        <script src="js/apiActions.js"></script>
+		<script src="js/cambiarTema.js"></script>
+	</body>
+</html>
+
+<script src="js/previsualizarImagen.js"></script>

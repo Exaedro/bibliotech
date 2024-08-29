@@ -51,6 +51,7 @@ app.use('/panel', express.static(path.join(process.cwd(), 'src/web/public')))
 app.use('/panel/books', express.static(path.join(process.cwd(), 'src/web/public')))
 app.use('/panel/books/:id', express.static(path.join(process.cwd(), 'src/web/public')))
 app.use('/panel/users', express.static(path.join(process.cwd(), 'src/web/public')))
+app.use('/panel/docs', express.static(path.join(process.cwd(), 'src/web/public')))
 
 app.listen(app.get('PORT'), () => {
     console.log('Web en funcionamiento')

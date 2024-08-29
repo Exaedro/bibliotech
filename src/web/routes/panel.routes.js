@@ -9,7 +9,7 @@ import config from '../config.json' with { type: 'json' }
 const apiUrl = config["apiUrl"]
 
 // En todas las rutas despues de /panel se verificara si el usuario es un administrador o no
-panelRouter.get('/panel*', isAdmin)
+// panelRouter.get('/panel*', isAdmin)
 
 panelRouter.get('/panel', (req, res) => {
     const { username, role, userId } = req.session
@@ -153,6 +153,39 @@ panelRouter.post('/panel/users/create', async (req, res) => {
     }
 
     res.redirect('/panel/users')
+})
+
+panelRouter.get('/panel/docs/api', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    res.render('panel/api',
+        {
+            title: 'Bibliotech - Documentación API',
+            user: { username, role, userId }
+        }
+    )
+})
+
+panelRouter.get('/panel/docs/manual', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    res.render('panel/manual',
+        {
+            title: 'Bibliotech - Manual del programador',
+            user: { username, role, userId }
+        }
+    )
+})
+
+panelRouter.get('/panel/docs/reports', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    res.render('panel/reports',
+        {
+            title: 'Bibliotech - Informes',
+            user: { username, role, userId }
+        }
+    )
 })
 
 export default panelRouter
