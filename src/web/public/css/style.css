@@ -407,6 +407,8 @@ h1, h2, h4, h5, p {
 .catalogo-container .filtro {
     margin-top: 25px;
     display: none;
+    grid-template-columns: repeat(4, 1fr);
+    width: 700px;
     gap: 20px;
 }
 

@@ -26,16 +26,20 @@ indexRouter.get('/', async (req, res) => {
 
 indexRouter.get('/catalog', async (req, res) => {
     const { username, role, userId } = req.session
-    let { title, genre, author, date } = req.query
+    let { title, genre, author, date, isbn, pages, language, publisher } = req.query
     
     title = title ? title : ''
     author = author ? author : ''
     date = date ? date : ''
+    isbn = isbn ? isbn : ''
+    pages = pages ? pages : ''
+    language = language ? language : ''
+    publisher = publisher ? publisher : ''
 
     if(genre == 'off' || genre == undefined)
         genre = ''
 
-    let books = await (await fetch(`${apiUrl}/book/search?title=${title}&author=${author}&date=${date}&genre=${genre}`)).json()
+    let books = await (await fetch(`${apiUrl}/book/search?title=${title}&author=${author}&date=${date}&genre=${genre}&isbn=${isbn}&pages=${pages}&language=${language}&publisher=${publisher}`)).json()
 
     const categories = await (await fetch(`${apiUrl}/book/categories`)).json()
 

@@ -9,20 +9,24 @@ class BookModel {
      * @param {string} date - fecha de lanzamiento del libro
      * @param {string} genre - categoria del libro
      */
-    static async search({ title, author, date, genre }) {
+    static async search({ title, author, date, genre, isbn, pages, language, publisher }) {
         const db = await connection()
 
-        console.log(genre, title, author, date)
-        // Crear un objeto con los parametros 
         const params = {
             Titulo: title || undefined,
             Autor: author || undefined,
             FechaLanzamiento: date || undefined,
-            CategoriaID: genre || undefined
+            CategoriaID: genre || undefined,
+            ISBN: isbn || undefined,
+            CantidadPaginas: pages || undefined,
+            Idioma: language || undefined,
+            Editorial: publisher || undefined
         }
         const paramsKeys = Object.keys(params)
 
         let sql = `SELECT DISTINCT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID`
+       
+        // Variable para saber si existe algun parametro en el objeto
         let whereExists = false
 
         // Verificar si existe algun parametro en el objeto

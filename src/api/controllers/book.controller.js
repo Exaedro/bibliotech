@@ -4,10 +4,10 @@ import { responseMessage } from "../utils/error.js";
 
 class BookController {
     static async search(req, res) {
-        const { title, author, date, genre } = req.query
+        const { title, author, date, genre, isbn, pages, language, publisher } = req.query
 
         try {
-            const books = await BookModel.search({ title, author, date, genre })
+            const books = await BookModel.search({ title, author, date, genre, isbn, pages, language, publisher })
             res.status(200).json(books)
         } catch(err) {
             res.status(404).json(err)
