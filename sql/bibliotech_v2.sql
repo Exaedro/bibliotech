@@ -3,19 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-08-2024 a las 04:03:44
+-- Tiempo de generación: 30-08-2024 a las 03:54:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `bibliotech_v2`
@@ -96,7 +90,12 @@ INSERT INTO `comentarios` (`ComentarioID`, `UsuarioID`, `LibroID`, `Comentario`,
 (15, 3, 12, 'muy bueno', '2024-08-24 22:20:36'),
 (27, 3, 1, 'muy bueno me gusto', '2024-08-25 16:48:48'),
 (30, 3, 2, 'el pepe, muy bueno', '2024-08-27 12:03:34'),
-(31, 3, 3, 'muy bueno', '2024-08-27 12:49:11');
+(31, 3, 3, 'muy bueno', '2024-08-27 12:49:11'),
+(35, 3, 3, 'elpepe', '2024-08-29 19:06:02'),
+(36, 3, 4, 'el pepe', '2024-08-29 19:48:37'),
+(37, 3, 4, 'dsadas', '2024-08-29 19:49:31'),
+(38, 3, 4, 'dsadas', '2024-08-29 19:51:42'),
+(39, 3, 4, 'fddsffsd', '2024-08-29 19:53:32');
 
 -- --------------------------------------------------------
 
@@ -116,8 +115,7 @@ CREATE TABLE `favoritos` (
 
 INSERT INTO `favoritos` (`FavoritoID`, `UsuarioID`, `LibroID`) VALUES
 (1, 3, 3),
-(12, 3, 1),
-(13, 3, 4);
+(12, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -131,6 +129,13 @@ CREATE TABLE `gustados` (
   `LibroID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `gustados`
+--
+
+INSERT INTO `gustados` (`GustadoID`, `UsuarioID`, `LibroID`) VALUES
+(17, 3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -143,6 +148,15 @@ CREATE TABLE `historial` (
   `LibroID` int(11) NOT NULL,
   `FechaAccion` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `historial`
+--
+
+INSERT INTO `historial` (`HistorialID`, `UsuarioID`, `LibroID`, `FechaAccion`) VALUES
+(28, 3, 5, '2024-08-29 20:19:47'),
+(29, 3, 4, '2024-08-29 22:19:35'),
+(30, 3, 1, '2024-08-29 22:19:44');
 
 -- --------------------------------------------------------
 
@@ -292,7 +306,7 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`UsuarioID`, `Nombre`, `CorreoElectronico`, `Imagen`, `Contrasenia`, `RollID`) VALUES
 (1, 'dsaasd', 'ow@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 1),
 (2, 'elpepe', 'owomolo123@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 1),
-(3, 'admin', 'oww@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '$2b$10$ha2A16xWuw0zleP0e2T6qet5jQ85zgSEBNZtIvGywAv9V436JBFE6', 3),
+(3, 'admin', 'oww@gmail.com', '/uploads/bea5ced4-b92a-4667-b14a-afad4aed1a72.jpg', '$2b$10$ha2A16xWuw0zleP0e2T6qet5jQ85zgSEBNZtIvGywAv9V436JBFE6', 3),
 (4, 'exaedro', 'elpepe@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$KKSaDN3FgjCqRDuiBLJMT.ivLBqN7wFtZdqxVNZqN.uUq/K1PJhCq', 1),
 (7, 'dasasddas', 'dasdas@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$ZaRGgVda.C4ae7TDnNboeeth/6/CV.Bt3/0zVRq/GqoRkWJQBbwzK', 1),
 (8, 'holaaa', 'elpopencio123@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$JSQrRWH1MFa8pFZTofdP/.3WBSeSnfsi5IlFYlvUupM9IjsMyB6xa', 1);
@@ -315,7 +329,8 @@ CREATE TABLE `ver_mas_tarde` (
 
 INSERT INTO `ver_mas_tarde` (`TardeID`, `UsuarioID`, `LibroID`) VALUES
 (8, 3, 4),
-(10, 3, 3);
+(10, 3, 3),
+(11, 3, 152);
 
 --
 -- Índices para tablas volcadas
@@ -429,31 +444,31 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `ComentarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `ComentarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `FavoritoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `FavoritoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `gustados`
 --
 ALTER TABLE `gustados`
-  MODIFY `GustadoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `GustadoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT de la tabla `reservas`
@@ -477,7 +492,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ver_mas_tarde`
 --
 ALTER TABLE `ver_mas_tarde`
-  MODIFY `TardeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `TardeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
@@ -531,7 +546,3 @@ ALTER TABLE `reservas`
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`RollID`) REFERENCES `roles` (`RollID`) ON DELETE CASCADE;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
