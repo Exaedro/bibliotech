@@ -121,6 +121,138 @@ npm run dev
   GET /api/v1/book/categories
 ```
 
+## Usuarios
+
+#### Obtener todos los usuarios
+
+```http
+  GET /api/v1/user/all
+```
+
+#### Obtener los datos de un usuario
+
+```http
+  GET /api/v1/user/data/:userId
+```
+
+#### Obtener el historial de un usuario
+
+```http
+  GET /api/v1/user/record/:userId
+```
+
+#### Añadir al historial de un usuario
+
+```http
+  POST /api/v1/user/record/add
+```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+| `bookId`      | `int` | **Requerido**. ID del libro |
+
+#### Crear usuario
+
+```http
+  POST /api/v1/user/create
+```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `username`      | `string` | **Requerido**. Nombre del usuario |
+| `email`      | `string` | **Requerido**. Correo electrónico del usuario |
+| `password`      | `string` | **Requerido**. Contraseña del usuario |
+
+#### Eliminar usuario
+
+```http
+  POST /api/v1/user/delete
+```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+
+#### Editar usuario
+
+```http
+  POST /api/v1/user/edit
+```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+| `username`      | `string` | **Requerido**. Nombre del usuario |
+| `email`      | `string` | **Requerido**. Correo electrónico del usuario |
+| `password`      | `string` | **Requerido**. Contraseña del usuario |
+
+#### Añadir libro a la lista de leer mas tarde
+
+```http
+  POST /api/v1/user/later/add
+```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+| `bookId`      | `int` | **Requerido**. ID del libro |
+
+#### Añadir libro a la lista de gustados
+
+```http
+  POST /api/v1/user/like/add
+  ```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+| `bookId`      | `int` | **Requerido**. ID del libro |
+
+#### Añadir libro a la lista de favoritos
+
+```http
+  POST /api/v1/user/favorite/add
+  ```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+| `bookId`      | `int` | **Requerido**. ID del libro |
+
+#### Eliminar libro de la lista de ver mas tarde
+
+```http
+  POST /api/v1/user/later/delete
+  ```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+| `bookId`      | `int` | **Requerido**. ID del libro |
+
+#### Eliminar libro de la lista de favoritos
+
+```
+  POST /api/v1/user/favorite/delete
+  ```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+| `bookId`      | `int` | **Requerido**. ID del libro |
+
+#### Eliminar libro de la lista de gustados
+
+```http
+  POST /api/v1/user/like/delete
+```
+
+| Parametro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Requerido**. ID del usuario |
+| `bookId`      | `int` | **Requerido**. ID del libro |
+
 ## Desarrolladores
 
 - [@Exaedro](https://www.github.com/Exaedro)
