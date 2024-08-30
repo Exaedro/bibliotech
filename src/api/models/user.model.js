@@ -20,6 +20,8 @@ class UserModel {
             }
         })
 
+        await db.end()
+
         return data
     }
 
@@ -43,6 +45,8 @@ class UserModel {
         // Encriptar la contraseña
         const hashedPassword = await hash(password, 10)
 
+        await db.end()
+
         // Insertar usuario
         await db.query(`INSERT INTO usuarios (Nombre, CorreoElectronico, Contrasenia, Imagen, RollID) VALUES ('${username}', '${email}', '${hashedPassword}', '${image}', '${role}')`)
     }
@@ -56,11 +60,13 @@ class UserModel {
     static async LogUser({ email, password }) {
         const db = await connection()
 
-        const [user] = await db.query(`SELECT r.NombreRol as role, u.Contrasenia as password, u.Nombre as username, u.UsuarioID as id FROM usuarios u JOIN roles r ON u.RollID = r.RollID  WHERE u.CorreoElectronico = '${email}';`)
+        const [user] = await db.query(`SELECT r.NombreRol as role, u.Contrasenia as password, u.Nombre as username, u.UsuarioID as id, u.Imagen as image FROM usuarios u JOIN roles r ON u.RollID = r.RollID  WHERE u.CorreoElectronico = '${email}';`)
         if(user.length == 0) return 'user_not_exist'
 
         const validPassword = await compare(password, user[0].password)
         if(!validPassword) return 'invalid_password'
+
+        await db.end()
 
         return user
     }
@@ -102,13 +108,14 @@ class UserModel {
         const [user] = await this.getUserById({ userId })
         if(!user) return 'user_not_exist'
 
-        username = username ? username : user.Nombre
-        email    = email ? email : user.CorreoElectronico
-        password = password ? password : user.Contrasenia
-        role     = role ? role : user.RollID
-        avatar   = avatar ? avatar : user.Imagen
+        username = username ? username : user.username
+        email    = email ? email : user.email
+        password = password ? password : user.password
+        role     = role ? role : user.roleId
+        avatar   = avatar ? avatar : user.image
 
         await db.query(`UPDATE usuarios SET Nombre = '${username}', CorreoElectronico = '${email}', Imagen = '${avatar}' WHERE UsuarioID = '${userId}'`)
+
     }
 
     static async deleteUser({ userId }) {
@@ -133,6 +140,9 @@ class UserModel {
         if(user.length <= 0) {
             return 'user_not_exist'
         }
+
+        if(!password)
+            return 'password_undefined'
 
         const verify = await compare(password, user[0].Contrasenia)
 
@@ -178,7 +188,7 @@ class UserModel {
                 }
             }
         })
-
+        
         return data
     }
 
@@ -192,8 +202,8 @@ class UserModel {
 
         // Si el usuario tiene 3 libros en su historial, se elimina el libro mas reciente
         const books = await this.getUserRecord({ userId, order: 'ASC' })
-        if(books.length == 3) {
-            const bookId = books[0].LibroID
+        if(books.length >= 3) {
+            const bookId = books[0].book.id
             await db.query(`DELETE FROM historial WHERE LibroID = '${bookId}' AND UsuarioID = '${userId}'`)
         }
 

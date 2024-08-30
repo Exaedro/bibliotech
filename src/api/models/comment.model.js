@@ -55,6 +55,8 @@ class CommentModel {
             }
         })
 
+        await db.end()
+
         return data
     }
 
@@ -69,6 +71,8 @@ class CommentModel {
 
         const commentCreated = await db.query(`INSERT INTO comentarios (UsuarioID, LibroID, Comentario) VALUES ('${userId}', '${bookId}', '${comment}')`)
 
+        await db.end()
+
         return commentCreated
     }
 
@@ -80,6 +84,8 @@ class CommentModel {
         const db = await connection()
 
         await db.query(`DELETE FROM comentarios WHERE ComentarioID = ${id}`)
+
+        await db.end()
     }
 }
 

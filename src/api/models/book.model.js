@@ -79,7 +79,7 @@ class BookModel {
         const [books] = await db.query('SELECT * FROM libros')
 
         const data = bookObjectComplex({ data: books })
-
+            
         return data
     }
 
@@ -91,7 +91,7 @@ class BookModel {
         const db = await connection()
 
         const [books] = await db.query(`SELECT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE c.CategoriaID = ${genre}`)
-    
+
         return books
     }
 
@@ -101,7 +101,7 @@ class BookModel {
         const [categories] = await db.query('SELECT c.CategoriaID, c.NombreCategoria FROM categorias c')
 
         const data = categories.map(category => { return { id: category.CategoriaID, name: category.NombreCategoria } })
-
+        
         return data
     }
 

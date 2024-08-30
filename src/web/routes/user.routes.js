@@ -36,6 +36,7 @@ userRouter.post('/login', async (req, res) => {
     req.session.userId = user[0].id
     req.session.username = user[0].username
     req.session.role = user[0].role
+    req.session.image = user[0].image
 
     res.redirect('/')
 })

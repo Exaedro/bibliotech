@@ -12,7 +12,7 @@ const apiUrl = config["apiUrl"]
 profileRouter.get('/profile*', isLogged)
 
 profileRouter.get('/profile', async (req, res) => {
-    const { username, role, userId } = req.session
+    const { username, role, userId, image } = req.session
 
     const likedBooks = await (await fetch(`${apiUrl}/user/like/all?userId=${userId}`, { method: 'GET' })).json()
     const favoriteBooks = await (await fetch(`${apiUrl}/user/favorite/all?userId=${userId}`, { method: 'GET' })).json()
@@ -21,7 +21,7 @@ profileRouter.get('/profile', async (req, res) => {
     res.render('profile',
         {
             title: 'Bibliotech - Perfil', likedBooks, favoriteBooks, seeLaterBooks,
-            user: { username, role, userId }
+            user: { username, role, userId, image }
         }
     )
 })
@@ -95,46 +95,44 @@ profileRouter.post('/profile/edit', async (req, res) => {
         
     req.session.username = user.data.username
 
-    console.log(req.session)
-
     return res.redirect('/profile')
 })
 
 profileRouter.get('/profile/like', async (req, res) => {
-    const { username, role, userId } = req.session
+    const { username, role, userId, image } = req.session
 
     const books = await (await fetch(apiUrl + '/user/like/all?userId=' + userId, { method: 'GET' })).json()
 
     res.render('profile/liked', 
         {
             title: 'Bibliotech - Mis gustados', books,
-            user: { username, role, userId }
+            user: { username, role, userId, image }
         }
     )
 })
 
 profileRouter.get('/profile/favorite', async (req, res) => {
-    const { username, role, userId } = req.session
+    const { username, role, userId, image } = req.session
 
     const books = await (await fetch(apiUrl + '/user/favorite/all?userId=' + userId, { method: 'GET' })).json()
 
     res.render('profile/favorites', 
         {
             title: 'Bibliotech - Mis favoritos', books,
-            user: { username, role, userId }
+            user: { username, role, userId, image }
         }
     )
 })
 
 profileRouter.get('/profile/see-later', async (req, res) => {
-    const { username, role, userId } = req.session
+    const { username, role, userId, image } = req.session
 
     const books = await (await fetch(apiUrl + '/user/later/all?userId=' + userId, { method: 'GET' })).json()
 
     res.render('profile/seeLater', 
         {
             title: 'Bibliotech - Leer mas tarde', books,
-            user: { username, role, userId }
+            user: { username, role, userId, image }
         }
     )
 })
