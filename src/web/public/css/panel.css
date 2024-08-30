@@ -227,6 +227,21 @@ dialog .botones .confirmarEliminar:hover {
     background-color: var(--color-primario-hover);
 }
 
+.panel .buscador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.panel .buscar {
+    padding: 10px;
+    background-color: var(--color-input);
+    outline: none;
+    margin: 10px 0;
+    border-radius: 5px;
+    color: var(--color-letra);
+}
+
 .panel .usuarios {
     padding: 40px;
     border: 1px solid var(--color-fondo-secundario);
@@ -286,6 +301,10 @@ html {
     width: 100%;
     max-width: 1000px;
     margin: 40px auto;
+}
+
+.panel-docs table {
+    margin-bottom: 30px;
 }
 
 .panel-docs .docs .title {

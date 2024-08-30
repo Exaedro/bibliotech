@@ -11,7 +11,11 @@
                 <div class="contenedor">
                     <h1>Catálogo de libros</h1>
                     <section class="libros">
-                        <table>
+                        <div class="buscador">
+                            <h3>Buscar</h3>
+                            <input type="text" id="myInput" class="buscar" placeholder=". . .">
+                        </div>
+                        <table id="myTable">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -45,20 +49,6 @@
                                 <% }) %>
                             </tbody>
                         </table>
-                        <!-- <% books.forEach(book => { %>
-                            <article class="libro">
-                                <a href="/panel/books/<%- book.id %>/edit" class="editar">
-                                    <img src="/img/lapiz.png">
-                                </a>
-                                <a href="#" class="borrar" data-modal="modal<%- book.id %>">
-                                    <img src="/img/cubo-basura.png">
-                                </a>
-                                <figure>
-                                    <img src="<%- book.image %>" loading="lazy">
-                                </figure>
-                                <p><%- book.title %></p>
-                            </article>
-                        <% }) %> -->
                     </section>
                 </div>
             </main>
@@ -75,6 +65,37 @@
                 </div>
             </dialog>
         <% }) %>
+
+        <script>
+            var input, filter, table, tr, td, id, i, txtValue;
+            input = document.getElementById("myInput");
+
+            input.addEventListener("keyup", () => {
+              myFunction()
+            });
+
+            function myFunction() {
+              // Declare variables
+              
+              filter = input.value.toUpperCase();
+              table = document.getElementById("myTable");
+              tr = table.getElementsByTagName("tr");
+            
+              // Loop through all table rows, and hide those who don't match the search query
+              for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+
+                if (td) {
+                  txtValue = td.textContent || td.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }
+              }
+            }
+        </script>
 
         <script>
             const modales = document.querySelectorAll('dialog')
