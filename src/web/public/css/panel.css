@@ -246,6 +246,7 @@ dialog .botones .confirmarEliminar:hover {
 .panel .buscador {
     display: flex;
     align-items: center;
+    margin-bottom: 15px;
     gap: 10px;
 }
 
@@ -253,7 +254,6 @@ dialog .botones .confirmarEliminar:hover {
     padding: 10px;
     background-color: var(--color-input);
     outline: none;
-    margin: 10px 0;
     border-radius: 5px;
     color: var(--color-letra);
 }
