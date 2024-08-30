@@ -24,6 +24,7 @@
                                     <th>ISBN</th>
                                     <th>Editorial</th>
                                     <th>Ver</th>
+                                    <th>Editar</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
@@ -35,15 +36,20 @@
                                         <td><%- book.author %></td>
                                         <td><%- book.isbn %></td>
                                         <td><%- book.publisher %></td>
+                                        <td class="columnaVer">
+                                            <a href="/book/<%- book.id %>" class="ver verde">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                        </td>
                                         <td class="columnaEditar">
                                             <a href="/panel/books/<%- book.id %>/edit" class="editar">
                                                 <i class="fa-solid fa-pencil"></i>
                                             </a>
                                         </td>
                                         <td class="columnaEliminar">
-                                            <a href="#" class="borrar" data-modal="modal<%- book.id %>">
+                                            <button href="#" class="borrar" data-modal="modal<%- book.id %>">
                                                 <i class="fa-solid fa-trash"></i>
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 <% }) %>
@@ -61,12 +67,66 @@
                     <form method="dialog">
                         <button class="cancelarEliminar">Cancelar</button>
                     </form>
-                    <a href="#" class="confirmarEliminar" data-libro="<%- book.id %>">Eliminar</a>
+                    <button href="#" class="confirmarEliminar" data-libro="<%- book.id %>">Eliminar</button>
                 </div>
             </dialog>
         <% }) %>
 
         <script>
+            const modales = document.querySelectorAll('dialog')
+
+            const botonesBorrar = document.querySelectorAll('.columnaEliminar .borrar')
+            const botonesCancelar = document.querySelectorAll('dialog .cancelarEliminar')
+            const botonesEliminar = document.querySelectorAll('dialog .confirmarEliminar')
+
+            botonesEliminar.forEach(boton => {
+                boton.addEventListener('click', (elem) => {
+                    const bookId = boton.getAttribute('data-libro')
+                    
+                    fetch(`http://localhost:3000/api/v1/book/delete`, 
+                        { 
+                            method: 'POST', 
+                            headers: 
+                                { 
+                                    'Accept': 'application/json', 
+                                    'Content-Type': 'application/json' 
+                                }, 
+                            body: JSON.stringify({ bookId }) }
+                    ).then(response => {
+                        if(response.ok) {
+                            window.location.reload()
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err)
+                    })
+                })
+            })
+
+            botonesBorrar.forEach(boton => {
+                boton.addEventListener('click', (elem) => {
+                    const modalId = boton.getAttribute('data-modal')
+
+                    verificarModal({ botonId: modalId })
+                })
+            })
+
+            const verificarModal = ({ botonId }) => {
+                modales.forEach(modal => {
+                    const modalId = modal.getAttribute('data-modal')
+
+                    if(botonId == modalId) {
+                        modal.showModal()
+                    }
+                })
+            }
+
+
+
+
+
+
+
             var input, filter, table, tr, td, id, i, txtValue;
             input = document.getElementById("myInput");
 
@@ -95,58 +155,6 @@
                 }
               }
             }
-        </script>
-
-        <script>
-            const modales = document.querySelectorAll('dialog')
-
-            const botonesBorrar = document.querySelectorAll('.libro .borrar')
-            const botonesCancelar = document.querySelectorAll('dialog .cancelarEliminar')
-            const botonesEliminar = document.querySelectorAll('dialog .confirmarEliminar')
-
-            botonesEliminar.forEach(boton => {
-                boton.addEventListener('click', (elem) => {
-                    const libroId = boton.getAttribute('data-libro')
-                    
-                    fetch(`http://localhost:3000/api/v1/book/delete`, 
-                        { 
-                            method: 'POST', 
-                            headers: 
-                                { 
-                                    'Accept': 'application/json', 
-                                    'Content-Type': 'application/json' 
-                                }, 
-                            body: JSON.stringify({ userId: libroId }) }
-                    ).then(response => {
-                        if(response.ok) {
-                            window.location.reload()
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err)
-                    })
-                })
-            })
-
-            botonesBorrar.forEach(boton => {
-                boton.addEventListener('click', (elem) => {
-                    const modalId = boton.getAttribute('data-modal')
-
-                    verificarModal({ botonId: modalId })
-                })
-            })
-
-            const verificarModal = ({ botonId }) => {
-                modales.forEach(modal => {
-                    const modalId = modal.getAttribute('data-modal')
-
-                    if(botonId == modalId) {
-                        console.log(modalId)
-                        modal.showModal()
-                    }
-                })
-            }
-
 
         </script>
 

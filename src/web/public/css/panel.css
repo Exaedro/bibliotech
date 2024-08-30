@@ -112,11 +112,13 @@
 .panel .borrar {
     background-color: red;
     padding: 15px;
-    border-radius: 5px;    
+    border-radius: 5px;
+    width: 100%;
     height: 30px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    cursor: pointer;
+    justify-content: center;
 }
 
 .panel .editar {
@@ -131,6 +133,16 @@
 
 .panel .verde {
     background-color: rgb(52, 214, 19);
+}
+
+.panel .ver {
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
 }
 
 .panel section h1 {
@@ -207,9 +219,11 @@ dialog .botones .cancelarEliminar {
     border-radius: 5px;
     color: var(--color-letra-secundario);
     margin-top: 10px;
+    width: 100%;
     background-color: red;
     cursor: pointer;
-    font-weight: 700;
+    font-family: 'letra', system-ui, sans-serif;
+    font-size: 16px;
 }
 
 dialog .botones .confirmarEliminar {
@@ -219,6 +233,8 @@ dialog .botones .confirmarEliminar {
     margin-top: 10px;
     background-color: var(--color-primario-hover);
     cursor: pointer;
+    font-family: 'letra', system-ui, sans-serif;
+    font-size: 16px;
     font-weight: 700;
     transition: background .3s ease;
 }

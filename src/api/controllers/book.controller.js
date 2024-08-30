@@ -157,10 +157,10 @@ class BookController {
     }
 
     static async deleteById(req, res) {
-        const { userId } = req.body
+        const { bookId } = req.body
 
         try {
-            await BookModel.deleteById({ userId })
+            await BookModel.deleteById({ bookId })
             res.status(200).json({ message: 'deleted' })
         } catch(err) {
             console.error(err)
