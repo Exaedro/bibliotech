@@ -47,7 +47,12 @@ class BookModel {
                         if(key == 'FechaLanzamiento') {
                             sql += ` AND YEAR(l.FechaLanzamiento) = '${value}'`
                         } else {
-                            sql += ` AND l.${key} LIKE '%${value}%'`
+
+                            if(key == 'CantidadPaginas') {
+                                sql += ` AND l.CantidadPaginas >= '${value}'`
+                            } else {
+                                sql += ` AND l.${key} LIKE '%${value}%'`
+                            }
                         }
                     }
                 } else {
@@ -60,7 +65,11 @@ class BookModel {
                         if(key == 'FechaLanzamiento') {
                             sql += ` YEAR(l.FechaLanzamiento) = '${value}'`
                         } else { 
-                            sql += ` l.${key} LIKE '%${value}%'`
+                            if(key == 'CantidadPaginas') {
+                                sql += ` l.CantidadPaginas >= '${value}'`
+                            } else {
+                                sql += ` l.${key} LIKE '%${value}%'`
+                            }
                         }
                     }     
                 }

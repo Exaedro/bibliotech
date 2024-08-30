@@ -78,15 +78,9 @@
     background-color: var(--color-fondo);
     border: 1px solid var(--color-fondo-secundario);
     border-radius: 8px;
+    overflow-x: scroll;
     padding: 40px;
     margin: 0 40px 40px 40px;
-}
-
-.panel .libros {
-    display: grid;
-    justify-items: center;
-    grid-template-rows: 280px 280px 280px;
-    grid-template-columns: repeat(7, 1fr);
 }
 
 .panel .libros p {
@@ -116,31 +110,27 @@
 }
 
 .panel .borrar {
-    width: 30px!important;
-    height: 30px!important;
-    position: absolute;
     background-color: red;
     padding: 15px;
+    border-radius: 5px;    
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel .editar {
+    background-color: orange;
+    padding: 15px;
     border-radius: 5px;
-    right: 10px;
-    top: 15px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.panel .editar {
-    position: absolute;
-    width: 25px!important;
-    height: 25px!important;
-    background-color: orange;
-    padding: 15px;
-    border-radius: 5px;
-    right: 50px;
-    top: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.panel .verde {
+    background-color: rgb(52, 214, 19);
 }
 
 .panel section h1 {
@@ -238,69 +228,46 @@ dialog .botones .confirmarEliminar:hover {
 }
 
 .panel .usuarios {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    row-gap: 65px;
     padding: 40px;
     border: 1px solid var(--color-fondo-secundario);
     border-radius: 5px;
+    overflow-x: scroll;
     margin: 10px 40px 40px 40px;
     color: var(--color-letra);
 }
 
-.panel .usuarios .usuario .info {
-    display: flex;
-    gap: 10px;
-}
-
-.panel .usuarios figure {
-    width: 100px;
-    height: 100px;
-}
-
-.panel .usuarios img {
+.panel table {
     width: 100%;
-    height: 100%;
+    max-width: none !important;
+    border-collapse: collapse !important;
+    border: 1px solid var(--color-fondo-secundario);
 }
 
-.panel .usuarios .acciones {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.panel .usuarios .boton {
-    padding: 10px 25px;
-    border-radius: 5px;
+.panel table i {
     color: #fff;
 }
 
-.panel .usuarios .ver {
-    background-color: var(--color-primario);
-    transition: background-color 0.3s ease;
+.panel  table th {
+    padding: 12px;
+    text-align: left;
+    background-color: var(--color-fondo-secundario);
 }
 
-.panel .usuarios .eliminar {
-    background-color: red;
-    transition: background-color 0.3s ease;
+.panel table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid var(--color-fondo-secundario);
 }
 
-.panel .usuarios .edita {
-    background-color: orange;
-    transition: background-color 0.3s ease;
+.panel .usuarios .boton {
+    color: var(--color-primario);
 }
 
-.panel .usuarios .ver:hover {
-    background-color: var(--color-primario-hover);
-}
-
-.panel .usuarios .eliminar:hover {
-    background-color: rgb(225, 40, 40);
-}
-
-.panel .usuarios .edita:hover {
-    background-color: rgb(236, 161, 24);
+.panel .usuarios button {
+    background-color: transparent;
+    font-family: 'letra', system-ui, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 /* ////////////////////////////////////////////////////////////////////////////////////////////////////////////// */

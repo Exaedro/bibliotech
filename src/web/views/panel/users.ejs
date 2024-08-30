@@ -11,34 +11,46 @@
                 <div class="contenedor">
                     <h1>Usuarios</h1>
                     <div class="usuarios">
-                        <% users.forEach(userInfo => { %>
-                            <div class="usuario">
-                                <div class="info">
-                                    <figure>
-                                        <img src="<%- userInfo.image %>" alt="<%- userInfo.username %>">
-                                    </figure>
-                                    <div class="data">
-                                        <p>ID: <%- userInfo.id %></p>
-                                        <p>Nombre: <%- userInfo.title %></p>  
-                                        <p>Correo: <%- userInfo.email %></p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Rol</th>
+                                    <th>Ver perfil</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(userInfo => { %>
+                                    <tr>
+                                        <td><%- userInfo.id %></td>
+                                        <td><%- userInfo.username %></td>
+                                        <td><%- userInfo.email %></td>
                                         <% if (userInfo.roleId == 1) { %>
-                                            <p>Rol: Usuario</p>
+                                            <td>Usuario</td>
                                         <% } else if (userInfo.roleId == 2) { %>
-                                            <p>Rol: Moderador</p>
+                                            <td>Moderador</td>
                                         <% } else if (userInfo.roleId == 3) { %>
-                                            <p>Rol: Administrador</p>
+                                            <td>Administrador</td>
                                         <% } else if (userInfo.roleId == 4) { %>
-                                            <p>Rol: Propietario</p>
+                                            <td>Propietario</td>
                                         <% } %>
-                                    </div>
-                                </div>
-                                <div class="acciones">
-                                    <!--<a href="/profile/<%- user.UsuarioID %>" class="boton ver" target="_blank">Ver perfil</a>-->
-                                    <!--<a href="/panel/users/edit/<%- user.UsuarioID %>" class="boton edita">Editar</a>-->
-                                    <button href="#" data-userId="<%- userInfo.id %>" class="boton eliminar">Eliminar</button>
-                                </div>
-                            </div>
-                        <% }) %>
+                                        <td>
+                                            <a href="/profile/<%- userInfo.id %>" class="editar verde" target="_blank">
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" data-userId="<%- userInfo.id %>" class="borrar">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </main>

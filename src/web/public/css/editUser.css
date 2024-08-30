@@ -59,6 +59,7 @@
     padding: 10px 5px;
     border-radius: 5px;
     width: 100%;
+    max-width: 100%;
 }
 
 .crearUsuarioContainer h4 {

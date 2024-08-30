@@ -11,7 +11,41 @@
                 <div class="contenedor">
                     <h1>Catálogo de libros</h1>
                     <section class="libros">
-                        <% books.forEach(book => { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Título</th>
+                                    <th>Autor</th>
+                                    <th>ISBN</th>
+                                    <th>Editorial</th>
+                                    <th>Ver</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% books.forEach(book => { %>
+                                    <tr>
+                                        <td><%- book.id %></td>
+                                        <td><%- book.title %></td>
+                                        <td><%- book.author %></td>
+                                        <td><%- book.isbn %></td>
+                                        <td><%- book.publisher %></td>
+                                        <td class="columnaEditar">
+                                            <a href="/panel/books/<%- book.id %>/edit" class="editar">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </a>
+                                        </td>
+                                        <td class="columnaEliminar">
+                                            <a href="#" class="borrar" data-modal="modal<%- book.id %>">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                        <!-- <% books.forEach(book => { %>
                             <article class="libro">
                                 <a href="/panel/books/<%- book.id %>/edit" class="editar">
                                     <img src="/img/lapiz.png">
@@ -24,12 +58,9 @@
                                 </figure>
                                 <p><%- book.title %></p>
                             </article>
-                        <% }) %>
+                        <% }) %> -->
                     </section>
                 </div>
-                <footer class="footerContainer">
-                    <%- include('../partials/footer.ejs') %>
-                </footer>
             </main>
         </div>
 
