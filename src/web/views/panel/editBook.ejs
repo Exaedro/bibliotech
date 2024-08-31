@@ -25,26 +25,26 @@
                             <div class="row">
                                 <div class="columna">
                                     <h4>Titulo</h4>
-                                    <input type="text" value="<%- book.title %>" placeholder="..." name="titulo">
+                                    <input type="text" value="<%- book.title %>" placeholder="..." name="title">
                                     <h4>Autor</h4>
-                                    <input type="text" value="<%- book.author %>" placeholder="..." name="autor">
+                                    <input type="text" value="<%- book.author %>" placeholder="..." name="author">
                                     <h4>ISBN</h4>
                                     <input type="text" value="<%- book.isbn %>" placeholder="..." name="isbn">
                                 </div>
                                 <div class="columna">
                                     <h4>Cantidad de paginas</h4>
-                                    <input type="text" value="<%- book.pages %>" placeholder="..." name="cantidad_paginas">
+                                    <input type="text" value="<%- book.pages %>" placeholder="..." name="pages">
                                     <h4>Idioma</h4>
-                                    <input type="text" value="<%- book.language %>" placeholder="..." name="idioma">
+                                    <input type="text" value="<%- book.language %>" placeholder="..." name="language">
                                     <h4>Estado</h4>
-                                    <select name="estado">
+                                    <select name="state">
                                         <option value="disponible">Disponible</option>
                                         <option value="prestado">Prestado</option>
                                     </select>
                                 </div>
                             </div>
                             <h4>Sinopsis</h4>
-                            <textarea name="sinopsis" class="sinopsis"><%- book.synopsis %></textarea>
+                            <textarea name="synopsis" class="sinopsis"><%- book.synopsis %></textarea>
                             <div class="botones">
                                 <a href="/panel/books">Cancelar</a>
                                 <button type="submit">Editar</button>

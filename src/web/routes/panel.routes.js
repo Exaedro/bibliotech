@@ -49,6 +49,30 @@ panelRouter.get('/panel/books/:id/edit', async (req, res) => {
     )
 })
 
+panelRouter.post('/panel/books/:id/edit', async (req, res) => {
+    const { id } = req.params
+    const { title, author, isbn, date, pages, language, state, publisher, synopsis, image, pdfLink, categories } = req.body
+    const file = req.file ? `/uploads/${req.file.filename}` : null
+
+    const response = await fetch(`${apiUrl}/book/${id}/edit`, 
+        { 
+            method: 'POST',
+            headers: { 
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({ title, author, isbn, date, pages, language, state, publisher, synopsis, image, pdfLink, categories })
+        }
+    )
+
+    const { error } = await response.json()
+
+    if(error == 'required_fields')
+        return res.redirect('/panel/books/edit?error=required_fields')
+
+    res.redirect('/book/' + id)
+})
+
 panelRouter.get('/panel/books/add', async (req, res) => {
     const { username, role, userId } = req.session
 
