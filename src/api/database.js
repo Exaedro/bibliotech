@@ -1,11 +1,11 @@
 import mysql from 'mysql2/promise'
 
 const DATABASE_CONFIG = {
-    user: 'root',
-    database: 'bibliotech_v2',
-    password: '',
-    port: 3306,
-    host: 'localhost',
+    user: process.env.DB_USER,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
+    host: process.env.DB_HOST,
 }
 
 class db {

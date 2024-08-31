@@ -396,13 +396,26 @@ html {
     margin-bottom: 60px;
 }
 
-.panel-docs .docs p code {
+.panel-docs .docs p code, .panel-docs .docs li code {
     color: #584773;
     background-color: #fafafc;
     border: 1px solid #e3e4e7;
     border-radius: 5px;
     padding: 5px 10px;
     cursor: text;
+}
+
+.panel-docs .docs ol {
+    margin-bottom: 20px;
+}
+
+.panel-docs .docs ol code {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.panel-docs ol li {
+    margin-bottom: 7px;
 }
 
 .panel-docs .docs pre code {
