@@ -22,6 +22,15 @@ Instala las dependencias con **npm**
 npm i
 ```
 
+Crea una base de datos MySQL llamada `bibliotech_v2` e importa el archivo `bibliotech_v2.sql` que se encuentra en la carpeta `sql`, la configuración por defecto para conectarse a la base de datos se encuentra en el archivo `.env` que se encuentra en la raíz del proyecto.
+```env
+DB_HOST = localhost
+DB_USER = root
+DB_PASSWORD =
+DB_DATABASE = bibliotech_v2
+DB_PORT = 3306
+```
+
 Inicia la aplicación utilizando
 
 ```bash
