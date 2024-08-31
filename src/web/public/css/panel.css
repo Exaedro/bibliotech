@@ -354,6 +354,30 @@ html {
     text-transform: uppercase;
 }
 
+.panel-docs .strong {
+    font-weight: bold;
+}
+
+.panel-docs li {
+    margin-left: 20px;
+}
+
+.panel-docs li ul {
+    margin-bottom: 10px;
+}
+
+.panel-docs ul {
+    margin-bottom: 20px;
+}
+
+.panel-docs .nomargin {
+    margin-bottom: 0!important;
+}
+
+.panel-docs a {
+    text-decoration: underline var(--color-subrayado);
+}
+
 .panel-docs .docs .title-small {
     display: flex;
     gap: 10px;

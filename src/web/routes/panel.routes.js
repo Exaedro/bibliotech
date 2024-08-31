@@ -9,7 +9,7 @@ import config from '../config.json' with { type: 'json' }
 const apiUrl = config["apiUrl"]
 
 // En todas las rutas despues de /panel se verificara si el usuario es un administrador o no
-// panelRouter.get('/panel*', isAdmin)
+panelRouter.get('/panel*', isAdmin)
 
 panelRouter.get('/panel', (req, res) => {
     const { username, role, userId } = req.session

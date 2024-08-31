@@ -10,7 +10,7 @@ class CommentModel {
      */
     static async getComments({ bookTitle, bookId }) {
         if(bookTitle || bookId) {
-            const [comments] = await db.query(`SELECT c.ComentarioID, c.UsuarioID, c.LibroID, c.Comentario, c.FechaComentario, u.Nombre, u.Imagen FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID JOIN usuarios u ON c.UsuarioID = u.UsuarioID WHERE l.Titulo = '${bookTitle}' OR l.LibroID = '${bookId}'`)
+            const [comments] = await db.query(`SELECT c.ComentarioID, c.UsuarioID, c.LibroID, c.Comentario, c.FechaComentario, u.Nombre, u.Imagen FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID JOIN usuarios u ON c.UsuarioID = u.UsuarioID WHERE l.Titulo = '${bookTitle}' OR l.LibroID = '${bookId}' ORDER BY c.FechaComentario DESC`)
             
             const data = comments.map(comment => {
                 return {
@@ -33,7 +33,7 @@ class CommentModel {
             return data
         }
 
-        const [comments] = await db.query(`SELECT * FROM comentarios`)
+        const [comments] = await db.query(`SELECT * FROM comentarios ORDER BY l.FechaComentario DESC`)
 
         const data = comments.map(comment => {
             return {

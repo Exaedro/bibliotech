@@ -39,6 +39,9 @@ class UserModel {
         // Encriptar la contraseña
         const hashedPassword = await hash(password, 10)
 
+        image = image ? image : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+        role = role ? role : '1'
+
         // Insertar usuario
         await db.query(`INSERT INTO usuarios (Nombre, CorreoElectronico, Contrasenia, Imagen, RollID) VALUES ('${username}', '${email}', '${hashedPassword}', '${image}', '${role}')`)
     }

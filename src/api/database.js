@@ -14,6 +14,7 @@ class db {
             const db = await mysql.createConnection({ ...DATABASE_CONFIG })
             
             const data = await db.query(sql)
+            await db.end()
         
             return data
         } catch(err) {
