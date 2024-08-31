@@ -2,12 +2,10 @@
 import { hash, compare } from "bcrypt";
 
 // Base de datos
-import connection from "../database.js";
+import db from "../database.js";
 
 class UserModel {
     static async getAll() {
-        const db = await connection()
-
         const [users] = await db.query('SELECT UsuarioID, Nombre, CorreoElectronico, Imagen, RollID FROM usuarios')
 
         const data = users.map(user => {
@@ -20,8 +18,6 @@ class UserModel {
             }
         })
 
-        await db.end()
-
         return data
     }
 
@@ -32,20 +28,16 @@ class UserModel {
      * @param {string} email - el correo electronico del usuario 
      */
     static async createUser({ username, password, email, image, role }) {
-        const db = await connection()
-
         // Verificar si el nombre de usuario no esta usado por otra persona
-        const isUsernameUsed = await usernameExists({ username, db })
-        if(isUsernameUsed) return 'username_used'
+        const isUsernameUsed = await usernameExists({ username })
+        if (isUsernameUsed) return 'username_used'
 
         // Verificar si el email no esta usado por otra persona
-        const isEmailUsed = await userExists({ email, db })
-        if(isEmailUsed) return 'email_used'
+        const isEmailUsed = await userExists({ email })
+        if (isEmailUsed) return 'email_used'
 
         // Encriptar la contraseña
         const hashedPassword = await hash(password, 10)
-
-        await db.end()
 
         // Insertar usuario
         await db.query(`INSERT INTO usuarios (Nombre, CorreoElectronico, Contrasenia, Imagen, RollID) VALUES ('${username}', '${email}', '${hashedPassword}', '${image}', '${role}')`)
@@ -58,15 +50,11 @@ class UserModel {
      * @returns 
      */
     static async LogUser({ email, password }) {
-        const db = await connection()
-
         const [user] = await db.query(`SELECT r.NombreRol as role, u.Contrasenia as password, u.Nombre as username, u.UsuarioID as id, u.Imagen as image FROM usuarios u JOIN roles r ON u.RollID = r.RollID  WHERE u.CorreoElectronico = '${email}';`)
-        if(user.length == 0) return 'user_not_exist'
+        if (user.length == 0) return 'user_not_exist'
 
         const validPassword = await compare(password, user[0].password)
-        if(!validPassword) return 'invalid_password'
-
-        await db.end()
+        if (!validPassword) return 'invalid_password'
 
         return user
     }
@@ -76,8 +64,6 @@ class UserModel {
      * @param {integer} userId - id del usuario 
      */
     static async getUserById({ userId }) {
-        const db = await connection()
-
         const [user] = await db.query(`SELECT * FROM usuarios WHERE UsuarioID = '${userId}'`)
 
         const data = user.map(userInfo => {
@@ -103,26 +89,22 @@ class UserModel {
      * @param {string} avatar - foto de perfil del usuario
      */
     static async editUser({ userId, username, email, password, role, avatar }) {
-        const db = await connection()
-
         const [user] = await this.getUserById({ userId })
-        if(!user) return 'user_not_exist'
+        if (!user) return 'user_not_exist'
 
         username = username ? username : user.username
-        email    = email ? email : user.email
+        email = email ? email : user.email
         password = password ? password : user.password
-        role     = role ? role : user.roleId
-        avatar   = avatar ? avatar : user.image
+        role = role ? role : user.roleId
+        avatar = avatar ? avatar : user.image
 
         await db.query(`UPDATE usuarios SET Nombre = '${username}', CorreoElectronico = '${email}', Imagen = '${avatar}' WHERE UsuarioID = '${userId}'`)
 
     }
 
     static async deleteUser({ userId }) {
-        const db = await connection()
-        
         const [user] = await db.query(`SELECT * FROM usuarios WHERE UsuarioID = '${userId}'`)
-        if(user.length <= 0) return 'user_not_exist'
+        if (user.length <= 0) return 'user_not_exist'
 
         await db.query(`DELETE FROM usuarios WHERE UsuarioID = '${userId}'`)
     }
@@ -133,20 +115,18 @@ class UserModel {
      * @param {string} password - contraseña que ingreso el usuario 
      */
     static async validPassword({ userId, password }) {
-        const db = await connection()
-
         const user = await this.getUserById({ userId })
 
-        if(user.length <= 0) {
+        if (user.length <= 0) {
             return 'user_not_exist'
         }
 
-        if(!password)
+        if (!password)
             return 'password_undefined'
 
         const verify = await compare(password, user[0].Contrasenia)
 
-        if(!verify)
+        if (!verify)
             return false
 
         return true
@@ -159,11 +139,9 @@ class UserModel {
      * @returns 
      */
     static async getUserRecord({ userId, order }) {
-        const db = await connection()
+        if (userId == undefined) return 'user_not_logged'
 
-        if(userId == undefined) return 'user_not_logged'
-
-        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = '${userId}' ORDER BY FechaAccion ${order ? order : 'DESC'}`) 
+        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = '${userId}' ORDER BY FechaAccion ${order ? order : 'DESC'}`)
 
         const data = books.map(book => {
             return {
@@ -188,7 +166,7 @@ class UserModel {
                 }
             }
         })
-        
+
         return data
     }
 
@@ -198,17 +176,15 @@ class UserModel {
      * @param {integer} bookId - id del libro
      */
     static async addRecord({ userId, bookId }) {
-        const db = await connection()
-
         // Si el usuario tiene 3 libros en su historial, se elimina el libro mas reciente
         const books = await this.getUserRecord({ userId, order: 'ASC' })
-        if(books.length >= 3) {
+        if (books.length >= 3) {
             const bookId = books[0].book.id
             await db.query(`DELETE FROM historial WHERE LibroID = '${bookId}' AND UsuarioID = '${userId}'`)
         }
 
-        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'historial', db })
-        if(isAlreadyAdded) return 'duplicated'
+        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'historial' })
+        if (isAlreadyAdded) return 'duplicated'
 
         await db.query(`INSERT INTO historial (UsuarioID, LibroID) VALUES ('${userId}', '${bookId}');`)
     }
@@ -218,8 +194,6 @@ class UserModel {
      * @param {integer} userId - id del usuario 
      */
     static async getFavorites({ userId }) {
-        const db = await connection()
-
         const [books] = await db.query(`SELECT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN favoritos f ON f.LibroID = l.LibroID WHERE f.UsuarioID = ${userId}`)
 
         return books
@@ -230,8 +204,6 @@ class UserModel {
      * @param {integer} userId - id del usuario 
      */
     static async getLikes({ userId }) {
-        const db = await connection()
-
         const [books] = await db.query(`SELECT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN gustados f ON f.LibroID = l.LibroID WHERE f.UsuarioID = ${userId}`)
 
         return books
@@ -242,8 +214,6 @@ class UserModel {
      * @param {integer} userId - id del usuario  
      */
     static async getLater({ userId }) {
-        const db = await connection()
-
         const [books] = await db.query(`SELECT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN ver_mas_tarde f ON f.LibroID = l.LibroID WHERE f.UsuarioID = ${userId}`)
 
         return books
@@ -255,10 +225,8 @@ class UserModel {
      * @param {integer} bookId - id del libro 
      */
     static async addFavorite({ userId, bookId }) {
-        const db = await connection()
-
-        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'favoritos', db })
-        if(isAlreadyAdded) return 'duplicated'
+        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'favoritos' })
+        if (isAlreadyAdded) return 'duplicated'
 
         await db.query(`INSERT INTO favoritos (UsuarioID, LibroID) VALUES ('${userId}', '${bookId}');`)
     }
@@ -269,10 +237,8 @@ class UserModel {
      * @param {integer} bookId - id del libro 
      */
     static async addLike({ userId, bookId }) {
-        const db = await connection()
-
-        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'gustados', db })
-        if(isAlreadyAdded) return 'duplicated'
+        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'gustados' })
+        if (isAlreadyAdded) return 'duplicated'
 
         await db.query(`INSERT INTO gustados (UsuarioID, LibroID) VALUES ('${userId}', '${bookId}');`)
     }
@@ -283,10 +249,8 @@ class UserModel {
      * @param {integer} bookId - id del libro 
      */
     static async addSeeLater({ userId, bookId }) {
-        const db = await connection()
-
-        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'ver_mas_tarde', db })
-        if(isAlreadyAdded) return 'duplicated'
+        const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'ver_mas_tarde' })
+        if (isAlreadyAdded) return 'duplicated'
 
         await db.query(`INSERT INTO ver_mas_tarde (UsuarioID, LibroID) VALUES ('${userId}', '${bookId}');`)
     }
@@ -297,8 +261,6 @@ class UserModel {
      * @param {integer} bookId - id del libro 
      */
     static async deleteFavorite({ userId, bookId }) {
-        const db = await connection()
-
         await db.query(`DELETE FROM favoritos WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}'`)
     }
 
@@ -308,8 +270,6 @@ class UserModel {
      * @param {integer} bookId - id del libro 
      */
     static async deleteLike({ userId, bookId }) {
-        const db = await connection()
-
         await db.query(`DELETE FROM gustados WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}'`)
     }
 
@@ -319,8 +279,6 @@ class UserModel {
      * @param {integer} bookId - id del libro 
      */
     static async deleteSeeLater({ userId, bookId }) {
-        const db = await connection()
-
         await db.query(`DELETE FROM ver_mas_tarde WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}'`)
     }
 }
@@ -330,12 +288,11 @@ class UserModel {
  * @param {integer} userId - id del usuario
  * @param {integer} bookId - id del libro 
  * @param {string} type - nombre de la tabla en la base de datos a utilizar (gustados, favoritos, ver_mas_tarde)
- * @param {object} db - variable de la base de datos
  */
-async function isDuplicated({ userId, bookId, type, db }) {
+async function isDuplicated({ userId, bookId, type}) {
     const [verify] = await db.query(`SELECT * FROM ${type} WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}';`)
 
-    if(verify.length > 0)
+    if (verify.length > 0)
         return true
 
     return false
@@ -344,15 +301,14 @@ async function isDuplicated({ userId, bookId, type, db }) {
 /**
  * 
  * @param {string} username - nombre de usuario
- * @param {object} db - variable de la base de datos 
  * @returns 
  */
-async function usernameExists({ username, db }) {
+async function usernameExists({ username }) {
     const [user] = await db.query(`SELECT * FROM usuarios WHERE Nombre = '${username}'`)
 
     // Si encuentra un usuario con el nombre ingresado
     // retorna que este nombre ya esta registrado
-    if(user.length >= 1)
+    if (user.length >= 1)
         return true
 
     // Si no encuentra nada
@@ -363,15 +319,14 @@ async function usernameExists({ username, db }) {
 /**
  * 
  * @param {string} email - correo electronico del usuario
- * @param {object} db - variable de la base de datos 
  * @returns 
  */
-async function userExists({ email, db }) {
+async function userExists({ email }) {
     const [user] = await db.query(`SELECT * FROM usuarios WHERE CorreoElectronico = '${email}'`)
 
     // Si se encuentra un usuario o mas en la base de datos
     // retorna que existe un usuario con este email
-    if(user.length >= 1)
+    if (user.length >= 1)
         return user
 
     // Si no hay nadie registrado con este email

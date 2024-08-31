@@ -1,5 +1,5 @@
 // Base de datos
-import connection from "../database.js";
+import db from "../database.js";
 
 class CommentModel {
 
@@ -9,8 +9,6 @@ class CommentModel {
      * @param {integer} bookId - id del libro
      */
     static async getComments({ bookTitle, bookId }) {
-        const db = await connection()
-
         if(bookTitle || bookId) {
             const [comments] = await db.query(`SELECT c.ComentarioID, c.UsuarioID, c.LibroID, c.Comentario, c.FechaComentario, u.Nombre, u.Imagen FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID JOIN usuarios u ON c.UsuarioID = u.UsuarioID WHERE l.Titulo = '${bookTitle}' OR l.LibroID = '${bookId}'`)
             
@@ -55,8 +53,6 @@ class CommentModel {
             }
         })
 
-        await db.end()
-
         return data
     }
 
@@ -67,11 +63,7 @@ class CommentModel {
      * @param {string} comment - el comentario que ingreso el usuario 
      */
     static async createComment({ userId, bookId, comment }) {
-        const db = await connection()
-
         const commentCreated = await db.query(`INSERT INTO comentarios (UsuarioID, LibroID, Comentario) VALUES ('${userId}', '${bookId}', '${comment}')`)
-
-        await db.end()
 
         return commentCreated
     }
@@ -81,11 +73,7 @@ class CommentModel {
      * @param {integer} id - id del comentario a borrar 
      */
     static async deleteCommentById({ id }) {
-        const db = await connection()
-
         await db.query(`DELETE FROM comentarios WHERE ComentarioID = ${id}`)
-
-        await db.end()
     }
 }
 

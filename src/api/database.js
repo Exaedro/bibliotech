@@ -1,23 +1,25 @@
-import mysql from 'mysql2/promise.js'
+import mysql from 'mysql2/promise'
 
-const connection = async () => {
-    try {
-        const db = await mysql.createConnection({
-            user: 'root',
-            database: 'bibliotech_v2',
-            password: '',
-            port: 3306,
-            host: 'localhost',
-        })
+const DATABASE_CONFIG = {
+    user: 'root',
+    database: 'bibliotech_v2',
+    password: '',
+    port: 3306,
+    host: 'localhost',
+}
+
+class db {
+    static async query(sql) {
+        try {
+            const db = await mysql.createConnection({ ...DATABASE_CONFIG })
+            
+            const data = await db.query(sql)
         
-        db.connect(err => { 
-            if(err) throw new err
-        })
-    
-        return db
-    } catch(err) {
-        console.error(err)
+            return data
+        } catch(err) {
+            console.error(err)
+        }
     }
 }
 
-export default connection
+export default db
