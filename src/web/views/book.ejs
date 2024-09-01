@@ -71,14 +71,7 @@
               <div class="comentario">
                 <div class="usuario">
                   <img src="<%- comment.user.image %>" alt="<%- comment.user.name %>">
-
-                  <!-- ! Traduce el tiempo que ha pasado desde la fecha de la última vez que se comentó -->
-                  <% let date = format(comment.date)  %>
-                  <% date = date.replace('seconds', 'segundos').replace('minute', 'minuto').replace('ago', '').replace('minutes', 'minutos').replace('hours', 'horas').replace('days', 'días').replace('weeks', 'semanas').replace('months', 'meses').replace('years', 'años') %>
-                  <% date.includes('just') ? date = 'hace un momento' : date %>
-                  <% date.includes('segundos') && !date.includes('just') ? date = 'hace ' + date : date = 'hace ' + date %>
-
-                  <p><%- comment.user.username %> <span class="date"><%- date %></span></p>
+                  <p><%- comment.user.username %> <span class="date"><%- format(comment.date) %></span></p>
                   <% if(user.role == 'admin' || user.role == 'mod' || user.userId == comment.user.id) { %>
                     <div class="modAcciones">
                       <i class="fa-solid fa-x borrar" data-commentId="<%- comment.id %>"></i>

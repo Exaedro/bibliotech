@@ -3,7 +3,7 @@ import path, { resolve } from 'node:path'
 import session from 'express-session'
 import { randomUUID } from 'node:crypto'
 import multer from 'multer'
-import { format } from 'timeago.js'
+import { format } from './utils/format.js'
 
 const app = express()
 
