@@ -2,6 +2,8 @@ import { app, BrowserWindow } from 'electron'
 import path from 'node:path'
 import dotenv from 'dotenv/config'
 
+import webApp from './web/index.js'
+
 // Configuracion
 const width = Number(process.env.WINDOW_WIDTH) || 1600
 const height = Number(process.env.WINDOW_HEIGHT) || 900

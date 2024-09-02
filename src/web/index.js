@@ -5,21 +5,21 @@ import { randomUUID } from 'node:crypto'
 import multer from 'multer'
 import { format } from './utils/format.js'
 
-const app = express()
+const webApp = express()
 
 // API
 import { appApi } from '../api/index.js'
 
 // Configuracion
-app.set('PORT', process.env.PORT || 4000)
-app.set('views', path.join(process.cwd(), 'src/web/views'))
-app.set('view engine', 'ejs')
+webApp.set('PORT', process.env.PORT || 4000)
+webApp.set('views', path.join(process.cwd(), 'src/web/views'))
+webApp.set('view engine', 'ejs')
 
 // Middlewares
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
+webApp.use(express.urlencoded({ extended: false }))
+webApp.use(express.json())
 
-app.use(session({
+webApp.use(session({
     secret: 'keyboard cat', // CAMBIAR Y GUARDAR EN OTRO LADO MAS TARDE
     resave: true,
     saveUninitialized: true,
@@ -31,10 +31,10 @@ const storage = multer.diskStorage({
         cb(null, randomUUID() + path.extname(file.originalname))
     }
 }) 
-app.use(multer({ storage }).single('image'))
+webApp.use(multer({ storage }).single('image'))
 
 // Variables globales
-app.use((req, res, next) => {
+webApp.use((req, res, next) => {
     res.locals.format = format
     next()
 })
@@ -45,21 +45,23 @@ import profileRouter from './routes/profile.routes.js'
 import userRouter from './routes/user.routes.js'
 import panelRouter from './routes/panel.routes.js'
 
-app.use(userRouter)
-app.use(profileRouter)
-app.use(indexRouter)
-app.use(panelRouter)
+webApp.use(userRouter)
+webApp.use(profileRouter)
+webApp.use(indexRouter)
+webApp.use(panelRouter)
 
 // Estaticos
-app.use('/', express.static(path.join(process.cwd(), 'src/web/public')))
-app.use('/book', express.static(path.join(process.cwd(), 'src/web/public')))
-app.use('/profile', express.static(path.join(process.cwd(), 'src/web/public')))
-app.use('/panel', express.static(path.join(process.cwd(), 'src/web/public')))
-app.use('/panel/books', express.static(path.join(process.cwd(), 'src/web/public')))
-app.use('/panel/books/:id', express.static(path.join(process.cwd(), 'src/web/public')))
-app.use('/panel/users', express.static(path.join(process.cwd(), 'src/web/public')))
-app.use('/panel/docs', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/book', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/profile', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/panel', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/panel/books', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/panel/books/:id', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/panel/users', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/panel/docs', express.static(path.join(process.cwd(), 'src/web/public')))
 
-app.listen(app.get('PORT'), () => {
+webApp.listen(webApp.get('PORT'), () => {
     console.log('Web en funcionamiento')
 })
+
+export default webApp
