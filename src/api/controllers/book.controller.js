@@ -144,8 +144,7 @@ class BookController {
 
     static async editById(req, res) {
         const { id } = req.params
-        const { title, author, isbn, pages, language, state, synopsis } = req.body
-        const file = req.file
+        const { title, author, isbn, pages, language, state, synopsis, file } = req.body
 
         try {
             await BookModel.editById({ id, title, author, isbn, pages, language, state, synopsis, file })

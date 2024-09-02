@@ -61,7 +61,7 @@ panelRouter.post('/panel/books/:id/edit', async (req, res) => {
                 'Accept': 'application/json', 
                 'Content-Type': 'application/json' 
             },
-            body: JSON.stringify({ title, author, isbn, date, pages, language, state, publisher, synopsis, image, pdfLink, categories })
+            body: JSON.stringify({ title, author, isbn, date, pages, language, state, publisher, synopsis, image, pdfLink, categories, file })
         }
     )
 

@@ -223,7 +223,7 @@ class BookModel {
 
         // Si el usuario ingreso una portada se le agrega a la consulta el campo "imagen"
         let sql = `UPDATE libros SET Titulo = '${title}', Autor = '${author}', ISBN = '${isbn}', CantidadPaginas = '${pages}', Idioma = '${language}', Estado = '${state}', Sinopsis = '${synopsis}' WHERE LibroID = ${id};`
-        if(file) sql = `UPDATE libros SET Titulo = '${title}', Autor = '${author}', ISBN = '${isbn}', CantidadPaginas = '${pages}', Idioma = '${language}', Estado = '${state}', Sinopsis = '${synopsis}', imagen = '/uploads/${file.filename}' WHERE LibroID = ${id};`
+        if(file) sql = `UPDATE libros SET Titulo = '${title}', Autor = '${author}', ISBN = '${isbn}', CantidadPaginas = '${pages}', Idioma = '${language}', Estado = '${state}', Sinopsis = '${synopsis}', imagen = '${file}' WHERE LibroID = ${id};`
 
         await db.query(sql)
     }
