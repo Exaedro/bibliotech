@@ -136,6 +136,10 @@
     object-fit: cover;
 }
 
+.panel .borrar i, .panel .ver i, .panel .editar i {
+    color: #fff!important;
+}
+
 .panel .borrar {
     background-color: red;
     padding: 15px;
