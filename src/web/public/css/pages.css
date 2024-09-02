@@ -196,6 +196,16 @@
     gap: 10px;
 }
 
+.comentarios .comentario .usuario a {
+    display: flex;
+    align-items: center;
+    gap: 15px;   
+}
+
+.comentarios .comentario .usuario p {
+    z-index: -1;
+}
+
 .comentarios .modAcciones {
     position: absolute;
     top: 15px;

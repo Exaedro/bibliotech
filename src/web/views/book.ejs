@@ -70,8 +70,11 @@
             <% comments.forEach(comment => { %>
               <div class="comentario">
                 <div class="usuario">
-                  <img src="<%- comment.user.image %>" alt="<%- comment.user.name %>">
-                  <p><%- comment.user.username %> <span class="date"><%- format(comment.date) %></span></p>
+                  <a href="/profile/<%- comment.user.id %>">
+                    <img src="<%- comment.user.image %>" alt="<%- comment.user.name %>">
+                    <p><%- comment.user.username %> </p>
+                  </a>
+                  <span class="date"><%- format(comment.date) %></span>
                   <% if(user.role == 'admin' || user.role == 'mod' || user.userId == comment.user.id) { %>
                     <div class="modAcciones">
                       <i class="fa-solid fa-x borrar" data-commentId="<%- comment.id %>"></i>
