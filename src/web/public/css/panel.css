@@ -136,6 +136,7 @@
     object-fit: cover;
 }
 
+
 .panel .borrar i, .panel .ver i, .panel .editar i {
     color: #fff!important;
 }
@@ -151,6 +152,21 @@
     align-items: center;
     cursor: pointer;
     justify-content: center;
+}
+
+.panel .usuarios .borrar {
+    background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-radius: 5px;
+    height: 30px;
+}
+
+
+.img-perfil{
+    width: 60px;
 }
 
 .panel .editar {
@@ -319,8 +335,13 @@ dialog .botones .confirmarEliminar:hover {
 .panel table td {
     padding: 12px;
     text-align: left;
-    border: 1px solid var(--color-fondo-secundario);
 }
+
+.panel .usuarios table .imagen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
 
 .panel .usuarios .boton {
     color: var(--color-primario);
