@@ -19,7 +19,7 @@
           <li>
             <p id="dropdown"><%- user.username %> <i class="fa-solid fa-caret-down"></i></p>
             <div class="dropdownContent" id="dropdownContent">
-              <a href="/profile">Mi Perfil</a>
+              <a href="/profile/<%- user.userId %>">Mi Perfil</a>
               <a href="/profile/edit">Editar Perfil</a>
               <hr>
               <a href="/logout" class="logout">Cerrar Sesión</a>

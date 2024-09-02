@@ -109,6 +109,8 @@ class UserController {
 
         try {
             const [response] = await UserModel.getUserById({ userId })
+            if(!response)
+                return res.status(404).json({ message: 'this user not exists', error: 'user_not_exists' })
 
             res.status(200).json(response)
         } catch(err) {

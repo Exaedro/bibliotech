@@ -8,16 +8,24 @@
 
     <main class="perfil">
         <section class="info">
-            <img src="<%- user.image %>">
-            <h3><%- user.username %></h3>
+            <img src="<%- userProfile.image %>">
+            <h3><%- userProfile.username %></h3>
         </section>
         <section class="libros">
             <% if(likedBooks.length == 0 && favoriteBooks.length == 0 && seeLaterBooks.length == 0) {%>
-                <p class="noBookMessage">Agrega libros a tu lista de gustados, favoritos o leer mas tarde para verlos aquí.</p>
+                <% if(userProfile.username == user.username) { %>
+                    <p class="noBookMessage">Agrega libros a tu lista de gustados, favoritos o leer mas tarde para verlos aquí.</p>
+                <%} else { %>
+                    <p class="noBookMessage"><%- userProfile.username %> no tiene libros añadidos en sus listas.</p>
+                <%}%>
             <% } else {%>
                 <% if(likedBooks.length > 0) {%>
                     <article>
-                        <h2>Mis me gusta</h2>
+                        <% if(userProfile.username == user.username) { %>
+                            <h2>Mis me gusta</h2>
+                        <%} else { %>
+                            <h2>Gustados</h2>
+                        <%}%>
                         <div class="librosContenedor">
                             <% likedBooks.forEach(book => {%>
                                 <div class="libro">
@@ -32,12 +40,16 @@
                                 </div>
                             <%})%>
                         </div>
-                        <a href="/profile/like" class="botonVerTodo">Ver todo</a>
+                        <a href="/profile/<%- userProfile.id %>/like" class="botonVerTodo">Ver todo</a>
                     </article>
                 <%}%>
                 <% if(favoriteBooks.length > 0) {%>
                     <article>
-                        <h2>Mis favoritos</h2>
+                        <% if(userProfile.username == user.username) { %>
+                            <h2>Mis favoritos</h2>
+                        <%} else { %>
+                            <h2>Favoritos</h2>
+                        <%}%>
                         <div class="librosContenedor">
                             <% favoriteBooks.forEach(book => {%>
                                 <div class="libro">
@@ -52,12 +64,16 @@
                                 </div>
                             <%})%>
                         </div>
-                        <a href="/profile/favorite" class="botonVerTodo">Ver todo</a>
+                        <a href="/profile/<%- userProfile.id %>/favorite" class="botonVerTodo">Ver todo</a>
                     </article>
                 <%}%>
                 <% if(seeLaterBooks.length > 0) {%>
                     <article>
-                        <h2>Leer mas tarde</h2>
+                        <% if(userProfile.username == user.username) { %>
+                            <h2>Leer mas tarde</h2>
+                        <%} else { %>
+                            <h2>Leerá mas tarde</h2>
+                        <%}%>
                         <div class="librosContenedor">
                             <% seeLaterBooks.forEach(book => {%>
                                 <div class="libro">
@@ -72,7 +88,7 @@
                                 </div>
                             <%})%>
                         </div>
-                        <a href="/profile/see-later" class="botonVerTodo">Ver todo</a>
+                        <a href="/profile/<%- userProfile.id %>/see-later" class="botonVerTodo">Ver todo</a>
                     </article>
                 <%}%>
             <%}%>

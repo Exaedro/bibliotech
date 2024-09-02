@@ -10,7 +10,7 @@
             <%- include('../partials/admin/navbar.ejs') %>
             <div class="contenedor">
                 <h1>Añadir Libro</h1>
-                <form class="editarLibroContainer" action="/panel/books/add" method="POST" enctype="multipart/form-data">
+                <form class="editarLibroContainer" id="crearLibroForm" action="/panel/books/add" method="POST" enctype="multipart/form-data">
 
                     <!-- Imagen a un costado -->
                     <div class="portada">
@@ -25,36 +25,36 @@
                         <div class="row">
                             <div class="columna">
                                 <h4>Título</h4>
-                                <input type="text" placeholder=". . ." name="title">
+                                <input type="text" id="titleInput" placeholder=". . ." name="title">
                                 <h4>Autor</h4>
-                                <input type="text" placeholder=". . ." name="author">
+                                <input type="text" id="authorInput" placeholder=". . ." name="author">
                                 <h4>ISBN</h4>
-                                <input type="text" placeholder=". . ." name="isbn">
+                                <input type="text" id="isbnInput" placeholder=". . ." name="isbn">
                                 <h4>Publicación</h4>
-                                <input type="date" name="date">
+                                <input type="date" id="dateInput" name="date">
                             </div>
                             <div class="columna">
                                 <h4>Cantidad de páginas</h4>
-                                <input type="text" placeholder=". . ." name="pages">
+                                <input type="text" id="pagesInput" placeholder=". . ." name="pages">
                                 <h4>Idioma</h4>
-                                <input type="text" placeholder=". . ." name="language">
+                                <input type="text" id="languageInput" placeholder=". . ." name="language">
                                 <h4>Estado</h4>
                                 <select name="state">
                                     <option value="disponible">Disponible</option>
                                     <option value="prestado">Prestado</option>
                                 </select>
                                 <h4>Editorial</h4>
-                                <input type="text" placeholder=". . ." name="publisher">
+                                <input type="text" id="publisherInput" placeholder=". . ." name="publisher">
                             </div>
                         </div>
 
                         <!-- Sinopsis -->
                         <h4>Sinopsis</h4>
-                        <textarea name="synopsis" placeholder=". . ." class="sinopsis"></textarea>
+                        <textarea id="sinopsisInput" name="synopsis" placeholder=". . ." class="sinopsis"></textarea>
 
                         <!-- PDF Link -->
                         <h4>PDF Link</h4>
-                        <input type="text" placeholder=". . ." name="pdfLink">
+                        <input type="text" id="pdfLinkInput" placeholder=". . ." name="pdfLink">
 
                         <!-- Categorías (checkboxes) -->
                         <h4>Categorías</h4>
@@ -144,7 +144,7 @@
                         <!-- Botones -->
                         <div class="botones">
                             <a href="/panel/books">Cancelar</a>
-                            <button type="submit">Agregar</button>
+                            <button type="submit" id="botonCrearLibro">Agregar</button>
                         </div>
                     </div>
                 </form>
@@ -152,6 +152,7 @@
         </main>
     </div>
 
+    <script src="js/validarFormularioCrearLibro.js"></script>
     <script src="js/cambiarTema.js"></script>
 </body>
 </html>

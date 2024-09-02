@@ -9,19 +9,26 @@ import config from '../config.json' with { type: 'json' }
 const apiUrl = config["apiUrl"]
 
 // En todas las rutas despues de /profile se verificara si el usuario ha iniciado sesion o no
-profileRouter.get('/profile*', isLogged)
+// profileRouter.get('/profile*', isLogged)
 
-profileRouter.get('/profile', async (req, res) => {
+profileRouter.get('/profile/:id', async (req, res) => {
     const { username, role, userId, image } = req.session
+    const { id } = req.params
 
-    const likedBooks = await (await fetch(`${apiUrl}/user/like/all?userId=${userId}`, { method: 'GET' })).json()
-    const favoriteBooks = await (await fetch(`${apiUrl}/user/favorite/all?userId=${userId}`, { method: 'GET' })).json()
-    const seeLaterBooks = await (await fetch(`${apiUrl}/user/later/all?userId=${userId}`, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
 
+    if(user.error == 'user_not_exists')
+        return res.redirect('/error')
+    
+    const likedBooks = await (await fetch(`${apiUrl}/user/like/all?userId=${id}`, { method: 'GET' })).json()
+    const favoriteBooks = await (await fetch(`${apiUrl}/user/favorite/all?userId=${id}`, { method: 'GET' })).json()
+    const seeLaterBooks = await (await fetch(`${apiUrl}/user/later/all?userId=${id}`, { method: 'GET' })).json()
+    
     res.render('profile',
         {
             title: 'Bibliotech - Perfil', likedBooks, favoriteBooks, seeLaterBooks,
-            user: { username, role, userId, image }
+            user: { username, role, userId, image },
+            userProfile: { id: user.id, username: user.username, image: user.image  }
         }
     )
 })
@@ -98,41 +105,60 @@ profileRouter.post('/profile/edit', async (req, res) => {
     return res.redirect('/profile')
 })
 
-profileRouter.get('/profile/like', async (req, res) => {
+profileRouter.get('/profile/:id/like', async (req, res) => {
     const { username, role, userId, image } = req.session
+    const { id } = req.params
 
-    const books = await (await fetch(apiUrl + '/user/like/all?userId=' + userId, { method: 'GET' })).json()
+    // ! AGREGAR ERRORES MAS TARDE
+    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    if(user.error == 'user_not_exists')
+        return res.redirect('/error')
+
+    const books = await (await fetch(apiUrl + '/user/like/all?userId=' + id, { method: 'GET' })).json()
 
     res.render('profile/liked', 
         {
             title: 'Bibliotech - Mis gustados', books,
-            user: { username, role, userId, image }
+            user: { username, role, userId, image },
+            userProfile: { id: user.id, username: user.username, image: user.image  }
         }
     )
 })
 
-profileRouter.get('/profile/favorite', async (req, res) => {
+profileRouter.get('/profile/:id/favorite', async (req, res) => {
     const { username, role, userId, image } = req.session
+    const { id } = req.params
 
-    const books = await (await fetch(apiUrl + '/user/favorite/all?userId=' + userId, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    if(user.error == 'user_not_exists')
+        return res.redirect('/error')
+
+    const books = await (await fetch(apiUrl + '/user/favorite/all?userId=' + id, { method: 'GET' })).json()
 
     res.render('profile/favorites', 
         {
             title: 'Bibliotech - Mis favoritos', books,
-            user: { username, role, userId, image }
+            user: { username, role, userId, image },
+            userProfile: { id: user.id, username: user.username, image: user.image  }
         }
     )
 })
 
-profileRouter.get('/profile/see-later', async (req, res) => {
+profileRouter.get('/profile/:id/see-later', async (req, res) => {
     const { username, role, userId, image } = req.session
+    const { id } = req.params
 
-    const books = await (await fetch(apiUrl + '/user/later/all?userId=' + userId, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    if(user.error == 'user_not_exists')
+        return res.redirect('/error')
+
+    const books = await (await fetch(apiUrl + '/user/later/all?userId=' + id, { method: 'GET' })).json()
 
     res.render('profile/seeLater', 
         {
             title: 'Bibliotech - Leer mas tarde', books,
-            user: { username, role, userId, image }
+            user: { username, role, userId, image },
+            userProfile: { id: user.id, username: user.username, image: user.image }
         }
     )
 })
