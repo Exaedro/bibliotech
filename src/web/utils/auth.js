@@ -1,5 +1,5 @@
 export const isLogged = (req, res, next) => {
-    const { username } = req.session
+    const { username, role } = req.session
 
     if(!username)
         return res.redirect('/login')
@@ -10,8 +10,11 @@ export const isLogged = (req, res, next) => {
 export const isAdmin = (req, res, next) => {
     const { role } = req.session
 
-    if(role != 'admin')
+    if(!role)
         return res.redirect('/login')
+
+    if(role != 'admin')
+        return res.redirect('/error')
 
     next()
 }

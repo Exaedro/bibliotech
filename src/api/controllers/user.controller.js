@@ -51,7 +51,13 @@ class UserController {
     }
 
     static async editUser(req, res) {
-        const { userId, username, email, password, role, avatar } = req.body
+        const { userId, username, email, password } = req.body
+        let { role, avatar } = req.body
+
+        if(!role)
+            role = ''
+        if(!avatar)
+            avatar = ''
 
         try {
             const response = await UserModel.editUser({ userId, username, email, password, role, avatar })

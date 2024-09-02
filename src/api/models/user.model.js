@@ -1,6 +1,8 @@
 // Librerias
 import { hash, compare } from "bcrypt";
 
+import { encryptPassword } from "../utils/encryptPassword.js";
+
 // Base de datos
 import db from "../database.js";
 
@@ -75,7 +77,8 @@ class UserModel {
                 username: userInfo.Nombre,
                 email: userInfo.CorreoElectronico,
                 image: userInfo.Imagen,
-                roleId: userInfo.RollID
+                roleId: userInfo.RollID,
+                password: userInfo.Contrasenia
             }
         })
 
@@ -95,14 +98,18 @@ class UserModel {
         const [user] = await this.getUserById({ userId })
         if (!user) return 'user_not_exist'
 
-        username = username ? username : user.username
-        email = email ? email : user.email
-        password = password ? password : user.password
-        role = role ? role : user.roleId
-        avatar = avatar ? avatar : user.image
+        username = username.length == 0 ? user.username : username
+        email = email.length == 0 ? user.email : email
+        role = role.length == 0 ? user.roleId : role
+        avatar = avatar.length == 0 ? user.image : avatar
 
-        await db.query(`UPDATE usuarios SET Nombre = '${username}', CorreoElectronico = '${email}', Imagen = '${avatar}' WHERE UsuarioID = '${userId}'`)
+        let hashedPassword
+        if(password.length == 0)
+            hashedPassword = user.password
+        else
+            hashedPassword = await encryptPassword({ password })
 
+        await db.query(`UPDATE usuarios SET Nombre = '${username}', CorreoElectronico = '${email}', Imagen = '${avatar}', Contrasenia = '${hashedPassword}' WHERE UsuarioID = '${userId}'`)
     }
 
     static async deleteUser({ userId }) {
@@ -127,7 +134,7 @@ class UserModel {
         if (!password)
             return 'password_undefined'
 
-        const verify = await compare(password, user[0].Contrasenia)
+        const verify = await compare(password, user[0].password)
 
         if (!verify)
             return false
@@ -292,7 +299,7 @@ class UserModel {
  * @param {integer} bookId - id del libro 
  * @param {string} type - nombre de la tabla en la base de datos a utilizar (gustados, favoritos, ver_mas_tarde)
  */
-async function isDuplicated({ userId, bookId, type}) {
+async function isDuplicated({ userId, bookId, type }) {
     const [verify] = await db.query(`SELECT * FROM ${type} WHERE UsuarioID = '${userId}' AND LibroID = '${bookId}';`)
 
     if (verify.length > 0)

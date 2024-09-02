@@ -12,60 +12,70 @@
             <h3><%- user.username %></h3>
         </section>
         <section class="libros">
-            <article>
-                <h2>Mis me gusta</h2>
-                <div class="librosContenedor">
-                    <% likedBooks.forEach(book => {%>
-                        <div class="libro">
-                            <figure>
-                                <a href="/book/<%- book.LibroID %>">
-                                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
-                                </a>
-                            </figure>
-                            <a href="/book/<%- book.LibroID %>">
-                                <p><%- book.Titulo %></p>
-                            </a>
+            <% if(likedBooks.length == 0 && favoriteBooks.length == 0 && seeLaterBooks.length == 0) {%>
+                <p class="noBookMessage">Agrega libros a tu lista de gustados, favoritos o leer mas tarde para verlos aquí.</p>
+            <% } else {%>
+                <% if(likedBooks.length > 0) {%>
+                    <article>
+                        <h2>Mis me gusta</h2>
+                        <div class="librosContenedor">
+                            <% likedBooks.forEach(book => {%>
+                                <div class="libro">
+                                    <figure>
+                                        <a href="/book/<%- book.LibroID %>">
+                                            <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                        </a>
+                                    </figure>
+                                    <a href="/book/<%- book.LibroID %>">
+                                        <p><%- book.Titulo %></p>
+                                    </a>
+                                </div>
+                            <%})%>
                         </div>
-                    <%})%>
-                </div>
-                <a href="/profile/like" class="botonVerTodo">Ver todo</a>
-            </article>
-            <article>
-                <h2>Mis favoritos</h2>
-                <div class="librosContenedor">
-                    <% favoriteBooks.forEach(book => {%>
-                        <div class="libro">
-                            <figure>
-                                <a href="/book/<%- book.LibroID %>">
-                                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
-                                </a>
-                            </figure>
-                            <a href="/book/<%- book.LibroID %>">
-                                <p><%- book.Titulo %></p>
-                            </a>
+                        <a href="/profile/like" class="botonVerTodo">Ver todo</a>
+                    </article>
+                <%}%>
+                <% if(favoriteBooks.length > 0) {%>
+                    <article>
+                        <h2>Mis favoritos</h2>
+                        <div class="librosContenedor">
+                            <% favoriteBooks.forEach(book => {%>
+                                <div class="libro">
+                                    <figure>
+                                        <a href="/book/<%- book.LibroID %>">
+                                            <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                        </a>
+                                    </figure>
+                                    <a href="/book/<%- book.LibroID %>">
+                                        <p><%- book.Titulo %></p>
+                                    </a>
+                                </div>
+                            <%})%>
                         </div>
-                    <%})%>
-                </div>
-                <a href="/profile/favorite" class="botonVerTodo">Ver todo</a>
-            </article>
-            <article>
-                <h2>Ver mas tarde</h2>
-                <div class="librosContenedor">
-                    <% seeLaterBooks.forEach(book => {%>
-                        <div class="libro">
-                            <figure>
-                                <a href="/book/<%- book.LibroID %>">
-                                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
-                                </a>
-                            </figure>
-                            <a href="/book/<%- book.LibroID %>">
-                                <p><%- book.Titulo %></p>
-                            </a>
+                        <a href="/profile/favorite" class="botonVerTodo">Ver todo</a>
+                    </article>
+                <%}%>
+                <% if(seeLaterBooks.length > 0) {%>
+                    <article>
+                        <h2>Leer mas tarde</h2>
+                        <div class="librosContenedor">
+                            <% seeLaterBooks.forEach(book => {%>
+                                <div class="libro">
+                                    <figure>
+                                        <a href="/book/<%- book.LibroID %>">
+                                            <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                        </a>
+                                    </figure>
+                                    <a href="/book/<%- book.LibroID %>">
+                                        <p><%- book.Titulo %></p>
+                                    </a>
+                                </div>
+                            <%})%>
                         </div>
-                    <%})%>
-                </div>
-                <a href="/profile/see-later" class="botonVerTodo">Ver todo</a>
-            </article>
+                        <a href="/profile/see-later" class="botonVerTodo">Ver todo</a>
+                    </article>
+                <%}%>
+            <%}%>
         </section>
     </main>
     <footer class="footerContainer">

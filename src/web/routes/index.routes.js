@@ -24,6 +24,19 @@ indexRouter.get('/', async (req, res) => {
     )
 })
 
+indexRouter.get('/error', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    res.render('error',
+        {
+            title: 'Bibliotech - Error', 
+            user: {
+                username, role, userId
+            }
+        }
+    )
+})
+
 indexRouter.get('/catalog', async (req, res) => {
     const { username, role, userId } = req.session
     let { title, genre, author, date, isbn, pages, language, publisher } = req.query

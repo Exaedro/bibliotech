@@ -83,6 +83,10 @@
     margin: 0 40px 40px 40px;
 }
 
+.panel .libros, .panel .usuarios {
+    max-height: 80vh;
+}
+
 .panel .libros p {
     height: 55px;
     display: flex;

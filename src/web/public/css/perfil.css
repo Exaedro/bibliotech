@@ -65,6 +65,18 @@
     background-color: var(--color-primario-hover);
 }
 
+.perfil .noBookMessage {
+    text-align: center;
+    color: gray;
+    font-size: 20px;
+    width: 100%;
+    padding: 0 120px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .perfil .accionContainer {
     width: 1200px;
     margin: 0 auto;

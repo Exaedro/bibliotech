@@ -15,21 +15,25 @@
             <article>
                 <h2>Todos mis favoritos</h2>
                 <div class="librosContenedor" id="libros" data-bookType="favorite">
-                    <% books.forEach(book => {%>
-                        <div class="libro">
-                            <figure>
+                    <% if(books.length == 0) {%>
+                        <p style="text-align: left;">No tienes libros en esta lista.</p>
+                    <% } else {%>
+                        <% books.forEach(book => {%>
+                            <div class="libro">
+                                <figure>
+                                    <a href="/book/<%- book.LibroID %>">
+                                        <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                    </a>
+                                    <div class="acciones">
+                                        <i class="fa-solid fa-x borrar" data-bookId="<%- book.LibroID %>"></i>
+                                    </div>
+                                </figure>
                                 <a href="/book/<%- book.LibroID %>">
-                                    <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                    <p><%- book.Titulo %></p>
                                 </a>
-                                <div class="acciones">
-                                    <i class="fa-solid fa-x borrar" data-bookId="<%- book.LibroID %>"></i>
-                                </div>
-                            </figure>
-                            <a href="/book/<%- book.LibroID %>">
-                                <p><%- book.Titulo %></p>
-                            </a>
-                        </div>
-                    <%})%>
+                            </div>
+                        <%})%>
+                    <% } %>
                 </div>
             </article>
         </section>

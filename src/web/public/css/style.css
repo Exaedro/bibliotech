@@ -355,6 +355,7 @@ h1, h2, h4, h5, p {
     color: var(--color-letra);
     border-radius: 10px;
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
@@ -433,7 +434,7 @@ h1, h2, h4, h5, p {
 }
 
 .catalogo-container .filtro input {
-    height: 100%;
+    height: 49px;
 }
 
 .catalogo-container .filtro p {
@@ -856,6 +857,30 @@ h1, h2, h4, h5, p {
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.errorContainer {
+    margin: 7rem;
+    padding-top: 3rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.errorContainer p {
+    margin-bottom: 20px;
+}
+
+.errorContainer a {
+    color: var(--color-primario);
+    font-size: 1.4rem;
+    transition: color 0.3s ease;
+}
+
+.errorContainer a:hover {
+    color: var(--color-primario-hover);
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
 @media (max-width: 575.98px) {
     .container, .navbar, .catalogo-container, .slider, .footerContainer, .editContainer {
         width: 100%;
