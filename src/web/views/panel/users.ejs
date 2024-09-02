@@ -15,6 +15,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Foto de perfil</th>
                                     <th>Nombre</th>
                                     <th>Correo</th>
                                     <th>Rol</th>
@@ -26,6 +27,7 @@
                                 <% users.forEach(userInfo => { %>
                                     <tr>
                                         <td><%- userInfo.id %></td>
+                                        <td class="imagen"><img class="img-perfil" src="<%- userInfo.image %>" alt="<%- userInfo.username %>"></td>
                                         <td><%- userInfo.username %></td>
                                         <td><%- userInfo.email %></td>
                                         <% if (userInfo.roleId == 1) { %>
@@ -43,9 +45,9 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="#" data-userId="<%- userInfo.id %>" class="borrar">
+                                            <button href="#" data-userId="<%- userInfo.id %>" class="borrar">
                                                 <i class="fa-solid fa-trash"></i>
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 <% }) %>
@@ -56,7 +58,7 @@
             </main>
         </div>
         <script>
-            const botones = document.querySelectorAll('.eliminar')
+            const botones = document.querySelectorAll('.borrar')
             botones.forEach(boton => {
                 boton.addEventListener('click', async (e) => {
                     const userId = boton.getAttribute('data-userId')
