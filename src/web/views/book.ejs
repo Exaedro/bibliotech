@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bookId="<%- book.id %>" data-userId="<%- user.userId %>">
+<html lang="en" data-bookId="<%- book[0].id %>" data-userId="<%- user.userId %>">
   <head>
     <%- include('partials/head.ejs') %>
   </head>
@@ -11,25 +11,25 @@
       <main class="libroContainer">
         <div class="libroIndividual">
             <figure>
-                <img src="<%- book.image %>">
+                <img src="<%- book[0].image %>">
 
                 <%  if(user.role == 'admin') { %>
                   <!-- Botón para editar el libro -->
 
-                  <a href="/panel/books/<%- book.id %>/edit" class="editar-libro-btn">Editar Libro</a>
+                  <a href="/panel/books/<%- book[0].id %>/edit" class="editar-libro-btn">Editar Libro</a>
                 <% } %>
             </figure>
             <div class="info">
-                <h1><%- book.title %></h1>
+                <h1><%- book[0].title %></h1>
                 <h4>Sinopsis</h4>
-                <p><%- book.synopsis %></p>
+                <p><%- book[0].synopsis %></p>
                 <h4>Idioma</h4>
-                <p><%- book.language %></p>
+                <p><%- book[0].language %></p>
                 <h4>Paginas</h4>
-                <p><%- book.pages %> en total</p>
+                <p><%- book[0].pages %> en total</p>
                 <h4>Géneros</h4>
                 <div class="generos">
-                    <% book.genres.forEach(genre => { %>
+                    <% book[0].genres.forEach(genre => { %>
                       <a href="/catalog?genre=<%- genre.id %>">
                         <span class="genero"><%- genre.name %></span>
                       </a>
@@ -55,7 +55,7 @@
             <p>Favorito</p>
           </div>
         </div>
-        <iframe class="pdf" src="<%- book.pdfLink %>" frameborder="0"></iframe>
+        <iframe class="pdf" src="<%- book[0].pdfLink %>" frameborder="0"></iframe>
         <section class="comentarios">
           <h2>Comentarios</h2>
           <div id="comentario">

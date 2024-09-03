@@ -1,25 +1,30 @@
 import { Router } from "express";
 const bookRouter = new Router()
 
+// Modelo de los libros
+import BookModel from "../models/book.model.js";
+
 // Controlador
 import BookController from "../controllers/book.controller.js";
+const bookController = new BookController({ bookModel: BookModel })
 
 // Prefix de la api
 import config from '../config.json' with { type: 'json' }
 const prefix = config["api-prefix"]
 
 // Rutas de los libros
-bookRouter.get(`${prefix}/book/all`, (req, res) => { BookController.getAll(req, res) })
-bookRouter.get(`${prefix}/book/categories`, (req, res) => { BookController.getCategories(req, res) })
-bookRouter.get(`${prefix}/book/search`, (req, res) => { BookController.search(req, res) })
+bookRouter.get(`${prefix}/books`, bookController.getAll)
+bookRouter.get(`${prefix}/book/:id`, bookController.getById)
 
-bookRouter.get(`${prefix}/book/recent`, (req, res) => { BookController.getRecent(req, res) })
-bookRouter.get(`${prefix}/book/liked`, (req, res) => { BookController.getMostLiked(req, res) })
-bookRouter.get(`${prefix}/book/visited`, (req, res) => { BookController.getMostVisited(req, res) })
+bookRouter.get(`${prefix}/books/categories`, bookController.getCategories)
+bookRouter.get(`${prefix}/books/search`, bookController.search)
 
-bookRouter.get(`${prefix}/book/:id`, (req, res) => { BookController.getById(req, res) })
-bookRouter.post(`${prefix}/book/create`, (req, res) => { BookController.createBook(req, res) })
-bookRouter.post(`${prefix}/book/delete`, (req, res) => { BookController.deleteById(req, res) })
-bookRouter.post(`${prefix}/book/:id/edit`, (req, res) => { BookController.editById(req, res) })	
+bookRouter.get(`${prefix}/books/recent`, bookController.getRecent)
+bookRouter.get(`${prefix}/books/liked`, bookController.getMostLiked)
+bookRouter.get(`${prefix}/books/visited`, bookController.getMostVisited)
+
+bookRouter.post(`${prefix}/book/create`, bookController.createBook)
+bookRouter.post(`${prefix}/book/delete`, bookController.deleteById)
+bookRouter.post(`${prefix}/book/:id/edit`, bookController.editById)	
 
 export default bookRouter

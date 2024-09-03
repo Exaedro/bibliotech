@@ -1,169 +1,148 @@
-import BookModel from "../models/book.model.js";
-
-import { responseMessage } from "../utils/error.js";
+import ClientError from "../utils/error.js"
 
 class BookController {
-    static async search(req, res) {
+    constructor({ bookModel }) {
+        this.bookModel = bookModel
+    }
+
+    getAll = async (req, res, next) => {
+        try {
+            const books = await this.bookModel.getAll()
+            res.status(200).json(books)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    search = async (req, res, next) => {
         const { title, author, date, genre, isbn, pages, language, publisher } = req.query
 
         try {
-            const books = await BookModel.search({ title, author, date, genre, isbn, pages, language, publisher })
+            const books = await this.bookModel.search({ title, author, date, genre, isbn, pages, language, publisher })
             res.status(200).json(books)
         } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
+            next(err)
         }
     }
 
-    static async getAll(req, res) {
-        const { title, genre } = req.query
-
-        if(title) {
-            try {
-                const books = await BookModel.getByTitle({ title })
-                res.status(200).json(books)
-            } catch(err) {
-                res.status(404).json(err)
-                console.error(err)
-            }
-
-            return
-        }
-
-        if(genre) {
-            try {
-                const books = await BookModel.getAllByGenreId({ genre })
-                res.status(200).json(books)
-            } catch(err) {
-                res.status(404).json(err)
-                console.error(err)
-            }
-
-            return
-        }
+    getRecent = async (req, res, next) => {  
+        let { limit = 8 } = req.query
 
         try {
-            const books = await BookModel.getAll()
+            if(isNaN(limit)) 
+                throw new ClientError('limit must be a number')
+
+            const books = await this.bookModel.getRecent({ limit })
             res.status(200).json(books)
         } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
+            next(err)
         }
     }
 
-    static async getCategories(req, res) {
+    getMostLiked = async (req, res, next) => {
+        let { limit = 4 } = req.query
+
         try {
-            const categories = await BookModel.getCategories()
+            if(isNaN(limit)) 
+                throw new ClientError('limit must be a number')
+
+            const books = await this.bookModel.getMostLiked({ limit })
+            res.status(200).json(books)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    getMostVisited = async (req, res, next) => {
+        let { limit = 6 } = req.query
+
+        try {
+            if(isNaN(limit)) 
+                throw new ClientError('limit must be a number')
+
+            const books = await this.bookModel.getMostVisited({ limit })
+            res.status(200).json(books)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    getCategories = async (req, res, next) => {
+        try {
+            const categories = await this.bookModel.getCategories()
             res.status(200).json(categories)
         } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
+            next(err)
         }
     }
 
-    static async createBook(req, res) {
-        const { title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories } = req.body
-
-        if(!title || !author || !isbn || !date || !pages || !language || !publisher || !synopsis || !image || !pdfLink || !state || !categories)
-            return res.status(404).json({ message: 'invalid fields', error: 'required_fields' })
-
+    createBook = async (req, res, next) => {
+        const { title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories } = req.body        
         try {
-            await BookModel.createBook({ title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories })
+            if(!title || !author || !isbn || !date || !pages || !language || !publisher || !synopsis || !image || !pdfLink || !state || !categories)
+                throw new ClientError('missing fields')
+
+            await this.bookModel.createBook({ title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories })
             res.status(200).json({ message: 'created' })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async getRecent(req, res) {
-        let { limit } = req.query
-
-        if(!limit) limit = 8
-
-        try {
-            const books = await BookModel.getRecent({ limit })
-            res.status(200).json(books)
-        } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
-        }
-    }
-
-    static async getMostLiked(req, res) {
-        let { limit } = req.query
-
-        if(!limit) limit = 4
-
-        try {
-            const books = await BookModel.getMostLiked({ limit })
-            res.status(200).json(books)
-        } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
-        }
-    }
-
-    static async getMostVisited(req, res) {
-        let { limit } = req.query
-
-        if(!limit) limit = 6
-
-        try {
-            const books = await BookModel.getMostVisited({ limit })
-            res.status(200).json(books)
-        } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
-        }
-    }
-
-    static async getById(req, res) {
+    getById = async (req, res, next) => {
         const { id } = req.params
 
         try {
-            const book = await BookModel.getById({ id })
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            const book = await this.bookModel.getById({ id })
+            if(!book) throw new ClientError('book not found', 404)
+
             res.status(200).json(book)
         } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
+            next(err)
         }
     }
 
-    static async getByTitle(req, res) {
+    editById = async (req, res, next) => {
+        const { id } = req.params
+        const { title, author, isbn, pages, language, state, synopsis, file } = req.body
+
+        try {
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            await this.bookModel.editById({ id, title, author, isbn, pages, language, state, synopsis, file })
+            res.status(200).json({ message: 'edited' })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    deleteById = async (req, res, next) => {
+        const { bookId } = req.body
+
+        try {
+            if(isNaN(bookId)) 
+                throw new ClientError('id must be a number')
+
+            await this.bookModel.deleteById({ bookId })
+            res.status(200).json({ message: 'deleted' })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    // ! METODO QUE PUEDE SER ELIMINADO MAS TARDE
+    getByTitle = async (req, res, next) => {
         const { title } = req.query
 
         try {
             const books = await BookModel.getByTitle({ title })
             res.status(200).json(books)
         } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
-        }
-    }
-
-    static async editById(req, res) {
-        const { id } = req.params
-        const { title, author, isbn, pages, language, state, synopsis, file } = req.body
-
-        try {
-            await BookModel.editById({ id, title, author, isbn, pages, language, state, synopsis, file })
-            res.status(200).json({ message: 'edited' })
-        } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
-        }
-    }
-
-    static async deleteById(req, res) {
-        const { bookId } = req.body
-
-        try {
-            await BookModel.deleteById({ bookId })
-            res.status(200).json({ message: 'deleted' })
-        } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 }

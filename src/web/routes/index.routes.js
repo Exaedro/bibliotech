@@ -8,9 +8,9 @@ const apiUrl = config["apiUrl"]
 indexRouter.get('/', async (req, res) => {
     const { username, role, userId } = req.session
 
-    const recents = await (await fetch(`${apiUrl}/book/recent`)).json()
-    const mostLiked = await (await fetch(`${apiUrl}/book/liked`)).json()
-    const mostVisited = await (await fetch(`${apiUrl}/book/visited`)).json()
+    const recents = await (await fetch(`${apiUrl}/books/recent`)).json()
+    const mostLiked = await (await fetch(`${apiUrl}/books/liked`)).json()
+    const mostVisited = await (await fetch(`${apiUrl}/books/visited`)).json()
 
     const userRecord = await (await fetch(`${apiUrl}/user/record/${userId}`)).json()
 
@@ -52,9 +52,9 @@ indexRouter.get('/catalog', async (req, res) => {
     if(genre == 'off' || genre == undefined)
         genre = ''
 
-    let books = await (await fetch(`${apiUrl}/book/search?title=${title}&author=${author}&date=${date}&genre=${genre}&isbn=${isbn}&pages=${pages}&language=${language}&publisher=${publisher}`)).json()
+    let books = await (await fetch(`${apiUrl}/books/search?title=${title}&author=${author}&date=${date}&genre=${genre}&isbn=${isbn}&pages=${pages}&language=${language}&publisher=${publisher}`)).json()
 
-    const categories = await (await fetch(`${apiUrl}/book/categories`)).json()
+    const categories = await (await fetch(`${apiUrl}/books/categories`)).json()
 
     res.render('catalog',
         {
@@ -69,7 +69,12 @@ indexRouter.get('/book/:bookId', async (req, res) => {
     const { bookId } = req.params
     const { format } = res.locals
 
-    const book = await (await fetch(`${apiUrl}/book/${bookId}`)).json()
+    const book = await (await fetch(`${apiUrl}/book/${bookId}`, { method: 'GET' })).json()
+
+    if(book.error) {
+        return res.redirect('/error')
+    }
+
     const comments = await (await fetch(`${apiUrl}/comment/all?bookId=${bookId}`)).json()
 
     if(userId) {
@@ -87,7 +92,7 @@ indexRouter.get('/book/:bookId', async (req, res) => {
 
     res.render('book',
         {
-            title: `Bibliotech - ${book.title}`, book, comments, format,
+            title: `Bibliotech - ${book[0].title}`, book, comments, format,
             user: { username, role, userId }
         }
     )

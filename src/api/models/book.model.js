@@ -1,6 +1,8 @@
 // Base de datos
 import db from "../database.js";
 
+import { bookObject } from "../utils/bookObject.js";
+
 class BookModel {
     /**
      * 
@@ -289,34 +291,34 @@ function bookObjectComplex({ data }) {
  * @param {object} data - objeto de un solo libro
  * @returns 
  */
-function bookObject({ data }) {
-    let object = {}
+// function bookObject({ data }) {
+//     let object = {}
 
-    const [info] = data.map(book => {
-        return {
-            id: book.LibroID,
-            title: book.Titulo,
-            author: book.Autor,
-            isbn: book.ISBN,
-            year: book.FechaLanzamiento.getFullYear(),
-            pages: book.CantidadPaginas,
-            publisher: book.Editorial,
-            synopsis: book.Sinopsis,
-            image: book.imagen,
-            pdfLink: book.pdf_link,
-            language: book.Idioma,
-            state: book.Estado,
-            visits: book.Visitas,
-            likes: book.Gustados
-        }
-    })
+//     const [info] = data.map(book => {
+//         return {
+//             id: book.LibroID,
+//             title: book.Titulo,
+//             author: book.Autor,
+//             isbn: book.ISBN,
+//             year: book.FechaLanzamiento.getFullYear(),
+//             pages: book.CantidadPaginas,
+//             publisher: book.Editorial,
+//             synopsis: book.Sinopsis,
+//             image: book.imagen,
+//             pdfLink: book.pdf_link,
+//             language: book.Idioma,
+//             state: book.Estado,
+//             visits: book.Visitas,
+//             likes: book.Gustados
+//         }
+//     })
 
-    const genres = data.map(book => { return { id: book.CategoriaID, name: book.NombreCategoria } })
+//     const genres = data.map(book => { return { id: book.CategoriaID, name: book.NombreCategoria } })
 
-    object = info
-    object.genres = genres
+//     object = info
+//     object.genres = genres
 
-    return object
-}
+//     return object
+// }
 
 export default BookModel

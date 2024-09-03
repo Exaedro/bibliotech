@@ -1,4 +1,8 @@
-export const responseMessage = ({ code, message, res }) => {
-    res.statusMessage = message
-    res.status(code).end()
+class ClientError extends Error {
+    constructor(message, status = 400) {
+        super(message)
+        this.statusCode = status
+    }
 }
+
+export default ClientError
