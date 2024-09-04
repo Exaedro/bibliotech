@@ -511,6 +511,13 @@ h1, h2, h4, h5, p {
     color: var(--color-input-letra);
 }
 
+.error {
+    color: red!important;
+    opacity: 0.7;
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+}
+
 /* ////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .editContainer {

@@ -10,7 +10,7 @@
             <%- include('../partials/admin/navbar.ejs') %>
             <div class="contenedor">
                 <h1>Añadir Usuario</h1>
-                <form class="crearUsuarioContainer" action="/panel/users/create" method="POST" enctype="multipart/form-data">
+                <form class="crearUsuarioContainer" id="crearUsuarioForm" action="/panel/users/create" method="POST" enctype="multipart/form-data">
 
                     <!-- Imagen a un costado -->
                     <div class="imagenPerfil">
@@ -24,9 +24,13 @@
                     <div class="datos">
                         <div class="columna">
                             <h4>Nombre</h4>
-                            <input type="text" placeholder="Nombre del usuario" name="name">
+                            <input type="text" id="name" placeholder="Nombre del usuario" name="name">
+                            <p class="error hidden" id="nameError">Escribe un nombre válido.</p>
+
                             <h4>Correo Electrónico</h4>
-                            <input type="email" placeholder="Correo electrónico" name="email">
+                            <input type="email" id="email" placeholder="Correo electrónico" name="email">
+                            <p class="error hidden" id="emailError">Escribe un correo electrónico válido.</p>
+
                             <h4>Rol</h4>
                             <select name="role">
                                 <option value="1">Usuario</option>
@@ -35,9 +39,13 @@
                             </select>
                             <hr>
                             <h4>Contraseña</h4>
-                            <input type="password" placeholder="Contraseña" name="password">
+                            <input type="password" id="password" placeholder="Contraseña" name="password">
+                            <p class="error hidden" id="passwordError">Escribe una contraseña válida.</p>
+
                             <h4>Confirmar Contraseña</h4>
-                            <input type="password" placeholder="Confirmar contraseña" name="confirmPassword">
+                            <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword">
+                            <p class="error hidden" id="passwordNotMatch">Las contraseñas no coinciden.</p>
+
                         </div>
 
                         <!-- Botones -->
@@ -51,6 +59,7 @@
         </main>
     </div>
 
+    <script src="js/validations/validarFormularioCrearUsuario.js"></script>
     <script src="js/cambiarTema.js"></script>
     <script src="js/previsualizarImagen.js"></script>
 </body>
