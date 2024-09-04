@@ -33,7 +33,7 @@ profileRouter.get('/profile/:id', async (req, res) => {
     )
 })
 
-profileRouter.get('/profile/edit', async (req, res) => {
+profileRouter.get('/profile/myself/edit', async (req, res) => {
     const { username, role, userId } = req.session
 
     const data = await (await fetch(`${apiUrl}/user/data/${userId}`, { method: 'GET' })).json()
