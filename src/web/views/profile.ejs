@@ -10,6 +10,24 @@
         <section class="info">
             <img src="<%- userProfile.image %>">
             <h3><%- userProfile.username %></h3>
+            <hr>
+            <h4>
+                <% if (userProfile.role==1){ %>
+                    Usuario
+                    <% } else if (userProfile.role==2) { %>
+                        Moderador
+                        <% } else if (userProfile.role==3) { %>
+                            Administrador <% } else if (userProfile.role==4) { %>
+                                Propietario <% } %>
+            </h4>
+            <h4><%- userProfile.email %></h4>
+        
+        
+            <div class="editar-perfil">
+                <a href="/profile/myself/edit" class="editar-libro-btn">
+                    <p>Editar perfil</p> <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+            </div>
         </section>
         <section class="libros">
             <% if(likedBooks.length == 0 && favoriteBooks.length == 0 && seeLaterBooks.length == 0) {%>
