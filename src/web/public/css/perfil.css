@@ -8,11 +8,18 @@
 }
 
 .perfil .info {
+    display: flex;
     border: 1px solid var(--color-fondo-secundario);
     border-radius: 5px;
     padding: 15px;
     height: min-content;
     text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.perfil .info h4{
+    margin-bottom: 10px;
 }
 
 .perfil .info img {
@@ -20,6 +27,31 @@
     height: 200px;
     border-radius: 100%;
     margin-bottom: 10px;
+}
+
+.perfil .info hr{
+    width: 70%;
+    border: 1px solid var(--color-fondo-secundario);
+    margin: 10px;
+}
+
+.perfil .info .editar-perfil {
+    display: flex;
+    justify-content: center;
+}
+
+.perfil .info .editar-perfil a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+}
+
+.perfil .info .editar-perfil a:hover {
+    background-color: var(--color-primario-hover);
 }
 
 .perfil article {

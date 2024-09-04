@@ -12,7 +12,7 @@ const apiUrl = config["apiUrl"]
 // profileRouter.get('/profile*', isLogged)
 
 profileRouter.get('/profile/:id', async (req, res) => {
-    const { username, role, userId, image } = req.session
+    const { username, email ,role, userId, image } = req.session
     const { id } = req.params
 
     const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
@@ -27,8 +27,8 @@ profileRouter.get('/profile/:id', async (req, res) => {
     res.render('profile',
         {
             title: 'Bibliotech - Perfil', likedBooks, favoriteBooks, seeLaterBooks,
-            user: { username, role, userId, image },
-            userProfile: { id: user.id, username: user.username, image: user.image  }
+            user: { username, email, role, userId, image },
+            userProfile: { id: user.id, email: user.email, username: user.username, image: user.image, role: user.roleId }
         }
     )
 })

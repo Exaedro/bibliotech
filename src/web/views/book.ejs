@@ -12,7 +12,6 @@
         <div class="libroIndividual">
             <figure>
                 <img src="<%- book[0].image %>">
-
                 <%  if(user.role == 'admin') { %>
                   <!-- Botón para editar el libro -->
 
@@ -20,13 +19,18 @@
                 <% } %>
             </figure>
             <div class="info">
-                <h1><%- book[0].title %></h1>
+                <h1><%- book[0].title %> (<%- new Date(book[0].date).getFullYear() %>)</h1>
                 <h4>Sinopsis</h4>
                 <p><%- book[0].synopsis %></p>
                 <h4>Idioma</h4>
                 <p><%- book[0].language %></p>
+                <h4>Editorial</h4>
+                <p><%- book[0].publisher %></p>
                 <h4>Paginas</h4>
                 <p><%- book[0].pages %> en total</p>
+                <h4>Autor</h4>
+                <p><%- book[0].author %></p>
+
                 <h4>Géneros</h4>
                 <div class="generos">
                     <% book[0].genres.forEach(genre => { %>
