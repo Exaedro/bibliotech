@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../partials/admin/head.ejs') %>
+	</head>
+	<body>
+		<div class="panel">
+            <%- include('../partials/admin/sidebar.ejs') %>
+            <main>
+                <%- include('../partials/admin/navbar.ejs') %>
+                <main class="errorContainer">
+                    <h1>404</h1>
+                    <p>Esta página no existe.</p>
+                    <a href="/panel/books">Volver al inicio</a>
+                </main>
+            </main>
+        </div>
+
+        <script src="js/cambiarTema.js"></script>
+	</body>
+</html>

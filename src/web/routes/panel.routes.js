@@ -215,4 +215,15 @@ panelRouter.get('/panel/docs/reports', async (req, res) => {
     )
 })
 
+panelRouter.get('/panel/error', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    res.render('panel/error',
+        {
+            title: 'Bibliotech - Error',
+            user: { username, role, userId }
+        }
+    )
+})
+
 export default panelRouter
