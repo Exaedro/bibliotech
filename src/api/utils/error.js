@@ -1,8 +1,13 @@
-class ClientError extends Error {
+export class ClientError extends Error {
     constructor(message, status = 400) {
         super(message)
         this.statusCode = status
     }
 }
 
-export default ClientError
+export class DatabaseError extends Error {
+    constructor(message, status = 500) {
+        super(message)
+        this.statusCode = status
+    }
+}

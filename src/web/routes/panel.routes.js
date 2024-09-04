@@ -25,7 +25,7 @@ panelRouter.get('/panel', (req, res) => {
 panelRouter.get('/panel/books', async (req, res) => {
     const { username, role, userId } = req.session
 
-    const books = await (await fetch(`${apiUrl}/book/all`, { method: 'GET' })).json()
+    const books = await (await fetch(`${apiUrl}/books`, { method: 'GET' })).json()
 
     res.render('panel/books',
         {
@@ -40,6 +40,9 @@ panelRouter.get('/panel/books/:id/edit', async (req, res) => {
     const { id } = req.params // Id del libro
 
     const book = await (await fetch(`${apiUrl}/book/${id}`, { method: 'GET' })).json()
+    if(book.error) {
+        return res.redirect('/panel/error')
+    }
 
     res.render('panel/editBook', 
         {

@@ -5,8 +5,7 @@ const userRouter = new Router()
 import UserController from "../controllers/user.controller.js";
 
 // Prefix de la api
-import config from '../config.json' with { type: 'json' }
-const prefix = config["api-prefix"]
+const prefix = process.env.API_PREFIX
 
 // Rutas
 userRouter.get(`${prefix}/user/all`, (req, res) => { UserController.getAll(req, res) })

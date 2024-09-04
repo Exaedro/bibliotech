@@ -1,5 +1,7 @@
 import mysql from 'mysql2/promise'
 
+import { DatabaseError } from './utils/error.js'
+
 const DATABASE_CONFIG = {
     user: process.env.DB_USER,
     database: process.env.DB_DATABASE,
@@ -18,7 +20,7 @@ class db {
         
             return data
         } catch(err) {
-            console.error(err)
+            throw new DatabaseError('error connecting to database, check if the server is running')
         }
     }
 }

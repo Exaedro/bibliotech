@@ -75,7 +75,7 @@ indexRouter.get('/book/:bookId', async (req, res) => {
         return res.redirect('/error')
     }
 
-    const comments = await (await fetch(`${apiUrl}/comment/all?bookId=${bookId}`)).json()
+    const comments = await (await fetch(`${apiUrl}/comments?bookId=${bookId}`)).json()
 
     if(userId) {
         const response = await fetch(`${apiUrl}/user/record/add`, 

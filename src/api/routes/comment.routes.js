@@ -1,16 +1,19 @@
 import { Router } from "express"
 const commentRouter = new Router()
 
+// Modelo del comentario
+import CommentModel from "../models/comment.model.js"
+
 // Controlador
 import CommentController from "../controllers/comment.controller.js"
+const commentController = new CommentController({ commentModel: CommentModel })
 
 // Prefix de la api
-import config from '../config.json' with { type: 'json' }
-const prefix = config["api-prefix"]
+const prefix = process.env.API_PREFIX
 
 // Rutas
-commentRouter.post(`${prefix}/comment/create`, (req, res) => { CommentController.createComment(req, res) })
-commentRouter.post(`${prefix}/comment/delete`, (req, res) => { CommentController.deleteCommentById(req, res) })
-commentRouter.get(`${prefix}/comment/all`, (req, res) => { CommentController.getComments(req, res) })
+commentRouter.get(`${prefix}/comments`, commentController.getComments)
+commentRouter.post(`${prefix}/comment/create`, commentController.createComment)
+commentRouter.post(`${prefix}/comment/delete`, commentController.deleteCommentById)
 
 export default commentRouter

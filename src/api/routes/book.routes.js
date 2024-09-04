@@ -9,8 +9,7 @@ import BookController from "../controllers/book.controller.js";
 const bookController = new BookController({ bookModel: BookModel })
 
 // Prefix de la api
-import config from '../config.json' with { type: 'json' }
-const prefix = config["api-prefix"]
+const prefix = process.env.API_PREFIX
 
 // Rutas de los libros
 bookRouter.get(`${prefix}/books`, bookController.getAll)

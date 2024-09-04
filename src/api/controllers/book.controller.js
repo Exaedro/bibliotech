@@ -1,4 +1,4 @@
-import ClientError from "../utils/error.js"
+import { ClientError } from "../utils/error.js"
 
 class BookController {
     constructor({ bookModel }) {
@@ -99,6 +99,7 @@ class BookController {
             const book = await this.bookModel.getById({ id })
             if(!book) throw new ClientError('book not found', 404)
 
+                console.log(book)
             res.status(200).json(book)
         } catch(err) {
             next(err)
