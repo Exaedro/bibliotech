@@ -11,15 +11,16 @@ const DATABASE_CONFIG = {
 }
 
 class db {
-    static async query(sql) {
+    static async query(sql, values) {
         try {
             const db = await mysql.createConnection({ ...DATABASE_CONFIG })
             
-            const data = await db.query(sql)
+            const data = await db.query(sql, values)
             await db.end()
         
             return data
         } catch(err) {
+            console.error(err)
             throw new DatabaseError('error connecting to database, check if the server is running')
         }
     }

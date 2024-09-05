@@ -1,272 +1,371 @@
-// Modelo del usuario
-import UserModel from "../models/user.model.js";
+// Manejador de errores
+import { ClientError } from "../utils/error.js"
 
 class UserController {
-    static async getAll(req, res) {
+    constructor({ userModel }) {
+        this.userModel = userModel
+    }
+
+    getAll = async (req, res, next) => {
         try {
-            const users = await UserModel.getAll()
+            const users = await this.userModel.getAll()
             res.status(200).json(users)
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async createUser(req, res) {
+    createUser = async (req, res, next) => {
         const { username, password, email, image, role } = req.body
 
         try {
-            const response = await UserModel.createUser({ username, password, email, image, role })
+            if(!username || !password || !email)
+                throw new ClientError('missing fields')
+
+            const response = await this.userModel.createUser({ username, password, email, image, role })
             
             if(response == 'username_used')
-                return res.status(404).json({ message: 'this username is already used', error: response })
+                throw new ClientError('this username is already used')
 
             if(response == 'email_used')
-                return res.status(404).json({ message: 'this email is already used', error: response })
+                throw new ClientError('this email is already used')
             
-            res.status(200).json({ message: 'created' })
+            res.status(200).json({ message: 'created', error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async login(req, res) {
+    login = async (req, res, next) => {
         const { email, password } = req.body
 
         try {
-            const response = await UserModel.LogUser({ email, password })
+            if(!email || !password)
+                throw new ClientError('missing fields')
+
+            const response = await this.userModel.login({ email, password })
 
             if(response == 'user_not_exist') 
-                return res.status(404).json({ message: 'this user not exists', error: response })
+                throw new ClientError('this email not exists')
 
             if(response == 'invalid_password')
-                return res.status(404).json({ message: 'incorrect password', error: response })
+                throw new ClientError('incorrect password')
 
-            res.status(200).json(response)
+            const user = {
+                id: response[0].id,
+                username: response[0].username,
+                email: response[0].email,
+                image: response[0].image,
+                role: response[0].role
+            }
+
+            res.status(200).json({ ...user, error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async editUser(req, res) {
-        const { userId, username, email, password } = req.body
-        let { role, avatar } = req.body
-
-        if(!role)
-            role = ''
-        if(!avatar)
-            avatar = ''
+    editUser = async (req, res, next) => {
+        const { id, username, email, password, role, avatar } = req.body
 
         try {
-            const response = await UserModel.editUser({ userId, username, email, password, role, avatar })
+            if(!id) {
+                throw new ClientError('id is missing')
+            } 
+
+            if(isNaN(id)) {
+                throw new ClientError('id must be a number')
+            }
+
+            const response = await this.userModel.editUser({ id, username, email, password, role, avatar })
 
             if(response == 'user_not_exist')
-                return res.status(404).json({ message: 'this user not exists', error: response })
+                throw new ClientError('this user not exists')
 
-            res.status(200).json({ message: 'edited', data: { ... req.body } })
+            res.status(200).json({ message: 'edited', data: { ... req.body }, error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async deleteUser(req, res) {
-        const { userId } = req.body
+    deleteUser = async (req, res, next) => {
+        const { id } = req.body
 
         try {
-            const response = await UserModel.deleteUser({ userId })
+            if(!id)
+                throw new ClientError('id is missing')
+
+            if(isNaN(id)) {
+                throw new ClientError('id must be a number')
+            }
+            
+            const response = await this.userModel.deleteUser({ id })
 
             if(response == 'user_not_exist')
-                return res.status(404).json({ message: 'this user not exists', error: response })
+                throw new ClientError('this user not exists')
 
-            res.status(200).json({ message: 'deleted' })
+            res.status(200).json({ message: 'deleted', error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async validPassword(req, res) {
+    validPassword = async (req, res, next) => {
         const { userId, password } = req.body
 
         try {
-            const response = await UserModel.validPassword({ userId, password })
+            if(!userId || !password)
+                throw new ClientError('missing fields')
+
+            if(isNaN(userId)) 
+                throw new ClientError('userId must be a number')
+            
+            const response = await this.userModel.validPassword({ userId, password })
 
             if(response == 'user_not_exist')
                 return res.status(404).json({ message: 'this user not exists', error: response })
 
-            res.status(200).json(response)
+            res.status(200).json({ ...response, error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json()
+            next(err)
         }
     }
 
-    static async getUserById(req, res) {
-        const { userId } = req.params
+    getUserById = async (req, res, next) => {
+        const { id } = req.params
 
         try {
-            const [response] = await UserModel.getUserById({ userId })
+            if(!id)
+                throw new ClientError('id is missing')
+
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            const [response] = await this.userModel.getUserById({ id })
             if(!response)
-                return res.status(404).json({ message: 'this user not exists', error: 'user_not_exists' })
+                throw new ClientError('this user not exists')
 
-            res.status(200).json(response)
+            res.status(200).json({ ...response, error: false})
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async getUserRecord(req, res) {
-        const { userId } = req.params
+    getUserRecord = async (req, res, next) => {
+        const { id } = req.params
 
         try {
-            const response = await UserModel.getUserRecord({ userId })
+            if(!id)
+                throw new ClientError('id is missing')
 
-            res.status(200).json(response)
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            const response = await this.userModel.getUserRecord({ id })
+
+            res.status(200).json({ ...response, error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async addRecord(req, res) {
+    addRecord = async (req, res, next) => {
         const { userId, bookId } = req.body
 
         try {
-            const response = await UserModel.addRecord({ userId, bookId })
+            if(!userId || !bookId)
+                throw new ClientError('missing fields')
+
+            if(isNaN(userId) || isNaN(bookId)) 
+                throw new ClientError('userId and bookId must be a number')
+
+            const response = await this.userModel.addRecord({ userId, bookId })
 
             if(response == 'duplicated')
                 return res.status(404).json({ message: 'this book is already in this list', error: response })
 
-            res.status(200).json({ message: 'added' })
+            res.status(200).json({ message: 'added', error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async getFavorites(req, res) {
-        const { userId } = req.query
+    getFavorites = async (req, res, next) => {
+        const { id } = req.params
 
         try {
-            const books = await UserModel.getFavorites({ userId })
-            res.status(200).json(books)
+            if(!id)
+                throw new ClientError('id is missing')
+
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+            
+            const data = await this.userModel.getFavorites({ id })
+
+            if(data == 'user_not_exists')
+                throw new ClientError('this user not exists')
+
+            res.status(200).json({ books: data, error: false })
         } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
+            next(err)
         }
     }
 
-    static async getLikes(req, res) {
-        const { userId } = req.query
+    getLikes = async (req, res, next) => {
+        const { id } = req.params
 
         try {
-            const books = await UserModel.getLikes({ userId })
-            res.status(200).json(books)
+            if(!id)
+                throw new ClientError('id is missing')
+
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            const data = await this.userModel.getLikes({ id })
+
+            if(data == 'user_not_exists')
+                throw new ClientError('this user not exists')
+
+            res.status(200).json({ books: data, error: false })
         } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
+            next(err)
         }
     }
 
-    static async getLater(req, res) {
-        const { userId } = req.query
+    getLater = async (req, res, next) => {
+        const { id } = req.params
 
         try {
-            const books = await UserModel.getLater({ userId })
-            res.status(200).json(books)
+            if(!id)
+                throw new ClientError('id is missing')
+
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            const data = await this.userModel.getLater({ id })
+            
+            if(data == 'user_not_exists')
+                throw new ClientError('this user not exists')
+
+            res.status(200).json({ books: data, error: false })
         } catch(err) {
-            res.status(404).json(err)
-            console.error(err)
+            next(err)
         }
     }
 
-    static async addFavorite(req, res) {
+    addFavorite = async (req, res, next) => {
         const { userId, bookId } = req.body
 
         try {
-            const response = await UserModel.addFavorite({ userId, bookId })
+            if(!userId || !bookId)
+                throw new ClientError('missing fields')
+
+            if(isNaN(userId) || isNaN(bookId)) 
+                throw new ClientError('userId and bookId must be a number')
+
+            const response = await this.userModel.addFavorite({ userId, bookId })
             if(response == 'duplicated')
-                return res.status(404).json({ message: 'duplicated', error: response })
+                throw new ClientError('this book is already added')
 
-            res.status(200).json({ message: 'added' })
+            res.status(200).json({ message: 'added', error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async addLike(req, res) {
+    addLike = async (req, res, next) => {
         const { userId, bookId } = req.body
 
         try {
-            const response = await UserModel.addLike({ userId, bookId })
+            if(!userId || !bookId)
+                throw new ClientError('missing fields')
+
+            if(isNaN(userId) || isNaN(bookId))  
+                throw new ClientError('userId and bookId must be a number')
+
+            const response = await this.userModel.addLike({ userId, bookId })
 
             if(response == 'duplicated')
-                return res.status(404).json({ message: 'this book is already in this list', error: response })
+                throw new ClientError('this book is already added')
 
-            res.status(200).json({ message: 'added' })
+            res.status(200).json({ message: 'added', error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async addSeeLater(req, res) {
+    addSeeLater = async (req, res, next) => {
         const { userId, bookId } = req.body
 
         try {
-            const response = await UserModel.addSeeLater({ userId, bookId })
+            if(!userId || !bookId)
+                throw new ClientError('missing fields')
+
+            if(isNaN(userId) || isNaN(bookId)) 
+                throw new ClientError('userId and bookId must be a number')
+
+            const response = await this.userModel.addSeeLater({ userId, bookId })
 
             if(response == 'duplicated')
-                return res.status(404).json({ message: 'this book is already added', error: response })
+                throw new ClientError('this book is already added')
 
-            res.status(200).json({ message: 'added' })
+            res.status(200).json({ message: 'added', error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async deleteFavorite(req, res) {
+    deleteFavorite = async (req, res, next) => {
         const { userId, bookId } = req.body
 
         try {
-            const response = await UserModel.deleteFavorite({ userId, bookId })
+            if(!userId || !bookId)
+                throw new ClientError('missing fields')
 
-            res.status(200).json({ message: 'deleted' })
-        } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            if(isNaN(userId) || isNaN(bookId)) 
+                throw new ClientError('userId and bookId must be a number')
+
+            const response = await this.userModel.deleteFavorite({ userId, bookId })
+
+            res.status(200).json({ message: 'deleted', error: false })
+        } catch(err) {  
+            next(err)
         }
     }
 
-    static async deleteLike(req, res) {
+    deleteLike = async (req, res, next) => {
         const { userId, bookId } = req.body
 
         try {
-            const response = await UserModel.deleteLike({ userId, bookId })
+            if(!userId || !bookId)
+                throw new ClientError('missing fields')
 
-            res.status(200).json({ message: 'deleted' })
+            if(isNaN(userId) || isNaN(bookId))  
+                throw new ClientError('userId and bookId must be a number')
+
+            const response = await this.userModel.deleteLike({ userId, bookId })
+
+            res.status(200).json({ message: 'deleted', error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 
-    static async deleteSeeLater(req, res) {
+    deleteSeeLater = async (req, res, next) => {
         const { userId, bookId } = req.body
 
         try {
-            const response = await UserModel.deleteSeeLater({ userId, bookId })
+            if(!userId || !bookId)
+                throw new ClientError('missing fields')
 
-            res.status(200).json({ message: 'deleted' })
+            if(isNaN(userId) || isNaN(bookId)) 
+                throw new ClientError('userId and bookId must be a number')
+
+            const response = await this.userModel.deleteSeeLater({ userId, bookId })
+
+            res.status(200).json({ message: 'deleted', error: false })
         } catch(err) {
-            console.error(err)
-            res.status(404).json(err)
+            next(err)
         }
     }
 }
