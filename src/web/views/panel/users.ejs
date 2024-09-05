@@ -20,6 +20,7 @@
                                     <th>Correo</th>
                                     <th>Rol</th>
                                     <th>Ver perfil</th>
+                                    <th>Editar</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
@@ -39,11 +40,20 @@
                                         <% } else if (userInfo.roleId == 4) { %>
                                             <td>Propietario</td>
                                         <% } %>
+
+                                        
                                         <td>
                                             <a href="/profile/<%- userInfo.id %>" class="editar verde" target="_blank">
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </a>
                                         </td>
+
+                                        <td>
+                                            <a href="/panel/users/<%- userInfo.id %>/edit" class="editar-rol" target="_blank">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                        </td>
+
                                         <td>
                                             <button href="#" data-userId="<%- userInfo.id %>" class="borrar">
                                                 <i class="fa-solid fa-trash"></i>
@@ -52,7 +62,7 @@
                                     </tr>
                                 <% }) %>
                             </tbody>
-                        </table>
+                        </table>    
                     </div>
                 </div>
             </main>

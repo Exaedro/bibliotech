@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../partials/admin/head.ejs') %>
+	</head>
+	<body>
+		<div class="panel">
+            <%- include('../partials/admin/sidebar.ejs') %>
+            <main class="contenedor">
+                <%- include('../partials/admin/navbar.ejs') %>
+                <h1>Editar perfil</h1>
+                <div class="editUserContainer">
+                    
+                <form action="/panel/users/<%- userProfile.id %>/edit" method="POST" enctype="multipart/form-data">
+                    <article class="info">
+                        <div class="image">
+                            <figure>
+                                <img src="<%- userProfile.image %>" id="imagen" alt="<%- userProfile.username %>" loading="lazy">
+                            </figure>
+                            <input type="file" name="image" id="imagenInput">
+                        </div>
+                        <h3>datos del usuario</h3>
+                        <p>Nombre: <span><%- userProfile.username %></span></p>
+                        <p>Correo: <span><%- userProfile.email %></span></p>
+                        <p>Rol: <span><% if (userProfile.role==1){ %>
+                            Usuario
+                            <% } else if (userProfile.role==2) { %>
+                                Moderador
+                                <% } else if (userProfile.role==3) { %>
+                                    Administrador <% } else if (userProfile.role==4) { %>
+                                        Propietario <% } %></span></p>
+                    </article>
+                    <article class="data">
+                        <h3>Nombre de usuario</h3>
+                        <input value="<%- userProfile.username %>" type="text" name="username" placeholder=". . .">
+                        <h3>Correo electronico</h3>
+                        <input value="<%- userProfile.email %>" type="email" name="email" placeholder=". . .">
+                        <hr>
+                        <h3>Rol</h3>
+                        <select name="role">
+                            <option value="admin" <%- userProfile.role == 'admin' ? 'selected' : '' %>>Administrador</option>
+                            <option value="mod" <%- userProfile.role == 'mod' ? 'selected' : '' %>>Moderador</option>
+                            <option value="user" <%- userProfile.role == 'user' ? 'selected' : '' %>>Usuario</option>
+                        </select>
+                        <!--<div class="changePassword">
+                            <h3 class="title">Cambiar contraseña</h3>
+                            <div class="row">
+                                <h3>Actual</h3>
+                                <input type="password" name="actualPassword" placeholder="Contraseña actual">
+                            </div>
+                            <div class="row">
+                                <h3>Nueva</h3>
+                                <input type="password" name="newPassword" placeholder="Nueva contraseña">
+                            </div>
+                            <div class="row">
+                                <h3>Confirmar</h3>
+                                <input type="password" name="confirmPassword" placeholder="Confirmar contraseña">
+                            </div>
+                        </div>-->
+                        <div class="buttons">
+                            <a href="/profile">Cancelar</a>
+                            <button type="submit">Editar</button>
+                        </div>
+                    </article>
+                </form>
+                </div>
+            </main>    
+        <script src="js/cambiarTema.js"></script>
+	</body>
+</html>
+
+<script src="js/previsualizarImagen.js"></script>

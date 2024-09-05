@@ -125,18 +125,43 @@ panelRouter.get('/panel/users', async (req, res) => {
     )
 })
 
-panelRouter.get('/panel/users/edit', async (req, res) => {
+panelRouter.get('/panel/users/:id/edit', async (req, res) => {
     const { username, role, userId } = req.session
-    const { userId: id } = req.params
+    const { id } = req.params
 
     const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
 
     res.render('panel/editUser',
         {
-            title: 'Bibliotech - Editar Usuario', user,
-            user: { username, role, userId }
+            title: 'Bibliotech - Editar Usuario',
+            user: { username, role, userId },
+            userProfile: { id: user.id, username: user.username, image: user.image, email: user.email, role: user.roleId }
         }
     )
+})
+
+panelRouter.post('/panel/users/:id/edit', async (req, res) => {
+    const { id } = req.params
+    const { username, email, role } = req.body
+    const file = req.file ? `/uploads/${req.file.filename}` : null
+
+    const response = await fetch(`${apiUrl}/user/edit`, 
+        { 
+            method: 'POST',
+            headers: { 
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({ userId: id, username, email, role, avatar: file })
+        }
+    )
+
+    const { error } = await response.json()
+
+    if(error == 'user_not_exist')
+        return res.redirect('/panel/users/edit?error=user_not_exist')
+
+    res.redirect('/panel/users')
 })
 
 panelRouter.get('/panel/users/create', async (req, res) => {
