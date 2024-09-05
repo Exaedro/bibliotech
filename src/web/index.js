@@ -59,6 +59,7 @@ webApp.use('/panel', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/panel/books', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/panel/books/:id', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/panel/users', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/panel/users/:id', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/panel/docs', express.static(path.join(process.cwd(), 'src/web/public')))
 
 webApp.listen(webApp.get('PORT'), () => {

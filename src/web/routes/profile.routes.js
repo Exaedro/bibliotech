@@ -47,6 +47,24 @@ profileRouter.get('/profile/myself/edit', async (req, res) => {
     )
 })
 
+profileRouter.get('/profile/:id/edit', async (req, res) => {
+    const { username, role, userId } = req.session
+    const { id } = req.params
+
+    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+
+    if(user.error == 'user_not_exists')
+        return res.redirect('/error')
+
+    res.render('profile/edit', 
+        {
+            title: 'Bibliotech - Editar usuario',
+            user: { username, role, userId },
+            userProfile: { id: user.id, username: user.username, image: user.image, email: user.email }
+        }
+    )
+})
+
 profileRouter.post('/profile/edit', async (req, res) => {
     const { userId } = req.session
     const { username, email } = req.body
