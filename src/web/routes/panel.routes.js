@@ -39,7 +39,7 @@ panelRouter.get('/panel/books/:id/edit', async (req, res) => {
     const { username, role, userId } = req.session
     const { id } = req.params // Id del libro
 
-    const book = await (await fetch(`${apiUrl}/book/${id}`, { method: 'GET' })).json()
+    const [book] = await (await fetch(`${apiUrl}/book/${id}`, { method: 'GET' })).json()
     if(book.error) {
         return res.redirect('/panel/error')
     }
@@ -115,7 +115,7 @@ panelRouter.post('/panel/books/add', async (req, res) => {
 panelRouter.get('/panel/users', async (req, res) => {
     const { username, role, userId } = req.session
 
-    const users = await (await fetch(`${apiUrl}/user/all`, { method: 'GET' })).json()
+    const users = await (await fetch(`${apiUrl}/users`, { method: 'GET' })).json()
 
     res.render('panel/users',
         {
@@ -129,7 +129,7 @@ panelRouter.get('/panel/users/:id/edit', async (req, res) => {
     const { username, role, userId } = req.session
     const { id } = req.params
 
-    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
 
     res.render('panel/editUser',
         {
@@ -145,21 +145,24 @@ panelRouter.post('/panel/users/:id/edit', async (req, res) => {
     const { username, email, role } = req.body
     const file = req.file ? `/uploads/${req.file.filename}` : null
 
-    const response = await fetch(`${apiUrl}/user/edit`, 
+    const response = await fetch(`${apiUrl}/users/edit`, 
         { 
             method: 'POST',
             headers: { 
                 'Accept': 'application/json', 
                 'Content-Type': 'application/json' 
             },
-            body: JSON.stringify({ userId: id, username, email, role, avatar: file })
+            body: JSON.stringify({ id, username, email, role, avatar: file })
         }
     )
 
-    const { error } = await response.json()
+    const user = await response.json()
 
-    if(error == 'user_not_exist')
+    if(user.message.includes('not'))
         return res.redirect('/panel/users/edit?error=user_not_exist')
+
+    if(!response.ok)
+        return res.redirect('/panel/error')
 
     res.redirect('/panel/users')
 })

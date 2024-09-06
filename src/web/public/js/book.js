@@ -121,13 +121,13 @@ class BookActions {
             body: JSON.stringify({ bookId, userId })
         })
 
-        const { error } = await response.json()
+        const { message, error } = await response.json()
+
+        if(message.includes('already'))
+            return this.duplicatedError()
 
         if(response.ok)
             return this.bookAdded({ list: spanish })
-
-        if(error == 'duplicated')
-            return this.duplicatedError()  
     }
 
     static duplicatedError() {

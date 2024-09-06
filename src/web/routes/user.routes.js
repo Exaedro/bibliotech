@@ -17,7 +17,7 @@ userRouter.get('/login', async (req, res) => {
 userRouter.post('/login', async (req, res) => {
     const { email, password } = req.body
 
-    const response = await fetch(`${apiUrl}/user/login`,
+    const response = await fetch(`${apiUrl}/users/login`,
         {
             method: 'POST',
             body: JSON.stringify({ email, password }),
@@ -33,10 +33,10 @@ userRouter.post('/login', async (req, res) => {
     if (!response.ok)
         return res.redirect(`/login?error=${user.error}`)
 
-    req.session.userId = user[0].id
-    req.session.username = user[0].username
-    req.session.role = user[0].role
-    req.session.image = user[0].image
+    req.session.userId = user.id
+    req.session.username = user.username
+    req.session.role = user.role
+    req.session.image = user.image
 
     res.redirect('/')
 })

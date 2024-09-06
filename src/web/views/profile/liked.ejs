@@ -25,17 +25,17 @@
                         <% books.forEach(book => {%>
                             <div class="libro">
                                 <figure>
-                                    <a href="/book/<%- book.LibroID %>">
-                                        <img src="<%- book.imagen %>" alt="<%- book.Titulo %>">
+                                    <a href="/book/<%- book.id %>">
+                                        <img src="<%- book.image %>" alt="<%- book.title %>">
                                     </a>
                                     <% if(userProfile.username == user.username) { %>
                                         <div class="acciones">
-                                            <i class="fa-solid fa-x borrar" data-bookId="<%- book.LibroID %>"></i>
+                                            <i class="fa-solid fa-x borrar" data-bookId="<%- book.id %>"></i>
                                         </div>
                                     <% } %>
                                 </figure>
-                                <a href="/book/<%- book.LibroID %>">
-                                    <p><%- book.Titulo %></p>
+                            <a href="/book/<%- book.id %>">
+                                    <p><%- book.title %></p>
                                 </a>
                             </div>
                         <%})%>

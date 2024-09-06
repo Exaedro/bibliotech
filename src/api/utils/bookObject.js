@@ -15,7 +15,7 @@ export const bookObject = ({ data }) => {
             author: book.Autor,
             isbn: book.ISBN,
             date: book.FechaLanzamiento,
-            page: book.CantidadPaginas,
+            pages: book.CantidadPaginas,
             publisher: book.Editorial,
             synopsis: book.Sinopsis,
             image: book.imagen,

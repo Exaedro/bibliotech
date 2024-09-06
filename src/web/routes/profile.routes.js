@@ -15,18 +15,18 @@ profileRouter.get('/profile/:id', async (req, res) => {
     const { username, email ,role, userId, image } = req.session
     const { id } = req.params
 
-    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
 
-    if(user.error == 'user_not_exists')
+    if(user.message?.includes('not'))
         return res.redirect('/error')
     
-    const likedBooks = await (await fetch(`${apiUrl}/user/like/all?userId=${id}`, { method: 'GET' })).json()
-    const favoriteBooks = await (await fetch(`${apiUrl}/user/favorite/all?userId=${id}`, { method: 'GET' })).json()
-    const seeLaterBooks = await (await fetch(`${apiUrl}/user/later/all?userId=${id}`, { method: 'GET' })).json()
+    const likedBooks = await (await fetch(`${apiUrl}/user/${id}/like/all`, { method: 'GET' })).json()
+    const favoriteBooks = await (await fetch(`${apiUrl}/user/${id}/favorite/all`, { method: 'GET' })).json()
+    const seeLaterBooks = await (await fetch(`${apiUrl}/user/${id}/later/all`, { method: 'GET' })).json()
     
     res.render('profile',
         {
-            title: 'Bibliotech - Perfil', likedBooks, favoriteBooks, seeLaterBooks,
+            title: 'Bibliotech - Perfil', likedBooks: likedBooks.books, favoriteBooks: favoriteBooks.books, seeLaterBooks: seeLaterBooks.books,
             user: { username, email, role, userId, image },
             userProfile: { id: user.id, email: user.email, username: user.username, image: user.image, role: user.roleId }
         }
@@ -36,13 +36,13 @@ profileRouter.get('/profile/:id', async (req, res) => {
 profileRouter.get('/profile/myself/edit', async (req, res) => {
     const { username, role, userId } = req.session
 
-    const data = await (await fetch(`${apiUrl}/user/data/${userId}`, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/${userId}`, { method: 'GET' })).json()
 
     res.render('profile/edit', 
         {
             title: 'Bibliotech - Editar usuario',
             user: { username, role, userId },
-            data
+            userProfile: {...user }
         }
     )
 })
@@ -51,7 +51,7 @@ profileRouter.get('/profile/:id/edit', async (req, res) => {
     const { username, role, userId } = req.session
     const { id } = req.params
 
-    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
 
     if(user.error == 'user_not_exists')
         return res.redirect('/error')
@@ -76,7 +76,7 @@ profileRouter.post('/profile/edit', async (req, res) => {
         return res.redirect('/profile/edit?error="password_not_match"')
 
     if(actualPassword != undefined) {
-        const isPasswordValid = await fetch(`${apiUrl}/user/password`, {
+        const isPasswordValid = await fetch(`${apiUrl}/users/password`, {
             method: 'POST',
             headers: { 
                 'Accept': 'application/json', 
@@ -92,8 +92,8 @@ profileRouter.post('/profile/edit', async (req, res) => {
             return res.redirect('/profile/edit?error="invalid_password"')
     }
 
-    const object = {
-        userId,
+    let object = {
+        id: userId,
         username, 
         email,
         password: newPassword,
@@ -102,7 +102,7 @@ profileRouter.post('/profile/edit', async (req, res) => {
     if(file)
         object.avatar = '/uploads/' + file.filename
 
-    const response = await fetch(`${apiUrl}/user/edit`, {
+    const response = await fetch(`${apiUrl}/users/edit`, {
         method: 'POST',
         headers: { 
             'Accept': 'application/json', 
@@ -120,7 +120,7 @@ profileRouter.post('/profile/edit', async (req, res) => {
         
     req.session.username = user.data.username
 
-    return res.redirect('/profile')
+    return res.redirect('/profile/' + userId)
 })
 
 profileRouter.get('/profile/:id/like', async (req, res) => {
@@ -128,15 +128,15 @@ profileRouter.get('/profile/:id/like', async (req, res) => {
     const { id } = req.params
 
     // ! AGREGAR ERRORES MAS TARDE
-    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
     if(user.error == 'user_not_exists')
         return res.redirect('/error')
 
-    const books = await (await fetch(apiUrl + '/user/like/all?userId=' + id, { method: 'GET' })).json()
+    const data = await (await fetch(apiUrl + `/user/${id}/like/all`, { method: 'GET' })).json()
 
     res.render('profile/liked', 
         {
-            title: 'Bibliotech - Mis gustados', books,
+            title: 'Bibliotech - Mis gustados', books: data.books,
             user: { username, role, userId, image },
             userProfile: { id: user.id, username: user.username, image: user.image  }
         }
@@ -147,15 +147,15 @@ profileRouter.get('/profile/:id/favorite', async (req, res) => {
     const { username, role, userId, image } = req.session
     const { id } = req.params
 
-    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
     if(user.error == 'user_not_exists')
         return res.redirect('/error')
 
-    const books = await (await fetch(apiUrl + '/user/favorite/all?userId=' + id, { method: 'GET' })).json()
+    const data = await (await fetch(apiUrl + `/user/${id}/favorite/all`, { method: 'GET' })).json()
 
     res.render('profile/favorites', 
         {
-            title: 'Bibliotech - Mis favoritos', books,
+            title: 'Bibliotech - Mis favoritos', books: data.books,
             user: { username, role, userId, image },
             userProfile: { id: user.id, username: user.username, image: user.image  }
         }
@@ -166,15 +166,15 @@ profileRouter.get('/profile/:id/see-later', async (req, res) => {
     const { username, role, userId, image } = req.session
     const { id } = req.params
 
-    const user = await (await fetch(`${apiUrl}/user/data/${id}`, { method: 'GET' })).json()
+    const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
     if(user.error == 'user_not_exists')
         return res.redirect('/error')
 
-    const books = await (await fetch(apiUrl + '/user/later/all?userId=' + id, { method: 'GET' })).json()
+    const data = await (await fetch(apiUrl + `/user/${id}/later/all`, { method: 'GET' })).json()
 
     res.render('profile/seeLater', 
         {
-            title: 'Bibliotech - Leer mas tarde', books,
+            title: 'Bibliotech - Leer mas tarde', books: data.books,
             user: { username, role, userId, image },
             userProfile: { id: user.id, username: user.username, image: user.image }
         }

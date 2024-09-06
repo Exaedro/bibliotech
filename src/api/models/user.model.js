@@ -90,14 +90,14 @@ class UserModel {
      * @param {string} role - rol en la aplicacion del usuario
      * @param {string} avatar - foto de perfil del usuario
      */
-    static async editUser({ id, username = '', email = '', password = '', role = '', avatar = '' }) {
+    static async editUser({ id, username = '', email = '', password = '', role = '', avatar }) {
         const [user] = await this.getUserById({ id })
         if (!user) return 'user_not_exist'
 
         username = username.length == 0 ? user.username : username
         email = email.length == 0 ? user.email : email
         role = role.length == 0 ? user.roleId : role
-        avatar = avatar.length == 0 ? user.image : avatar
+        avatar = avatar ? avatar : user.image
 
         let hashedPassword
         if(password.length == 0)
@@ -147,7 +147,7 @@ class UserModel {
     static async getUserRecord({ id, order = 'DESC' }) {
         if (id == undefined) return 'user_not_logged'
 
-        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = ?' ORDER BY FechaAccion ?`, [id, order])
+        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = ? ORDER BY FechaAccion ${order}`, [id])
 
         const data = books.map(book => {
             return {
