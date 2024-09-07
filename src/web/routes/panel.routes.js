@@ -4,17 +4,21 @@ const panelRouter = new Router()
 // Funcion para saber si el usuario esta logeado
 import { isAdmin } from '../utils/auth.js'
 
+// Validadores
+import { validationResult } from "express-validator";
+import { createBookValidator } from '../utils/validators.js'
+
 // URL de la API de la biblioteca
 import config from '../config.json' with { type: 'json' }
 const apiUrl = config["apiUrl"]
 
 // En todas las rutas despues de /panel se verificara si el usuario es un administrador o no
-panelRouter.get('/panel*', isAdmin)
+// panelRouter.get('/panel*', isAdmin)
 
 panelRouter.get('/panel', (req, res) => {
     const { username, role, userId } = req.session
 
-    res.render('panel/panel', 
+    res.render('panel/panel',
         {
             title: 'Bibliotech - Panel de Administrador',
             user: { username, role, userId }
@@ -40,11 +44,11 @@ panelRouter.get('/panel/books/:id/edit', async (req, res) => {
     const { id } = req.params // Id del libro
 
     const [book] = await (await fetch(`${apiUrl}/book/${id}`, { method: 'GET' })).json()
-    if(book.error) {
+    if (book.error) {
         return res.redirect('/panel/error')
     }
 
-    res.render('panel/editBook', 
+    res.render('panel/editBook',
         {
             title: 'Bibliotech - Editar Libro', book,
             user: { username, role, userId }
@@ -57,12 +61,12 @@ panelRouter.post('/panel/books/:id/edit', async (req, res) => {
     const { title, author, isbn, date, pages, language, state, publisher, synopsis, image, pdfLink, categories } = req.body
     const file = req.file ? `/uploads/${req.file.filename}` : null
 
-    const response = await fetch(`${apiUrl}/book/${id}/edit`, 
-        { 
+    const response = await fetch(`${apiUrl}/book/${id}/edit`,
+        {
             method: 'POST',
-            headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ title, author, isbn, date, pages, language, state, publisher, synopsis, image, pdfLink, categories, file })
         }
@@ -70,7 +74,7 @@ panelRouter.post('/panel/books/:id/edit', async (req, res) => {
 
     const { error } = await response.json()
 
-    if(error == 'required_fields')
+    if (error == 'required_fields')
         return res.redirect('/panel/books/edit?error=required_fields')
 
     res.redirect('/book/' + id)
@@ -87,26 +91,35 @@ panelRouter.get('/panel/books/add', async (req, res) => {
     )
 })
 
-panelRouter.post('/panel/books/add', async (req, res) => {
+panelRouter.post('/panel/books/add', createBookValidator, async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.render('panel/createBook',
+            {
+                title: 'Bibliotech - Añadir Libro', errors: errors.array(), values: req.body
+            }
+        )
+    }
+
     const { title, author, isbn, date, pages, language, state, publisher, synopsis, pdfLink, categories } = req.body
     const image = req.file ? `/uploads/${req.file.filename}` : null
 
-    const response = await fetch(`${apiUrl}/book/create`, 
-        { 
+    const response = await fetch(`${apiUrl}/book/create`,
+        {
             method: 'POST',
-            headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories })
         }
     )
 
     const { error } = await response.json()
-    if(error == 'required_fields')
+    if (error == 'required_fields')
         return res.redirect('/panel/books/add?error=required_fields')
 
-    if(!response.ok)
+    if (!response.ok)
         return res.redirect('/panel/books/add?error=invalid')
 
     res.redirect('/panel/books')
@@ -145,12 +158,12 @@ panelRouter.post('/panel/users/:id/edit', async (req, res) => {
     const { username, email, role } = req.body
     const file = req.file ? `/uploads/${req.file.filename}` : null
 
-    const response = await fetch(`${apiUrl}/users/edit`, 
-        { 
+    const response = await fetch(`${apiUrl}/users/edit`,
+        {
             method: 'POST',
-            headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ id, username, email, role, avatar: file })
         }
@@ -158,10 +171,10 @@ panelRouter.post('/panel/users/:id/edit', async (req, res) => {
 
     const user = await response.json()
 
-    if(user.message.includes('not'))
+    if (user.message.includes('not'))
         return res.redirect('/panel/users/edit?error=user_not_exist')
 
-    if(!response.ok)
+    if (!response.ok)
         return res.redirect('/panel/error')
 
     res.redirect('/panel/users')
@@ -169,7 +182,7 @@ panelRouter.post('/panel/users/:id/edit', async (req, res) => {
 
 panelRouter.get('/panel/users/create', async (req, res) => {
     const { username, role, userId } = req.session
-    
+
     res.render('panel/createUser',
         {
             title: 'Bibliotech - Crear Usuario',
@@ -183,18 +196,18 @@ panelRouter.post('/panel/users/create', async (req, res) => {
     const image = req.file ? `/uploads/${req.file.filename}` : null
 
     console.log(image)
-    if(!name || !email || !password || !confirmPassword || !role || !image)
+    if (!name || !email || !password || !confirmPassword || !role || !image)
         return res.redirect('/panel/users/create?error=required_fields')
 
-    if(password !== confirmPassword)
+    if (password !== confirmPassword)
         return res.redirect('/panel/users/create?error=passwords_dont_match')
 
-    const user = await fetch(`${apiUrl}/user/create`, 
-        { 
+    const user = await fetch(`${apiUrl}/user/create`,
+        {
             method: 'POST',
-            headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ username: name, email, password, role, image })
         }
@@ -202,7 +215,7 @@ panelRouter.post('/panel/users/create', async (req, res) => {
 
     const response = await user.json()
 
-    if(!user.ok) {
+    if (!user.ok) {
         console.log(response)
         return res.redirect('/panel/users/create?error=invalid')
     }

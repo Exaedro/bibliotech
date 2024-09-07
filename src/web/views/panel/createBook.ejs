@@ -25,38 +25,93 @@
                         <div class="row">
                             <div class="columna">
                                 <h4>Título</h4>
-                                <input type="text" id="titleInput" placeholder=". . ." name="title">
-                                <p class="error hidden" id="titleError">Escribe un título válido.</p>
+                                <input type="text" id="titleInput" placeholder=". . ." name="title" value="<% if(typeof errors != 'undefined') { %><%- values.title %><% } %>">
+                                <% if(typeof errors != 'undefined') { %>
+                                    <% if(errors.find(error => error.path == 'title')) { %>
+                                        <p class="error" id="titleError">Escribe un título válido.</p>
+                                    <% } %>
+                                <% } %>
 
                                 <h4>Autor</h4>
-                                <input type="text" id="authorInput" placeholder=". . ." name="author">
+                                <input type="text" id="authorInput" placeholder=". . ." name="author" value="<% if(typeof errors != 'undefined') { %><%- values.author %><% } %>">
+                                <% if(typeof errors != 'undefined') { %>
+                                    <% if(errors.find(error => error.path == 'author')) { %>
+                                        <p class="error" id="titleError">Escribe un autor válido.</p>
+                                    <% } %>
+                                <% } %>
+
                                 <h4>ISBN</h4>
-                                <input type="text" id="isbnInput" placeholder=". . ." name="isbn">
+                                <input type="text" id="isbnInput" placeholder=". . ." name="isbn" value="<% if(typeof errors != 'undefined') { %><%- values.isbn %><% } %>">
+                                <% if(typeof errors != 'undefined') { %>
+                                    <% if(errors.find(error => error.path == 'isbn')) { %>
+                                        <p class="error" id="titleError">Escribe un ISBN válido.</p>
+                                    <% } %>
+                                <% } %>
+
                                 <h4>Publicación</h4>
-                                <input type="date" id="dateInput" name="date">
+                                <input type="date" id="dateInput" name="date" value="<% if(typeof errors != 'undefined') { %><%- values.date %><% } %>">
+                                <% if(typeof errors != 'undefined') { %>
+                                    <% if(errors.find(error => error.path == 'date')) { %>
+                                        <p class="error" id="titleError">Escribe una fecha válida.</p>
+                                    <% } %>
+                                <% } %>
+
                             </div>
                             <div class="columna">
                                 <h4>Cantidad de páginas</h4>
-                                <input type="text" id="pagesInput" placeholder=". . ." name="pages">
+                                <input type="text" id="pagesInput" placeholder=". . ." name="pages" value="<% if(typeof errors != 'undefined') { %><%- values.pages %><% } %>">
+                                <% if(typeof errors != 'undefined') { %>
+                                    <% if(errors.find(error => error.path == 'pages')) { %>
+                                        <p class="error" id="titleError">Escribe un número de páginas válido.</p>
+                                    <% } %>
+                                <% } %>
+
                                 <h4>Idioma</h4>
-                                <input type="text" id="languageInput" placeholder=". . ." name="language">
+                                <input type="text" id="languageInput" placeholder=". . ." name="language" value="<% if(typeof errors != 'undefined') { %><%- values.language %><% } %>">
+                                <% if(typeof errors != 'undefined') { %>
+                                    <% if(errors.find(error => error.path == 'title')) { %>
+                                        <p class="error" id="titleError">Escribe un idioma válido.</p>
+                                    <% } %>
+                                <% } %>
+
+                                <h4>Editorial</h4>
+                                <input type="text" id="publisherInput" placeholder=". . ." name="publisher" value="<% if(typeof errors != 'undefined') { %><%- values.publisher %><% } %>">
+                                <% if(typeof errors != 'undefined') { %>
+                                    <% if(errors.find(error => error.path == 'publisher')) { %>
+                                        <p class="error" id="titleError">Escriba una editorial válida.</p>
+                                    <% } %>
+                                <% } %>
+
                                 <h4>Estado</h4>
-                                <select name="state">
+                                <select name="state" value="<% if(typeof errors != 'undefined') { %><%- values.state %><% } %>">
                                     <option value="disponible">Disponible</option>
                                     <option value="prestado">Prestado</option>
                                 </select>
-                                <h4>Editorial</h4>
-                                <input type="text" id="publisherInput" placeholder=". . ." name="publisher">
+                                <% if(typeof errors != 'undefined') { %>
+                                    <% if(errors.find(error => error.path == 'state')) { %>
+                                        <p class="error" id="titleError">Selecciona un estado válido.</p>
+                                    <% } %>
+                                <% } %>
                             </div>
                         </div>
 
                         <!-- Sinopsis -->
                         <h4>Sinopsis</h4>
-                        <textarea id="sinopsisInput" name="synopsis" placeholder=". . ." class="sinopsis"></textarea>
+                        <textarea id="sinopsisInput" name="synopsis" placeholder=". . ." class="sinopsis"><% if(typeof errors != 'undefined') { %><%- values.synopsis %><% } %></textarea>
+                        <% if(typeof errors != 'undefined') { %>
+                            <% if(errors.find(error => error.path == 'synopsis')) { %>
+                                <p class="error" id="titleError">Escribe una sinopsis válida.</p>
+                            <% } %>
+                        <% } %>
 
                         <!-- PDF Link -->
                         <h4>PDF Link</h4>
-                        <input type="text" id="pdfLinkInput" placeholder=". . ." name="pdfLink">
+                        <input type="text" id="pdfLinkInput" placeholder=". . ." name="pdfLink" value="<% if(typeof errors != 'undefined') { %><%- values.pdfLink %><% } %>">
+                        <% if(typeof errors != 'undefined') { %>
+                            <% if(errors.find(error => error.path == 'pdfLink')) { %>
+                                <p class="error" id="titleError">Escribe un link de pdf válido.</p>
+                            <% } %>
+                        <% } %>
 
                         <!-- Categorías (checkboxes) -->
                         <h4>Categorías</h4>
