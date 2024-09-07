@@ -24,12 +24,20 @@
                     <div class="datos">
                         <div class="columna">
                             <h4>Nombre</h4>
-                            <input type="text" id="name" placeholder="Nombre del usuario" name="name">
-                            <p class="error hidden" id="nameError">Escribe un nombre válido.</p>
+                            <input type="text" id="name" placeholder="Nombre del usuario" name="name" value="<% if(typeof errors != 'undefined') { %><%- values.name %><% } %>">
+                            <% if(typeof errors != 'undefined') { %>
+                                <% if(errors.find(error => error.path == 'name')) { %>
+                                    <p class="error" id="nameError">Escribe un nombre válido.</p>
+                                <% } %>
+                            <% } %>
 
                             <h4>Correo Electrónico</h4>
-                            <input type="email" id="email" placeholder="Correo electrónico" name="email">
-                            <p class="error hidden" id="emailError">Escribe un correo electrónico válido.</p>
+                            <input type="email" id="email" placeholder="Correo electrónico" name="email" value="<% if(typeof errors != 'undefined') { %><%- values.email %><% } %>">
+                            <% if(typeof errors != 'undefined') { %>
+                                <% if(errors.find(error => error.path == 'email')) { %>
+                                    <p class="error" id="emailError">Escribe un correo electrónico válido.</p>
+                                <% } %>
+                            <% } %>
 
                             <h4>Rol</h4>
                             <select name="role">
@@ -37,14 +45,28 @@
                                 <option value="2">Moderador</option>
                                 <option value="3">Administrador</option>
                             </select>
+                            <% if(typeof errors != 'undefined') { %>
+                                <% if(errors.find(error => error.path == 'role')) { %>
+                                    <p class="error" id="roleError">Seleccinona un rol válido.</p>
+                                <% } %>
+                            <% } %>
+
                             <hr>
                             <h4>Contraseña</h4>
-                            <input type="password" id="password" placeholder="Contraseña" name="password">
-                            <p class="error hidden" id="passwordError">Escribe una contraseña válida.</p>
+                            <input type="password" id="password" placeholder="Contraseña" name="password" value="<% if(typeof errors != 'undefined') { %><%- values.password %><% } %>">
+                            <% if(typeof errors != 'undefined') { %>
+                                <% if(errors.find(error => error.path == 'password')) { %>
+                                    <p class="error" id="passwordError"><%- errors.find(error => error.path == 'password').msg %></p>
+                                <% } %>
+                            <% } %>
 
                             <h4>Confirmar Contraseña</h4>
-                            <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword">
-                            <p class="error hidden" id="passwordNotMatch">Las contraseñas no coinciden.</p>
+                            <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword" value="<% if(typeof errors != 'undefined') { %><%- values.confirmPassword %><% } %>">
+                            <% if(typeof errors != 'undefined') { %>
+                                <% if(errors.find(error => error.path == 'password')) { %>
+                                    <p class="error" id="passwordNotMatch"><%- errors.find(error => error.path == 'password').msg %></p>
+                                <% } %>
+                            <% } %>
 
                         </div>
 
@@ -59,7 +81,6 @@
         </main>
     </div>
 
-    <script src="js/validations/validarFormularioCrearUsuario.js"></script>
     <script src="js/cambiarTema.js"></script>
     <script src="js/previsualizarImagen.js"></script>
 </body>

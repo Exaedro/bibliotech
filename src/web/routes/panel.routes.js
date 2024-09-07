@@ -6,7 +6,7 @@ import { isAdmin } from '../utils/auth.js'
 
 // Validadores
 import { validationResult } from "express-validator";
-import { createBookValidator } from '../utils/validators.js'
+import { createBookValidator, createUserValidator } from '../utils/validators.js'
 
 // URL de la API de la biblioteca
 import config from '../config.json' with { type: 'json' }
@@ -191,7 +191,16 @@ panelRouter.get('/panel/users/create', async (req, res) => {
     )
 })
 
-panelRouter.post('/panel/users/create', async (req, res) => {
+panelRouter.post('/panel/users/create', createUserValidator, async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.render('panel/createUser',
+            {
+                title: 'Bibliotech - Crear Usuario', errors: errors.array(), values: req.body
+            }
+        )
+    }
+
     const { name, email, password, confirmPassword, role } = req.body
     const image = req.file ? `/uploads/${req.file.filename}` : null
 
@@ -202,7 +211,7 @@ panelRouter.post('/panel/users/create', async (req, res) => {
     if (password !== confirmPassword)
         return res.redirect('/panel/users/create?error=passwords_dont_match')
 
-    const user = await fetch(`${apiUrl}/user/create`,
+    const user = await fetch(`${apiUrl}/users/create`,
         {
             method: 'POST',
             headers: {
@@ -214,6 +223,10 @@ panelRouter.post('/panel/users/create', async (req, res) => {
     )
 
     const response = await user.json()
+
+    if (response.message.includes('used')) {
+        return res.redirect('/panel/users/create?error=username_used')
+    }
 
     if (!user.ok) {
         console.log(response)
