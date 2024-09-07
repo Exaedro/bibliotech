@@ -182,11 +182,13 @@ panelRouter.post('/panel/users/:id/edit', async (req, res) => {
 
 panelRouter.get('/panel/users/create', async (req, res) => {
     const { username, role, userId } = req.session
+    const { error } = req.query
 
     res.render('panel/createUser',
         {
             title: 'Bibliotech - Crear Usuario',
-            user: { username, role, userId }
+            user: { username, role, userId },
+            error
         }
     )
 })
