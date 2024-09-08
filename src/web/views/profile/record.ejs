@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<%- include('../partials/head.ejs') %>
+	</head>
+	<body>
+		<%- include('../partials/navbar.ejs') %>
+
+		<main class="perfil">
+			<section>
+				<div class="historial">
+					<h1>Tu historial de libros visitados</h1>
+					<% books.forEach(data => { %>
+					<article class="libro">
+						<figure>
+							<a href="/book/<%- data.book.id %>">
+								<img
+									src="<%- data.book.image %>"
+									alt="<%- data.book.title %>"
+                                    loading="lazy"
+								/>
+							</a>
+						</figure>
+						<div class="lateral">
+							<div class="info">
+								<a href="/book/<%- data.book.id %>">
+									<h3 class="titulo">
+										<%- data.book.title %>
+									</h3>
+								</a>
+								<p class="autor"><%- data.book.author %></p>
+								<p class="sinopsis">
+									<%- data.book.synopsis %>
+								</p>
+								<div class="acciones">
+									<a
+										href="/book/<%- data.book.id %>"
+										class="ver"
+									>
+										<i class="fa-solid fa-eye"></i>
+									</a>
+									<a href="#" class="eliminar">
+										<i class="fa-solid fa-trash"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</article>
+					<% }) %>
+                    <div class="historialMenu">
+                        <div class="buscador">
+                            <input type="text" placeholder="Buscar libro...">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <a href="#">
+                            <i class="fa-solid fa-x"></i>
+                            Borrar todo el historial
+                        </a>
+                    </div>
+				</div>
+			</section>
+		</main>
+		<footer class="footerContainer">
+			<%- include('../partials/footer.ejs') %>
+		</footer>
+		<script src="js/profile.js"></script>
+	</body>
+</html>

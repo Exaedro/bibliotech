@@ -1,9 +1,5 @@
-const btn = document.getElementById('dropdown')
-
-tippy(document.querySelectorAll('.menu'), {
-    duration: 0,
-    arrow: false,
-    trigger: 'click',
+tippy('.seeAll', {
+    content: "Ver todo",
     placement: 'bottom',
-    content: btn.innerHTML
-})
+    theme: 'light-border',
+});

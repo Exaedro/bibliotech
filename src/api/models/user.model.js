@@ -147,7 +147,7 @@ class UserModel {
     static async getUserRecord({ id, order = 'DESC', limit = 3 }) {
         if (id == undefined) return 'user_not_logged'
 
-        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = ? ORDER BY FechaAccion ${order} LIMIT ?`, [id, limit])
+        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = ? ORDER BY FechaAccion ${order} LIMIT ${limit}`, [id])
 
         const data = books.map(book => {
             return {
@@ -165,6 +165,7 @@ class UserModel {
                     pages: book.CantidadPaginas,
                     publisher: book.Editorial,
                     synopsis: book.Sinopsis,
+                    author: book.Autor,
                     language: book.Idioma,
                     state: book.Estado,
                     visits: book.Visitas,

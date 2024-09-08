@@ -181,4 +181,17 @@ profileRouter.get('/profile/:id/see-later', async (req, res) => {
     )
 })
 
+profileRouter.get('/profile/myself/record', isLogged, async (req, res) => {
+    const { username, role, userId } = req.session
+
+    const books = await (await fetch(apiUrl + `/user/record/${userId}?limit=10000`)).json()
+
+    res.render('profile/record', 
+        {
+            title: 'Bibliotech - Historial', books: books.data,
+            user: { username, role, userId }
+        }
+    )
+})
+
 export default profileRouter
