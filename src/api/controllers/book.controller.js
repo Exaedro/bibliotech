@@ -99,7 +99,6 @@ class BookController {
             const book = await this.bookModel.getById({ id })
             if(!book) throw new ClientError('book not found', 404)
 
-                console.log(book)
             res.status(200).json(book)
         } catch(err) {
             next(err)

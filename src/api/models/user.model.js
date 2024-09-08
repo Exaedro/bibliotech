@@ -144,10 +144,10 @@ class UserModel {
      * @param {string} order - orden de la consulta
      * @returns 
      */
-    static async getUserRecord({ id, order = 'DESC' }) {
+    static async getUserRecord({ id, order = 'DESC', limit = 3 }) {
         if (id == undefined) return 'user_not_logged'
 
-        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = ? ORDER BY FechaAccion ${order}`, [id])
+        const [books] = await db.query(`SELECT * FROM historial h JOIN libros l ON h.LibroID = l.LibroID WHERE h.UsuarioID = ? ORDER BY FechaAccion ${order} LIMIT ?`, [id, limit])
 
         const data = books.map(book => {
             return {
@@ -183,11 +183,12 @@ class UserModel {
      */
     static async addRecord({ userId, bookId }) {
         // Si el usuario tiene 3 libros en su historial, se elimina el libro mas reciente
-        const books = await this.getUserRecord({ userId, order: 'ASC' })
-        if (books.length >= 3) {
-            const bookId = books[0].book.id
-            await db.query(`DELETE FROM historial WHERE LibroID = ? AND UsuarioID = ?`, [bookId, userId])
-        }
+        const books = await this.getUserRecord({ id: userId, order: 'ASC' })
+
+        // if (books.length >= 3) {
+        //     const bookId = books[0].book.id
+        //     await db.query(`DELETE FROM historial WHERE LibroID = ? AND UsuarioID = ?`, [bookId, userId])
+        // }
 
         const isAlreadyAdded = await isDuplicated({ userId, bookId, type: 'historial' })
         if (isAlreadyAdded) return 'duplicated'

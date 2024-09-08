@@ -153,17 +153,15 @@ class UserController {
 
     getUserRecord = async (req, res, next) => {
         const { id } = req.params
+        const { limit } = req.query
 
         try {
             if(!id)
                 throw new ClientError('id is missing')
 
-            if(isNaN(id)) 
-                throw new ClientError('id must be a number')
+            const response = await this.userModel.getUserRecord({ id, limit })
 
-            const response = await this.userModel.getUserRecord({ id })
-
-            res.status(200).json({ ...response, error: false })
+            res.status(200).json({ data: response, error: false })
         } catch(err) {
             next(err)
         }

@@ -16,7 +16,7 @@ indexRouter.get('/', async (req, res) => {
 
     res.render('index',
         {
-            title: 'Bibliotech - Inicio', recents, mostLiked, mostVisited, userRecord,
+            title: 'Bibliotech - Inicio', recents, mostLiked, mostVisited, userRecord: userRecord.data,
             user: {
                 username, role, userId
             }
@@ -85,7 +85,7 @@ indexRouter.get('/book/:bookId', async (req, res) => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId, bookId: book.id }) 
+                body: JSON.stringify({ userId, bookId: book[0].id }) 
             }
         )
     }
