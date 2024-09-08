@@ -23,7 +23,7 @@
 :root {
     --color-fondo: #111;
     --color-letra: #fff;
-    --color-letra-secundario: #111;
+    --color-letra-secundario: #ffffff;
     --color-subrayado: var(--color-primario);
     --color-fondo-secundario: #80808050;
     --color-formulario: var(--color-fondo-secundario);
