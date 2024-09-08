@@ -35,19 +35,19 @@
     margin: 10px;
 }
 
-.perfil .info .editar-perfil {
-    display: flex;
-    justify-content: center;
-}
-
 .perfil .info .editar-perfil a {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 10px;
+    margin-bottom: 20px;
     border-radius: 5px;
     background-color: var(--color-primario);
     color: var(--color-letra-secundario);
+}
+
+.perfil .info .editar-perfil p {
+    cursor: pointer;
 }
 
 .perfil .info .editar-perfil a:hover {
