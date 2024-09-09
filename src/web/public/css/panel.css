@@ -339,7 +339,7 @@ dialog .botones .confirmarEliminar:hover {
 }
 
 .panel table i {
-    color: var(--color-letra);
+    color: #fff;
 }
 
 .panel  table th {
@@ -599,6 +599,18 @@ html {
     font-size: 12px;
     margin-top: 20px;
     margin-bottom: 30px;
+}
+
+.panel .editUserContainer select { 
+    background-color: var(--color-input);
+    color: var(--color-input-letra);
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 .panel .editUserContainer article {

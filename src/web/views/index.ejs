@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="historial">
-          <h2>Historial<% if(typeof user.userId != 'undefined') { %><a href="/profile/myself/record" class="seeAll"><i class="fa-solid fa-eye"></i></a><% } %></h2>
+          <h2>Historial<% if(typeof user.userId != 'undefined' && userRecord.length > 0) { %><a href="/profile/myself/record" class="seeAll"><i class="fa-solid fa-eye"></i></a><% } %></h2>
           <% if(userRecord.length > 0) { %>
             <div class="historialContenedor">
               <% userRecord.forEach(record => { %>
