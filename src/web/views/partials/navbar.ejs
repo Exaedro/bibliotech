@@ -9,7 +9,7 @@
       <li><a href="/catalog">Catálogo</a></li>
       <% if(typeof user.role != 'undefined') { %>
         <% if(user.role == 'admin') { %>
-          <li><a href="/panel">Panel</a></li>
+          <li><a href="/panel/books">Panel</a></li>
         <% } %>
       <% } %>
       <% if(typeof user.username == 'undefined') { %>
