@@ -73,13 +73,13 @@
                 boton.addEventListener('click', async (e) => {
                     const userId = boton.getAttribute('data-userId')
 
-                    const response = await fetch('http://localhost:3000/api/v1/user/delete', {
+                    const response = await fetch('http://localhost:3000/api/v1/users/delete', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json'
                         },
-                        body: JSON.stringify({ userId })
+                        body: JSON.stringify({ id: userId })
                     })
                     
                     if(response.ok)
