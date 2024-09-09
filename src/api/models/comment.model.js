@@ -75,6 +75,15 @@ class CommentModel {
     static async deleteCommentById({ id }) {
         await db.query(`DELETE FROM comentarios WHERE ComentarioID = ${id}`)
     }
+
+    /**
+     * 
+     * @param {integer} id - id del comentario a editar
+     * @param {string} comment - el nuevo comentario que ingreso el usuario
+     */
+    static async editComment({ id, comment }) {
+        await db.query(`UPDATE comentarios SET Comentario = ? WHERE ComentarioID = ?`, [comment, id])
+    }
 }
 
 export default CommentModel
