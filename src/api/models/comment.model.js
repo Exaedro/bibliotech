@@ -33,7 +33,7 @@ class CommentModel {
             return data
         }
 
-        const [comments] = await db.query(`SELECT * FROM comentarios ORDER BY l.FechaComentario DESC`)
+        const [comments] = await db.query(`SELECT * FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID ORDER BY c.FechaComentario DESC`)
 
         const data = comments.map(comment => {
             return {

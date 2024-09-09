@@ -39,7 +39,7 @@
                                 <h3 class="subtitle">Sección Libros</h3>
                                 <h2>Obtener todos los libros</h2>
                                 <p>
-                                    <code>GET /api/v1/book/all</code>
+                                    <code>GET /api/v1/books</code>
                                 </p>
                     
                                 <h2>Obtener libro por ID</h2>
@@ -49,7 +49,7 @@
 
                                 <h2>Búsqueda de libros con filtrado</h2>
                                 <p>Para realizar una búsqueda de libros filtrada, se debe utilizar el endpoint <code>/api/v1/book/search</code> y colocar los parámetros en la url con los que se quiere realizar la búsqueda.</p>
-                                <p>Por ejemplo: <code>/api/v1/book/search?title=el gran gatsby</code></p>
+                                <p>Por ejemplo: <code>/api/v1/books/search?title=el gran gatsby</code></p>
                                 <table>
                                     <thead>
                                         <tr>
@@ -103,19 +103,19 @@
                                 </table>
                                 <h2>Obtener los libros mas recientes</h2>
                                 <p>
-                                    <code>GET /api/v1/book/recent</code>
+                                    <code>GET /api/v1/books/recent</code>
                                 </p>
                                 <h2>Obtener los libros mas gustados</h2>
                                 <p>
-                                    <code>GET /api/v1/book/liked</code>
+                                    <code>GET /api/v1/books/liked</code>
                                 </p>
                                 <h2>Obtener los libros mas visitados</h2>
                                 <p>
-                                    <code>GET /api/v1/book/visited</code>
+                                    <code>GET /api/v1/books/visited</code>
                                 </p>
                                 <h2>Obtener los generos disponibles</h2>
                                 <p>
-                                    <code>GET /api/v1/book/categories</code>
+                                    <code>GET /api/v1/books/categories</code>
                                 </p>
 
                                 <h2>Crear libro</h2>
@@ -188,6 +188,88 @@
                                         </tr>
                                     </tbody>
                                 </table>
+
+                                <h2>Eliminar libro</h2>
+                                <p>
+                                    <code>POST /api/v1/book/delete</code>
+                                </p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Parámetro</th>
+                                            <th>Tipo</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>bookId</td>
+                                            <td>int</td>
+                                            <td>ID del libro</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h2>Editar libro</h2>
+                                <p>
+                                    <code>POST /api/v1/book/:id/edit</code>
+                                </p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Parámetro</th>
+                                            <th>Tipo</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>id</td>
+                                            <td>int</td>
+                                            <td>ID del libro</td>
+                                        </tr>
+                                        <tr>
+                                            <td>title</td>
+                                            <td>string</td>
+                                            <td>Título del libro</td>
+                                        </tr>
+                                        <tr>
+                                            <td>author</td>
+                                            <td>string</td>
+                                            <td>Autor del libro</td>
+                                        </tr>
+                                        <tr>
+                                            <td>isbn</td>
+                                            <td>string</td>
+                                            <td>ISBN del libro</td>
+                                        </tr>
+                                        <tr>
+                                            <td>pages</td>
+                                            <td>int</td>
+                                            <td>Cantidad de paginas</td>
+                                        </tr>
+                                        <tr>
+                                            <td>language</td>
+                                            <td>string</td>
+                                            <td>Idioma</td>
+                                        </tr>
+                                        <tr>
+                                            <td>state</td>
+                                            <td>string</td>
+                                            <td>Estado del libro</td>
+                                        </tr>
+                                        <tr>
+                                            <td>synopsis</td>
+                                            <td>string</td>
+                                            <td>Sinopsis</td>
+                                        </tr>
+                                        <tr>
+                                            <td>file</td>
+                                            <td>string</td>
+                                            <td>Imagen del libro</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
                             <h2 class="title-small" id="users">Usuarios <span class="warning-authentication">[Autenticación requerida]</span></h2>
@@ -195,15 +277,11 @@
                                 <h3 class="subtitle">Sección Usuarios</h3>
                                 <h2>Obtener todos los usuarios</h2>
                                 <p>
-                                    <code>GET /api/v1/user/all</code>
+                                    <code>GET /api/v1/users</code>
                                 </p>
                                 <h2>Obtener los datos de un usuario</h2>
                                 <p>
-                                    <code>GET /api/v1/user/data/:userId</code>
-                                </p>
-                                <h2>Obtener el historial de un usuario</h2>
-                                <p>
-                                    <code>GET /api/v1/user/record/:userId</code>
+                                    <code>GET /api/v1/user/:userId</code>
                                 </p>
                                 <h2>Crear usuario</h2>
                                 <p>
@@ -292,7 +370,7 @@
                                 </table>
                                 <h2>Añadir libro a la lista de leer mas tarde</h2>
                                 <p>
-                                    <code>POST /api/v1/user/record/add</code>
+                                    <code>POST /api/v1/user/later/add</code>
                                 </p>
                                 <table>
                                     <thead>
@@ -367,37 +445,17 @@
                                 </table>
                                 <h2>Obtener los libros favoritos de un usuario</h2>
                                 <p>
-                                    <code>GET /api/v1/user/favorite/all</code>
+                                    <code>GET /api/v1/user/:id/favorite/all</code>
                                 </p>
                                 <h2>Obtener los libros gustados de un usuario</h2>
                                 <p>
-                                    <code>GET /api/v1/user/like/all</code>
+                                    <code>GET /api/v1/user/:id/like/all</code>
                                 </p>
                                 <h2>Obtener los libros de la lista ver mas tarde de un usuario</h2>
                                 <p>
-                                    <code>GET /api/v1/user/later/all</code>
+                                    <code>GET /api/v1/user/:id/later/all</code>
                                 </p>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Parámetro</th>
-                                            <th>Tipo</th>
-                                            <th>Descripción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>userId</td>
-                                            <td>int</td>
-                                            <td>ID del usuario</td>
-                                        </tr>
-                                        <tr>
-                                            <td>bookId</td>
-                                            <td>int</td>
-                                            <td>ID del libro</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
                                 <h2>Eliminar libro de la lista de leer mas tarde</h2>
                                 <p>
                                     <code>POST /api/v1/user/later/delete</code>
@@ -470,6 +528,145 @@
                                             <td>bookId</td>
                                             <td>int</td>
                                             <td>ID del libro</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h2>Obtener el historial de un usuario</h2>
+                                <p>
+                                    <code>GET /api/v1/user/record/:id</code>
+                                </p>
+
+                                <h2>Agregar un libro al historial de un usuario</h2>
+                                <p>
+                                    <code>POST /api/v1/user/record/add</code>
+                                </p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Parámetro</th>
+                                            <th>Tipo</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>userId</td>
+                                            <td>int</td>
+                                            <td>ID del usuario</td>
+                                        </tr>
+                                        <tr>
+                                            <td>bookId</td>
+                                            <td>int</td>
+                                            <td>ID del libro</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h2>Eliminar un libro del historial de un usuario</h2>
+                                <p>
+                                    <code>POST /api/v1/user/record/delete</code>
+                                </p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Parámetro</th>
+                                            <th>Tipo</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>userId</td>
+                                            <td>int</td>
+                                            <td>ID del usuario</td>
+                                        </tr>
+                                        <tr>
+                                            <td>bookId</td>
+                                            <td>int</td>
+                                            <td>ID del libro</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h2 class="title-small">Comentarios</h2>
+                            <div class="block">
+                                <h3 class="subtitle">Sección Comentarios</h3>
+                                
+                                <h2>Obtener todos los comentarios</h2>
+                                <p>
+                                    <code>GET /api/v1/comments</code>
+                                </p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Parámetro por QUERY</th>
+                                            <th>Tipo</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>bookTitle</td>
+                                            <td>string</td>
+                                            <td>Título del libro <span class="warning-authentication" style="display: inline-block;">Opcional</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>bookId</td>
+                                            <td>int</td>
+                                            <td>ID del libro <span class="warning-authentication" style="display: inline-block;">Opcional</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h2>Crear un comentario</h2>
+                                <p>
+                                    <code>POST /api/v1/comment/create</code>
+                                </p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Parámetro</th>
+                                            <th>Tipo</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>userId</td>
+                                            <td>int</td>
+                                            <td>ID del usuario</td>
+                                        </tr>
+                                        <tr>
+                                            <td>bookId</td>
+                                            <td>int</td>
+                                            <td>ID del libro</td>
+                                        </tr>
+                                        <tr>
+                                            <td>comment</td>
+                                            <td>string</td>
+                                            <td>Comentario</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h2>Eliminar un comentario</h2>
+                                <p>
+                                    <code>POST /api/v1/comment/delete</code>
+                                </p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Parámetro</th>
+                                            <th>Tipo</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>commentId</td>
+                                            <td>int</td>
+                                            <td>ID del comentario</td>
                                         </tr>
                                     </tbody>
                                 </table>
