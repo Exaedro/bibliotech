@@ -14,6 +14,4 @@ imagenInput.addEventListener('change', (elem) => {
         reader.readAsDataURL(file)
         return
     }
-
-    imgPreview.src = '#'
 })
