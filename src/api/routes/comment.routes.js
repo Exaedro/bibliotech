@@ -15,5 +15,6 @@ const prefix = process.env.API_PREFIX
 commentRouter.get(`${prefix}/comments`, commentController.getComments)
 commentRouter.post(`${prefix}/comment/create`, commentController.createComment)
 commentRouter.post(`${prefix}/comment/delete`, commentController.deleteCommentById)
+commentRouter.post(`${prefix}/comment/edit`, commentController.editComment)
 
 export default commentRouter

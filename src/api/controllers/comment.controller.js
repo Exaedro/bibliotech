@@ -37,6 +37,17 @@ class CommentController {
             next(err)
         }
     }
+
+    editComment = async (req, res, next) => {
+        const { id, comment } = req.body
+
+        try {
+            await this.commentModel.editComment({ id, comment })
+            res.status(200).json({ message: 'edited' })
+        } catch(err) {
+            next(err)
+        }
+    }
 }
 
 export default CommentController
