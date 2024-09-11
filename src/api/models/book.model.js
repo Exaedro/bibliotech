@@ -222,17 +222,25 @@ class BookModel {
      * @param {object} file - imagen del libro
      */
     static async editById({ id, title, author, date, isbn, pages, language, publisher , state, synopsis, categories, file }) {
-
-        console.log(date)
         // Si el usuario ingreso una portada se le agrega a la consulta el campo "imagen"
         let sql = `UPDATE libros SET Titulo = '${title}', Autor = '${author}', Editorial = '${publisher}', FechaLanzamiento = '${date}', ISBN = '${isbn}', CantidadPaginas = '${pages}', Idioma = '${language}', Estado = '${state}', Sinopsis = '${synopsis}' WHERE LibroID = ${id};`
         if(file) sql = `UPDATE libros SET Titulo = '${title}', Autor = '${author}', Editorial = '${publisher}', FechaLanzamiento = '${date}', ISBN = '${isbn}', CantidadPaginas = '${pages}', Idioma = '${language}', Estado = '${state}', Sinopsis = '${synopsis}', imagen = '${file}' WHERE LibroID = ${id};`
 
-        // if(categories.length > 0) {
-        //     categories.forEach(async categorie => {
-        //         await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [id, categorie])
-        //     })
-        // }
+        if(typeof categories == 'object' && categories.length > 0) {
+            // Eliminar todas los generos que tenia antes el libro
+            await db.query('DELETE FROM libros_categorias WHERE LibroID = ?', [id])
+            
+            // Insertar los nuevos generos
+            categories.forEach(async categorie => {
+                await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [id, categorie])
+            })
+        }
+
+        // Si el usuario ingreso solo una categoria
+        if(typeof categories == 'string') {
+            await db.query('DELETE FROM libros_categorias WHERE LibroID = ?', [id])
+            await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [id, categories])
+        }
 
         await db.query(sql)
     }

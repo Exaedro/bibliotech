@@ -116,7 +116,7 @@ class BookController {
             await this.bookModel.editById({ id, title, author, date, isbn, publisher, pages, language, state, categories, synopsis, file })
             res.status(200).json({ message: 'edited' })
         } catch(err) {
-            next(err)
+            console.log(err)
         }
     }
 
