@@ -209,7 +209,38 @@
 .comentarios .modAcciones {
     position: absolute;
     top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-direction: row-reverse;
     right: 15px;
+}
+
+.comentarios .editarComentarioTextarea {
+    font-size: 15px;
+    font-family: letra, sans-serif;
+    border: 2px solid var(--color-primario);
+    border-radius: 5px;
+    padding: 5px;
+    outline: none;
+    resize: vertical;
+    max-height: 300px;
+    min-height: 36px;
+    height: 4px;
+}
+
+.comentarios .guardarComentario {
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+    font-family: 'letra', system-ui, sans-serif;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.comentarios .guardarComentario:hover {
+    background-color: var(--color-primario-hover);
 }
 
 .comentarios .modAcciones .borrar {
@@ -218,7 +249,26 @@
     font-size: 14px;
     border-radius: 100%;
     color: #fff;
+    height: 34px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+}
+
+.comentarios .modAcciones .editar {
+    background-color: orange;
+    color: #fff;
+    padding: 8px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+    width: 34px;
+    border-radius: 100%;
 }
 
 .comentarios .usuario img {

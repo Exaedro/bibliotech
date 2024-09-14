@@ -88,8 +88,8 @@
                     </div>
                   <% } %>
                 </div>
-                <div class="texto">
-                  <p><%- comment.comment %></p>
+                <div class="texto" data-commentId="<%- comment.id %>">
+                  <%- comment.comment %>
                 </div>
               </div>
             <% }) %>

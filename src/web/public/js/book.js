@@ -9,6 +9,10 @@ const divComentario = document.getElementById('comentario')
 const comentario = document.getElementById('texto')
 const comentarioError = document.getElementById('commentError')
 
+// Boton para editar los comentarios
+const botonEditar = document.querySelectorAll('.comentarios .editar')
+const textoComentarios = document.querySelectorAll('.comentarios .texto')
+
 // Botones para eliminar los comentarios
 const botonesBorrar = document.querySelectorAll('.comentarios .borrar')
 
@@ -23,6 +27,41 @@ const API_URL = 'http://localhost:3000/api/v1'
 // Enviar comentarios
 botonEnviarComentario.addEventListener('click', async (elem) => {
     await BookActions.commentBook()
+})
+
+// Funcion para mostrar el editor de comentarios
+botonEditar.forEach(boton => {
+    boton.addEventListener('click', async (elem) => {
+        const commentId = elem.target.getAttribute('data-commentId')
+    
+        textoComentarios.forEach(texto => {
+            const textoCommentId = texto.getAttribute('data-commentId')
+            const textoContent = texto.innerText
+    
+            if(textoCommentId == commentId) {
+
+                // Crear textarea
+                const textarea = document.createElement('textarea')
+                textarea.className = 'editarComentarioTextarea'
+                textarea.value = textoContent
+
+                // Crear boton para guardar el texto
+                const botonGuardar = document.createElement('button')
+                botonGuardar.innerText = 'Guardar'
+                botonGuardar.className = 'guardarComentario'
+                
+                botonGuardar.addEventListener('click', async (e) => {
+                    const texto = e.target.parentNode.querySelector('.editarComentarioTextarea')
+                    const textValue = texto.value
+
+                    await BookActions.editComment({ commentId, textValue })
+                })
+
+                texto.parentNode.replaceChild(textarea, texto)
+                textarea.parentNode.appendChild(botonGuardar)
+            } 
+        })
+    })
 })
 
 /**
@@ -103,6 +142,27 @@ class BookActions {
             return location.reload()
 
         return this.notification({ color: 'red', icon: 'x', message: 'Ocurrio un error al intentar enviar tu comentario.' })
+    }
+
+    static async editComment({ commentId, textValue }) {
+        const userId = document.documentElement.getAttribute('data-userId')
+
+        if(userId == '')
+            return this.userNotLogged()
+
+        const response = await fetch(API_URL + `/comment/edit`, { 
+            method: 'POST', 
+            headers: { 
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({ id: commentId, comment: textValue })
+        })
+
+        if(response.ok)
+            return location.reload()
+
+        return this.notification({ color: 'red', icon: 'x', message: 'Ocurrio un error al intentar editar tu comentario.' })
     }
 
     static async addToList({ list, spanish }) {
