@@ -55,9 +55,15 @@
                                         </td>
 
                                         <td>
-                                            <button href="#" data-modal="modal<%- userInfo.id %>" class="borrar">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
+                                            <% if(userInfo.id == user.userId) { %>
+                                                <button href="#" disabled data-modal="modal<%- userInfo.id %>" class="borrar-desabilitado">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            <% } else { %>
+                                                <button href="#" data-modal="modal<%- userInfo.id %>" class="borrar">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            <% } %>
                                         </td>
                                     </tr>
                                 <% }) %>
