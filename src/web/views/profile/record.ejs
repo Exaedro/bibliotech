@@ -10,6 +10,10 @@
 			<section>
 				<div class="historial">
 					<h1>Tu historial de libros visitados</h1>
+					<% if(books.length == 0) {%>
+						<p style="text-align: left;" class="noHistorialMessage">No tienes libros en tu historial de libros visitados.</p>
+					<% }  else { %>
+
 					<% books.forEach(data => { %>
 					<article class="libro">
 						<figure>
@@ -39,9 +43,9 @@
 									>
 										<i class="fa-solid fa-eye"></i>
 									</a>
-									<a href="#" class="eliminar">
+									<button href="#" class="eliminar" data-recordId="<%- data.user.recordId %>">
 										<i class="fa-solid fa-trash"></i>
-									</a>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -52,11 +56,12 @@
                             <input type="text" placeholder="Buscar libro...">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
-                        <a href="#">
+                        <a href="#" id="borrarHistorial">
                             <i class="fa-solid fa-x"></i>
                             Borrar todo el historial
                         </a>
                     </div>
+					<% } %>
 				</div>
 			</section>
 		</main>

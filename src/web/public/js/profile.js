@@ -22,7 +22,52 @@ buttonsDelete.forEach(button => {
             body: JSON.stringify({ userId, bookId })
         })
 
-        if(response.ok)
+        if (response.ok)
             return location.reload()
     })
+})
+
+// Botones para eliminar los historiales
+const botonesEliminar = document.querySelectorAll('.historial .eliminar')
+
+botonesEliminar.forEach(boton => {
+    boton.addEventListener('click', async (elem) => {
+        const recordId = boton.getAttribute('data-recordId')
+
+        const response = await fetch(`http://localhost:3000/api/v1/user/record/delete`,
+            {
+                method: 'POST',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: recordId })
+            })
+
+        if (response.ok)
+            return location.reload()
+    })
+})
+
+// Boton para borrar todo el historial
+const botonBorrarHistorial = document.getElementById('borrarHistorial')
+
+botonBorrarHistorial.addEventListener('click', async (elem) => {
+    for (let boton of botonesEliminar) {
+        const recordId = boton.getAttribute('data-recordId')
+
+        await fetch(`http://localhost:3000/api/v1/user/record/delete`,
+            {
+                method: 'POST',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: recordId })
+            })
+    }
+
+    return location.reload()
 })

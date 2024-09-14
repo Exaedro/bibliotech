@@ -24,6 +24,7 @@ userRouter.post(`${prefix}/users/login`, userController.login)
 
 userRouter.get(`${prefix}/user/record/:id`, userController.getUserRecord)
 userRouter.post(`${prefix}/user/record/add`, userController.addRecord)
+userRouter.post(`${prefix}/user/record/delete`, userController.deleteRecord)
 
 userRouter.get(`${prefix}/user/:id/favorite/all`, userController.getFavorites)
 userRouter.get(`${prefix}/user/:id/like/all`, userController.getLikes)

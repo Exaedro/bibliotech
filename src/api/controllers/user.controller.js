@@ -190,6 +190,24 @@ class UserController {
         }
     }
 
+    deleteRecord = async (req, res, next) => {
+        const { id } = req.body
+
+        try {
+            if(!id)
+                throw new ClientError('id is missing')
+
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            await this.userModel.deleteRecord({ id })
+
+            res.status(200).json({ message: 'deleted', error: false })
+        } catch(err) {
+            next(err)
+        }
+    }
+
     getFavorites = async (req, res, next) => {
         const { id } = req.params
 

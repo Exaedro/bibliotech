@@ -198,6 +198,10 @@ class UserModel {
         await db.query(`INSERT INTO historial (UsuarioID, LibroID) VALUES (?, ?)`, [userId, bookId])
     }
 
+    static async deleteRecord({ id }) {
+        await db.query(`DELETE FROM historial WHERE HistorialID = ?`, [id])
+    }
+
     /**
      * 
      * @param {integer} id - id del usuario 
