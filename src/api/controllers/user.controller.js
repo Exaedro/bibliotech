@@ -120,14 +120,16 @@ class UserController {
             if(isNaN(userId)) 
                 throw new ClientError('userId must be a number')
             
-            const response = await this.userModel.validPassword({ userId, password })
+            const response = await this.userModel.validPassword({ id: userId, password })
 
             if(response == 'user_not_exist')
                 return res.status(404).json({ message: 'this user not exists', error: response })
 
-            res.status(200).json({ ...response, error: false })
+            console.log(response)
+            
+            res.status(200).json({ valid: response, error: false })
         } catch(err) {
-            next(err)
+            console.error(err)
         }
     }
 

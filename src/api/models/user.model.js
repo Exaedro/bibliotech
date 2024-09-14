@@ -1,6 +1,7 @@
 // Librerias
 import { encryptPassword } from "../utils/encryptPassword.js";
 import { validPassword } from "../utils/validPassword.js";
+import { compare } from "bcrypt";
 
 // Base de datos
 import db from "../database.js";

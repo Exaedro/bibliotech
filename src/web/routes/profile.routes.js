@@ -73,10 +73,14 @@ profileRouter.post('/profile/edit', async (req, res) => {
     const { actualPassword, newPassword, confirmPassword } = req.body
 
     if(newPassword != confirmPassword)
-        return res.redirect('/profile/edit?error="password_not_match"')
+        return res.redirect('/profile/myself/edit?error=password_not_match')
 
-    if(actualPassword != undefined) {
-        const isPasswordValid = await fetch(`${apiUrl}/users/password`, {
+    if(actualPassword != '') {
+        if(newPassword == '' || confirmPassword == '') {
+            return res.redirect('/profile/myself/edit?error=password_fields_required')
+        }
+
+        const response = await fetch(`${apiUrl}/users/password`, {
             method: 'POST',
             headers: { 
                 'Accept': 'application/json', 
@@ -87,10 +91,16 @@ profileRouter.post('/profile/edit', async (req, res) => {
                 password: actualPassword
             })
         })
-    
-        if(!isPasswordValid.ok && (newPassword == undefined || actualPassword == undefined || confirmPassword == undefined))
-            return res.redirect('/profile/edit?error="invalid_password"')
+        
+        const isPasswordValid = await response.json()
+
+        if(!isPasswordValid.valid)
+            return res.redirect('/profile/myself/edit?error=invalid_password')
     }
+
+    console.log(`Contraseña actual: ${actualPassword}`)
+    console.log(`Contraseña nueva: ${newPassword}`)
+    console.log(`Contraseña confirmada: ${confirmPassword}`)
 
     let object = {
         id: userId,
@@ -114,13 +124,11 @@ profileRouter.post('/profile/edit', async (req, res) => {
     const user = await response.json()
 
     if(!response.ok) {
-        console.error(user.error)
-        return res.redirect('/profile/edit')
+        return res.redirect('/profile/myself/edit')
     }
         
-    req.session.username = user.data.username
-
-    return res.redirect('/profile/' + userId)
+    req.destroy()
+    return res.redirect('/login') 
 })
 
 profileRouter.get('/profile/:id/like', async (req, res) => {
