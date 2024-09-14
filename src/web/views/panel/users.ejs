@@ -55,7 +55,7 @@
                                         </td>
 
                                         <td>
-                                            <button href="#" data-userId="<%- userInfo.id %>" class="borrar">
+                                            <button href="#" data-modal="modal<%- userInfo.id %>" class="borrar">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
                                         </td>
@@ -67,8 +67,46 @@
                 </div>
             </main>
         </div>
+
+        <% users.forEach(userInfo => { %>
+            <dialog data-modal="modal<%- userInfo.id %>">
+                <h3>¿Esta seguro que quiere eliminar este usuario?</h3>
+                <div class="botones">
+                    <form method="dialog">
+                        <button class="cancelarEliminar">Cancelar</button>
+                    </form>
+                    <button href="#" class="confirmarEliminar" data-userId="<%- userInfo.id %>">Eliminar</button>
+                </div>
+            </dialog>
+        <% }) %>
+
         <script>
-            const botones = document.querySelectorAll('.borrar')
+            const botonesBorrar = document.querySelectorAll('.usuarios .borrar')
+            const modales = document.querySelectorAll('dialog')
+
+            botonesBorrar.forEach(boton => {
+                boton.addEventListener('click', (elem) => {
+                    const modalId = boton.getAttribute('data-modal')
+
+                    console.log(modalId)
+
+                    verificarModal({ botonId: modalId })
+                })
+            })
+
+            const verificarModal = ({ botonId }) => {
+                modales.forEach(modal => {
+                    const modalId = modal.getAttribute('data-modal')
+
+                    if(botonId == modalId) {
+                        modal.showModal()
+                    }
+                })
+            }
+        </script>
+
+        <script>
+            const botones = document.querySelectorAll('.confirmarEliminar')
             botones.forEach(boton => {
                 boton.addEventListener('click', async (e) => {
                     const userId = boton.getAttribute('data-userId')
