@@ -5,8 +5,8 @@ import cors from 'cors'
 export const appApi = express()
 
 // Base de datos
-import db from './database.js'
-db.authenticate()
+// import db from './database.js'
+// db.authenticate()
 
 // Configuracion
 appApi.set('PORT', 3000 || process.env.PORT)

@@ -11,15 +11,15 @@ const DATABASE_CONFIG = {
 }
 
 class db {
-    static async authenticate() {
-        try {
-            const db = await mysql.createConnection({ ...DATABASE_CONFIG })
-            await db.query('SELECT Titulo FROM libros LIMIT 1')
-            await db.end()
-        } catch(err) {
-            throw new DatabaseError('database is down')
-        }
-    }
+    // static async authenticate() {
+    //     try {
+    //         const db = await mysql.createConnection({ ...DATABASE_CONFIG })
+    //         await db.query('SELECT Titulo FROM libros LIMIT 1')
+    //         await db.end()
+    //     } catch(err) {
+    //         throw new DatabaseError('database is down')
+    //     }
+    // }
 
     static async query(sql, values) {
         try {

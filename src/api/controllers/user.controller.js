@@ -23,7 +23,7 @@ class UserController {
                 throw new ClientError('missing fields')
 
             const response = await this.userModel.createUser({ username, password, email, image, role })
-            
+        
             if(response == 'username_used')
                 throw new ClientError('this username is already used')
 
@@ -32,7 +32,7 @@ class UserController {
             
             res.status(200).json({ message: 'created', error: false })
         } catch(err) {
-            next(err)
+            console.log(err)
         }
     }
 

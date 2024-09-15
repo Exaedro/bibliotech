@@ -38,9 +38,9 @@
                         <hr>
                         <h3>Rol</h3>
                         <select name="role">
-                            <option value="admin" <%- userProfile.role == 'admin' ? 'selected' : '' %>>Administrador</option>
-                            <option value="mod" <%- userProfile.role == 'mod' ? 'selected' : '' %>>Moderador</option>
-                            <option value="user" <%- userProfile.role == 'user' ? 'selected' : '' %>>Usuario</option>
+                            <option value="3" <%- userProfile.role == 'admin' ? selected : '' %>>Administrador</option>
+                            <option value="2" <%- userProfile.role == 'mod' ? selected : '' %>>Moderador</option>
+                            <option value="1" <%- userProfile.role == 'user' ? selected : '' %>>Usuario</option>
                         </select>
                         <!--<div class="changePassword">
                             <h3 class="title">Cambiar contraseña</h3>

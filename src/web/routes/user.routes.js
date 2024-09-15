@@ -51,7 +51,7 @@ userRouter.get('/register', async (req, res) => {
 userRouter.post('/register', async (req, res) => {
     const { username, email, password } = req.body
 
-    const response = await fetch(`${apiUrl}/user/create`,
+    const response = await fetch(`${apiUrl}/users/create`,
         {
             method: 'POST',
             headers: {
@@ -62,10 +62,12 @@ userRouter.post('/register', async (req, res) => {
         }
     )
 
-    const user = await response.json()
-
-    if (!response.ok)
+    if (!response.ok) { 
+        const { message, error } = await response.json()
+        console.log(message, error)
+        
         return res.status(404).redirect('/register')
+    }
 
     res.status(200).redirect('/login')
 })

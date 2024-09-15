@@ -50,7 +50,11 @@ class UserModel {
      * @param {string} password - la contraseña del usuario
      * @param {string} email - el correo electronico del usuario 
      */
-    static async createUser({ username, password, email, image = process.env.DEFAULT_AVATAR, role = process.env.DEFAULT_ROLE }) {
+    static async createUser({ username, password, email, image, role = process.env.DEFAULT_ROLE }) {
+
+        image = image || process.env.DEFAULT_AVATAR
+        role = role || process.env.DEFAULT_ROLE
+        
         // Verificar si el nombre de usuario no esta usado por otra persona
         const isUsernameUsed = await usernameExists({ username })
         if (isUsernameUsed) return 'username_used'
@@ -106,7 +110,7 @@ class UserModel {
         else
             hashedPassword = await encryptPassword({ password })
 
-        await db.query(`UPDATE usuarios SET Nombre = ?, CorreoElectronico = ?, Imagen = ?, Contrasenia = ? WHERE UsuarioID = ?`, [username, email, avatar, hashedPassword, id])
+        await db.query(`UPDATE usuarios SET Nombre = ?, CorreoElectronico = ?, Imagen = ?, Contrasenia = ?, RollID = ? WHERE UsuarioID = ?`, [username, email, avatar, hashedPassword, role, id])
     }
 
     static async deleteUser({ id }) {
