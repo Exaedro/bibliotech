@@ -53,7 +53,7 @@
 					<% }) %>
                     <div class="historialMenu">
                         <div class="buscador">
-                            <input type="text" placeholder="Buscar libro...">
+                            <input type="text" id="buscador" placeholder="Buscar libro...">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
                         <a href="#" id="borrarHistorial">
@@ -68,6 +68,32 @@
 		<footer class="footerContainer">
 			<%- include('../partials/footer.ejs') %>
 		</footer>
+		<script type="module">
+			const buscador = document.getElementById('buscador')
+			const libros = document.querySelectorAll('.libro')
+
+			buscador.addEventListener('keydown', (e) => {
+				const buscadorValue = quitarAcentos({ texto: e.target.value.toLowerCase() })
+
+				libros.forEach(libro => {
+					const libroTitle = quitarAcentos({ texto: libro.querySelector('.titulo').innerText.toLowerCase() })
+					const libroAuthor = quitarAcentos({ texto: libro.querySelector('.autor').innerText.toLowerCase() })
+
+					console.log(libroTitle, libroAuthor, buscadorValue)
+
+					if(libroTitle.includes(buscadorValue) || libroAuthor.includes(buscadorValue)) {
+						libro.style.display = 'flex'
+					} else {
+						libro.style.display = 'none'
+					}
+				})
+			})
+
+			function quitarAcentos({ texto }) {
+				return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+			}
+		</script>
+
 		<script src="js/profile.js"></script>
 	</body>
 </html>
