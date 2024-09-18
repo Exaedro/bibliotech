@@ -51,7 +51,7 @@ botonesEliminar.forEach(boton => {
 })
 
 // Boton para borrar todo el historial
-const botonBorrarHistorial = document.getElementById('borrarHistorial')
+const botonBorrarHistorial = document.querySelector('dialog .confirmarEliminar')
 
 botonBorrarHistorial.addEventListener('click', async (elem) => {
     for (let boton of botonesEliminar) {

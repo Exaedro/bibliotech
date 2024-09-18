@@ -68,6 +68,38 @@
 		<footer class="footerContainer">
 			<%- include('../partials/footer.ejs') %>
 		</footer>
+
+		<dialog id="dialogEliminarHistorial">
+			<h3>¿Estás seguro que quieres borrar todo el historial?</h3>
+			<div class="botones">
+				<form method="dialog">
+					<button class="cancelarEliminar">Cancelar</button>
+				</form>
+				<button href="#" class="confirmarEliminar">Eliminar</button>
+			</div>
+		</dialog>
+
+		<script type="module">
+			const dialogEliminarHistorial = document.getElementById('dialogEliminarHistorial')
+			const botonEliminarHistorial = document.getElementById('borrarHistorial')
+			const botonConfirmarEliminarHistorial = document.querySelector('.confirmarEliminar')
+			const botonCancelarHistorial = document.querySelector('.cancelarEliminar')
+
+			botonEliminarHistorial.addEventListener('click', (e) => {
+				e.preventDefault()
+				dialogEliminarHistorial.showModal()
+			})
+
+			botonConfirmarEliminarHistorial.addEventListener('click', (e) => {
+				e.preventDefault()
+				dialogEliminarHistorial.close()
+			})
+
+			botonCancelarHistorial.addEventListener('click', (e) => {
+				e.preventDefault()
+				dialogEliminarHistorial.close()
+			})
+		</script>
 		<script type="module">
 			const buscador = document.getElementById('buscador')
 			const libros = document.querySelectorAll('.libro')
