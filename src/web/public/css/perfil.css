@@ -211,6 +211,7 @@
     padding: 7px 10px;
     border-radius: 5px;
     width: 34px;
+    cursor: pointer;
     height: 34px;
     background-color: red;
     color: #fff;
