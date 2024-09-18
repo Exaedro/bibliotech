@@ -11,7 +11,10 @@ class BookModel {
      * @param {string} date - fecha de lanzamiento del libro
      * @param {string} genre - categoria del libro
      */
-    static async search({ title, author, date, genre, isbn, pages, language, publisher }) {
+    static async search({ title, author, date, genre, isbn, pages, language, publisher, page }) {
+        if(page != '')
+            page = page * 10
+
         const params = {
             Titulo: title || undefined,
             Autor: author || undefined,
@@ -77,6 +80,10 @@ class BookModel {
                 // Marcar que existe un parametro
                 whereExists = true
             }
+        }
+
+        if(page != '') {
+            sql += ` LIMIT 10 OFFSET ${page}`
         }
 
         const [books] = await db.query(sql)

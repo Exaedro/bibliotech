@@ -17,10 +17,10 @@ class BookController {
     }
 
     search = async (req, res, next) => {
-        const { title, author, date, genre, isbn, pages, language, publisher } = req.query
+        const { title, author, date, genre, isbn, pages, language, publisher, page } = req.query
 
         try {
-            const books = await this.bookModel.search({ title, author, date, genre, isbn, pages, language, publisher })
+            const books = await this.bookModel.search({ title, author, date, genre, isbn, pages, language, publisher, page })
             res.status(200).json(books)
         } catch(err) {
             next(err)
