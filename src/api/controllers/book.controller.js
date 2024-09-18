@@ -6,8 +6,10 @@ class BookController {
     }
 
     getAll = async (req, res, next) => {
+        const { page } = req.query
+
         try {
-            const books = await this.bookModel.getAll()
+            const books = await this.bookModel.getAll({ page })
             res.status(200).json(books)
         } catch(err) {
             next(err)

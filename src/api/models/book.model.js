@@ -86,8 +86,14 @@ class BookModel {
         return data
     }
 
-    static async getAll() {
-        const [books] = await db.query('SELECT * FROM libros')
+    static async getAll({ page } = {}) {
+        let sql = `SELECT * FROM libros`
+        if(page) {
+            const offset = page * 10
+            sql = `SELECT * FROM libros LIMIT 10 OFFSET ${offset}`
+        }
+
+        const [books] = await db.query(sql)
 
         const data = bookObjectComplex({ data: books })
             
