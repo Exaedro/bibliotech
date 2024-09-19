@@ -49,10 +49,50 @@
 
                             <div class="block">
                                 <h2 class="title-small">Archivos y organización de carpetas</h2>
-                                <p>El proyecto tiene una organización simple de carpetas para facilitar la gestión de los archivos. La estructura de la carpeta <span class="strong">src</span> es la siguiente:</p>
+                                <div class="together">
+                                    <h3 class="subtitle">Estructura inicial</h3>
+                                    <picture>
+                                        <img src="img/docs/folderStructure-1.png" alt="Estructura de carpetas" loading="lazy">
+                                    </picture>
+                                    <h2>Explicaciones de las carpetas y archivos:</h2>
+                                    <ul>
+                                        <li>node_modules: Carpeta donde se encuentran los paquetes de Node.js instalados.</li>
+                                        <li>sql: Carpeta donde se encuentran los archivos de la base de datos.</li>
+                                        <li>src: Carpeta principal donde se encuentran los archivos de código fuente de la aplicación.</li>
+                                        <li>api: Carpeta donde se encuentran los archivos de código fuente de la API.</li>
+                                        <li>web: Carpeta donde se encuentran los archivos de código fuente de la aplicación web.</li>
+                                        <li>index.js: Archivo principal de la aplicación.</li>
+                                        <li>
+                                            <p>.env: Archivo donde se encuentran las variables de entorno de la aplicación.</p>
+                                            <picture>
+                                                <img src="img/docs/fileenv.png" alt="Archivo .env" loading="lazy">
+                                            </picture>
+                                        </li>
+                                        <li>.gitignore: Archivo que especifica los archivos que no deben ser rastreados por git.</li>
+                                        <li>package.json: Archivo que contiene la información de la aplicación, incluyendo las dependencias y scripts.</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="together">
+                                    <h3 class="subtitle">Organización de la carpeta API</h3>
+                                    <p>La organización de esta carpeta está hecha con una arquitectura parecida a la de <strong>MVC</strong>, esta empieza en los modelos/servicios donde se obtiene los datos de la base de datos, luego en los controladores, y por ultimo en las rutas. En la carpeta <strong>utils</strong> se pueden encontrar funciones que pueden ser utiles en varios archivos o crear nuevas funciones si se necesita en algun momento.</p>
+                                    <picture>
+                                        <img src="img/docs/apiFolderStructure.png" alt="Estructura de la carpeta API" loading="lazy">
+                                    </picture>
+                                </div>
+
+                                <div class="together">
+                                    <h3 class="subtitle">Organización de la carpeta WEB</h3>
+                                    <p>Dentro de esta carpeta podras encontrar los archivos de todo lo relacionado con la aplicación web. El archivo <strong>index.js</strong> es el que inicia la aplicación, el archivo <strong>config.json</strong> contiene datos como el link de la API. En la carpeta <strong>public</strong> se encuentran los archivos de CSS, fuentes de texto, imagenes, scripts de javascript, y la carpeta uploads que son las imagenes que suben los usuarios al interactuar con la web. En la carpeta <strong>views</strong> se encuentran los archivos html que se utilizan para mostrar la página web, y en la carpeta <strong>routes</strong> se encuentran las rutas de la aplicación web.</p>
+                                    <picture>
+                                        <img src="img/docs/webFolderStructure.png" alt="Estructura de la carpeta WEB" loading="lazy">
+                                    </picture>
+                                </div>
+
+                                <!-- <p>El codigo de los modelos y los controladores estan programados orientado a objetos para su facilidad de mantenimiento y escalabilidad</p>
                                 <picture>
-                                    <img src="img/docs/folderStructure.png" alt="Estructura de carpetas">
-                                </picture>
+                                    <img src="img/docs/controllers.png" alt="Archivo book.controller.js" loading="lazy">
+                                </picture> -->
                             </div>
 
                             <div class="block">
