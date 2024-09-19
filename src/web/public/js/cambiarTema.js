@@ -23,11 +23,11 @@ function setTheme(theme) {
   html.setAttribute('tema', theme)
 
   if(theme == 'light') {
-    sol.src = '/img/sol-negro.svg'
+    sol.src = '/img/sol.svg'
     logo.src = '/img/logo.png'
   }
   if(theme == 'dark') {
-    sol.src = '/img/sol.svg'
+    sol.src = '/img/luna.svg'
     logo.src = '/img/logo-negro.png'
   }
 }
@@ -40,11 +40,11 @@ function saveTheme(theme) {
   localStorage.setItem('tema', theme)
 
   if(theme == 'light') {
-    sol.src = '/img/sol-negro.svg'
+    sol.src = '/img/sol.svg'
     logo.src = '/img/logo.png'
   }
   if(theme == 'dark') {
-    sol.src = '/img/sol.svg'
+    sol.src = '/img/luna.svg'
     logo.src = '/img/logo-negro.png'
   }
 }

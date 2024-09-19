@@ -814,7 +814,7 @@ h1, h2, h4, h5, p {
 }
 
 .sol:hover {
-    transform: rotateZ(180deg)
+    transform: rotateZ(360deg)
 }
 
 .notificacion {
