@@ -33,33 +33,52 @@ botonEnviarComentario.addEventListener('click', async (elem) => {
 botonEditar.forEach(boton => {
     boton.addEventListener('click', async (elem) => {
         const commentId = elem.target.getAttribute('data-commentId')
-    
+
         textoComentarios.forEach(texto => {
             const textoCommentId = texto.getAttribute('data-commentId')
             const textoContent = texto.innerText
-    
-            if(textoCommentId == commentId) {
+
+            if (textoCommentId == commentId) {
 
                 // Crear textarea
                 const textarea = document.createElement('textarea')
                 textarea.className = 'editarComentarioTextarea'
                 textarea.value = textoContent
+                
+
+                // Crear div para editar el texto
+                const div = document.createElement('div')
+                div.className = 'editarComentario'
 
                 // Crear boton para guardar el texto
                 const botonGuardar = document.createElement('button')
                 botonGuardar.innerText = 'Guardar'
                 botonGuardar.className = 'guardarComentario'
-                
+
+                // Crear boton para cancelar el texto
+                const botonCancelar = document.createElement('button')
+                botonCancelar.innerText = 'Cancelar'
+                botonCancelar.className = 'cancelarComentario'
+
                 botonGuardar.addEventListener('click', async (e) => {
-                    const texto = e.target.parentNode.querySelector('.editarComentarioTextarea')
+                    const texto = e.target.parentNode.parentNode.querySelector('.editarComentarioTextarea')
                     const textValue = texto.value
 
                     await BookActions.editComment({ commentId, textValue })
                 })
 
                 texto.parentNode.replaceChild(textarea, texto)
-                textarea.parentNode.appendChild(botonGuardar)
-            } 
+                textarea.parentNode.appendChild(div)
+
+                div.appendChild(botonGuardar)
+                botonGuardar.parentNode.appendChild(botonCancelar, botonGuardar)
+
+                botonCancelar.addEventListener('click', (e) => {
+                    e.preventDefault()
+                    e.target.parentNode.remove()
+                    textarea.parentNode.replaceChild(texto, textarea)
+                })
+            }
         })
     })
 })
@@ -72,9 +91,9 @@ botonEditar.forEach(boton => {
 comentario.addEventListener('keydown', (elem) => {
     const isErrorShowed = comentarioError.className
 
-    if(isErrorShowed.includes('show'))
+    if (isErrorShowed.includes('show'))
         comentario.style.borderColor = 'var(--color-fondo-secundario)'
-        comentarioError.className = 'hidden error'
+    comentarioError.className = 'hidden error'
 })
 
 // Eliminar comentarios
@@ -101,15 +120,15 @@ botonFavorito.addEventListener('click', async (elem) => {
 class BookActions {
     static async deleteComment({ commentId }) {
         const response = await fetch(API_URL + '/comment/delete', {
-            method: 'POST', 
-            headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ commentId })
         })
 
-        if(response.ok)
+        if (response.ok)
             return location.reload()
 
         return this.notification({ color: 'red', icon: 'x', message: 'Ocurrio un error al intentar eliminar el comentario.' })
@@ -120,25 +139,25 @@ class BookActions {
         const userId = document.documentElement.getAttribute('data-userId')
         const comment = comentario.value
 
-        if(userId == '')
+        if (userId == '')
             return this.userNotLogged()
 
-        if(comment == '') {
+        if (comment == '') {
             comentario.style.borderColor = 'red'
             comentarioError.className = 'show error'
             return
         }
 
-        const response = await fetch(API_URL + `/comment/create`, { 
-            method: 'POST', 
-            headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
+        const response = await fetch(API_URL + `/comment/create`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ bookId, userId, comment })
         })
 
-        if(response.ok)
+        if (response.ok)
             return location.reload()
 
         return this.notification({ color: 'red', icon: 'x', message: 'Ocurrio un error al intentar enviar tu comentario.' })
@@ -147,19 +166,19 @@ class BookActions {
     static async editComment({ commentId, textValue }) {
         const userId = document.documentElement.getAttribute('data-userId')
 
-        if(userId == '')
+        if (userId == '')
             return this.userNotLogged()
 
-        const response = await fetch(API_URL + `/comment/edit`, { 
-            method: 'POST', 
-            headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
+        const response = await fetch(API_URL + `/comment/edit`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ id: commentId, comment: textValue })
         })
 
-        if(response.ok)
+        if (response.ok)
             return location.reload()
 
         return this.notification({ color: 'red', icon: 'x', message: 'Ocurrio un error al intentar editar tu comentario.' })
@@ -169,24 +188,24 @@ class BookActions {
         const bookId = document.documentElement.getAttribute('data-bookId')
         const userId = document.documentElement.getAttribute('data-userId')
 
-        if(userId == '')
+        if (userId == '')
             return this.userNotLogged()
 
-        const response = await fetch(API_URL + `/user/${list}/add`, { 
-            method: 'POST', 
-            headers: { 
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json' 
+        const response = await fetch(API_URL + `/user/${list}/add`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ bookId, userId })
         })
 
         const { message, error } = await response.json()
 
-        if(message.includes('already'))
+        if (message.includes('already'))
             return this.duplicatedError()
 
-        if(response.ok)
+        if (response.ok)
             return this.bookAdded({ list: spanish })
     }
 

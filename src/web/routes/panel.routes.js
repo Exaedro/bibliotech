@@ -29,11 +29,11 @@ panelRouter.get('/panel', (req, res) => {
 panelRouter.get('/panel/books', async (req, res) => {
     const { username, role, userId } = req.session
 
-    const books = await (await fetch(`${apiUrl}/books`, { method: 'GET' })).json()
+    const data = await (await fetch(`${apiUrl}/books`, { method: 'GET' })).json()
 
     res.render('panel/books',
         {
-            title: 'Bibliotech - Libros', books,
+            title: 'Bibliotech - Libros', books: data.books,
             user: { username, role, userId }
         }
     )

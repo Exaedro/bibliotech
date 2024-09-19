@@ -1,8 +1,4 @@
-- Los administradores no puedan eliminar administradores
-- Confirmacion al eliminar usuario en el panel
-- Completar el editar libro / Francovich
-- Arreglar el modulo de cambio de contraseña / TERMINADO
-- Editar comentarios / abajolayuta / TERMINADO
-- Agregar paginacion al modulo de usuarios y libros en panel
-- Agregar paginacion al modulo de catalogo
 - Manual de usuario / lechuga
+
+- Agregar buscador al modulo de usuarios en el panel
+- Agregar boton de cancelar al editar un comentario

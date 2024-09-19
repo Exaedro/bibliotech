@@ -228,6 +228,12 @@
     height: 4px;
 }
 
+.comentarios .editarComentario {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 10px;
+}
+
 .comentarios .guardarComentario {
     background-color: var(--color-primario);
     color: var(--color-letra-secundario);
@@ -237,6 +243,21 @@
     font-size: 15px;
     cursor: pointer;
     transition: background 0.3s ease;
+}
+
+.comentarios .cancelarComentario {
+    background-color: red;
+    color: #fff;
+    font-family: 'letra', system-ui, sans-serif;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.comentarios .cancelarComentario:hover {
+    background-color: rgb(235, 1, 1);
 }
 
 .comentarios .guardarComentario:hover {
