@@ -12,9 +12,6 @@ class BookModel {
      * @param {string} genre - categoria del libro
      */
     static async search({ title, author, date, genre, isbn, pages, language, publisher, page }) {
-        if(page != '')
-            page = page * 10
-
         const params = {
             Titulo: title || undefined,
             Autor: author || undefined,
@@ -82,9 +79,13 @@ class BookModel {
             }
         }
 
-        if(page != '') {
-            sql += ` LIMIT 10 OFFSET ${page}`
-        }
+        // if(page != '') {
+        //     page = page * 10
+        //     if(page == 10) { 
+        //         page = 0
+        //     }
+        //     sql += ` LIMIT 10 OFFSET ${page}`
+        // }
 
         const [books] = await db.query(sql)
         
@@ -101,10 +102,25 @@ class BookModel {
         }
 
         const [books] = await db.query(sql)
+        const totalBooks = await this.getTotalBooks()
 
-        const data = bookObjectComplex({ data: books })
-            
-        return data
+        const data = await bookObjectComplex({ data: books })
+
+        const object = {
+            data: {
+                totalBooks
+            },
+            books: data,
+        }
+    
+        return object
+    }
+
+    static async getTotalBooks() {
+        const [books] = await db.query(`SELECT COUNT(*) as total FROM libros`)
+        const total = books[0].total
+
+        return total
     }
 
     /** 

@@ -23,7 +23,7 @@ export const bookObject = ({ data }) => {
             language: book.Idioma,
             state: book.Estado,
             visits: book.Visitas,
-            likes: book.Gustados,
+            likes: book.Gustados
         }
 
         if (bookInfo.id != bookActual) {

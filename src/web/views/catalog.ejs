@@ -87,6 +87,17 @@
             <h2 class="mensajeError">No hemos encontrado nada...</h2>
           <% } %>
         </div>
+        <div class="paginador">
+          <% console.log(books) %>
+          <% for(let i = 0; i < booksCount; i++) { %>
+            <% if(i % 10 == 0) {%>
+              <% let pagina = Math.floor(i / 10) %>
+              <a href="/catalog?page=<%- pagina %>">
+                <%- pagina + 1 %>
+              </a>
+            <% } %>
+          <% } %>
+        </div>
       </main>
       <footer class="footerContainer">
         <%- include('partials/footer.ejs') %>

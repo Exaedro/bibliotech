@@ -49,20 +49,22 @@ indexRouter.get('/catalog', async (req, res) => {
     language = language ? language : ''
     publisher = publisher ? publisher : ''
     page = page ? page : ''
-
-    // let books
-    // if(...req.query )
-
+    
     if(genre == 'off' || genre == undefined)
         genre = ''
-
-    let books = await (await fetch(`${apiUrl}/books/search?title=${title}&author=${author}&date=${date}&genre=${genre}&isbn=${isbn}&pages=${pages}&language=${language}&publisher=${publisher}&page=${page}`)).json()
+    
+    let data
+    if(Object.keys(req.query).length <= 0 || (req.query.page && Object.keys(req.query).length == 1)) {
+        data = await (await fetch(`${apiUrl}/books?page=${page}`)).json()
+    } else {
+        data = await (await fetch(`${apiUrl}/books/search?title=${title}&author=${author}&date=${date}&genre=${genre}&isbn=${isbn}&pages=${pages}&language=${language}&publisher=${publisher}&page=${page}`)).json()
+    }
 
     const categories = await (await fetch(`${apiUrl}/books/categories`)).json()
 
     res.render('catalog',
         {
-            title: 'Bibliotech - Catalogo', books, categories,
+            title: 'Bibliotech - Catalogo', books: data.books, categories, booksCount: data.data.totalBooks,
             user: { username, role, userId }
         }
     )
