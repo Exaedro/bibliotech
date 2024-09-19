@@ -79,17 +79,17 @@ class BookModel {
             }
         }
 
-        // if(page != '') {
-        //     page = page * 10
-        //     if(page == 10) { 
-        //         page = 0
-        //     }
-        //     sql += ` LIMIT 10 OFFSET ${page}`
-        // }
-
         const [books] = await db.query(sql)
-        
+        const totalBooks = await this.getTotalBooks({ books })
+
         const data = books.map(book => { return { id: book.LibroID, title: book.Titulo, image: book.imagen } })
+        
+        const object = {
+            data: {
+                totalBooks
+            },
+            books: data,
+        }
 
         return data
     }
@@ -116,10 +116,15 @@ class BookModel {
         return object
     }
 
-    static async getTotalBooks() {
+    static async getTotalBooks({ books }) {
+        if(books) {
+            const [searchBooks] = await db.query(`SELECT COUNT(*) as total FROM libros`)
+            const total = searchBooks[0].total
+            return total
+        }
+
         const [books] = await db.query(`SELECT COUNT(*) as total FROM libros`)
         const total = books[0].total
-
         return total
     }
 
