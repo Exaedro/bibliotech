@@ -1,140 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <%- include('../partials/admin/head.ejs') %>
-    </head>
-    <body>
-        <div class="panel">
-            <%- include('../partials/admin/sidebar.ejs') %>
-            <main>
-                <%- include('../partials/admin/navbar.ejs') %>
-                <div class="contenedor">
-                    <h1>Usuarios</h1>
-                    <div class="usuarios">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Foto de perfil</th>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Rol</th>
-                                    <th>Ver perfil</th>
-                                    <th>Editar</th>
-                                    <th>Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% users.forEach(userInfo => { %>
-                                    <tr>
-                                        <td><%- userInfo.id %></td>
-                                        <td class="imagen"><img class="img-perfil" src="<%- userInfo.image %>" alt="<%- userInfo.username %>"></td>
-                                        <td><%- userInfo.username %></td>
-                                        <td><%- userInfo.email %></td>
-                                        <% if (userInfo.roleId == 1) { %>
-                                            <td>Usuario</td>
-                                        <% } else if (userInfo.roleId == 2) { %>
-                                            <td>Moderador</td>
-                                        <% } else if (userInfo.roleId == 3) { %>
-                                            <td>Administrador</td>
-                                        <% } else if (userInfo.roleId == 4) { %>
-                                            <td>Propietario</td>
-                                        <% } %>
+	<head>
+		<%- include('../partials/admin/head.ejs') %>
+	</head>
+	<body>
+		<div class="panel">
+			<%- include('../partials/admin/sidebar.ejs') %>
+			<main>
+				<%- include('../partials/admin/navbar.ejs') %>
+				<div class="contenedor">
+					<h1>Usuarios</h1>
+					<div class="usuarios">
+						<div class="buscador">
+							<h3>Buscar</h3>
+							<input
+								type="text"
+								id="myInput"
+								class="buscar"
+								placeholder=". . ."
+							/>
+						</div>
+						<table id="myTable">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Foto de perfil</th>
+									<th>Nombre</th>
+									<th>Correo</th>
+									<th>Rol</th>
+									<th>Ver perfil</th>
+									<th>Editar</th>
+									<th>Eliminar</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% users.forEach(userInfo => { %>
+								<tr>
+									<td><%- userInfo.id %></td>
+									<td class="imagen">
+										<img
+											class="img-perfil"
+											src="<%- userInfo.image %>"
+											alt="<%- userInfo.username %>"
+										/>
+									</td>
+									<td><%- userInfo.username %></td>
+									<td><%- userInfo.email %></td>
+									<% if (userInfo.roleId == 1) { %>
+									<td>Usuario</td>
+									<% } else if (userInfo.roleId == 2) { %>
+									<td>Moderador</td>
+									<% } else if (userInfo.roleId == 3) { %>
+									<td>Administrador</td>
+									<% } else if (userInfo.roleId == 4) { %>
+									<td>Propietario</td>
+									<% } %>
 
-                                        
-                                        <td>
-                                            <a href="/profile/<%- userInfo.id %>" class="editar verde">
-                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                            </a>
-                                        </td>
+									<td>
+										<a
+											href="/profile/<%- userInfo.id %>"
+											class="editar verde"
+										>
+											<i
+												class="fa-solid fa-arrow-up-right-from-square"
+											></i>
+										</a>
+									</td>
 
-                                        <td>
-                                            <a href="/panel/users/<%- userInfo.id %>/edit" class="editar-rol">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </td>
+									<td>
+										<a
+											href="/panel/users/<%- userInfo.id %>/edit"
+											class="editar-rol"
+										>
+											<i
+												class="fa-solid fa-pen-to-square"
+											></i>
+										</a>
+									</td>
 
-                                        <td>
-                                            <% if(userInfo.id == user.userId) { %>
-                                                <button href="#" disabled data-modal="modal<%- userInfo.id %>" class="borrar-desabilitado">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            <% } else { %>
-                                                <button href="#" data-modal="modal<%- userInfo.id %>" class="borrar">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            <% } %>
-                                        </td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
-                        </table>    
-                    </div>
-                </div>
-            </main>
-        </div>
+									<td>
+										<% if(userInfo.id == user.userId) { %>
+										<button
+											href="#"
+											disabled
+											data-modal="modal<%- userInfo.id %>"
+											class="borrar-desabilitado"
+										>
+											<i class="fa-solid fa-trash"></i>
+										</button>
+										<% } else { %>
+										<button
+											href="#"
+											data-modal="modal<%- userInfo.id %>"
+											class="borrar"
+										>
+											<i class="fa-solid fa-trash"></i>
+										</button>
+										<% } %>
+									</td>
+								</tr>
+								<% }) %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</main>
+		</div>
 
-        <% users.forEach(userInfo => { %>
-            <dialog data-modal="modal<%- userInfo.id %>">
-                <h3>¿Esta seguro que quiere eliminar este usuario?</h3>
-                <div class="botones">
-                    <form method="dialog">
-                        <button class="cancelarEliminar">Cancelar</button>
-                    </form>
-                    <button href="#" class="confirmarEliminar" data-userId="<%- userInfo.id %>">Eliminar</button>
-                </div>
-            </dialog>
-        <% }) %>
+		<% users.forEach(userInfo => { %>
+		<dialog data-modal="modal<%- userInfo.id %>">
+			<h3>¿Esta seguro que quiere eliminar este usuario?</h3>
+			<div class="botones">
+				<form method="dialog">
+					<button class="cancelarEliminar">Cancelar</button>
+				</form>
+				<button
+					href="#"
+					class="confirmarEliminar"
+					data-userId="<%- userInfo.id %>"
+				>
+					Eliminar
+				</button>
+			</div>
+		</dialog>
+		<% }) %>
 
-        <script>
-            const botonesBorrar = document.querySelectorAll('.usuarios .borrar')
-            const modales = document.querySelectorAll('dialog')
+		<script>
+			var input, filter, table, tr, td, id, i, txtValue;
+			input = document.getElementById("myInput");
 
-            botonesBorrar.forEach(boton => {
-                boton.addEventListener('click', (elem) => {
-                    const modalId = boton.getAttribute('data-modal')
+			input.addEventListener("keyup", () => {
+				myFunction();
+			});
 
-                    console.log(modalId)
+			function myFunction() {
+				// Declare variables
 
-                    verificarModal({ botonId: modalId })
-                })
-            })
+				filter = input.value.toUpperCase();
+				table = document.getElementById("myTable");
+				tr = table.getElementsByTagName("tr");
 
-            const verificarModal = ({ botonId }) => {
-                modales.forEach(modal => {
-                    const modalId = modal.getAttribute('data-modal')
+				// Loop through all table rows, and hide those who don't match the search query
+				for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[2];
 
-                    if(botonId == modalId) {
-                        modal.showModal()
-                    }
-                })
-            }
-        </script>
+					if (td) {
+						txtValue = td.textContent || td.innerText;
+						if (txtValue.toUpperCase().indexOf(filter) > -1) {
+							tr[i].style.display = "";
+						} else {
+							tr[i].style.display = "none";
+						}
+					}
+				}
+			}
+		</script>
 
-        <script>
-            const botones = document.querySelectorAll('.confirmarEliminar')
-            botones.forEach(boton => {
-                boton.addEventListener('click', async (e) => {
-                    const userId = boton.getAttribute('data-userId')
+		<script>
+			const botonesBorrar =
+				document.querySelectorAll(".usuarios .borrar");
+			const modales = document.querySelectorAll("dialog");
 
-                    const response = await fetch('http://localhost:3000/api/v1/users/delete', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({ id: userId })
-                    })
-                    
-                    if(response.ok)
-                        return window.location.reload()
+			botonesBorrar.forEach((boton) => {
+				boton.addEventListener("click", (elem) => {
+					const modalId = boton.getAttribute("data-modal");
 
-                    const { error } = await response.json()
-                    console.error(error)
-                })
-            })
-        </script>
+					console.log(modalId);
 
-        <script src="js/cambiarTema.js"></script>
-    </body>
+					verificarModal({ botonId: modalId });
+				});
+			});
+
+			const verificarModal = ({ botonId }) => {
+				modales.forEach((modal) => {
+					const modalId = modal.getAttribute("data-modal");
+
+					if (botonId == modalId) {
+						modal.showModal();
+					}
+				});
+			};
+		</script>
+
+		<script>
+			const botones = document.querySelectorAll(".confirmarEliminar");
+			botones.forEach((boton) => {
+				boton.addEventListener("click", async (e) => {
+					const userId = boton.getAttribute("data-userId");
+
+					const response = await fetch(
+						"http://localhost:3000/api/v1/users/delete",
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+								Accept: "application/json",
+							},
+							body: JSON.stringify({ id: userId }),
+						}
+					);
+
+					if (response.ok) return window.location.reload();
+
+					const { error } = await response.json();
+					console.error(error);
+				});
+			});
+		</script>
+
+		<script src="js/cambiarTema.js"></script>
+	</body>
 </html>
