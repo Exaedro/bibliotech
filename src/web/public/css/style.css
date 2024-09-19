@@ -96,6 +96,31 @@ h1, h2, h4, h5, p {
     cursor: default;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--color-fondo);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--color-fondo-secundario);
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(190, 190, 190);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgb(162, 162, 162);
+}
+
 /* //////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .navbar {
