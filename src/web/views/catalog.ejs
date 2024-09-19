@@ -92,9 +92,15 @@
           <% for(let i = 0; i < booksCount; i++) { %>
             <% if(i % 10 == 0) {%>
               <% let pagina = Math.floor(i / 10) %>
-              <a href="/catalog?page=<%- pagina %>">
-                <%- pagina + 1 %>
-              </a>
+              <% if(pageSelected == pagina) { %>
+                <a href="/catalog?page=<%- pagina %>" class="paginaActual">
+                  <%- pagina + 1 %>
+                </a>
+              <% } else { %>
+                <a href="/catalog?page=<%- pagina %>">
+                  <%- pagina + 1 %>
+                </a>
+              <% } %>
             <% } %>
           <% } %>
         </div>

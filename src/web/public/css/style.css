@@ -473,6 +473,33 @@ h1, h2, h4, h5, p {
     font-size: 42px;
 }
 
+.catalogo-container .paginador {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.catalogo-container .paginador a {
+    padding: 10px;
+    margin: 0 5px;
+    background-color: var(--color-fondo-secundario);
+    color: var(--color-letra);
+    border-radius: 100%;
+    padding: 15px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.catalogo-container .paginador a.paginaActual {
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+}
+
+.catalogo-container .paginador a:hover {
+    background-color: var(--color-primario-hover);
+    color: var(--color-letra-secundario);
+}
+
+
 .recargar {
     background: #1cc88a;
     display: flex;

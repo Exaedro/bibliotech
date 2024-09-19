@@ -91,7 +91,7 @@ class BookModel {
             books: data,
         }
 
-        return data
+        return object
     }
 
     static async getAll({ page } = {}) {
@@ -116,15 +116,15 @@ class BookModel {
         return object
     }
 
-    static async getTotalBooks({ books }) {
+    static async getTotalBooks({ books } = {}) {
         if(books) {
             const [searchBooks] = await db.query(`SELECT COUNT(*) as total FROM libros`)
             const total = searchBooks[0].total
             return total
         }
 
-        const [books] = await db.query(`SELECT COUNT(*) as total FROM libros`)
-        const total = books[0].total
+        const [totalBooks] = await db.query(`SELECT COUNT(*) as total FROM libros`)
+        const total = totalBooks[0].total
         return total
     }
 

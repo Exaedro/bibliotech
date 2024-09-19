@@ -48,7 +48,7 @@ indexRouter.get('/catalog', async (req, res) => {
     pages = pages ? pages : ''
     language = language ? language : ''
     publisher = publisher ? publisher : ''
-    page = page ? page : ''
+    page = page ? page : 0
     
     if(genre == 'off' || genre == undefined)
         genre = ''
@@ -64,7 +64,7 @@ indexRouter.get('/catalog', async (req, res) => {
 
     res.render('catalog',
         {
-            title: 'Bibliotech - Catalogo', books: data.books, categories, booksCount: data.data.totalBooks,
+            title: 'Bibliotech - Catalogo', books: data.books, categories, booksCount: data.data.totalBooks, pageSelected: page,
             user: { username, role, userId }
         }
     )

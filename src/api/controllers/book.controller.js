@@ -12,7 +12,8 @@ class BookController {
             const books = await this.bookModel.getAll({ page })
             res.status(200).json(books)
         } catch(err) {
-            next(err)
+            console.error(err)
+            res.status(404)
         }
     }
 
