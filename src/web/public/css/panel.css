@@ -711,3 +711,8 @@ html {
 .panel .editUserContainer .data button:hover {
     background-color: var(--color-primario-hover);
 }
+
+.panel-docs picture img {
+    box-shadow: 0px 0px 14px 2px #979797d9;
+    border-radius: 10px;
+}
