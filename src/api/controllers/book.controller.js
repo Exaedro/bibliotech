@@ -137,6 +137,48 @@ class BookController {
         }
     }
 
+    getVisits = async (req, res, next) => {
+        const { id } = req.params
+
+        try {
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            const visits = await this.bookModel.getVisits({ id })
+            res.status(200).json({ visits })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    addVisit = async (req, res, next) => {
+        const { id } = req.body
+
+        try {
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            await this.bookModel.addVisit({ id })
+            res.status(200).json({ message: 'added' })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    deleteVisit = async (req, res, next) => {
+        const { id } = req.body
+
+        try {
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            await this.bookModel.deleteVisit({ id })
+            res.status(200).json({ message: 'deleted' })
+        } catch(err) {
+            next(err)
+        }
+    }
+
     // ! METODO QUE PUEDE SER ELIMINADO MAS TARDE
     getByTitle = async (req, res, next) => {
         const { title } = req.query

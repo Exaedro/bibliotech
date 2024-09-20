@@ -26,4 +26,8 @@ bookRouter.post(`${prefix}/book/create`, bookController.createBook)
 bookRouter.post(`${prefix}/book/delete`, bookController.deleteById)
 bookRouter.post(`${prefix}/book/:id/edit`, bookController.editById)	
 
+bookRouter.get(`${prefix}/book/:id/visits`, bookController.getVisits)
+bookRouter.post(`${prefix}/book/add/visit`, bookController.addVisit)
+bookRouter.post(`${prefix}/book/delete/visit`, bookController.deleteVisit)
+
 export default bookRouter

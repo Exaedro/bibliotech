@@ -287,6 +287,21 @@ class BookModel {
 
         await db.query(`DELETE FROM libros WHERE LibroID = '${bookId}'`)
     }
+
+    static async getVisits({ id }) {
+        const [data] = await db.query(`SELECT Visitas FROM libros WHERE LibroID = ?`, [id])
+        const visits = data[0].Visitas
+        
+        return visits
+    }
+
+    static async addVisit({ id }) {
+        await db.query(`UPDATE libros SET Visitas = Visitas + 1 WHERE LibroID = ?`, [id])
+    }
+
+    static async deleteVisit({ id }) {
+        await db.query(`UPDATE libros SET Visitas = Visitas - 1 WHERE LibroID = ?`, [id])
+    }
 }
 
 /* 
