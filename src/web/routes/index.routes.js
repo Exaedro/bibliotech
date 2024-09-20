@@ -102,6 +102,15 @@ indexRouter.get('/book/:bookId', async (req, res) => {
             user: { username, role, userId }
         }
     )
+
+    await fetch(`${apiUrl}/book/add/visit`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: book[0].id })
+    })
 })
 
 export default indexRouter
