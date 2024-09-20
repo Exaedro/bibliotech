@@ -38,7 +38,7 @@ DB_PORT = 3306
 ```
 
 4. Inicia la aplicación
-> Primera opción
+> Primera opción (Iniciar con Electron)
 ```console
 npm run app
 ```
