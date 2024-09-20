@@ -89,7 +89,10 @@
                   <% } %>
                 </div>
                 <div class="texto" data-commentId="<%- comment.id %>">
-                  <%- comment.comment %>
+                  <%- comment.comment %> 
+                  <% if(comment.edited) { %>
+                    <span class="editado">(editado)</span>
+                  <% } %>
                 </div>
               </div>
             <% }) %>

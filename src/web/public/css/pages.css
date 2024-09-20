@@ -186,6 +186,11 @@
     position: relative;
 }
 
+.comentarios .comentario .editado {
+    color: rgb(208 208 208);
+    font-size: 11px;
+}
+
 .comentarios .comentario .texto p {
     line-height: 25px;
 }

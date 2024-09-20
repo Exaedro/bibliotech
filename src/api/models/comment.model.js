@@ -10,7 +10,7 @@ class CommentModel {
      */
     static async getComments({ bookTitle, bookId }) {
         if(bookTitle || bookId) {
-            const [comments] = await db.query(`SELECT c.ComentarioID, c.UsuarioID, c.LibroID, c.Comentario, c.FechaComentario, u.Nombre, u.Imagen FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID JOIN usuarios u ON c.UsuarioID = u.UsuarioID WHERE l.Titulo = '${bookTitle}' OR l.LibroID = '${bookId}' ORDER BY c.FechaComentario DESC`)
+            const [comments] = await db.query(`SELECT c.ComentarioID, c.UsuarioID, c.LibroID, c.Comentario, c.FechaComentario, c.Editado, u.Nombre, u.Imagen FROM comentarios c JOIN libros l ON c.LibroID = l.LibroID JOIN usuarios u ON c.UsuarioID = u.UsuarioID WHERE l.Titulo = '${bookTitle}' OR l.LibroID = '${bookId}' ORDER BY c.FechaComentario DESC`)
             
             const data = comments.map(comment => {
                 return {
@@ -26,7 +26,8 @@ class CommentModel {
                         image: comment.imagen
                     },
                     comment: comment.Comentario,
-                    date: comment.FechaComentario
+                    date: comment.FechaComentario,
+                    edited: comment.Editado
                 }
             })
 
@@ -49,7 +50,8 @@ class CommentModel {
                     image: comment.imagen
                 },
                 comment: comment.Comentario,
-                date: comment.FechaComentario
+                date: comment.FechaComentario,
+                edited: comment.Editado
             }
         })
 
@@ -82,7 +84,7 @@ class CommentModel {
      * @param {string} comment - el nuevo comentario que ingreso el usuario
      */
     static async editComment({ id, comment }) {
-        await db.query(`UPDATE comentarios SET Comentario = ? WHERE ComentarioID = ?`, [comment, id])
+        await db.query(`UPDATE comentarios SET Comentario = ?, Editado = ? WHERE ComentarioID = ?`, [comment, true, id])
     }
 }
 

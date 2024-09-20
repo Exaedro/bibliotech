@@ -36,7 +36,7 @@ botonEditar.forEach(boton => {
 
         textoComentarios.forEach(texto => {
             const textoCommentId = texto.getAttribute('data-commentId')
-            const textoContent = texto.innerText
+            const textoContent = texto.innerText.replace('(editado)', '')
 
             if (textoCommentId == commentId) {
 
