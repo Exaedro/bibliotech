@@ -47,6 +47,13 @@ npm run app
 npm run dev
 ```
 
+5. Inicia sesión con una cuenta de administrador
+- Entra en la pagina web
+- Clickea en "iniciar sesión" en el menu de arriba a la derecha
+- Ingresa los siguientes datos:
+  - Correo: **oww@gmail.com**
+  - Contraseña: **123**
+
 ## Desarrolladores
 
 - [@Exaedro](https://www.github.com/Exaedro)
