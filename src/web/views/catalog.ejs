@@ -1,124 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('partials/head.ejs') %>
-  </head>
-  <body>
-    <header>
-      <%- include('partials/navbar.ejs') %>
-    </header>
-    <div class="wrapper">
-      <main class="catalogo-container">
-        <section class="busqueda">
-          <h3>Buscar obra...</h3>
-          <form action="/catalog" method="GET">
-            <div class="barraBusqueda">
-              <input type="text" name="title" placeholder="Titulo...">
-              <button type="submit">Buscar</button>
-              <a href="/catalog" class="recargar">
-                <img src="/img/recargar.png" alt="Recargar">
-              </a>
-            </div>
-            <div class="filtro" style="display: grid;" id="filtro">
+	<head>
+		<%- include('partials/head.ejs') %>
+	</head>
+	<body>
+		<header><%- include('partials/navbar.ejs') %></header>
+		<div class="wrapper">
+			<main class="catalogo-container">
+				<section class="busqueda">
+					<h3>Buscar obra...</h3>
+					<form action="/catalog" method="GET">
+						<div class="barraBusqueda">
+							<input
+								type="text"
+								name="title"
+								placeholder="Titulo..."
+							/>
+							<button type="submit">Buscar</button>
+							<a href="/catalog" class="recargar">
+								<img src="/img/recargar.png" alt="Recargar" />
+							</a>
+						</div>
+						<div class="filtro" style="display: grid" id="filtro">
+							<div>
+								<p>Genero</p>
+								<select name="genre">
+									<option value="off">Seleccionar</option>
+									<% categories.forEach(categorie => { %>
+									<option value="<%- categorie.id %>">
+										<%- categorie.name %>
+									</option>
+									<% }) %>
+								</select>
+							</div>
+							<div>
+								<p>Autor</p>
+								<input
+									type="text"
+									name="author"
+									placeholder=". . ."
+								/>
+							</div>
+							<div>
+								<p>Año de publicación</p>
+								<input
+									type="number"
+									name="date"
+									placeholder=". . ."
+								/>
+							</div>
+							<div>
+								<p>ISBN</p>
+								<input
+									type="text"
+									name="isbn"
+									placeholder=". . ."
+								/>
+							</div>
+							<div>
+								<p>Editorial</p>
+								<input
+									type="text"
+									name="publisher"
+									placeholder=". . ."
+								/>
+							</div>
+							<div>
+								<p>Idioma</p>
+								<input
+									type="text"
+									name="language"
+									placeholder=". . ."
+								/>
+							</div>
+							<div>
+								<p>Cantidad de paginas</p>
+								<input
+									type="number"
+									name="pages"
+									placeholder=". . ."
+								/>
+							</div>
+						</div>
 
-              <!--
+						<p id="menuTitle">
+							Busqueda avanzada
+							<i class="fa-solid fa-caret-down"></i>
+						</p>
+					</form>
+				</section>
+				<div class="catalogo-titulo">
+					<h2>Libros disponibles</h2>
+					<% if(user.role != 'autor') { %>
+					<button class="modalButton">Añadir libro</button>
+					<dialog class="autorModal" id="autorModal">
+						<h3 class="modalTitle">¡Alto ahi!</h3>
+						<p>
+							¿Tienes un libro propio que quieres añadir al
+							catalogo de Bibliotech?
+						</p>
+						<div class="botones">
+							<button class="cancelarEliminar">No</button>
+							<a href="/author-request" class="confirmarEliminar"
+								>Sí</a
+							>
+						</div>
+					</dialog>
+					<% } else { %>
+					<a href="" class="modalTitle">Añadir libro</a>
+					<% } %>
+				</div>
+				<div class="catalogo">
+					<% if(books.length > 0) {%> <% books.forEach(book => { %>
+					<div class="serie">
+						<figure>
+							<a href="/book/<%- book.id %>">
+								<img
+									src="<%- book.image %>"
+									alt="<%- book.title %>"
+									loading="lazy"
+								/>
+							</a>
+						</figure>
+						<div class="title">
+							<a href="/book/<%- book.id %>"><%- book.title %></a>
+						</div>
+					</div>
+					<% })%> <% } else { %>
+					<h2 class="mensajeError">No hemos encontrado nada...</h2>
+					<% } %>
+				</div>
+				<div class="paginador">
+					<% console.log(books) %> <% for(let i = 0; i < booksCount;
+					i++) { %> <% if(i % 10 == 0) {%> <% let pagina =
+					Math.floor(i / 10) %> <% if(pageSelected == pagina) { %>
+					<a href="/catalog?page=<%- pagina %>" class="paginaActual">
+						<%- pagina + 1 %>
+					</a>
+					<% } else { %>
+					<a href="/catalog?page=<%- pagina %>">
+						<%- pagina + 1 %>
+					</a>
+					<% } %> <% } %> <% } %>
+				</div>
+			</main>
+			<footer class="footerContainer">
+				<%- include('partials/footer.ejs') %>
+			</footer>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-                TODO: Añadir filtros (Genero, Cantidad de paginas, Idioma, Editorial, etc)
-                TODO: Arreglar tamaño de los selects
+		<script>
+			$(document).ready(function () {
+				$("#filtro").hide();
 
-              -->
+				$(".catalogo-container #menuTitle").click(function () {
+					$("#filtro").toggle(350);
+				});
+			});
 
-              <div>
-                <p>Genero</p>
-                <select name="genre">
-                  <option value="off">Seleccionar</option>
-                  <% categories.forEach(categorie => { %> 
-                      <option value="<%- categorie.id %>">
-                        <%- categorie.name %>
-                      </option>
-                  <% }) %>
-                </select>
-              </div>
-              <div>
-                <p>Autor</p>
-                <input type="text" name="author" placeholder=". . .">
-              </div>
-              <div>
-                <p>Año de publicación</p>
-                <input type="number" name="date" placeholder=". . .">
-              </div>
-              <div>
-                <p>ISBN</p>
-                <input type="text" name="isbn" placeholder=". . .">
-              </div>
-              <div>
-                <p>Editorial</p>
-                <input type="text" name="publisher" placeholder=". . .">
-              </div>
-              <div>
-                <p>Idioma</p>
-                <input type="text" name="language" placeholder=". . .">
-              </div>
-              <div>
-                <p>Cantidad de paginas</p>
-                <input type="number" name="pages" placeholder=". . .">
-              </div>
-            </div>
+			const dialog = document.querySelector("#autorModal");
+			const boton = document.querySelector(".catalogo-titulo button");
+			const botonCancelar = document.querySelector(".cancelarEliminar");
 
-            <p id="menuTitle">Busqueda avanzada <i class="fa-solid fa-caret-down"></i></p>
-          </form>
-        </section>
-        <h2>Libros disponibles</h2>
-        <div class="catalogo">
-          <% if(books.length > 0) {%>
-            <% books.forEach(book => { %>
-              <div class="serie">
-                <figure>
-                  <a href="/book/<%- book.id %>">
-                    <img src="<%- book.image %>" alt="<%- book.title %>" loading="lazy"/>
-                  </a>
-                </figure>
-                <div class="title">
-                  <a href="/book/<%- book.id %>"><%- book.title %></a>
-                </div>
-              </div>
-            <% })%>
-          <% } else { %>
-            <h2 class="mensajeError">No hemos encontrado nada...</h2>
-          <% } %>
-        </div>
-        <div class="paginador">
-          <% console.log(books) %>
-          <% for(let i = 0; i < booksCount; i++) { %>
-            <% if(i % 10 == 0) {%>
-              <% let pagina = Math.floor(i / 10) %>
-              <% if(pageSelected == pagina) { %>
-                <a href="/catalog?page=<%- pagina %>" class="paginaActual">
-                  <%- pagina + 1 %>
-                </a>
-              <% } else { %>
-                <a href="/catalog?page=<%- pagina %>">
-                  <%- pagina + 1 %>
-                </a>
-              <% } %>
-            <% } %>
-          <% } %>
-        </div>
-      </main>
-      <footer class="footerContainer">
-        <%- include('partials/footer.ejs') %>
-      </footer>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+			boton.addEventListener("click", async (e) => {
+				dialog.showModal();
+			});
 
-    <script>
-        $(document).ready(function(){
-            $('#filtro').hide()
-
-            $('.catalogo-container #menuTitle').click(function(){
-              $('#filtro').toggle(350)
-            });
-        });
-    </script>
-  </body>
+			botonCancelar.addEventListener("click", (e) => {
+				dialog.close();
+			});
+		</script>
+	</body>
 </html>

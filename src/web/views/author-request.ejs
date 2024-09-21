@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('partials/head.ejs') %>
+	</head>
+	<body>
+		<header><%- include('partials/navbar.ejs') %></header>
+
+		<div class="wrapper">
+			<main class="author-request">
+				<h1>Conviertete en un autor de Bibliotech.</h1>
+				<p>
+					¡Llena este formulario para pedir tu autorización para poder
+					subir tus propios libros a Bibliotech gratuitamente!
+				</p>
+				<form action="/author-request" method="POST" enctype="multipart/form-data">
+                    <div class="columna">
+                        <h4>¿Como se llama tu obra?</h4>
+                        <input type="text" name="bookTitle" placeholder=". . ." />
+                    </div>
+                    <div class="columna">
+                        <h4>¿De que se trata?</h4>
+                        <textarea name="bookInfo" placeholder=". . ." /></textarea>
+                    </div>
+                    <div class="columna">
+                        <h4>Si tienes una imagen de portada, puedes subirla aquí.</h4>
+                        <input type="file" name="image" id="imagenInput">
+                    </div>
+                    <div class="fila">
+                        <h4>¿Entiendes que cualquier subida inapropiada será eliminada y seras sancionado?</h4>
+                        <input type="checkbox" name="termsCheck">
+                    </div>
+
+                    <button type="submit">Enviar</button>
+                </form>
+			</main>
+		</div>
+
+        <% if(typeof error != 'undefined') { %>
+            <% if(error == 'already_requested') { %>
+                <dialog class="autorModal" id="autorModal" open>
+                    <h3 class="modalTitle">Pendiente.</h3>
+                    <p>
+                        Ya has solicitado autorización anteriormente, debes esperar una respuesta mediante correo electrónico.
+                    </p>
+                    <div class="botones">
+                        <a href="/catalog" class="confirmarEliminar">Volver al catalogo</a>
+                    </div>
+                </dialog>
+            <% } else { %>
+                <dialog class="autorModal" id="autorModal" open>
+                    <h3 class="modalTitle">¡Ya has solicitado autorización!</h3>
+                    <p>
+                        ¡Gracias por tu solicitud! Te contactaremos con más
+                        información pronto.
+                    </p>
+                    <div class="botones">
+                        <a href="/catalog" class="confirmarEliminar">Volver al catalogo</a>
+                    </div>
+                </dialog>
+            <% } %>
+        <% } %>
+        
+		<footer class="footerContainer">
+			<%- include('partials/footer.ejs') %>
+		</footer>
+	</body>
+</html>

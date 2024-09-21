@@ -113,4 +113,58 @@ indexRouter.get('/book/:bookId', async (req, res) => {
     })
 })
 
+indexRouter.get('/author-request', async (req, res) => {
+    const { username, role, userId } = req.session
+    
+    res.render('author-request',
+        {
+            title: 'Bibliotech', 
+            user: { username, role, userId }
+        }
+    )
+})
+
+/*
+    TODO: Añadir validaciones
+*/
+indexRouter.post('/author-request', async (req, res) => {
+    // ! SACAR EL "= 3" CUANDO SE TERMINEN LAS PRUEBAS
+    const { username, role, userId = 3 } = req.session
+    const { bookTitle, bookInfo, termsCheck } = req.body
+    const image = req.file ? `/uploads/${req.file.filename}` : null
+
+    const response = await fetch(`${apiUrl}/users/author-request`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId, bookTitle, bookInfo, image })
+    })
+
+    if(!response.ok) {
+        const data = await response.json()
+        
+        if(data.message.includes('requested')) {
+            return res.render('author-request', 
+                {    
+                    title: 'Bibliotech',
+                    user: { username, role, userId },
+                    error: 'already_requested'
+                }
+            )
+        }
+
+        return res.redirect('/author-request?error=invalid')
+    }
+
+    res.render('author-request', 
+        {    
+            title: 'Bibliotech',
+            user: { username, role, userId },
+            error: false
+        }
+    )
+})
+
 export default indexRouter

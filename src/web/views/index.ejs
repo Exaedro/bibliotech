@@ -1,96 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('partials/head.ejs') %>
-    <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
-  </head>
-  <body>
-    <header>
-      <%- include('partials/navbar.ejs') %>
-    </header>
-    <div class="wrapper">
-      <section class="slider">
-        <div class="swiffy-slider slider-nav-autohide slider-nav-autoplay slider-nav-autopause slider-item-snapstart">
-          <ul class="slider-container" style="overflow-x: none;">
-            <% mostVisited.forEach(book => { %>
-              <a href="/book/<%- book.id %>">
-                <li>
-                  <div class="texto">
-                    <h3><%- book.title %></h3>
-                    <p><%- book.synopsis %></p>
-                  </div>
-                  <img src="<%- book.image %>" alt="<%- book.title %>" loading="lazy">
-                </li>
-              </a>
-            <% })%>
-          </ul>
-          <div class="slider-indicators">
-              <% mostVisited.forEach(book => { %>
-                <button></button>
-              <% }) %>
-          </div>
-        </div>
-        <div class="historial">
-          <h2>Historial<% if(typeof user.userId != 'undefined' && userRecord.length > 0) { %><a href="/profile/myself/record" class="seeAll"><i class="fa-solid fa-eye"></i></a><% } %></h2>
-          <% if(userRecord.length > 0) { %>
-            <div class="historialContenedor">
-              <% userRecord.forEach(record => { %>
-                <a class="historialItem" href="/book/<%- record.book.id %>">
-                  <figure>
-                    <img src="<%- record.book.image %>" alt="<%- record.book.title %>" loading="lazy">
-                  </figure>
-                  <p><%- record.book.title %></p>
-                </a>
-              <% }) %>
-            </div>
-          <% } else { %>
-            <p style="text-align: center;">No tienes historial de libros</p>
-          <% } %>
-        </div>
-      </section>
-      <main class="container">
-        <section>
-          <h2>Libros más vistos</h2>
-          <div class="series" id="series">
-            <% recents.forEach(book => { %>
-              <div class="serie">
-                <figure>
-                  <a href="/book/<%- book.id %>">
-                    <img src="<%- book.image %>" alt="<%- book.title %>" loading="lazy"/>
-                  </a>
-                </figure>
-                <div class="title">
-                  <a href="/book/<%- book.id %>"><%- book.title %></a>
-                </div>
-              </div>
-            <% }) %>
-          </div>
-        </section>
-        <section>
-          <h2 class="centrar">Populares</h2>
-          <div class="populares">
-            <% mostLiked.forEach(book => { %>
-              <a href="/book/<%- book.id %>">
-                <div class="popular">
-                  <h3><%- book.title %></h3>
-                  <figure>
-                    <img
-                      src="<%- book.image %>"
-                      alt="<%- book.title %>"
-                      loading="lazy"
-                    />
-                  </figure>
-                </div>
-              </a>
-            <% })%>
-          </div>
-        </section>
-      </main>
-      <footer class="footerContainer">
-        <%- include('partials/footer.ejs') %>
-      </footer>
-    </div>
-  </body>
-  <script src="js/dropdown.js"></script>
+	<head>
+		<%- include('partials/head.ejs') %>
+
+		<!-- SLIDER -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js"
+			crossorigin="anonymous"
+			defer
+		></script>
+		<link
+			href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css"
+			rel="stylesheet"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<header><%- include('partials/navbar.ejs') %></header>
+
+		<div class="wrapper">
+			<section class="slider">
+				<div
+					class="swiffy-slider slider-nav-autohide slider-nav-autoplay slider-nav-autopause slider-item-snapstart"
+				>
+					<ul class="slider-container" style="overflow-x: none">
+						<% mostVisited.forEach(book => { %>
+						<a href="/book/<%- book.id %>">
+							<li>
+								<div class="texto">
+									<h3><%- book.title %></h3>
+									<p><%- book.synopsis %></p>
+								</div>
+								<img
+									src="<%- book.image %>"
+									alt="<%- book.title %>"
+									loading="lazy"
+								/>
+							</li>
+						</a>
+						<% })%>
+					</ul>
+					<div class="slider-indicators">
+						<% mostVisited.forEach(book => { %>
+						<button></button>
+						<% }) %>
+					</div>
+				</div>
+				<div class="historial">
+					<h2>
+						Historial<% if(typeof user.userId != 'undefined' &&
+						userRecord.length > 0) { %><a
+							href="/profile/myself/record"
+							class="seeAll"
+							><i class="fa-solid fa-eye"></i></a
+						><% } %>
+					</h2>
+					<% if(userRecord.length > 0) { %>
+					<div class="historialContenedor">
+						<% userRecord.forEach(record => { %>
+						<a
+							class="historialItem"
+							href="/book/<%- record.book.id %>"
+						>
+							<figure>
+								<img
+									src="<%- record.book.image %>"
+									alt="<%- record.book.title %>"
+									loading="lazy"
+								/>
+							</figure>
+							<p><%- record.book.title %></p>
+						</a>
+						<% }) %>
+					</div>
+					<% } else { %>
+					<p style="text-align: center">
+						No tienes historial de libros
+					</p>
+					<% } %>
+				</div>
+			</section>
+			<main class="container">
+				<section>
+					<h2>Libros más recientes</h2>
+					<div class="series" id="series">
+						<% recents.forEach(book => { %>
+						<div class="serie">
+							<figure>
+								<a href="/book/<%- book.id %>">
+									<img
+										src="<%- book.image %>"
+										alt="<%- book.title %>"
+										loading="lazy"
+									/>
+								</a>
+							</figure>
+							<div class="title">
+								<a href="/book/<%- book.id %>"
+									><%- book.title %></a
+								>
+							</div>
+						</div>
+						<% }) %>
+					</div>
+				</section>
+				<section>
+					<h2 class="centrar">Populares</h2>
+					<div class="populares">
+						<% mostLiked.forEach(book => { %>
+						<a href="/book/<%- book.id %>">
+							<div class="popular">
+								<h3><%- book.title %></h3>
+								<figure>
+									<img
+										src="<%- book.image %>"
+										alt="<%- book.title %>"
+										loading="lazy"
+									/>
+								</figure>
+							</div>
+						</a>
+						<% })%>
+					</div>
+				</section>
+			</main>
+
+			<div class="wrapper-recomendacion">
+				<h2>Recomendación del dia</h2>
+				<section class="recomendacion">
+					<article class="libro">
+						<h1 class="title">Chainsaw Man</h1>
+						<p class="synopsis">
+							Lorem ipsum dolor sit amet consectetur adipisicing
+							elit. Qui, quaerat a! Unde exercitationem
+							perferendis possimus eaque, doloremque
+							necessitatibus itaque at harum iusto pariatur fuga
+							consequatur iure quia laboriosam corrupti quisquam.
+						</p>
+					</article>
+				</section>
+			</div>
+
+			<style>
+				.wrapper-recomendacion h2 {
+					font-size: 36px;
+					text-align: center;
+				}
+
+				.recomendacion {
+					height: 80vh;
+					width: 90vw;
+					margin: 0 auto;
+					overflow: hidden;
+					border-radius: 50px;
+					position: relative;
+					mask-image: linear-gradient(to top, transparent, black 70%);
+				}
+
+				.recomendacion .libro {
+					width: 800px;
+					height: 100%;
+					margin: 0 0 0 auto;
+					display: flex;
+					padding: 0 100px;
+					flex-direction: column;
+					gap: 20px;
+					justify-content: center;
+				}
+
+				.recomendacion .libro .title {
+					font-family: "Montserrat";
+					font-weight: 800;
+					font-size: 58px;
+					text-transform: uppercase;
+				}
+
+				.recomendacion .libro .synopsis {
+					font-family: "Montserrat";
+					font-weight: 500;
+					font-size: 17px;
+					text-wrap: pretty;
+					line-height: 27px;
+				}
+
+				.recomendacion::before {
+					content: "";
+					position: absolute;
+					left: -50rem;
+					width: 100%;
+					height: 100%;
+					background-image: url("https://images3.alphacoders.com/134/thumb-1920-1345655.png");
+					background-size: cover;
+					background-position: left;
+					z-index: -1;
+					clip-path: polygon(
+						0% 0%,
+						90% 0,
+						100% 50%,
+						90% 100%,
+						0% 100%
+					);
+				}
+
+				.recomendacion::after {
+					content: "";
+					position: absolute;
+					top: 0;
+					z-index: -2;
+					right: -40rem;
+					filter: opacity(15%);
+					width: 100%;
+					height: 100%;
+					background-repeat: no-repeat;
+					background-image: url("https://scontent-eze1-1.xx.fbcdn.net/v/t1.6435-9/118005865_337109214361324_2569859770794475784_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hbJmAsZJ6W0Q7kNvgHFJ1le&_nc_ht=scontent-eze1-1.xx&_nc_gid=AqsiaxxMoss-udOK4Sl_qnQ&oh=00_AYD2LzzksU_dc8xSYEB2XHkqv-jHKj4JXAIXLxTsH4jShg&oe=67159920");
+				}
+			</style>
+
+			<footer class="footerContainer">
+				<%- include('partials/footer.ejs') %>
+			</footer>
+		</div>
+	</body>
+	<script src="js/dropdown.js"></script>
 </html>

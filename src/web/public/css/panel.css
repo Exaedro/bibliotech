@@ -250,8 +250,9 @@ dialog[open] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 350px;
-    height: 200px;
+    min-width: 350px;
+    min-height: 200px;
+    max-width: 400px;
     border-radius: 5px;
     border: 1px solid var(--color-fondo-secundario);
     background-color: var(--color-fondo);

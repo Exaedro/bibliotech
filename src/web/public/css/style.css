@@ -391,6 +391,122 @@ h1, h2, h4, h5, p {
     margin: 0 auto;
 }
 
+.catalogo-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.catalogo-titulo .modalButton {
+    background-color: #1cc88a;
+    color: var(--color-letra-secundario);
+    padding: 15px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    margin-left: 7px;
+    margin-right: 7px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.modalTitle {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.autorModal p {
+    padding: 0 15px;
+    font-size: 16px;
+    text-wrap: pretty;
+    text-align: center;
+}
+
+.author-request {
+    font-family: 'Montserrat', 'letra', system-ui, sans-serif;
+    width: 800px;
+    margin: 0 auto;
+}
+
+.author-request .autorModal {
+    display: flex;
+    flex-direction: column;
+    font-family: 'letra', 'Montserrat', system-ui, sans-serif;
+}
+
+.author-request h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.author-request p {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 25px;
+}
+
+.author-request .columna:nth-child(odd) {
+    margin: 30px 0;
+}
+
+.author-request .fila {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.author-request .fila input {
+    width: 20px;
+    height: 20px;
+    margin-top: 0;
+}
+
+.author-request input {
+    background-color: var(--color-input);
+    color: var(--color-input-letra);
+    outline: none;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    font-family: system-ui, sans-serif;
+    border-radius: 5px;
+    font-size: 18px;
+    margin: 10px 0 0 0;
+}
+
+.author-request textarea {
+    background-color: var(--color-input);
+    color: var(--color-input-letra);
+    outline: none;
+    padding: 10px;
+    font-family: sans-serif;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100px;
+    max-height: 350px;
+    font-size: 18px;
+    margin: 10px 0 0 0;
+    resize: vertical;
+}
+
+.author-request button {
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+    padding: 10px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 40px;
+}
+
 .catalogo-container .busqueda {
     padding: 30px 0;
     position: relative;

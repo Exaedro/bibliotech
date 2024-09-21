@@ -12,20 +12,30 @@ const userController = new UserController({ userModel: UserModel })
 const prefix = process.env.API_PREFIX
 
 // Rutas
+
+// CRUD de usuarios
 userRouter.get(`${prefix}/users`, userController.getAll)
 userRouter.get(`${prefix}/user/:id`, userController.getUserById)
-
 userRouter.post(`${prefix}/users/create`, userController.createUser)
 userRouter.post(`${prefix}/users/delete`, userController.deleteUser)
 userRouter.post(`${prefix}/users/edit`, userController.editUser)
 
+// Verificar contraseña y login
 userRouter.post(`${prefix}/users/password`, userController.validPassword)
 userRouter.post(`${prefix}/users/login`, userController.login)
 
+// CRUD de autorizaciones
+userRouter.get(`${prefix}/users/author-requests`, userController.getAuthorRequests)
+userRouter.post(`${prefix}/users/author-request`, userController.addAuthorRequest)
+userRouter.post(`${prefix}/users/author-request/delete`, userController.deleteAuthorRequest)
+userRouter.post(`${prefix}/users/author-request/approve`, userController.aproveAuthorRequest)
+
+// CRUD de historial
 userRouter.get(`${prefix}/user/record/:id`, userController.getUserRecord)
 userRouter.post(`${prefix}/user/record/add`, userController.addRecord)
 userRouter.post(`${prefix}/user/record/delete`, userController.deleteRecord)
 
+// CRUD de favoritos, gustados y ver mas tarde
 userRouter.get(`${prefix}/user/:id/favorite/all`, userController.getFavorites)
 userRouter.get(`${prefix}/user/:id/like/all`, userController.getLikes)
 userRouter.get(`${prefix}/user/:id/later/all`, userController.getLater)
@@ -37,6 +47,5 @@ userRouter.post(`${prefix}/user/later/add`, userController.addSeeLater)
 userRouter.post(`${prefix}/user/favorite/delete`, userController.deleteFavorite)
 userRouter.post(`${prefix}/user/like/delete`, userController.deleteLike)
 userRouter.post(`${prefix}/user/later/delete`, userController.deleteSeeLater)
-
 
 export default userRouter

@@ -386,6 +386,78 @@ class UserController {
             next(err)
         }
     }
+
+    getAuthorRequests = async (req, res, next) => {
+        const { id } = req.params
+
+        try {
+            if(!id)
+                throw new ClientError('id is missing')
+
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            const data = await this.userModel.getAuthorRequests({ id })
+            res.status(200).json(data)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    addAuthorRequest = async (req, res, next) => {
+        const { userId, bookTitle, bookInfo, image } = req.body
+
+        try {
+            if(!userId || !bookTitle || !bookInfo || !image)
+                throw new ClientError('missing fields')
+
+            if(isNaN(userId)) 
+                throw new ClientError('userId must be a number')
+
+            const response = await this.userModel.addAuthorRequest({ userId, bookTitle, bookInfo, image })
+
+            if(response == 'already_requested')
+                throw new ClientError('this user already requested')
+
+            res.status(200).json({ message: 'added', error: false })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    deleteAuthorRequest = async (req, res, next) => {
+        const { id } = req.body
+
+        try {
+            if(!id)
+                throw new ClientError('id is missing')
+
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            await this.userModel.deleteAuthorRequest({ id })
+            res.status(200).json({ message: 'deleted', error: false })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    aproveAuthorRequest = async (req, res, next) => {
+        const { userId, authorId } = req.body
+
+        try {
+            if(!userId || !authorId)
+                throw new ClientError('missing fields')
+
+            if(isNaN(userId) || isNaN(authorId)) 
+                throw new ClientError('userId and authorId must be a number')
+
+            await this.userModel.aproveAuthorRequest({ userId, authorId })
+            res.status(200).json({ message: 'approved', error: false })
+        } catch(err) {
+            next(err)
+        }
+    }
 }
 
 export default UserController

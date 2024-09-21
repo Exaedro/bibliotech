@@ -307,6 +307,58 @@ class UserModel {
     static async deleteSeeLater({ userId, bookId }) {
         await db.query(`DELETE FROM ver_mas_tarde WHERE UsuarioID = ? AND LibroID = ?`, [userId, bookId])
     }
+    
+    static async getAuthorRequests() {
+        const [requests] = await db.query(`SELECT * FROM autorizaciones`)
+
+        const data = requests.map(request => {
+            return {
+                id: request.AutorID,
+                user: {
+                    id: request.UsuarioID,
+                    username: request.Nombre,
+                    image: request.Imagen
+                },
+                book: {
+                    id: request.LibroID,
+                    title: request.Titulo,
+                    image: request.imagen
+                },
+                description: request.Descripcion,
+                date: request.FechaAutorizacion
+            }
+        })
+
+        return data
+    }
+
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {string} bookTitle - titulo del libro
+     * @param {string} bookInfo - información del libro
+     * @param {string} image - imagen del libro
+     */
+    static async addAuthorRequest({ userId, bookTitle, bookInfo, image }) {
+        const [isAlreadyAdded] = await db.query(`SELECT UsuarioID FROM autorizaciones WHERE UsuarioID = ?`, [userId])
+        if(isAlreadyAdded.length > 0) return 'already_requested'
+
+        await db.query(`INSERT INTO autorizaciones (UsuarioID, Titulo, Descripcion, Imagen) VALUES (?, ?, ?, ?)`, [userId, bookTitle, bookInfo, image])
+    }
+
+    /**
+     * 
+     * @param {integer} id - id del autorizacion
+     */
+    static async deleteAuthorRequest({ id }) {
+        await db.query(`DELETE FROM autorizaciones WHERE AutorID = ?`, [id])
+    }
+
+    static async aproveAuthorRequest({ userId, authorId }) {
+        await db.query(`UPDATE usuarios SET Autor = 1 WHERE UsuarioID = ?`, [userId])
+
+        await this.deleteAuthorRequest({ id: authorId })
+    }
 }
 
 /**
