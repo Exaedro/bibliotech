@@ -40,8 +40,8 @@
     --color-subrayado: var(--color-primario);
     --color-fondo-secundario: rgb(212 212 212);
     --color-formulario: rgb(215, 215, 215);
-    --color-input: rgb(232, 232, 232);
-    --color-input-letra: rgb(85, 85, 85);
+    --color-input: rgb(246, 246, 246);
+    --color-input-letra: rgb(53, 53, 53);
     --color-primario: rgb(99 102 241);
     --color-primario-hover: rgb(77, 79, 219);
 
@@ -423,10 +423,27 @@ h1, h2, h4, h5, p {
     text-align: center;
 }
 
+.author-request-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 50vh;
+    mask-image: linear-gradient(rgb(0 0 0), transparent);
+    z-index: -1;
+    background-image: url('../img/thumb-1920-736462dssdsd.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .author-request {
     font-family: 'Montserrat', 'letra', system-ui, sans-serif;
-    width: 800px;
+    width: 900px;
     margin: 0 auto;
+    padding: 35px;
+    border-radius: 30px;
+    backdrop-filter: blur(50px);
 }
 
 .author-request .autorModal {
@@ -476,6 +493,7 @@ h1, h2, h4, h5, p {
     border-radius: 5px;
     font-size: 18px;
     margin: 10px 0 0 0;
+    box-shadow: 0px 0px 4px #00000030;
 }
 
 .author-request textarea {
@@ -492,6 +510,7 @@ h1, h2, h4, h5, p {
     font-size: 18px;
     margin: 10px 0 0 0;
     resize: vertical;
+    box-shadow: 0px 0px 4px #00000030;
 }
 
 .author-request button {
