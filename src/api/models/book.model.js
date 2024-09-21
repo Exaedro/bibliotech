@@ -212,7 +212,7 @@ class BookModel {
      * @param {integer} limit - cantidad de libros que se va a obtener 
      */
     static async getMostVisited({ limit }) {
-        const [books] = await db.query(`SELECT * FROM libros ORDER BY Visitas ASC LIMIT ${limit}`)
+        const [books] = await db.query(`SELECT * FROM libros ORDER BY Visitas DESC LIMIT ${limit}`)
 
         const data = bookObjectComplex({ data: books })
 
