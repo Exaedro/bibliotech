@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-09-2024 a las 23:37:04
+-- Tiempo de generación: 22-09-2024 a las 15:48:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -24,9 +24,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `autorizaciones` (
   `AutorID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL,
-  `Titulo` varchar(120) NOT NULL,
+  `LibroTitulo` varchar(120) NOT NULL,
   `Descripcion` varchar(500) NOT NULL,
-  `Imagen` varchar(120) NOT NULL,
+  `LibroImagen` varchar(120) NOT NULL,
   `FechaAutorizacion` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -34,7 +34,7 @@ CREATE TABLE `autorizaciones` (
 -- Volcado de datos para la tabla `autorizaciones`
 --
 
-INSERT INTO `autorizaciones` (`AutorID`, `UsuarioID`, `Titulo`, `Descripcion`, `Imagen`, `FechaAutorizacion`) VALUES
+INSERT INTO `autorizaciones` (`AutorID`, `UsuarioID`, `LibroTitulo`, `Descripcion`, `LibroImagen`, `FechaAutorizacion`) VALUES
 (10, 3, 'ddasdasdas', 'dasdasdasdas', '/uploads/fa846e3b-cf21-4f91-9c93-5739c5abba02.jpg', '2024-09-21 00:00:00');
 
 -- --------------------------------------------------------
