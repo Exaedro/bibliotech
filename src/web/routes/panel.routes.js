@@ -282,4 +282,43 @@ panelRouter.get('/panel/error', async (req, res) => {
     )
 })
 
+panelRouter.get('/panel/requests', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    const requests = await (await fetch(`${apiUrl}/users/author-requests`, { method: 'GET' })).json()
+
+    console.log(requests)
+    res.render('panel/authors/requests',
+        {
+            title: 'Bibliotech - Solicitudes',
+            user: { username, role, userId },
+            requests
+        }
+    )
+})
+
+panelRouter.get('/panel/requests/:id', async (req, res) => {
+    const { username, role, userId } = req.session
+    const { id } = req.params
+
+    const request = await (await fetch(`${apiUrl}/users/author-request/${id}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })).json()
+
+    if(request.error == 'user_not_exists')
+        return res.redirect('/panel/error')
+
+    res.render('panel/authors/request',
+        {
+            title: 'Bibliotech - Solicitud de autor',
+            user: { username, role, userId },
+            request
+        }
+    )
+})
+
 export default panelRouter

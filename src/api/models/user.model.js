@@ -77,7 +77,7 @@ class UserModel {
      * @returns 
      */
     static async login({ email, password }) {
-        const [user] = await db.query(`SELECT r.NombreRol as role, u.Contrasenia as password, u.correoElectronico as email, u.Nombre as username, u.UsuarioID as id, u.Imagen as image FROM usuarios u JOIN roles r ON u.RollID = r.RollID  WHERE u.CorreoElectronico = ?`, [email])
+        const [user] = await db.query(`SELECT r.NombreRol as role, u.Contrasenia as password, u.correoElectronico as email, u.Nombre as username, u.Autor as autor, u.UsuarioID as id, u.Imagen as image FROM usuarios u JOIN roles r ON u.RollID = r.RollID  WHERE u.CorreoElectronico = ?`, [email])
         if (user.length == 0) return 'user_not_exist'
 
         const isPasswordValid = await validPassword({ password, hash: user[0].password })
@@ -309,7 +309,7 @@ class UserModel {
     }
     
     static async getAuthorRequests() {
-        const [requests] = await db.query(`SELECT * FROM autorizaciones`)
+        const [requests] = await db.query(`SELECT * FROM autorizaciones a JOIN usuarios u ON a.UsuarioID = u.UsuarioID`)
 
         const data = requests.map(request => {
             return {
@@ -321,8 +321,32 @@ class UserModel {
                 },
                 book: {
                     id: request.LibroID,
-                    title: request.Titulo,
-                    image: request.imagen
+                    title: request.LibroTitulo,
+                    image: request.LibroImagen
+                },
+                description: request.Descripcion,
+                date: request.FechaAutorizacion
+            }
+        })
+
+        return data
+    }
+
+    static async getAuthorRequestById({ id }) {
+        const [request] = await db.query(`SELECT * FROM autorizaciones a JOIN usuarios u ON a.UsuarioID = u.UsuarioID WHERE a.AutorID = ?`, [id])
+
+        const data = request.map(request => {
+            return {
+                id: request.AutorID,
+                user: {
+                    id: request.UsuarioID,
+                    username: request.Nombre,
+                    image: request.Imagen
+                },
+                book: {
+                    id: request.LibroID,
+                    title: request.LibroTitulo,
+                    image: request.LibroImagen
                 },
                 description: request.Descripcion,
                 date: request.FechaAutorizacion
@@ -343,7 +367,7 @@ class UserModel {
         const [isAlreadyAdded] = await db.query(`SELECT UsuarioID FROM autorizaciones WHERE UsuarioID = ?`, [userId])
         if(isAlreadyAdded.length > 0) return 'already_requested'
 
-        await db.query(`INSERT INTO autorizaciones (UsuarioID, Titulo, Descripcion, Imagen) VALUES (?, ?, ?, ?)`, [userId, bookTitle, bookInfo, image])
+        await db.query(`INSERT INTO autorizaciones (UsuarioID, LibroTitulo, Descripcion, LibroImagen) VALUES (?, ?, ?, ?)`, [userId, bookTitle, bookInfo, image])
     }
 
     /**
@@ -354,10 +378,22 @@ class UserModel {
         await db.query(`DELETE FROM autorizaciones WHERE AutorID = ?`, [id])
     }
 
+    /**
+     * 
+     * @param {integer} userId - id del usuario
+     * @param {integer} authorId - id del autor
+     */
     static async aproveAuthorRequest({ userId, authorId }) {
         await db.query(`UPDATE usuarios SET Autor = 1 WHERE UsuarioID = ?`, [userId])
 
         await this.deleteAuthorRequest({ id: authorId })
+    }
+
+    /**
+     * @param {integer} authorId - id del autor
+     */
+    static async declineAuthorRequest({ authorId }) {
+        this.deleteAuthorRequest({ id: authorId })
     }
 }
 

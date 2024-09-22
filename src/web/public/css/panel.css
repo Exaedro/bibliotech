@@ -737,3 +737,175 @@ html {
     border-radius: 10px;
     margin-bottom: 20px;
 }
+
+/* ! /////////////////////////////////////////////// AUTORES /////////////////////////////////////////////////////// */
+
+.panel .autorizaciones .solicitud {
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 170px;
+}
+
+.panel .autorizaciones .solicitud:hover {
+    background-color: var(--color-fondo-secundario);
+}
+
+.panel .autorizaciones .solicitud figure {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.panel .autorizaciones .solicitud p {
+    cursor: pointer;
+}
+
+.panel .autorizaciones .solicitud img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.panel .autorizaciones .solicitud .username {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.panel .autorizaciones .solicitud .date {
+    font-size: 14px;
+    color: rgb(179, 179, 179);
+}
+
+.panel .autorizaciones .solicitud .info {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    justify-content: center;
+}
+
+.panel .solicitudes .usuarios {
+    width: 1000px;
+}
+
+.panel .solicitudes .usuario {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.panel .solicitudes .usuario figure {
+    width: 60px;
+    height: 60px;
+}
+
+.panel .solicitudes .usuario img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.panel .solicitudes .usuario .username {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.panel .solicitudes .usuario .date {
+    font-size: 12px;
+    color: rgb(179, 179, 179);
+}
+
+.panel .solicitudes .fila {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.panel .solicitudes .fila h3 {
+    position: relative;
+    font-size: 22px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+}
+
+.panel .solicitudes .fila h3::before {
+    content: '';
+    width: 5px;
+    height: 100%;
+    left: -15px;
+    background-color: var(--color-primario);
+    position: absolute;
+}
+
+.panel .solicitudes .fila p {
+    font-size: 16px;
+    line-height: 25px;
+}
+
+.panel .solicitudes .imagen {
+    margin-bottom: 60px;
+}
+
+.panel .solicitudes .imagen::after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-fondo-secundario);
+    position: absolute;
+    z-index: 500;
+    bottom: -30px;
+    left: 0;
+}
+
+.panel .solicitudes .botones {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.panel .solicitudes .botones .accionadores {
+    display: flex;
+    gap: 10px;
+}
+
+.panel .solicitudes .botones .cancelar {
+    background-color: transparent;
+    border: 1px solid red;
+    color: var(--color-letra);
+    padding: 10px 35px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.panel .solicitudes .botones .cancelar:hover {
+    background-color: red;
+    color: #fff;
+}
+
+.panel .solicitudes .botones .confirmar {
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+    padding: 10px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.panel .solicitudes .botones .declinar {
+    background-color: red;
+    color: #fff;
+    padding: 10px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}

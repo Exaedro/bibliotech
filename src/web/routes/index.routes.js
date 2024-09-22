@@ -38,7 +38,7 @@ indexRouter.get('/error', async (req, res) => {
 })
 
 indexRouter.get('/catalog', async (req, res) => {
-    const { username, role, userId } = req.session
+    const { username, role, userId, autor } = req.session
     let { title, genre, author, date, isbn, pages, language, publisher, page } = req.query
     
     title = title ? title : ''
@@ -65,7 +65,7 @@ indexRouter.get('/catalog', async (req, res) => {
     res.render('catalog',
         {
             title: 'Bibliotech - Catalogo', books: data.books, categories, booksCount: data.data.totalBooks, pageSelected: page,
-            user: { username, role, userId }
+            user: { username, role, userId, autor }
         }
     )
 })

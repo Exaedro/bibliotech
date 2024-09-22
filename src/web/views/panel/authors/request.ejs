@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../../partials/admin/head.ejs') %>
+	</head>
+	<body>
+		<div class="panel">
+			<%- include('../../partials/admin/sidebar.ejs') %>
+			<main>
+				<%- include('../../partials/admin/navbar.ejs') %>
+				<div class="contenedor solicitudes">
+					<h1>Solicitud de autor</h1>
+					<div class="usuarios">
+						<div class="usuario">
+							<figure>
+								<img
+									src="<%- request.user.image %>"
+									alt="<%- request.book.title %>"
+									loading="lazy"
+									class="img-perfil"
+								/>
+							</figure>
+							<p class="username">
+								<%- request.user.username %>
+								<span class="date">
+									(<%- format(request.date) %>)
+								</span>
+							</p>
+						</div>
+
+						<div class="contenido">
+							<div class="fila">
+								<h3>Título del libro</h3>
+								<p><%- request.book.title %></p>
+							</div>
+							<div class="fila">
+								<h3>Descripción</h3>
+								<p><%- request.description %></p>
+							</div>
+							<div class="fila imagen">
+								<h3>Portada</h3>
+								<img src="<%- request.book.image %>" alt="<%- request.book.title %>">
+							</div>
+							<div class="botones">
+								<a href="/panel/requests" class="cancelar">
+									<i class="fa-solid fa-arrow-left"></i>
+									Volver
+								</a>
+								<div class="accionadores">
+									<button class="declinar" data-userId="<%- request.user.id %>" data-authorId="<%- request.id %>">
+										<i class="fa-solid fa-times"></i>
+										Rechazar
+									</button>
+									<button class="confirmar" data-userId="<%- request.user.id %>" data-authorId="<%- request.id %>">
+										<i class="fa-solid fa-check"></i>
+										Aceptar
+									</button>
+								</div>
+							</div>
+						</div>
+                    </div>
+				</div>
+			</main>
+		</div>
+
+		<script>
+			const botonConfirmar = document.querySelector('.confirmar')
+			const botonCancelar = document.querySelector('.declinar')
+
+			botonCancelar.addEventListener('click', async (e) => {
+				e.preventDefault()
+
+				const authorId = botonCancelar.getAttribute('data-authorId')
+
+				const response = await fetch(
+					'http://localhost:3000/api/v1/users/author-request/decline',
+					{
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ authorId })
+					}
+				);
+
+				if(response.ok) {
+					location.href = '/panel/requests'
+					return
+				}
+
+				location.href = '/panel/error'
+			})
+
+			botonConfirmar.addEventListener('click', async (e) => {
+				e.preventDefault();
+
+				const userId = botonConfirmar.getAttribute('data-userId')
+				const authorId = botonConfirmar.getAttribute('data-authorId')
+
+				const response = await fetch(
+					'http://localhost:3000/api/v1/users/author-request/approve',
+					{
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ userId, authorId })
+					}
+				);
+
+				if(response.ok) {
+					location.href = '/panel/requests'
+					return
+				}
+
+				location.href = '/panel/error'
+			})
+		</script>
+
+		<script src="js/cambiarTema.js"></script>
+	</body>
+</html>

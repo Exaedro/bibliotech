@@ -26,9 +26,11 @@ userRouter.post(`${prefix}/users/login`, userController.login)
 
 // CRUD de autorizaciones
 userRouter.get(`${prefix}/users/author-requests`, userController.getAuthorRequests)
+userRouter.get(`${prefix}/users/author-request/:id`, userController.getAuthorRequestById)
 userRouter.post(`${prefix}/users/author-request`, userController.addAuthorRequest)
 userRouter.post(`${prefix}/users/author-request/delete`, userController.deleteAuthorRequest)
 userRouter.post(`${prefix}/users/author-request/approve`, userController.aproveAuthorRequest)
+userRouter.post(`${prefix}/users/author-request/decline`, userController.declineAuthorRequest)
 
 // CRUD de historial
 userRouter.get(`${prefix}/user/record/:id`, userController.getUserRecord)

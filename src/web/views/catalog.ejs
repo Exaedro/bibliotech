@@ -91,24 +91,29 @@
 				</section>
 				<div class="catalogo-titulo">
 					<h2>Libros disponibles</h2>
-					<% if(user.role != 'autor') { %>
-					<button class="modalButton">Añadir libro</button>
-					<dialog class="autorModal" id="autorModal">
-						<h3 class="modalTitle">¡Alto ahi!</h3>
-						<p>
-							¿Tienes un libro propio que quieres añadir al
-							catalogo de Bibliotech?
-						</p>
-						<div class="botones">
-							<button class="cancelarEliminar">No</button>
-							<a href="/author-request" class="confirmarEliminar"
-								>Sí</a
-							>
-						</div>
-					</dialog>
+					<% if(typeof user.userId == 'undefined') { %>
+						<a href="/login" class="modalButton">Añadir libro</a>
 					<% } else { %>
-					<a href="" class="modalTitle">Añadir libro</a>
-					<% } %>
+						<% if(!user.autor) { %>
+							<button class="modalButton">Añadir libro</button>
+							<dialog class="autorModal" id="autorModal">
+								<h3 class="modalTitle">¡Alto ahi!</h3>
+								<p>
+									¿Tienes un libro propio que quieres añadir al
+									catalogo de Bibliotech?
+								</p>
+								<div class="botones">
+									<button class="cancelarEliminar">No</button>
+									<a href="/author-request" class="confirmarEliminar"
+										>Sí</a
+									>
+								</div>
+							</dialog>
+							<% } else { %>
+								<!-- ! CAMBIAR MAS TARDE -->
+								<a href="/panel/books/add" class="modalButton">Añadir libro</a>
+							<% } %>
+					<% } %> 
 				</div>
 				<div class="catalogo">
 					<% if(books.length > 0) {%> <% books.forEach(book => { %>

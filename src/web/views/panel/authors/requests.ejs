@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../../partials/admin/head.ejs') %>
+	</head>
+	<body>
+		<div class="panel">
+			<%- include('../../partials/admin/sidebar.ejs') %>
+			<main>
+				<%- include('../../partials/admin/navbar.ejs') %>
+				<div class="contenedor autorizaciones">
+					<h1>Solicitudes de autor</h1>
+					<div class="usuarios">
+						<% if(requests.length == 0) {%>
+							<h1 style="text-align: center;">No tienes solicitudes de autor.</h1>
+						<% } else { %>
+							<% requests.forEach(request => { %>
+							<a
+								href="/panel/requests/<%- request.id %>"
+								class="solicitud"
+							>
+								<figure>
+									<img
+										src="<%- request.user.image %>"
+										alt="<%- request.book.title %>"
+										loading="lazy"
+									/>
+								</figure>
+								<div class="info">
+									<p class="username">
+										<%- request.user.username %>
+									</p>
+									<p class="date">
+										Pedido enviado <%- format(request.date) %>
+									</p>
+								</div>
+							</a>
+							<% }) %>
+						<% } %>
+					</div>
+				</div>
+			</main>
+		</div>
+
+		<script src="js/cambiarTema.js"></script>
+	</body>
+</html>

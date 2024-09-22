@@ -56,7 +56,8 @@ class UserController {
                 username: response[0].username,
                 email: response[0].email,
                 image: response[0].image,
-                role: response[0].role
+                role: response[0].role,
+                autor: response[0].autor
             }
 
             res.status(200).json({ ...user, error: false })
@@ -388,6 +389,15 @@ class UserController {
     }
 
     getAuthorRequests = async (req, res, next) => {
+        try {
+            const data = await this.userModel.getAuthorRequests()
+            res.status(200).json(data)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    getAuthorRequestById = async (req, res, next) => {
         const { id } = req.params
 
         try {
@@ -397,7 +407,7 @@ class UserController {
             if(isNaN(id)) 
                 throw new ClientError('id must be a number')
 
-            const data = await this.userModel.getAuthorRequests({ id })
+            const [data] = await this.userModel.getAuthorRequestById({ id })
             res.status(200).json(data)
         } catch(err) {
             next(err)
@@ -454,6 +464,23 @@ class UserController {
 
             await this.userModel.aproveAuthorRequest({ userId, authorId })
             res.status(200).json({ message: 'approved', error: false })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    declineAuthorRequest = async (req, res, next) => {
+        const { authorId } = req.body
+
+        try {
+            if(!authorId)
+                throw new ClientError('id is missing')
+
+            if(isNaN(authorId)) 
+                throw new ClientError('id must be a number')
+
+            await this.userModel.declineAuthorRequest({ authorId })
+            res.status(200).json({ message: 'declined', error: false })
         } catch(err) {
             next(err)
         }
