@@ -82,4 +82,77 @@ userRouter.get('/logout', async (req, res) => {
     }
 })
 
+userRouter.get('/upload/book', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    res.render('uploadOriginalBook',
+        {
+            title: 'Bibliotech - Subir libro', 
+            user: { username, role, userId }
+        }
+    )
+})
+
+userRouter.post('/upload/book', async (req, res) => {
+    const { title, type, synopsis, categories } = req.body
+    const image = req.files ? `/uploads/${req.files[0].filename}` : null
+
+    const response = await fetch(`${apiUrl}/mangas/add`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title, type, synopsis, categories, image })
+    })
+
+    if(!response.ok)
+        return res.redirect('/upload/book?error=invalid')
+
+    const [manga] = (await response.json()).manga
+
+    res.redirect(`/book/${manga.id}`)
+})
+
+userRouter.get('/upload/chapter', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    res.render('uploadChapter',
+        {
+            title: 'Bibliotech - Subir capitulo', 
+            user: { username, role, userId }
+        }
+    )
+})
+
+userRouter.post('/upload/chapter', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    // ! SACAR LOS VALORES PREDETERMINADOS DESPUES DE LAS PRUEBAS
+    const { mangaId = 0, chapterNumber = 1, chapterTitle = 'Capítulo 1' } = req.body
+    const images = req.files
+
+    // ! ELIMINAR ESTO DESPUES DE LAS PRUEBAS
+    const chapterId = 1
+
+    const response = await fetch(`${apiUrl}/manga/chapter/images/add`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: mangaId, chapterId, images })
+    })
+
+    if(!response.ok)
+        return res.redirect('/upload/book?error=invalid')
+
+    res.render('uploadChapter',
+        {
+            title: 'Bibliotech - Subir libro', 
+            user: { username, role, userId }
+        }
+    )
+})
+
 export default userRouter

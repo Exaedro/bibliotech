@@ -25,6 +25,8 @@ appApi.use(commentRouter)
 
 // Manejador de errores
 appApi.use((err, req, res, next) => {
+    console.log(err)
+    
     const { message, statusCode } = err
     res.status(statusCode).json({ message, error: true })
 })

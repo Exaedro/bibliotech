@@ -31,7 +31,8 @@ const storage = multer.diskStorage({
         cb(null, randomUUID() + path.extname(file.originalname))
     }
 }) 
-webApp.use(multer({ storage }).single('image'))
+
+webApp.use(multer({ storage }).any())
 
 // Variables globales
 webApp.use((req, res, next) => {
@@ -53,6 +54,8 @@ webApp.use(panelRouter)
 // Estaticos
 webApp.use('/', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/book', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/manga', express.static(path.join(process.cwd(), 'src/web/public')))
+webApp.use('/upload', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/profile', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/profile/:id', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/panel', express.static(path.join(process.cwd(), 'src/web/public')))

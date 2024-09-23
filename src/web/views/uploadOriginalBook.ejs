@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('partials/head.ejs') %>
+	</head>
+	<body>
+		<main class="subirLibro">
+			<%- include('partials/navbar.ejs') %>
+			<div class="contenedor">
+				<h1>Subir libro</h1>
+				<form
+					class="editarLibroContainer"
+					id="crearLibroForm"
+					action="/upload/book"
+					method="POST"
+					enctype="multipart/form-data"
+				>
+					<!-- Imagen a un costado -->
+					<div class="portada">
+						<figure>
+							<img
+								id="imagen"
+								src="https://edit.org/images/cat/portadas-libros-big-2019101610.jpg"
+								alt=""
+							/>
+						</figure>
+						<input type="file" id="imagenInput" name="image" />
+					</div>
+
+					<!-- Formulario en el otro costado -->
+					<div class="datos">
+						<div class="row">
+							<div class="columna">
+								<h4>Título</h4>
+								<input
+									type="text"
+									id="titleInput"
+									placeholder=". . ."
+									name="title"
+									value="<% if(typeof errors != 'undefined') { %><%- values.title %><% } %>"
+								/>
+								<% if(typeof errors != 'undefined') { %> <%
+								if(errors.find(error => error.path == 'title'))
+								{ %>
+								<p class="error" id="titleError">
+									Escribe un título válido.
+								</p>
+								<% } %> <% } %>
+							</div>
+                            <div class="columna">
+                                <h4>Tipo</h4>
+                                <select name="type">
+                                    <option value="manga">Manga</option>
+                                    <option value="manhwa">Manhwa</option>
+                                    <option value="manhua">Manhua</option>
+                                    <option value="novela">Novela</option>
+                                </select>
+                            </div>
+						</div>
+
+						<!-- Sinopsis -->
+						<h4>Sinopsis</h4>
+						<textarea
+							id="sinopsisInput"
+							name="synopsis"
+							placeholder=". . ."
+							class="sinopsis"
+						>
+<% if(typeof errors != 'undefined') { %><%- values.synopsis %><% } %></textarea
+						>
+						<% if(typeof errors != 'undefined') { %> <%
+						if(errors.find(error => error.path == 'synopsis')) { %>
+						<p class="error" id="titleError">
+							Escribe una sinopsis válida.
+						</p>
+						<% } %> <% } %>
+
+						<!-- Categorías (checkboxes) -->
+						<h4>Categorías</h4>
+						<div class="categorias">
+							<div>
+								<div class="categoria">
+									<label>Ficción</label>
+									<input
+										type="checkbox"
+										id="ficcion"
+										name="categories"
+										value="1"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="no_ficcion">No Ficción</label>
+									<input
+										type="checkbox"
+										id="no_ficcion"
+										name="categories"
+										value="2"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="ciencia">Ciencia</label>
+									<input
+										type="checkbox"
+										id="ciencia"
+										name="categories"
+										value="3"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="historia">Historia</label>
+									<input
+										type="checkbox"
+										id="historia"
+										name="categories"
+										value="4"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="romantico">Romántico</label>
+									<input
+										type="checkbox"
+										id="romantico"
+										name="categories"
+										value="5"
+									/>
+								</div>
+							</div>
+							<div>
+								<div class="categoria">
+									<label for="thriller">Thriller</label>
+									<input
+										type="checkbox"
+										id="thriller"
+										name="categories"
+										value="6"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="fantastico">Fantástico</label>
+									<input
+										type="checkbox"
+										id="fantastico"
+										name="categories"
+										value="7"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="biografia">Biografía</label>
+									<input
+										type="checkbox"
+										id="biografia"
+										name="categories"
+										value="8"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="tecnologia">Tecnología</label>
+									<input
+										type="checkbox"
+										id="tecnologia"
+										name="categories"
+										value="9"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="cultura">Cultura</label>
+									<input
+										type="checkbox"
+										id="cultura"
+										name="categories"
+										value="10"
+									/>
+								</div>
+							</div>
+							<div>
+								<div class="categoria">
+									<label for="misterio">Misterio</label>
+									<input
+										type="checkbox"
+										id="misterio"
+										name="categories"
+										value="11"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="aventura">Aventura</label>
+									<input
+										type="checkbox"
+										id="aventura"
+										name="categories"
+										value="12"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="infantil">Infantil</label>
+									<input
+										type="checkbox"
+										id="infantil"
+										name="categories"
+										value="13"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="juvenil">Juvenil</label>
+									<input
+										type="checkbox"
+										id="juvenil"
+										name="categories"
+										value="14"
+									/>
+								</div>
+
+								<div class="categoria">
+									<label for="clasico">Clásico</label>
+									<input
+										type="checkbox"
+										id="clasico"
+										name="categories"
+										value="15"
+									/>
+								</div>
+							</div>
+						</div>
+
+						<!-- Botones -->
+						<div class="botones">
+							<a href="/catalog">Cancelar</a>
+							<button type="submit" id="botonCrearLibro">
+								Agregar
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</main>
+
+		<script src="js/previsualizarImagen.js"></script>
+		<script src="js/validations/validarFormularioCreateBook.js"></script>
+		<script src="js/cambiarTema.js"></script>
+	</body>
+</html>

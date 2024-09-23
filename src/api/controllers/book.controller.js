@@ -190,6 +190,65 @@ class BookController {
             next(err)
         }
     }
+
+    getMangas = async (req, res, next) => {
+        try {
+            const mangas = await this.bookModel.getMangas()
+            res.status(200).json(mangas)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    getMangaById = async (req, res, next) => {
+        const { id } = req.params
+
+        try {
+            const manga = await this.bookModel.getMangaById({ id })
+            res.status(200).json(manga)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    /**
+     * !
+     * ! AGREGAR VALIDACIONES A TODO MAS TARDE
+     * !
+     */
+
+    uploadManga = async (req, res, next) => {
+        const { title, type, synopsis, image, categories } = req.body
+
+        try {
+            const manga = await this.bookModel.uploadManga({ title, type, synopsis, image, categories })
+            res.status(200).json({ message: 'added', manga })
+        } catch(err) {
+            console.error(err)
+        }
+    }
+
+    addChapter = async (req, res, next) => {
+        const { id, chapterNumber, chapterTitle } = req.body
+
+        try {
+            await this.bookModel.addChapter({ id, chapterNumber, chapterTitle })
+            res.status(200).json({ message: 'added' })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    uploadImages = async (req, res, next) => {
+        const { id, chapterId, images } = req.body
+        
+        try {
+            await this.bookModel.uploadImages({ id, chapterId, images })
+            res.status(200).json({ message: 'uploaded' })
+        } catch(err) {
+            console.log(err)
+        }
+    }
 }
 
 export default BookController

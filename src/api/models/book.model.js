@@ -1,7 +1,7 @@
 // Base de datos
 import db from "../database.js";
 
-import { bookObject } from "../utils/bookObject.js";
+import { bookObject, mangaObject } from "../utils/bookObject.js";
 
 class BookModel {
     /**
@@ -301,6 +301,74 @@ class BookModel {
 
     static async deleteVisit({ id }) {
         await db.query(`UPDATE libros SET Visitas = Visitas - 1 WHERE LibroID = ?`, [id])
+    }
+
+    static async getMangas() {
+        const [mangas] = await db.query(`SELECT * FROM mangas m JOIN mangas_categorias mc ON m.MangaID = mc.MangaID JOIN categorias c ON mc.CategoriaID = c.CategoriaID`)
+
+        const data = mangaObject({ data: mangas })
+
+        return data
+    }
+
+    /**
+     * 
+     * @param {integer} id - id del manga
+     */
+    static async getMangaById({ id }) {
+        const [manga] = await db.query(`SELECT * FROM mangas m JOIN mangas_categorias mc ON m.MangaID = mc.MangaID JOIN categorias c ON mc.CategoriaID = c.CategoriaID WHERE m.MangaID = ?`, [id])
+        
+        const data = mangaObject({ data: manga })
+
+        return data
+    }
+
+    /**
+     * 
+     * @param {string} title - titulo del manga
+     * @param {string} type - tipo del manga
+     * @param {string} synopsis - sinopsis del manga
+     * @param {string} image - imagen del manga
+     * @param {array} categories - array de categorias del manga
+     */
+    static async uploadManga({ title, type, synopsis, image, categories }) {
+        await db.query(`INSERT INTO libros (Titulo, Tipo, Sinopsis, imagen, Original) VALUES (?, ?, ?, ?, ?)`, [title, type, synopsis, image, true])
+
+        const [mangaId] = await db.query(`SELECT LibroID FROM libros WHERE Titulo = ?`, [title])
+
+        for(let category of categories) {
+            await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [mangaId[0].LibroID, category])
+        }
+        
+        const [manga] = await db.query(`SELECT * FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE l.LibroID = ?`, [mangaId[0].LibroID])
+
+        const data = bookObject({ data: manga })
+
+        return data
+    }
+
+    /**
+     * 
+     * @param {integer} id - id del manga
+     * @param {integer} chapterNumber - numero del capitulo
+     * @param {string} chapterTitle - titulo del capitulo
+     */
+    static async addChapter({ id, chapterNumber, chapterTitle }) {
+        await db.query(`INSERT INTO mangas_capitulos (MangaID, CapituloNumero, CapituloNombre) VALUES (?, ?, ?)`, [id, chapterNumber, chapterTitle])
+    }
+
+    /**
+     * 
+     * @param {integer} id - id del manga
+     * @param {integer} chapterId - id del capitulo
+     * @param {array} images - array de imagenes del manga
+     */
+    static async uploadImages({ id, chapterId, images }) {
+        for(let image of images) {
+            const imagePath = `/uploads/${image.filename}`
+        
+            await db.query(`INSERT INTO mangas_imagenes (MangaID, CapituloID, Imagen) VALUES (?, ?, ?)`, [id, chapterId, imagePath])
+        }
     }
 }
 

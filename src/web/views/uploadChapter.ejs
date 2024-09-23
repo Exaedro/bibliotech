@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<%- include('partials/head.ejs') %>
+		<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable/build/umd/index.min.js"></script>
+	</head>
+	<body>
+		<header><%- include('partials/navbar.ejs') %></header>
+		<div class="wrapper">
+			<main class="libroContainer uploadChapter">
+				<form
+					action="/upload/chapter"
+					method="POST"
+					enctype="multipart/form-data"
+				>
+					
+					<input
+						type="file"
+						name="originalImages"
+						id="input-file"
+						multiple
+					/>
+					<button type="submit">Subir imagenes</button>
+				</form>
+
+				<div id="zone-drop"></div>
+			</main>
+
+			<footer class="footerContainer">
+				<%- include('partials/footer.ejs') %>
+			</footer>
+		</div>
+
+		<style>
+			#zone-drop {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 15px;
+			}
+
+			#zone-drop .file-item {
+				max-width: 200px;
+				height: 370px;
+				border: 1px solid var(--color-fondo-secundario);
+				cursor: move;
+				overflow: hidden;
+			}
+
+			#zone-drop .file-item .img-item {
+				min-width: 200px;
+				max-height: 250px;
+				height: 100%;
+			}
+
+			#zone-drop .header-item {
+				padding: 15px;
+				text-overflow: ellipsis;
+			}
+
+			#zone-drop .file-item img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			#zone-drop .file-item .footer-item {
+				padding: 15px;
+				display: flex;
+				justify-content: flex-end;
+			}
+
+			#zone-drop .file-item .footer-item button {
+				background-color: var(--color-primario);
+				color: var(--color-letra-secundario);
+				padding: 10px 35px;
+				border: none;
+				font-size: 16px;
+				font-weight: 600;
+				border-radius: 5px;
+				cursor: pointer;
+				transition: background 0.3s ease;
+			}
+
+			#zone-drop .file-item .footer-item button:hover {
+				background-color: var(--color-primario-hover);
+			}
+
+			/* #zone-drop .file-item .header-item {
+                overflow-wrap: break-word;
+            } */
+		</style>
+
+		<script>
+			const input = document.querySelector("#input-file");
+			let files = [];
+
+			input.addEventListener("change", (e) => {
+				files = e.target.files;
+				renderFiles();
+			});
+
+			function updateFileArray({ array, old_index, new_index }) {
+				array = Array.from(array);
+
+				if (new_index >= array.length) {
+					var k = new_index - array.length + 1;
+					while (k--) {
+						array.push(undefined);
+					}
+				}
+				array.splice(new_index, 0, array.splice(old_index, 1)[0]);
+
+				let dataTransfer = new DataTransfer();
+				array.forEach((file) => {
+					if (file) {
+						dataTransfer.items.add(file);
+					}
+				});
+
+				return dataTransfer.files;
+			}
+
+			function renderFiles() {
+				let zoneDrop = document.getElementById("zone-drop");
+				zoneDrop.innerHTML = "";
+
+				for (let i = 0; i < files.length; i++) {
+					let fileItem = document.createElement("div");
+					fileItem.setAttribute("draggable", "true");
+					fileItem.classList.add("file-item");
+
+					let headerItem = document.createElement("div");
+					headerItem.classList.add("header-item");
+
+					let imgItem = document.createElement("div");
+					imgItem.classList.add("img-item");
+
+					let footerItem = document.createElement("div");
+					footerItem.classList.add("footer-item");
+
+					zoneDrop.appendChild(fileItem);
+					fileItem.appendChild(headerItem);
+
+					headerItem.innerHTML = `
+                        <p>${files.item(i).name}</p>
+                    `;
+
+					let img = document.createElement("img");
+					img.src = URL.createObjectURL(files.item(i));
+					img.alt = files.item(i).name;
+
+					imgItem.appendChild(img);
+					fileItem.appendChild(imgItem);
+
+					fileItem.appendChild(footerItem);
+					footerItem.innerHTML = `
+                        <button class="delete-file">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    `;
+				}
+			}
+
+			const filesContainer = document.querySelectorAll("#zone-drop");
+			const sortable = new Draggable.Sortable(filesContainer, {
+				draggable: ".file-item",
+			});
+
+			sortable.on("sortable:stop", (e) => {
+				const old_index = e.data.oldIndex;
+				const new_index = e.data.newIndex;
+
+				files = updateFileArray({ array: files, old_index, new_index });
+                input.files = files
+			});
+		</script>
+	</body>
+</html>

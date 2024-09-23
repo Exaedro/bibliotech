@@ -1084,6 +1084,38 @@ h1, h2, h4, h5, p {
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
+.subirLibro .contenedor {
+    padding-top: 120px;
+    width: 1280px;
+    margin: 0 auto;
+}
+
+.subirLibro .contenedor h1 {
+    margin-left: 40px;
+}
+
+
+.subirLibro .contenedor .categorias {
+    display: grid;
+    margin-top: 5px;
+    grid-template-columns: 1fr 1fr 1fr;
+    color: var(--color-letra);
+    margin-bottom: 15px;
+}
+
+.subirLibro .contenedor input[type='checkbox'] {
+    margin: 0;
+}
+
+.subirLibro .contenedor .categoria {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: end;
+    margin: 10px 0;
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
 @media (max-width: 575.98px) {
     .container, .navbar, .catalogo-container, .slider, .footerContainer, .editContainer {
         width: 100%;
