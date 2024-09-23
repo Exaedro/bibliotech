@@ -129,9 +129,9 @@ indexRouter.get('/author-request', async (req, res) => {
 */
 indexRouter.post('/author-request', async (req, res) => {
     // ! SACAR EL "= 3" CUANDO SE TERMINEN LAS PRUEBAS
-    const { username, role, userId = 3 } = req.session
+    const { username, role, userId } = req.session
     const { bookTitle, bookInfo, termsCheck } = req.body
-    const image = req.file ? `/uploads/${req.file.filename}` : null
+    const image = req.files ? `/uploads/${req.files[0].filename}` : null
 
     const response = await fetch(`${apiUrl}/users/author-request`, {
         method: 'POST',
@@ -144,7 +144,8 @@ indexRouter.post('/author-request', async (req, res) => {
 
     if(!response.ok) {
         const data = await response.json()
-        
+        console.log(data)
+
         if(data.message.includes('requested')) {
             return res.render('author-request', 
                 {    

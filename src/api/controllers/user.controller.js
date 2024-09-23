@@ -417,6 +417,7 @@ class UserController {
     addAuthorRequest = async (req, res, next) => {
         const { userId, bookTitle, bookInfo, image } = req.body
 
+        console.log(userId, bookTitle, bookInfo, image)
         try {
             if(!userId || !bookTitle || !bookInfo || !image)
                 throw new ClientError('missing fields')
