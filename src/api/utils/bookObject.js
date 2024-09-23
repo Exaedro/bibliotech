@@ -12,7 +12,7 @@ export const bookObject = ({ data }) => {
         const bookInfo = {
             id: book.LibroID,
             title: book.Titulo,
-            author: book.Autor,
+            author: book.Autor || book.UsuarioID,
             isbn: book.ISBN,
             date: book.FechaLanzamiento,
             pages: book.CantidadPaginas,

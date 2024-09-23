@@ -94,6 +94,7 @@ userRouter.get('/upload/book', async (req, res) => {
 })
 
 userRouter.post('/upload/book', async (req, res) => {
+    const { userId } = req.session
     const { title, type, synopsis, categories } = req.body
     const image = req.files ? `/uploads/${req.files[0].filename}` : null
 
@@ -103,7 +104,7 @@ userRouter.post('/upload/book', async (req, res) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ title, type, synopsis, categories, image })
+        body: JSON.stringify({ title, type, synopsis, categories, image, userId })
     })
 
     if(!response.ok)
@@ -111,6 +112,7 @@ userRouter.post('/upload/book', async (req, res) => {
 
     const [manga] = (await response.json()).manga
 
+    console.log(manga)
     res.redirect(`/book/${manga.id}`)
 })
 

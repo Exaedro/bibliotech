@@ -228,6 +228,7 @@ class BookModel {
 
         const object = bookObject({ data: book })
 
+        console.log(object)
         return object
     }
 
@@ -331,16 +332,21 @@ class BookModel {
      * @param {string} image - imagen del manga
      * @param {array} categories - array de categorias del manga
      */
-    static async uploadManga({ title, type, synopsis, image, categories }) {
+    static async uploadManga({ title, type, synopsis, image, categories, userId }) {
         await db.query(`INSERT INTO libros (Titulo, Tipo, Sinopsis, imagen, Original) VALUES (?, ?, ?, ?, ?)`, [title, type, synopsis, image, true])
 
-        const [mangaId] = await db.query(`SELECT LibroID FROM libros WHERE Titulo = ?`, [title])
+        const [query] = await db.query(`SELECT LibroID FROM libros WHERE Titulo = ?`, [title])
+        const mangaId = query[0].LibroID
 
+        // Agregar las categorias al libro
         for(let category of categories) {
-            await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [mangaId[0].LibroID, category])
+            await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [mangaId, category])
         }
+
+        // Agregar autor al libro
+        await db.query('INSERT INTO libros_autores (LibroID, UsuarioID) VALUES (?, ?)', [mangaId, userId])
         
-        const [manga] = await db.query(`SELECT * FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE l.LibroID = ?`, [mangaId[0].LibroID])
+        const [manga] = await db.query(`SELECT * FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID JOIN libros_autores la ON l.LibroID = la.LibroID WHERE l.LibroID = ?`, [mangaId])
 
         const data = bookObject({ data: manga })
 

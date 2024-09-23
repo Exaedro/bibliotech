@@ -218,10 +218,10 @@ class BookController {
      */
 
     uploadManga = async (req, res, next) => {
-        const { title, type, synopsis, image, categories } = req.body
+        const { title, type, synopsis, image, categories, userId } = req.body
 
         try {
-            const manga = await this.bookModel.uploadManga({ title, type, synopsis, image, categories })
+            const manga = await this.bookModel.uploadManga({ title, type, synopsis, image, categories, userId })
             res.status(200).json({ message: 'added', manga })
         } catch(err) {
             console.error(err)
