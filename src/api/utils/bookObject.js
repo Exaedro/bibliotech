@@ -1,6 +1,7 @@
 export const bookObject = ({ data }) => {
     if (!data || data.length === 0) return null
 
+    console.log(data)
     let booksArray = []
     let temporalGenres = []
     let bookRepeat
@@ -12,7 +13,8 @@ export const bookObject = ({ data }) => {
         const bookInfo = {
             id: book.LibroID,
             title: book.Titulo,
-            author: book.Autor || book.UsuarioID,
+            author: book.Autor,
+            authorId: book.AutorID,
             isbn: book.ISBN,
             date: book.FechaLanzamiento,
             pages: book.CantidadPaginas,

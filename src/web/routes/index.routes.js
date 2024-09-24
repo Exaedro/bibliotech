@@ -96,6 +96,7 @@ indexRouter.get('/book/:bookId', async (req, res) => {
         )
     }
 
+    console.log(book)
     res.render('book',
         {
             title: `Bibliotech - ${book[0].title}`, book, comments, format,

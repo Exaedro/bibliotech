@@ -29,6 +29,11 @@ botonEnviarComentario.addEventListener('click', async (elem) => {
     await BookActions.commentBook()
 })
 
+// Crear tooltip para mostrar si el libro es original
+tippy('.original', {
+    content: "Esta es una historia original."
+});
+
 // Funcion para mostrar el editor de comentarios
 botonEditar.forEach(boton => {
     boton.addEventListener('click', async (elem) => {

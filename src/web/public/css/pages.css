@@ -18,6 +18,7 @@
 .libroIndividual figure {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .libroIndividual h1 {
@@ -35,6 +36,24 @@
 
 .libroIndividual p {
     margin-bottom: 15px;
+}
+
+.libroIndividual .originalAuthor a {
+    color: var(--color-primario)!important;
+}
+
+.libroIndividual .tipo {
+    text-transform: capitalize;
+}
+
+.libroIndividual .original {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--color-primario);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .libroIndividual .generos {

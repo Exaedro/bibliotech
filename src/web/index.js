@@ -51,6 +51,20 @@ webApp.use(profileRouter)
 webApp.use(indexRouter)
 webApp.use(panelRouter)
 
+webApp.use((err, req, res, next) => {
+    const { username, role, userId } = req.session
+
+    console.log(err)
+    res.status(500).render('error',
+        { 
+            title: 'Bibliotech - Error', error: true, code: 500,
+            user: {
+                username, role, userId
+            }
+        }
+    )
+})
+
 // Estaticos
 webApp.use('/', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/book', express.static(path.join(process.cwd(), 'src/web/public')))

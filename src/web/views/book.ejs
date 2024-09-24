@@ -12,6 +12,13 @@
         <div class="libroIndividual">
             <figure>
                 <img src="<%- book[0].image %>">
+
+                <% if(book[0].original) { %>
+                    <span class="original">
+                      <i class="fa-solid fa-book"></i>
+                    </span>
+                <% } %>
+
                 <%  if(user.role == 'admin') { %>
                   <!-- Botón para editar el libro -->
 
@@ -33,7 +40,18 @@
                 <% } %>
 
                 <h4>Autor</h4>
-                <p><%- book[0].author %></p>
+                <% if(book[0].authorId == null) { %>
+                  <p><%- book[0].author %></p>
+                <% } else { %>
+                  <p class="originalAuthor">
+                    <a href="/profile/<%- book[0].authorId %>">
+                      <%- book[0].author %>
+                    </a>
+                  </p>
+                <% } %>
+
+                <h4>Tipo</h4>
+                <p class="tipo"><%- book[0].type %></p>
 
                 <h4>Géneros</h4>
                 <div class="generos">

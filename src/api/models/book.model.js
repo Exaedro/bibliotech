@@ -224,11 +224,12 @@ class BookModel {
      * @param {integer} id - id del libro 
      */
     static async getById({ id }) {
-        const [book] = await db.query(`SELECT * FROM libros JOIN libros_categorias lc ON lc.LibroID = libros.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE libros.LibroID = ${id}`)
+        const sql = "SELECT l.LibroID, l.Titulo, l.ISBN, l.FechaLanzamiento, l.FechaLanzamiento, l.CantidadPaginas, l.Editorial, l.Sinopsis, l.imagen, l.pdf_link, l.Idioma, l.Estado, l.Visitas, l.Gustados, l.Original, l.Tipo, c.NombreCategoria, c.CategoriaID, CASE WHEN l.Original = 1 THEN (SELECT u.Nombre FROM libros_autores la JOIN usuarios u ON la.UsuarioID = u.UsuarioID WHERE la.LibroID = ?) ELSE l.Autor END AS Autor, CASE WHEN l.Original = 1 THEN (SELECT u.UsuarioID FROM libros_autores la JOIN usuarios u ON la.UsuarioID = u.UsuarioID WHERE la.LibroID = ?) ELSE NULL END AS AutorID FROM libros l JOIN libros_categorias lc ON lc.LibroID = l.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID WHERE l.LibroID = ?"
+
+        const [book] = await db.query(sql, [id, id, id])
 
         const object = bookObject({ data: book })
 
-        console.log(object)
         return object
     }
 
