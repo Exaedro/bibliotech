@@ -29,9 +29,14 @@ botonEnviarComentario.addEventListener('click', async (elem) => {
     await BookActions.commentBook()
 })
 
-// Crear tooltip para mostrar si el libro es original
+// Crear tooltips
 tippy('.original', {
     content: "Esta es una historia original."
+});
+
+tippy('.subirCapitulo', {
+    content: "Subir un nuevo capítulo",
+    placement: 'right'
 });
 
 // Funcion para mostrar el editor de comentarios

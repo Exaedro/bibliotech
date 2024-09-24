@@ -50,8 +50,10 @@
                   </p>
                 <% } %>
 
-                <h4>Tipo</h4>
-                <p class="tipo"><%- book[0].type %></p>
+                <% if(book[0].original) { %>
+                  <h4>Tipo</h4>
+                  <p class="tipo"><%- book[0].type %></p>
+                <% } %>
 
                 <h4>Géneros</h4>
                 <div class="generos">
@@ -60,7 +62,13 @@
                         <span class="genero"><%- genre.name %></span>
                       </a>
                     <%})%>
-                </div>      
+                </div> 
+                
+                <% if(book[0].original && (book[0].authorId == user.userId)) { %>
+                  <a class="subirCapitulo" href="/book/<%- book[0].id %>/chapters/upload">
+                    <i class="fa-solid fa-upload"></i>
+                  </a>
+                <% } %>
             </div>
         </div>
         <div class="notificacion" id="notificacion">
