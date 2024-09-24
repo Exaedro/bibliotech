@@ -68,7 +68,7 @@ profileRouter.get('/profile/:id/edit', async (req, res) => {
 profileRouter.post('/profile/edit', async (req, res) => {
     const { userId } = req.session
     const { username, email } = req.body
-    const file = req.file
+    const file = req.files[0]
 
     const { actualPassword, newPassword, confirmPassword } = req.body
 

@@ -129,7 +129,6 @@ indexRouter.get('/author-request', async (req, res) => {
     TODO: Añadir validaciones
 */
 indexRouter.post('/author-request', async (req, res) => {
-    // ! SACAR EL "= 3" CUANDO SE TERMINEN LAS PRUEBAS
     const { username, role, userId } = req.session
     const { bookTitle, bookInfo, termsCheck } = req.body
     const image = req.files ? `/uploads/${req.files[0].filename}` : null
