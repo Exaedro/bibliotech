@@ -317,7 +317,7 @@ class BookModel {
      * @param {integer} id - id del manga
      */
     static async getMangaById({ id }) {
-        const [manga] = await db.query(`SELECT * FROM mangas m JOIN mangas_categorias mc ON m.MangaID = mc.MangaID JOIN categorias c ON mc.CategoriaID = c.CategoriaID WHERE m.MangaID = ?`, [id])
+        const [manga] = await db.query(`SELECT l.Titulo, l.Autor, l.ISBN, l.FechaLanzamiento, l.CantidadPaginas, l.Editorial, l.Sinopsis, l.imagen, l.pdf_link, l.Idioma, l.Estado, l.Visitas, l.Gustados, l.Original, l.Tipo, u.Nombre as UsuarioNombre, u.UsuarioID as UsuarioID  FROM libros l JOIN libros_autores la ON la.UsuarioID = l.Autor JOIN usuarios u ON la.UsuarioID = u.UsuarioID WHERE l.LibroID = ?`, [id])
         
         const data = mangaObject({ data: manga })
 
