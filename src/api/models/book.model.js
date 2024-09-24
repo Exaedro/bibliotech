@@ -2,6 +2,7 @@
 import db from "../database.js";
 
 import { bookObject, mangaObject } from "../utils/bookObject.js";
+import { chapterObject } from "../utils/chapterObject.js";
 
 class BookModel {
     /**
@@ -305,53 +306,27 @@ class BookModel {
         await db.query(`UPDATE libros SET Visitas = Visitas - 1 WHERE LibroID = ?`, [id])
     }
 
-    static async getMangas() {
-        const [mangas] = await db.query(`SELECT * FROM mangas m JOIN mangas_categorias mc ON m.MangaID = mc.MangaID JOIN categorias c ON mc.CategoriaID = c.CategoriaID`)
+    /**
+     * 
+     * @param {integer} id - id del manga 
+     */
+    static async getMangaChapters({ id }) {
+        const [chapters] = await db.query(`SELECT mc.CapituloID as chapterId, mc.MangaID as mangaId, mc.CapituloNumero as chapterNumber, mc.CapituloNombre as chapterTitle, mc.CapituloFecha as chapterDate FROM mangas_capitulos mc JOIN libros l ON mc.MangaID = l.LibroID WHERE mc.MangaID = ? ORDER BY mc.CapituloFecha DESC`, [id])
 
-        const data = mangaObject({ data: mangas })
-
-        return data
+        return chapters
     }
 
     /**
      * 
-     * @param {integer} id - id del manga
+     * @param {integer} id - id del libro
+     * @param {integer} chapterId - id del capitulo
      */
-    static async getMangaById({ id }) {
-        const [manga] = await db.query(`SELECT l.Titulo, l.Autor, l.ISBN, l.FechaLanzamiento, l.CantidadPaginas, l.Editorial, l.Sinopsis, l.imagen, l.pdf_link, l.Idioma, l.Estado, l.Visitas, l.Gustados, l.Original, l.Tipo, u.Nombre as UsuarioNombre, u.UsuarioID as UsuarioID  FROM libros l JOIN libros_autores la ON la.UsuarioID = l.Autor JOIN usuarios u ON la.UsuarioID = u.UsuarioID WHERE l.LibroID = ?`, [id])
-        
-        const data = mangaObject({ data: manga })
+    static async getChapter({ id, chapterId }) {
+        const [data] = await db.query(`SELECT l.LibroID as bookId, l.Titulo as bookTitle, mc.CapituloNumero as chapterNumber, mc.CapituloNombre as chapterTitle, mc.CapituloID as chapterId, mi.Imagen as image FROM mangas_capitulos mc JOIN libros l ON l.LibroID = mc.MangaID JOIN mangas_imagenes mi ON mi.CapituloID = mc.CapituloID WHERE l.LibroID = ? AND mc.CapituloID = ?`, [id, chapterId])
 
-        return data
-    }
+        const chapter = chapterObject({ data })
 
-    /**
-     * 
-     * @param {string} title - titulo del manga
-     * @param {string} type - tipo del manga
-     * @param {string} synopsis - sinopsis del manga
-     * @param {string} image - imagen del manga
-     * @param {array} categories - array de categorias del manga
-     */
-    static async uploadManga({ title, type, synopsis, image, categories, userId }) {
-        await db.query(`INSERT INTO libros (Titulo, Tipo, Sinopsis, imagen, Original) VALUES (?, ?, ?, ?, ?)`, [title, type, synopsis, image, true])
-
-        const [query] = await db.query(`SELECT LibroID FROM libros WHERE Titulo = ?`, [title])
-        const mangaId = query[0].LibroID
-
-        // Agregar las categorias al libro
-        for(let category of categories) {
-            await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [mangaId, category])
-        }
-
-        // Agregar autor al libro
-        await db.query('INSERT INTO libros_autores (LibroID, UsuarioID) VALUES (?, ?)', [mangaId, userId])
-        
-        const [manga] = await db.query(`SELECT * FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID JOIN libros_autores la ON l.LibroID = la.LibroID WHERE l.LibroID = ?`, [mangaId])
-
-        const data = bookObject({ data: manga })
-
-        return data
+        return chapter
     }
 
     /**
@@ -362,6 +337,12 @@ class BookModel {
      */
     static async addChapter({ id, chapterNumber, chapterTitle }) {
         await db.query(`INSERT INTO mangas_capitulos (MangaID, CapituloNumero, CapituloNombre) VALUES (?, ?, ?)`, [id, chapterNumber, chapterTitle])
+
+        const [data] = await db.query(`SELECT CapituloID FROM mangas_capitulos WHERE MangaID = ? AND CapituloNumero = ?`, [id, chapterNumber])
+
+        const chapterId = data[0].CapituloID
+
+        return chapterId
     }
 
     /**

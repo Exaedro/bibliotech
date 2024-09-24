@@ -228,14 +228,36 @@ class BookController {
         }
     }
 
+    getMangaChapters = async (req, res, next) => {
+        const { id } = req.params
+
+        try {
+            const chapters = await this.bookModel.getMangaChapters({ id })
+            res.status(200).json(chapters)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    getChapter = async (req, res, next) => {
+        const { id, chapterId } = req.params
+
+        try {
+            const chapter = await this.bookModel.getChapter({ id, chapterId })
+            res.status(200).json(chapter)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
     addChapter = async (req, res, next) => {
         const { id, chapterNumber, chapterTitle } = req.body
 
         try {
-            await this.bookModel.addChapter({ id, chapterNumber, chapterTitle })
-            res.status(200).json({ message: 'added' })
+            const chapterId = await this.bookModel.addChapter({ id, chapterNumber, chapterTitle })
+            res.status(200).json({ message: 'added', chapterId })
         } catch(err) {
-            next(err)
+            console.log(err)
         }
     }
 

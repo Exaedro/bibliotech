@@ -89,7 +89,25 @@
             <p>Favorito</p>
           </div>
         </div>
-        <iframe class="pdf" src="<%- book[0].pdf %>" frameborder="0"></iframe>
+
+        <% if(book[0].original) { %>
+          <section class="capitulos">
+            <h2>Capítulos</h2>
+            <% let i = chapters.length %>
+            <% chapters.forEach(chapter => { %>
+              <a href="/book/<%- book[0].id %>/chapter/<%- chapter.chapterId %>">
+                <article class="capitulo">
+                  <h3>Capitulo <%- i %> - <%- chapter.chapterTitle %></h3>
+                  <p><%- format(chapter.chapterDate) %></p>
+                </article>
+              </a>
+            <% i-- %>
+            <% }) %>
+          </section>
+        <% } else { %>
+            <iframe class="pdf" src="<%- book[0].pdf %>" frameborder="0"></iframe>
+        <% } %>
+
         <section class="comentarios">
           <h2>Comentarios</h2>
           <div id="comentario">

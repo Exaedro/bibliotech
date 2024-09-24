@@ -116,43 +116,71 @@ userRouter.post('/upload/book', async (req, res) => {
     res.redirect(`/book/${manga.id}`)
 })
 
-userRouter.get('/upload/chapter', async (req, res) => {
+userRouter.get('/book/:id/chapters/upload', async (req, res) => {
     const { username, role, userId } = req.session
+
+    // Id del libro
+    const { id } = req.params
 
     res.render('uploadChapter',
         {
             title: 'Bibliotech - Subir capitulo', 
-            user: { username, role, userId }
+            user: { username, role, userId },
+            bookId: id
         }
     )
 })
 
-userRouter.post('/upload/chapter', async (req, res) => {
+userRouter.post('/book/:id/chapters/upload', async (req, res) => {
     const { username, role, userId } = req.session
 
-    // ! SACAR LOS VALORES PREDETERMINADOS DESPUES DE LAS PRUEBAS
-    const { mangaId = 0, chapterNumber = 1, chapterTitle = 'Capítulo 1' } = req.body
-    const images = req.files
+    // Id del libro
+    const { id } = req.params
 
-    // ! ELIMINAR ESTO DESPUES DE LAS PRUEBAS
-    const chapterId = 1
+    const { chapterTitle, chapterNumber } = req.body
 
-    const response = await fetch(`${apiUrl}/manga/chapter/images/add`, {
+    const response = await fetch(`${apiUrl}/mangas/chapter/add`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id: mangaId, chapterId, images })
+        body: JSON.stringify({ id, chapterNumber, chapterTitle })
     })
 
-    if(!response.ok)
+    // Si no se crea el capitulo
+    if(!response.ok) { 
+        return res.redirect(`/book/${id}/chapters/upload?error=invalid`)
+    }
+
+    const data = await response.json()
+
+    // Id del capitulo
+    const chapterId = data.chapterId
+
+    // Imagenes del capitulo
+    const images = req.files
+
+    if(!images)
+        return res.redirect(`/book/${id}/chapters/upload?error=images_missing`)
+
+    const response2 = await fetch(`${apiUrl}/mangas/chapter/images/add`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, chapterId, images })
+    })
+
+    if(!response2.ok)
         return res.redirect('/upload/book?error=invalid')
 
     res.render('uploadChapter',
         {
             title: 'Bibliotech - Subir libro', 
-            user: { username, role, userId }
+            user: { username, role, userId },
+            bookId: id
         }
     )
 })

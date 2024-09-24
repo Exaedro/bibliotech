@@ -26,15 +26,20 @@ bookRouter.post(`${prefix}/book/create`, bookController.createBook)
 bookRouter.post(`${prefix}/book/delete`, bookController.deleteById)
 bookRouter.post(`${prefix}/book/:id/edit`, bookController.editById)	
 
-bookRouter.get(`${prefix}/mangas`, bookController.getMangas)
-bookRouter.get(`${prefix}/manga/:id`, bookController.getMangaById)
-
-bookRouter.post(`${prefix}/mangas/add`, bookController.uploadManga)
-bookRouter.post(`${prefix}/manga/chapter/add`, bookController.addChapter)
-bookRouter.post(`${prefix}/manga/chapter/images/add`, bookController.uploadImages)
-
 bookRouter.get(`${prefix}/book/:id/visits`, bookController.getVisits)
 bookRouter.post(`${prefix}/book/add/visit`, bookController.addVisit)
 bookRouter.post(`${prefix}/book/delete/visit`, bookController.deleteVisit)
+
+// Mangas GET
+bookRouter.get(`${prefix}/mangas`, bookController.getMangas)
+bookRouter.get(`${prefix}/manga/:id`, bookController.getMangaById)
+bookRouter.get(`${prefix}/manga/:id/chapter/:chapterId`, bookController.getChapter)
+bookRouter.get(`${prefix}/manga/:id/chapters`, bookController.getMangaChapters)
+
+// Mangas POST
+bookRouter.post(`${prefix}/mangas/add`, bookController.uploadManga)
+bookRouter.post(`${prefix}/mangas/chapter/add`, bookController.addChapter)
+bookRouter.post(`${prefix}/mangas/chapter/images/add`, bookController.uploadImages)
+
 
 export default bookRouter

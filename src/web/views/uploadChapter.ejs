@@ -9,11 +9,17 @@
 		<div class="wrapper">
 			<main class="libroContainer uploadChapter">
 				<form
-					action="/upload/chapter"
+					action="/book/<%- bookId %>/chapters/upload"
 					method="POST"
 					enctype="multipart/form-data"
 				>
+					<h4>Nombre del capitulo</h4>
+					<input type="text" name="chapterTitle" placeholder=". . ." />
 					
+					<h4>Número del capitulo</h4>
+					<input type="number" name="chapterNumber" placeholder=". . ." />
+
+					<h4>Imagenes</h4>
 					<input
 						type="file"
 						name="originalImages"

@@ -96,10 +96,12 @@ indexRouter.get('/book/:bookId', async (req, res) => {
         )
     }
 
-    console.log(book)
+    // Si el libro es original y tiene capitulos disponibles
+    const chapters = await (await fetch(`${apiUrl}/manga/${book[0].id}/chapters`, { method: 'GET' })).json()
+
     res.render('book',
         {
-            title: `Bibliotech - ${book[0].title}`, book, comments, format,
+            title: `Bibliotech - ${book[0].title}`, book, comments, chapters, format,
             user: { username, role, userId }
         }
     )
@@ -112,6 +114,25 @@ indexRouter.get('/book/:bookId', async (req, res) => {
         },
         body: JSON.stringify({ id: book[0].id })
     })
+})
+
+indexRouter.get('/book/:bookId/chapter/:chapterId', async (req, res) => {
+    const { username, role, userId } = req.session
+    const { bookId, chapterId } = req.params
+    const { format } = res.locals
+
+    const chapter = await (await fetch(`${apiUrl}/manga/${bookId}/chapter/${chapterId}`, { method: 'GET' })).json()
+
+    if(!chapter)
+        return res.redirect('/error')
+
+    // ${chapter[0].chapterNumber} / ${chapter[0].chapterTitle}
+    res.render('chapter',
+        {
+            title: `Bibliotech`, data: chapter, format,
+            user: { username, role, userId }
+        }
+    )
 })
 
 indexRouter.get('/author-request', async (req, res) => {
@@ -144,7 +165,6 @@ indexRouter.post('/author-request', async (req, res) => {
 
     if(!response.ok) {
         const data = await response.json()
-        console.log(data)
 
         if(data.message.includes('requested')) {
             return res.render('author-request', 
