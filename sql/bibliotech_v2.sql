@@ -1,18 +1,18 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-09-2024 a las 14:48:19
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 26-09-2024 a las 00:14:00
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Base de datos: `bibliotech_v3`
+-- Base de datos: `bibliotech_v2`
 --
 
 -- --------------------------------------------------------
@@ -28,7 +28,7 @@ CREATE TABLE `autorizaciones` (
   `Descripcion` varchar(500) NOT NULL,
   `LibroImagen` varchar(120) NOT NULL,
   `FechaAutorizacion` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE `calificaciones` (
   `LibroID` int(11) NOT NULL,
   `Calificacion` int(1) NOT NULL CHECK (`Calificacion` >= 1 and `Calificacion` <= 5),
   `FechaCalificacion` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -53,7 +53,7 @@ CREATE TABLE `calificaciones` (
 CREATE TABLE `categorias` (
   `CategoriaID` int(11) NOT NULL,
   `NombreCategoria` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `categorias`
@@ -89,7 +89,7 @@ CREATE TABLE `comentarios` (
   `Comentario` text NOT NULL,
   `FechaComentario` datetime DEFAULT current_timestamp(),
   `Editado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `comentarios`
@@ -123,7 +123,7 @@ CREATE TABLE `favoritos` (
   `FavoritoID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `favoritos`
@@ -143,7 +143,7 @@ CREATE TABLE `gustados` (
   `GustadoID` int(11) NOT NULL,
   `UsuarioID` int(11) DEFAULT NULL,
   `LibroID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `gustados`
@@ -163,7 +163,7 @@ CREATE TABLE `historial` (
   `UsuarioID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL,
   `FechaAccion` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `historial`
@@ -174,7 +174,9 @@ INSERT INTO `historial` (`HistorialID`, `UsuarioID`, `LibroID`, `FechaAccion`) V
 (29, 3, 4, '2024-08-29 22:19:35'),
 (30, 3, 1, '2024-08-29 22:19:44'),
 (31, 3, 2, '2024-09-20 11:14:14'),
-(32, 3, 3, '2024-09-20 11:23:08');
+(32, 3, 3, '2024-09-20 11:23:08'),
+(33, 10, 165, '2024-09-25 18:21:31'),
+(34, 3, 165, '2024-09-25 18:56:36');
 
 -- --------------------------------------------------------
 
@@ -199,7 +201,7 @@ CREATE TABLE `libros` (
   `Gustados` int(11) NOT NULL DEFAULT 0,
   `Original` tinyint(1) NOT NULL DEFAULT 0,
   `Tipo` enum('manga','manwha','manhua','novela') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `libros`
@@ -221,7 +223,7 @@ INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, 
 (13, 'La Chica del Tren', 'Paula Hawkins', '9780553448160', '2015-01-13', 325, 'Riverhead Books', 'Un thriller psicológico sobre una mujer obsesionada con la vida de otras personas', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/199/m_libros/portada_la-chica-del-tren_paula-hawkins_201611281622.jpg', 'https://sallebello.edu.co/images/La_chica_del_tren_-_Paula_Hawkins.pdf', 'Inglés', 'Disponible', 160, 75, 0, 'manga'),
 (14, 'El Juego del Ángel', 'Carlos Ruiz Zafón', '9788408099353', '2008-11-05', 447, 'Planeta', 'La secuela de La Sombra del Viento', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/246/m_libros/portada_el-juego-del-angel_carlos-ruiz-zafon_201701091638.jpg', '', 'Español', 'Prestado', 170, 85, 0, 'manga'),
 (15, 'La Casa de los Espíritus', 'Isabel Allende', '9781501116960', '1982-03-28', 448, 'Plaza & Janés', 'Una novela épica sobre la vida de una familia chilena', 'https://cdn.zendalibros.com/wp-content/uploads/2022/10/eal43438_la-casa-de-los-espiritus-scaled.jpg', 'https://www.suneo.mx/literatura/subidas/Isabel%20Allende%20La%20Casa%20de%20los%20Esp%C3%ADritus.pdf', 'Español', 'Disponible', 200, 90, 0, 'manga'),
-(164, 'fdsdsfsd', NULL, NULL, '2024-01-01', NULL, NULL, 'dffdsfdfd', '/uploads/760e4d1f-c3e1-49a0-a4f1-23511e2517e0.jpg', NULL, NULL, NULL, 4, 0, 1, 'manga');
+(165, 'Armados', NULL, NULL, '2024-09-25', NULL, NULL, 'El protagonista de la historia es Estic, joven que sueña con tener aventuras como sus héroes del manga. Un día liberará los poderes ocultos de su yoyo que le otorgará súperpoderes increíbles, una obra que sigue los pasos de grandes referentes del shonen.', '/uploads/3bea172c-e2a9-4402-ad9d-90c853ab6e20.jpg', NULL, NULL, NULL, 7, 0, 1, 'manga');
 
 -- --------------------------------------------------------
 
@@ -232,7 +234,14 @@ INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, 
 CREATE TABLE `libros_autores` (
   `LibroID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `libros_autores`
+--
+
+INSERT INTO `libros_autores` (`LibroID`, `UsuarioID`) VALUES
+(165, 10);
 
 -- --------------------------------------------------------
 
@@ -243,7 +252,7 @@ CREATE TABLE `libros_autores` (
 CREATE TABLE `libros_categorias` (
   `LibroID` int(11) NOT NULL,
   `CategoriaID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `libros_categorias`
@@ -280,8 +289,12 @@ INSERT INTO `libros_categorias` (`LibroID`, `CategoriaID`) VALUES
 (14, 14),
 (15, 4),
 (15, 14),
-(164, 2),
-(164, 7);
+(165, 1),
+(165, 5),
+(165, 7),
+(165, 11),
+(165, 12),
+(165, 14);
 
 -- --------------------------------------------------------
 
@@ -295,7 +308,14 @@ CREATE TABLE `mangas_capitulos` (
   `CapituloNumero` int(11) NOT NULL,
   `CapituloNombre` varchar(255) NOT NULL,
   `CapituloFecha` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `mangas_capitulos`
+--
+
+INSERT INTO `mangas_capitulos` (`CapituloID`, `MangaID`, `CapituloNumero`, `CapituloNombre`, `CapituloFecha`) VALUES
+(11, 165, 1, 'El inicio', '2024-09-25 18:24:44');
 
 -- --------------------------------------------------------
 
@@ -308,7 +328,23 @@ CREATE TABLE `mangas_imagenes` (
   `MangaID` int(11) DEFAULT NULL,
   `CapituloID` int(11) NOT NULL,
   `Imagen` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `mangas_imagenes`
+--
+
+INSERT INTO `mangas_imagenes` (`MangaImagenID`, `MangaID`, `CapituloID`, `Imagen`) VALUES
+(6, 165, 11, '/uploads/188d00cf-2645-4a2f-9950-2f45270c7036.jpg'),
+(7, 165, 11, '/uploads/4601b34a-b953-4596-92d8-bcada744864f.jpg'),
+(8, 165, 11, '/uploads/31c5aad7-806c-4479-8a1a-ae01b9eba761.jpg'),
+(9, 165, 11, '/uploads/ba7dafe6-3b7e-48e3-ae59-1e5b5517f836.jpg'),
+(10, 165, 11, '/uploads/caf8653c-0495-43f8-86ff-2b50335e5280.jpg'),
+(11, 165, 11, '/uploads/3c842333-6814-40ca-ad34-a22f82df42ec.jpg'),
+(12, 165, 11, '/uploads/e96b622f-d3c8-4f57-a8be-1263df7c3f4c.jpg'),
+(13, 165, 11, '/uploads/fbb33444-3731-4e95-8b53-7a3210b8104d.jpg'),
+(14, 165, 11, '/uploads/62dafbdc-78a3-4a75-a469-922cbdb5e3ea.jpg'),
+(15, 165, 11, '/uploads/847a763d-ddef-4086-9332-94ad8411b291.jpg');
 
 -- --------------------------------------------------------
 
@@ -322,7 +358,7 @@ CREATE TABLE `reservas` (
   `LibroID` int(11) NOT NULL,
   `FechaReserva` date DEFAULT NULL,
   `Estado` enum('Activa','Cancelada','Finalizada') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -333,7 +369,7 @@ CREATE TABLE `reservas` (
 CREATE TABLE `roles` (
   `RollID` int(11) NOT NULL,
   `NombreRol` enum('propietario','admin','mod','user') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -359,7 +395,7 @@ CREATE TABLE `usuarios` (
   `Contrasenia` varchar(255) NOT NULL,
   `RollID` int(11) NOT NULL DEFAULT 1,
   `Autor` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -368,10 +404,11 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`UsuarioID`, `Nombre`, `CorreoElectronico`, `Imagen`, `Contrasenia`, `RollID`, `Autor`) VALUES
 (1, 'dsaasd', 'ow@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 1, 0),
 (2, 'elpepe', 'owomolo123@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 1, 0),
-(3, 'admin', 'oww@gmail.com', '/uploads/dd6a641d-1297-4892-95c7-3f426839a38c.jpg', '$2b$10$ha2A16xWuw0zleP0e2T6qet5jQ85zgSEBNZtIvGywAv9V436JBFE6', 3, 0),
-(4, 'exaedro', 'elpepe@gmail.com', '/uploads/57748771-853d-4907-b973-0282faea6e88.png', '$2b$10$KKSaDN3FgjCqRDuiBLJMT.ivLBqN7wFtZdqxVNZqN.uUq/K1PJhCq', 3, 1),
+(3, 'admin', 'oww@gmail.com', '/uploads/b8ba20ff-8abe-45a8-9110-cd794c120692.jpg', '$2b$10$ha2A16xWuw0zleP0e2T6qet5jQ85zgSEBNZtIvGywAv9V436JBFE6', 3, 0),
+(4, 'exaedro', 'elpepe@gmail.com', '/uploads/2f4adc1f-b3b8-4ea2-88c7-73765823db3b.jpg', '$2b$10$KKSaDN3FgjCqRDuiBLJMT.ivLBqN7wFtZdqxVNZqN.uUq/K1PJhCq', 3, 1),
 (7, 'dasasddas', 'dasdas@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$ZaRGgVda.C4ae7TDnNboeeth/6/CV.Bt3/0zVRq/GqoRkWJQBbwzK', 1, 0),
-(8, 'holaaa', 'elpopencio123@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$JSQrRWH1MFa8pFZTofdP/.3WBSeSnfsi5IlFYlvUupM9IjsMyB6xa', 1, 0);
+(8, 'holaaa', 'elpopencio123@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$JSQrRWH1MFa8pFZTofdP/.3WBSeSnfsi5IlFYlvUupM9IjsMyB6xa', 1, 0),
+(10, 'saikomic', 'saikomic@gmail.com', '/uploads/44698584-e9bc-4e25-9f41-681a3e089c3e.jpg', '$2b$10$R57BEj8zR5n05jSC7ussXuBcFzY4caQItVjO8k47JNqtLv7bBX4aG', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -383,7 +420,7 @@ CREATE TABLE `ver_mas_tarde` (
   `TardeID` int(11) NOT NULL,
   `UsuarioID` int(11) DEFAULT NULL,
   `LibroID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `ver_mas_tarde`
@@ -475,7 +512,8 @@ ALTER TABLE `libros_categorias`
 -- Indices de la tabla `mangas_capitulos`
 --
 ALTER TABLE `mangas_capitulos`
-  ADD PRIMARY KEY (`CapituloID`);
+  ADD PRIMARY KEY (`CapituloID`),
+  ADD KEY `MangaID` (`MangaID`);
 
 --
 -- Indices de la tabla `mangas_imagenes`
@@ -522,7 +560,7 @@ ALTER TABLE `ver_mas_tarde`
 -- AUTO_INCREMENT de la tabla `autorizaciones`
 --
 ALTER TABLE `autorizaciones`
-  MODIFY `AutorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `AutorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `calificaciones`
@@ -558,25 +596,25 @@ ALTER TABLE `gustados`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
+  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT de la tabla `mangas_capitulos`
 --
 ALTER TABLE `mangas_capitulos`
-  MODIFY `CapituloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `CapituloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `mangas_imagenes`
 --
 ALTER TABLE `mangas_imagenes`
-  MODIFY `MangaImagenID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `MangaImagenID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `reservas`
@@ -594,7 +632,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `ver_mas_tarde`
@@ -641,11 +679,31 @@ ALTER TABLE `historial`
   ADD CONSTRAINT `historial_ibfk_2` FOREIGN KEY (`LibroID`) REFERENCES `libros` (`LibroID`) ON DELETE CASCADE;
 
 --
+-- Filtros para la tabla `libros_autores`
+--
+ALTER TABLE `libros_autores`
+  ADD CONSTRAINT `libros_autores_ibfk_1` FOREIGN KEY (`LibroID`) REFERENCES `libros` (`LibroID`),
+  ADD CONSTRAINT `libros_autores_ibfk_2` FOREIGN KEY (`UsuarioID`) REFERENCES `usuarios` (`UsuarioID`);
+
+--
 -- Filtros para la tabla `libros_categorias`
 --
 ALTER TABLE `libros_categorias`
   ADD CONSTRAINT `libros_categorias_ibfk_1` FOREIGN KEY (`LibroID`) REFERENCES `libros` (`LibroID`) ON DELETE CASCADE,
   ADD CONSTRAINT `libros_categorias_ibfk_2` FOREIGN KEY (`CategoriaID`) REFERENCES `categorias` (`CategoriaID`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `mangas_capitulos`
+--
+ALTER TABLE `mangas_capitulos`
+  ADD CONSTRAINT `mangas_capitulos_ibfk_1` FOREIGN KEY (`MangaID`) REFERENCES `libros` (`LibroID`);
+
+--
+-- Filtros para la tabla `mangas_imagenes`
+--
+ALTER TABLE `mangas_imagenes`
+  ADD CONSTRAINT `mangas_imagenes_ibfk_1` FOREIGN KEY (`MangaID`) REFERENCES `libros` (`LibroID`),
+  ADD CONSTRAINT `mangas_imagenes_ibfk_2` FOREIGN KEY (`CapituloID`) REFERENCES `mangas_capitulos` (`CapituloID`);
 
 --
 -- Filtros para la tabla `reservas`
