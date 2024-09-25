@@ -79,7 +79,7 @@
 									</td>
 
 									<td>
-										<% if(userInfo.id == user.userId) { %>
+										<% if(userInfo.id == user.userId || (user.role == 'admin' && userInfo.roleId == 3)) { %>
 										<button
 											href="#"
 											disabled
