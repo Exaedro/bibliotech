@@ -36,12 +36,16 @@
                         <h3>Correo electronico</h3>
                         <input value="<%- userProfile.email %>" type="email" name="email" placeholder=". . .">
                         <hr>
+                        <% if (user.userId != userProfile.id) { %>
                         <h3>Rol</h3>
                         <select name="role">
+                            <% if (userProfile.role==4) { %>
                             <option value="3" <%- userProfile.role == 'admin' ? selected : '' %>>Administrador</option>
+                            <% } %>
                             <option value="2" <%- userProfile.role == 'mod' ? selected : '' %>>Moderador</option>
                             <option value="1" <%- userProfile.role == 'user' ? selected : '' %>>Usuario</option>
                         </select>
+                        <% } %>
                         <!--<div class="changePassword">
                             <h3 class="title">Cambiar contraseña</h3>
                             <div class="row">
