@@ -100,7 +100,7 @@ userRouter.get('/upload/book', async (req, res) => {
 userRouter.post('/upload/book', async (req, res) => {
     const { userId } = req.session
     const { title, type, synopsis, categories } = req.body
-    const image = req.files ? `/uploads/${req.files[0].filename}` : null
+    const image = req.files.length > 0 ? `/uploads/${req.files[0].filename}` : null
 
     const response = await fetch(`${apiUrl}/mangas/add`, {
         method: 'POST',

@@ -59,7 +59,7 @@ panelRouter.get('/panel/books/:id/edit', async (req, res) => {
 panelRouter.post('/panel/books/:id/edit', async (req, res) => {
     const { id } = req.params
     const { title, author, isbn, date, pages, language, state, publisher, synopsis, image, pdfLink, categories } = req.body
-    const file = req.files ? `/uploads/${req.files[0].filename}` : null
+    const file = req.files.length > 0 ? `/uploads/${req.files[0].filename}` : null
 
     const response = await fetch(`${apiUrl}/book/${id}/edit`,
         {
@@ -102,7 +102,7 @@ panelRouter.post('/panel/books/add', createBookValidator, async (req, res) => {
     }
 
     const { title, author, isbn, date, pages, language, state, publisher, synopsis, pdfLink, categories } = req.body
-    const image = req.files? `/uploads/${req.files[0].filename}` : null
+    const image = req.files.length > 0 ? `/uploads/${req.files[0].filename}` : null
 
     const response = await fetch(`${apiUrl}/book/create`,
         {
@@ -156,7 +156,7 @@ panelRouter.get('/panel/users/:id/edit', async (req, res) => {
 panelRouter.post('/panel/users/:id/edit', async (req, res) => {
     const { id } = req.params
     const { username, email, role } = req.body
-    const file = req.files ? `/uploads/${req.files[0].filename}` : null
+    const file = req.files.length > 0 ? `/uploads/${req.files[0].filename}` : null
 
     const response = await fetch(`${apiUrl}/users/edit`,
         {
@@ -204,7 +204,7 @@ panelRouter.post('/panel/users/create', createUserValidator, async (req, res) =>
     }
 
     const { name, email, password, confirmPassword, role } = req.body
-    const image = req.files ? `/uploads/${req.files[0].filename}` : null
+    const image = req.files.length > 0 ? `/uploads/${req.files[0].filename}` : null
 
     console.log(image)
     if (!name || !email || !password || !confirmPassword || !role || !image)

@@ -172,7 +172,7 @@ indexRouter.get('/author-request', async (req, res) => {
 indexRouter.post('/author-request', async (req, res) => {
     const { username, role, userId } = req.session
     const { bookTitle, bookInfo, termsCheck } = req.body
-    const image = req.files ? `/uploads/${req.files[0].filename}` : null
+    const image = req.files.length > 0 ? `/uploads/${req.files[0].filename}` : null
 
     const response = await fetch(`${apiUrl}/users/author-request`, {
         method: 'POST',
