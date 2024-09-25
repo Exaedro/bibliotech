@@ -129,7 +129,27 @@ indexRouter.get('/book/:bookId/chapter/:chapterId', async (req, res) => {
     // ${chapter[0].chapterNumber} / ${chapter[0].chapterTitle}
     res.render('chapter',
         {
-            title: `Bibliotech`, data: chapter, format,
+            title: `Bibliotech`, data: chapter, format, paginated: false,
+            user: { username, role, userId }
+        }
+    )
+})
+
+indexRouter.get('/book/:bookId/chapter/:chapterId/paginated', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    const { bookId, chapterId } = req.params
+    const { format } = res.locals
+
+    const chapter = await (await fetch(`${apiUrl}/manga/${bookId}/chapter/${chapterId}`, { method: 'GET' })).json()
+
+    if(!chapter)
+        return res.redirect('/error')
+
+    // ${chapter[0].chapterNumber} / ${chapter[0].chapterTitle}
+    res.render('chapter',
+        {
+            title: `Bibliotech`, data: chapter, format, paginated: true,
             user: { username, role, userId }
         }
     )

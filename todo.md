@@ -7,11 +7,10 @@
 - Que se pueda mandar un mensaje al correo cuando se rechaza una solicitud de autor
 - Cuando se haga click en el tipo de libro que te lleve al catalogo y se vean esos tipos de libros
 
-### CAPITULOS
-- Agregar botones para elegir la forma de leer el capitulo (scroll, paginado)
-- - Scroll:
-- - Agregar input para elegir la separacion de las paginas a gusto
-- - (OPCIONAL) Agregar input para elegir el tamaño de las imagenes a gusto
+## Para mas tarde
+- Responsive de chapter.css
 
+### CAPITULOS
+- (OPCIONAL) Agregar input para elegir el tamaño de las imagenes a gusto
 - Agregar boton para ir un capitulo atras 
 - Agregar boton para ir al capitulo siguiente

@@ -20,3 +20,8 @@ export const createUserValidator = [
     body('confirmPassword').isLength({ min: 6 }).withMessage('Escribe mas de 6 caracteres como mínimo'),
     body('role').isIn(['1', '2', '3']).withMessage('Escribe un rol válido')
 ]
+
+export const createChapterValidator = [
+    body('chapterTitle').optional(),
+    body('chapterNumber').not().isEmpty().withMessage('Escribe el número del capitulo').isInt({ min: 1 }).withMessage('Escribe un numero válido'),
+]

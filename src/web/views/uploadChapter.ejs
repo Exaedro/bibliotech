@@ -8,93 +8,55 @@
 		<header><%- include('partials/navbar.ejs') %></header>
 		<div class="wrapper">
 			<main class="libroContainer uploadChapter">
+				<h2>Subir capítulo</h2>
 				<form
 					action="/book/<%- bookId %>/chapters/upload"
 					method="POST"
 					enctype="multipart/form-data"
 				>
-					<h4>Nombre del capitulo</h4>
-					<input type="text" name="chapterTitle" placeholder=". . ." />
-					
-					<h4>Número del capitulo</h4>
-					<input type="number" name="chapterNumber" placeholder=". . ." />
+					<div class="fila">
+						<div>
+							<h4>Nombre del capitulo</h4>
+							<input type="text" name="chapterTitle" placeholder=". . ." />
+						</div>
+						
+						<div>
+							<h4>Número del capitulo</h4>
+							<input type="number" name="chapterNumber" placeholder=". . ." />
+							<% if(typeof errors != 'undefined') { %>
+								<% const error = errors.find(error => error.path == 'chapterNumber') %>
+								<% if(error) { %>
+									<p class="error" id="titleError">
+										<%- error.msg %>
+									</p>
+								<% } %>
+							<% } %>
+						</div>
+					</div>
 
-					<h4>Imagenes</h4>
-					<input
-						type="file"
-						name="originalImages"
-						id="input-file"
-						multiple
-					/>
-					<button type="submit">Subir imagenes</button>
+					<div class="fila">
+						<h4>Imagenes</h4>
+						<input
+							type="file"
+							name="originalImages"
+							id="input-file"
+							multiple
+						/>
+					</div>
+
+					<div id="zone-drop"></div>
+
+					<div class="fila">
+						<a href="/book/<%- bookId %>" class="cancelar">Cancelar</a>
+						<button class="subirImagenes" type="submit">Subir</button>
+					</div>
 				</form>
-
-				<div id="zone-drop"></div>
 			</main>
 
 			<footer class="footerContainer">
 				<%- include('partials/footer.ejs') %>
 			</footer>
 		</div>
-
-		<style>
-			#zone-drop {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 15px;
-			}
-
-			#zone-drop .file-item {
-				max-width: 200px;
-				height: 370px;
-				border: 1px solid var(--color-fondo-secundario);
-				cursor: move;
-				overflow: hidden;
-			}
-
-			#zone-drop .file-item .img-item {
-				min-width: 200px;
-				max-height: 250px;
-				height: 100%;
-			}
-
-			#zone-drop .header-item {
-				padding: 15px;
-				text-overflow: ellipsis;
-			}
-
-			#zone-drop .file-item img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-			}
-
-			#zone-drop .file-item .footer-item {
-				padding: 15px;
-				display: flex;
-				justify-content: flex-end;
-			}
-
-			#zone-drop .file-item .footer-item button {
-				background-color: var(--color-primario);
-				color: var(--color-letra-secundario);
-				padding: 10px 35px;
-				border: none;
-				font-size: 16px;
-				font-weight: 600;
-				border-radius: 5px;
-				cursor: pointer;
-				transition: background 0.3s ease;
-			}
-
-			#zone-drop .file-item .footer-item button:hover {
-				background-color: var(--color-primario-hover);
-			}
-
-			/* #zone-drop .file-item .header-item {
-                overflow-wrap: break-word;
-            } */
-		</style>
 
 		<script>
 			const input = document.querySelector("#input-file");

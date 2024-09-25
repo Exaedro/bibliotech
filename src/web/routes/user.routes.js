@@ -1,6 +1,10 @@
 import { Router } from 'express'
 const userRouter = new Router()
 
+// Validadores
+import { validationResult } from 'express-validator'
+import { createChapterValidator } from '../utils/validators.js'
+
 // URL de la api
 import config from '../config.json' with { type: 'json' }
 const apiUrl = config["apiUrl"]
@@ -131,11 +135,24 @@ userRouter.get('/book/:id/chapters/upload', async (req, res) => {
     )
 })
 
-userRouter.post('/book/:id/chapters/upload', async (req, res) => {
+userRouter.post('/book/:id/chapters/upload', createChapterValidator, async (req, res) => {
     const { username, role, userId } = req.session
-
     // Id del libro
     const { id } = req.params
+
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.render('uploadChapter',
+            {
+                title: 'Bibliotech - Subir capítulo', bookId: id,
+                errors: errors.array(),
+                values: req.body,
+                user: {
+                    username, role, userId
+                }
+            }
+        )
+    }
 
     const { chapterTitle, chapterNumber } = req.body
 

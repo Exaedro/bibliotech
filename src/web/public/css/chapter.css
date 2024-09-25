@@ -1,0 +1,324 @@
+.uploadChapter {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.uploadChapter .fila {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.uploadChapter .fila div {
+    flex-grow: 1;
+}
+
+.uploadChapter .fila input {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 5px;
+    border-radius: 5px;
+    outline: none;
+    background-color: var(--color-input);
+    color: var(--color-input-letra);
+    font-size: 18px;
+    font-family: system-ui, sans-serif;
+    padding: 10px 15px;
+}
+
+.uploadChapter .cancelar {
+    background-color: red;
+    color: #fff;
+    padding: 10px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.uploadChapter .cancelar:hover {
+    background-color: red;
+}
+
+.uploadChapter .subirImagenes {
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+    padding: 10px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.uploadChapter .subirImagenes:hover {
+    background-color: var(--color-primario-hover);
+}
+
+.uploadChapter .fila:nth-last-child(1) {
+    display: flex;
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.uploadChapter h2 {
+    margin-bottom: 25px;
+}
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.uploadChapter #zone-drop {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.uploadChapter #zone-drop .file-item {
+    max-width: 188px;
+    height: 370px;
+    border: 1px solid var(--color-fondo-secundario);
+    cursor: move;
+    overflow: hidden;
+}
+
+.uploadChapter #zone-drop .file-item .img-item {
+    min-width: 200px;
+    max-height: 250px;
+    height: 100%;
+}
+
+.uploadChapter #zone-drop .header-item {
+    padding: 15px;
+    text-overflow: ellipsis;
+}
+
+.uploadChapter #zone-drop .file-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.uploadChapter #zone-drop .file-item .footer-item {
+    padding: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.uploadChapter #zone-drop .file-item .footer-item button {
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+    padding: 10px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.uploadChapter #zone-drop .file-item .footer-item button:hover {
+    background-color: var(--color-primario-hover);
+}
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.capituloContainer {
+    width: clamp(300px, 95vw, 1200px);
+    margin: 0 auto;
+}
+
+.capituloContainer h1 {
+    font-size: clamp(16px, 6.5vw, 36px);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.capituloHeader {
+    position: relative;
+    margin-bottom: 30px;
+    padding: 25px 0;
+}
+
+.capituloHeader::before {
+    content: '';
+    border-top: 1px solid var(--color-fondo-secundario);
+    border-bottom: 1px solid var(--color-fondo-secundario);
+    height: 1px;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100%;
+    left: 50%;
+    z-index: -1;
+    margin-left: -50vw;
+}
+
+.capituloHeader .herramientas {
+    display: flex;
+    justify-content: space-between;
+}
+
+.capituloHeader .herramientas .separacion .inputs {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.capituloHeader .herramientas .separacion input[type="range"] {
+    width: 200px;
+}
+
+.capituloHeader .herramientas .separacion input[type="number"] {
+    width: 80px;
+    background-color: var(--color-input);
+    color: var(--color-input-letra);
+    outline: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: system-ui, sans-serif;
+    padding: 8px 12px;
+}
+
+.capituloHeader .herramientas .separacion {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.capituloHeader .herramientas .tipoLectura {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.capituloHeader .herramientas .tipoLectura a {
+    background-color: var(--color-fondo-secundario);
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 18px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.capituloHeader .herramientas .tipoLectura .inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.capituloHeader .tipoLectura a:hover {
+    background-color: var(--color-primario-hover);
+    color: #fff;
+}
+
+.capituloHeader .tipoLectura a.selected {
+    background-color: var(--color-primario);
+    color: #fff;
+}
+
+.capituloHeader .paginaCompleta {
+    display: flex;
+    align-items: center;
+}
+
+.capituloHeader .paginaCompleta p {
+    transition: color 0.3s ease;
+}
+
+.capituloHeader .paginaCompleta p:hover {
+    cursor: pointer;
+    color: var(--color-primario);
+}
+
+.capituloViewer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.capituloViewer[paginated="true"] {
+    width: clamp(300px, 100vw, 1600px);
+    margin: 0 auto;
+}
+
+.capituloViewer[paginated="false"] {
+    width: clamp(300px, 95vw, 1200px);
+    margin: 0 auto;
+}
+
+.capituloViewer[paginated="true"] img {
+    width: 50%;
+    height: 100%;
+}
+
+.capituloViewer[paginated="false"] img {
+    width: 100%;
+    height: 100%;
+}
+
+.capituloViewer .pagina {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100%;
+    max-width: 100vw;
+    justify-content: flex-end;    
+}
+
+@media (max-width: 575.98px) {
+    .capituloContainer {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .uploadChapter .fila:nth-child(1) {
+        flex-direction: row;
+    }
+
+    .uploadChapter .fila:nth-last-child(1) {
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+    .capituloContainer {
+        width: 540px;
+    }
+
+    
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+    .capituloContainer {
+        width: 720px;
+    }
+
+    
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .capituloContainer {
+        width: 960px;
+    }
+
+    .uploadChapter #zone-drop .file-item {
+        max-width: 180px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .capituloContainer {
+        width: 1200px;
+    }
+}

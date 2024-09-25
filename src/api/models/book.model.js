@@ -308,6 +308,36 @@ class BookModel {
 
     /**
      * 
+     * @param {string} title - titulo del manga
+     * @param {string} type - tipo del manga
+     * @param {string} synopsis - sinopsis del manga
+     * @param {string} image - imagen del manga
+     * @param {array} categories - array de categorias del manga
+     */
+    static async uploadManga({ title, type, synopsis, image, categories, userId }) {
+        await db.query(`INSERT INTO libros (Titulo, Tipo, Sinopsis, imagen, Original) VALUES (?, ?, ?, ?, ?)`, [title, type, synopsis, image, true])
+
+        const [query] = await db.query(`SELECT LibroID FROM libros WHERE Titulo = ?`, [title])
+        const mangaId = query[0].LibroID
+
+        // Agregar las categorias al libro
+        for(let category of categories) {
+            await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [mangaId, category])
+        }
+
+        // Agregar autor al libro
+        await db.query('INSERT INTO libros_autores (LibroID, UsuarioID) VALUES (?, ?)', [mangaId, userId])
+        
+        const [manga] = await db.query(`SELECT * FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID JOIN libros_autores la ON l.LibroID = la.LibroID WHERE l.LibroID = ?`, [mangaId])
+
+        const data = bookObject({ data: manga })
+
+        return data
+    }
+
+
+    /**
+     * 
      * @param {integer} id - id del manga 
      */
     static async getMangaChapters({ id }) {

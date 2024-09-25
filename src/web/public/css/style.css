@@ -4,6 +4,7 @@
 @import url('panel.css');
 @import url('perfil.css');
 @import url('editUser.css');
+@import url('chapter.css');
 
 * {
     margin: 0;

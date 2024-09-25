@@ -4,39 +4,126 @@
 		<%- include('partials/head.ejs') %>
 	</head>
 	<body>
+		<style>
+			.wrapper {
+				margin-top: 60px;
+			}
+			.navbar {
+				position: relative;
+				top: 50px;
+				margin: 0;
+			}
+		</style>
 		<header><%- include('partials/navbar.ejs') %></header>
-        
-        <style>
-            .capituloContainer {
-                width: 1200px;
-                margin: 0 auto;
-            }
-
-            .capituloContainer .capituloViewer {
-                display: flex;
-                gap: 10px;
-                flex-wrap: wrap;
-            }
-
-            .capituloContainer .capituloViewer img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        </style>
-        
         <div class="wrapper">
 			<main class="capituloContainer">
-				<section class="capituloViewer">
-                    <% data.chapter.images.forEach(image => { %>
-                        <img src="<%- image %>">
-                    <% }) %>
-                </section>
+				<h1>Capítulo <%- data.chapter.number %> - <%- data.chapter.title %></h1>
+				<header class="capituloHeader">
+					<div class="herramientas">
+						<div class="separacion">
+							<p>Separación de páginas</p>
+							<div class="inputs">
+								<input type="range" id="separation_range" min="0" max="100" value="15">
+								<input type="number" id="separation_number" min="0" max="100" value="15">
+							</div>
+						</div>
+						<div class="tipoLectura">
+							<p>Tipo de lectura</p>
+							<div class="inputs">
+								<% if(paginated) { %>
+									<a href="#" class="selected paginado">
+										<i class="fa-solid fa-book-open"></i>
+									</a>
+									<a href="/book/<%- data.book.id %>/chapter/<%- data.chapter.id %>">
+										<i class="fa-solid fa-file"></i>
+									</a>
+								<% } else { %>
+									<a href="/book/<%- data.book.id %>/chapter/<%- data.chapter.id %>/paginated">
+										<i class="fa-solid fa-book-open"></i>
+									</a>
+									<a href="#" class="selected cascada">
+										<i class="fa-solid fa-file"></i>
+									</a>
+								<% } %>
+							</div>
+						</div>
+						<div class="paginaCompleta">
+							<p><i class="fa-solid fa-laptop"></i> Pagina completa</p>
+						</div>
+					</div>
+				</header>
 			</main>
+			<section class="capituloViewer" id="capituloViewer" paginated="<%- paginated %>">
+				<% if(paginated) { %>
+					<% let images = data.chapter.images %>
+					<% for(let i = 0; i < images.length; i++) { %>
+						<% if(i % 2 == 0) { %>
+							<div class="pagina">
+								<img src="<%- images[i] ? images[i] : '/img/paginablanca.webp' %>">
+								<img src="<%- images[i+1] ? images[i+1] : '/img/paginablanca.webp' %>">
+							</div>
+						<% } %>
+					<% } %>
+				<% } else { %>
+					<% data.chapter.images.forEach(image => { %>
+						<img src="<%- image %>">
+					<% }) %>
+				<% } %>
+			</section>
 
-			<footer class="footerContainer">
-				<%- include('partials/footer.ejs') %>
-			</footer>
+			<script type="module">
+				tippy('.paginado', {
+					content: "Paginado",
+					placement: 'bottom'
+				});
+
+				tippy('.cascada', {
+					content: "Cascada",
+					placement: 'bottom'
+				});
+
+				const fullScreen = document.querySelector('.paginaCompleta')
+				const separationRange = document.getElementById('separation_range')
+				const separationNumber = document.getElementById('separation_number')
+				const imagesContainer = document.getElementById('capituloViewer')
+
+				separationRange.addEventListener('input', (e) => {
+					const value = e.target.value
+
+					separationNumber.value = value
+					changeGap({ value })
+				})
+
+				separationNumber.addEventListener('input', (e) => {
+					const value = e.target.value
+
+					if(value.includes('-'))
+						return e.target.value = value.replace(/-+/gi, '')
+
+					separationRange.value = value
+					
+					changeGap({ value })
+				})
+
+				function changeGap({ value }) {
+					imagesContainer.style.gap = `${value}px`
+				}
+
+				// Pantalla completa
+				fullScreen.addEventListener('click', (e) => {
+					const value = e.target.innerText
+					e.preventDefault()
+
+					const isFullScreen = document.fullscreenElement
+					if(isFullScreen) {
+						document.exitFullscreen()
+						e.target.innerHTML = '<i class="fa-solid fa-laptop"></i> Pagina completa'
+					} else {
+						document.documentElement.requestFullscreen()
+						e.target.innerHTML = '<i class="fa-solid fa-laptop"></i> Salir de pantalla completa'
+					}
+				})
+			</script>
 		</div>
 	</body>
 </html>
