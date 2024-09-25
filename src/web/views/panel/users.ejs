@@ -68,14 +68,28 @@
 									</td>
 
 									<td>
-										<a
-											href="/panel/users/<%- userInfo.id %>/edit"
-											class="editar-rol"
-										>
-											<i
-												class="fa-solid fa-pen-to-square"
-											></i>
-										</a>
+
+										<% if(user.role == 'admin' && userInfo.roleId == 3 && userInfo.id != user.userId) { %>
+											<a
+												class="editar-desabilitado"
+												href="#"
+												disabled
+											>
+												<i
+													class="fa-solid fa-pen-to-square"
+												></i>
+											</a>
+										<% } else { %>
+											<a
+												href="/panel/users/<%- userInfo.id %>/edit"
+												class="editar-rol"
+											>
+												<i
+													class="fa-solid fa-pen-to-square"
+												></i>
+											</a>
+										<% } %>
+
 									</td>
 
 									<td>
