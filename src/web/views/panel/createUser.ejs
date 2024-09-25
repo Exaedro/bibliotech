@@ -43,7 +43,9 @@
                             <select name="role">
                                 <option value="1">Usuario</option>
                                 <option value="2">Moderador</option>
-                                <option value="3">Administrador</option>
+                                <% if(user.role == 4){ %>
+                                    <option value="3">Administrador</option>
+                                <% } %>
                             </select>
                             <% if(typeof errors != 'undefined') { %>
                                 <% if(errors.find(error => error.path == 'role')) { %>
