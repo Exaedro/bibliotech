@@ -191,6 +191,23 @@
     justify-content: center;
 }
 
+.panel .usuarios .editar, .panel .usuarios .editar-desabilitado {
+    background-color: orange;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-radius: 5px;
+    height: 30px;
+}
+
+.panel .usuarios .editar-desabilitado {
+    background-color: rgb(166, 166, 166);
+    color: #3c4151;
+    opacity: 50%;
+    cursor: default;
+}
+
 .panel .editar-rol {
     background-color: orange!important;
     padding: 15px;
