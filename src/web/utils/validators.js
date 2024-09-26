@@ -25,3 +25,13 @@ export const createChapterValidator = [
     body('chapterTitle').optional(),
     body('chapterNumber').not().isEmpty().withMessage('Escribe el número del capitulo').isInt({ min: 1 }).withMessage('Escribe un numero válido'),
 ]
+
+export const authorRequestValidator = [
+    body('bookTitle').notEmpty().withMessage('Escribe el titulo de tu obra.').isLength({ min: 3 }).withMessage('Escribe mas de tres caracteres como mínimo'),
+    body('bookInfo').notEmpty().withMessage('Escribe de que se trata tu obra.').isLength({ min: 10 }).withMessage('Escribe mas de diez caracteres como mínimo'),
+    body('termsCheck').custom((value, { req }) => {
+        if(req.body.termsCheck != 'on') throw new Error('Debes aceptar esto para poder enviar tu solicitud.')
+            
+        return true
+    }),
+]

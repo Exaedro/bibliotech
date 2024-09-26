@@ -1,6 +1,10 @@
 import { Router } from "express";
 const indexRouter = new Router()
 
+// Validadores
+import { validationResult } from "express-validator";
+import { authorRequestValidator } from "../utils/validators.js";
+
 // URL de la api
 import config from '../config.json' with { type: 'json' }
 const apiUrl = config["apiUrl"]
@@ -166,11 +170,23 @@ indexRouter.get('/author-request', async (req, res) => {
     )
 })
 
-/*
-    TODO: Añadir validaciones
-*/
-indexRouter.post('/author-request', async (req, res) => {
+indexRouter.post('/author-request', authorRequestValidator, async (req, res) => {
     const { username, role, userId } = req.session
+
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.render('author-request',
+            {
+                title: 'Bibliotech',
+                errors: errors.array(),
+                values: req.body,
+                user: {
+                    username, role, userId
+                }
+            }
+        )
+    }
+
     const { bookTitle, bookInfo, termsCheck } = req.body
     const image = req.files.length > 0 ? `/uploads/${req.files[0].filename}` : null
 

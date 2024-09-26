@@ -16,19 +16,45 @@
 				<form action="/author-request" method="POST" enctype="multipart/form-data">
                     <div class="columna">
                         <h4>¿Como se llama tu obra?</h4>
-                        <input type="text" name="bookTitle" placeholder=". . ." />
+                        <input type="text" name="bookTitle" value="<% if(typeof values != 'undefined') { %><%- values.bookTitle %><% } %>" placeholder="Título del libro">
+                        <% if(typeof errors != 'undefined') { %>
+                            <% let error = errors.find(error => error.path == 'bookTitle') %>
+                            <% if(error) { %>
+                                <p class="error"><%- error.msg %></p>
+                            <% } %>
+                        <% } %> 
                     </div>
                     <div class="columna">
                         <h4>¿De que se trata?</h4>
-                        <textarea name="bookInfo" placeholder=". . ." /></textarea>
+                        <textarea name="bookInfo" placeholder="Sinopsis..." /><% if(typeof values != 'undefined') { %><%- values.bookInfo %><% } %></textarea>
+                        <% if(typeof errors != 'undefined') { %>
+                            <% let error = errors.find(error => error.path == 'bookInfo') %>
+                            <% if(error) { %>
+                                <p class="error"><%- error.msg %></p>
+                            <% } %>
+                        <% } %>
                     </div>
                     <div class="columna">
                         <h4>Si tienes una imagen de portada, puedes subirla aquí.</h4>
                         <input type="file" name="image" id="imagenInput">
                     </div>
-                    <div class="fila">
-                        <h4>¿Entiendes que cualquier subida inapropiada será eliminada y seras sancionado?</h4>
-                        <input type="checkbox" name="termsCheck">
+                    <div class="columna">
+                        <div class="fila">
+                            <h4>¿Entiendes que cualquier subida inapropiada será eliminada y seras sancionado?</h4>
+                            <% if(typeof values != 'undefined') { %>
+                                <% if(values.termsCheck) { %>
+                                    <input type="checkbox" name="termsCheck" checked>
+                                <% } else { %>
+                                    <input type="checkbox" name="termsCheck">
+                                <% } %>
+                            <% } %>    
+                        </div>
+                        <% if(typeof errors != 'undefined') { %>
+                            <% let error = errors.find(error => error.path == 'termsCheck') %>
+                            <% if(error) { %>
+                                <p class="error"><%- error.msg %></p>
+                            <% } %>
+                        <% } %>
                     </div>
 
                     <button type="submit">Enviar</button>
