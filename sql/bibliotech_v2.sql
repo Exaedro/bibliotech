@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2024 a las 00:14:00
+-- Tiempo de generación: 26-09-2024 a las 01:59:57
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -176,7 +176,8 @@ INSERT INTO `historial` (`HistorialID`, `UsuarioID`, `LibroID`, `FechaAccion`) V
 (31, 3, 2, '2024-09-20 11:14:14'),
 (32, 3, 3, '2024-09-20 11:23:08'),
 (33, 10, 165, '2024-09-25 18:21:31'),
-(34, 3, 165, '2024-09-25 18:56:36');
+(35, 4, 165, '2024-09-25 19:24:53'),
+(36, 3, 166, '2024-09-25 20:12:09');
 
 -- --------------------------------------------------------
 
@@ -190,6 +191,7 @@ CREATE TABLE `libros` (
   `Autor` varchar(255) DEFAULT NULL,
   `ISBN` varchar(13) DEFAULT NULL,
   `FechaLanzamiento` date DEFAULT current_timestamp(),
+  `FechaPublicacion` datetime NOT NULL DEFAULT current_timestamp(),
   `CantidadPaginas` int(11) DEFAULT NULL,
   `Editorial` varchar(255) DEFAULT NULL,
   `Sinopsis` text DEFAULT NULL,
@@ -207,23 +209,24 @@ CREATE TABLE `libros` (
 -- Volcado de datos para la tabla `libros`
 --
 
-INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, `CantidadPaginas`, `Editorial`, `Sinopsis`, `imagen`, `pdf_link`, `Idioma`, `Estado`, `Visitas`, `Gustados`, `Original`, `Tipo`) VALUES
-(1, 'El Gran Gatsby', 'F. Scott Fitzgerald', '9780743273565', '1925-04-10', 180, 'Scribner', 'Un retrato de la era del jazz en los Estados Unidos', 'https://www.anagrama-ed.es/uploads/media/portadas/0001/15/b2834bc4ea71357c8b549dfccdd16d611c6586ea.jpeg', 'https://www.imprentanacional.go.cr/editorialdigital/libros/literatura%20universal/el_gran_gatsby_edincr.pdf', 'Español', 'Disponible', 104, 50, 0, 'manga'),
-(2, 'Cien Años de Soledad', 'Gabriel García Márquez', '9780060883287', '1967-06-05', 417, 'Harper & Row', 'La historia de la familia Buendía en el pueblo ficticio de Macondo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUgsUCPHp3SOTsijY_tNLp8zOiGxJCUZ0yEA&s', 'https://www.secst.cl/upfiles/documentos/19072016_1207am_578dc39115fe9.pdf', 'Español', 'Disponible', 201, 120, 0, 'manga'),
-(3, 'El Código Da Vinci', 'Dan Brown', '9780307474278', '2003-03-18', 689, 'Doubleday', 'Un thriller sobre la búsqueda del Santo Grial', 'https://images.cdn2.buscalibre.com/fit-in/360x360/49/54/4954e233ad1e1a43e3f8187cd91c6997.jpg', 'https://usercontent.one/wp/www.puro-geek.com/wp-content/uploads/2021/11/El-codigo-Da-Vinci-Dan-Brown.pdf?media=1630018077', 'Español', 'Prestado', 151, 80, 0, 'manga'),
-(4, 'Orgullo y Prejuicio', 'Jane Austen', '9780141439518', '1813-01-28', 279, 'T. Egerton', 'Una novela sobre el amor y las relaciones en la Inglaterra del siglo XIX', 'https://images.cdn3.buscalibre.com/fit-in/360x360/46/6b/466b0b47e932561b186c56358acbe55e.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/orgullo_y_prejuicio.pdf', 'Español', 'Disponible', 181, 60, 0, 'manga'),
-(5, '1984', 'George Orwell', '9780451524935', '1949-06-08', 328, 'Secker & Warburg', 'Una novela distópica sobre un régimen totalitario', 'https://images.cdn1.buscalibre.com/fit-in/360x360/b0/39/b039af065268818b7bd3b0e016f8db65.jpg', 'https://wjccschools.org/jhs/wp-content/uploads/sites/17/2019/05/1984-Spanish.pdf', 'Inglés', 'Reservado', 253, 100, 0, 'manga'),
-(6, 'La Sombra del Viento', 'Carlos Ruiz Zafón', '9788408093498', '2001-04-17', 487, 'Planeta', 'Un joven descubre un libro misterioso en la Barcelona de la posguerra', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/48/m_libros/47856_portada___201609051317.jpg', 'https://cel.edu.py/v2/wp-content/uploads/2020/10/Ruiz-Zafon-Carlos-La-Sombra-Del-Viento_54Y.pdf', 'Español', 'Disponible', 130, 90, 0, 'manga'),
-(7, 'Harry Potter y la Piedra Filosofal', 'J.K. Rowling', '9780747532699', '1997-06-26', 223, 'Bloomsbury', 'El primer libro de la famosa serie sobre el joven mago', 'https://images.cdn3.buscalibre.com/fit-in/360x360/ce/e6/cee6ef96dad70d3f599b953f0e50afc7.jpg', 'https://fecolsa.com.co/upload/Actividades%20Equilibrio%20Total/Rowling,%20J.%20K.%20-%20%20Harry%20Potter%20y%20la%20piedra%20filosofal.pdf', 'Inglés', 'Prestado', 301, 150, 0, 'manga'),
-(8, 'Los Pilares de la Tierra', 'Ken Follett', '9780451222521', '1989-08-01', 973, 'William Morrow', 'Una épica historia sobre la construcción de una catedral en la Edad Media', 'https://images.cdn2.buscalibre.com/fit-in/360x360/61/32/61328f4133cbc217435c385c1eaefd74.jpg', '', 'Inglés', 'Disponible', 160, 70, 0, 'manga'),
-(9, 'Matar a un Ruiseñor', 'Harper Lee', '9780061120084', '1960-07-11', 281, 'J.B. Lippincott & Co.', 'Una novela sobre la injusticia racial en el sur de los Estados Unidos', 'https://images.cdn3.buscalibre.com/fit-in/360x360/1b/d7/1bd7b432c94ccdcf816c917d8abe8e83.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/Harper,%20Lee%20-%20Matar%20Un%20Ruise%C3%B1or.pdf', 'Inglés', 'Disponible', 210, 80, 0, 'manga'),
-(10, 'El Señor de los Anillos', 'J.R.R. Tolkien', '9780261103573', '1954-07-29', 1178, 'Allen & Unwin', 'Una épica aventura en un mundo de fantasía', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIr1UuugXCIim35lyIBMaHQXLXtZqUQnnxDg&s', 'https://web.seducoahuila.gob.mx/biblioweb/upload/J.R.R.%20Tolkien%20La%20Comunidad%20del%20anillo%20I.pdf', 'Inglés', 'Reservado', 180, 110, 0, 'manga'),
-(11, 'Don Quijote de la Mancha', 'Miguel de Cervantes', '9788420463306', '1605-01-16', 1050, 'Francisco de Robles', 'La famosa novela sobre un caballero loco y su fiel escudero', 'https://images.cdn1.buscalibre.com/fit-in/360x360/a6/18/a618be10eae5c2a608ec6e22e6917e29.jpg', 'https://cvc.cervantes.es/literatura/lee/coleccion/pdf/quijote.pdf', 'Español', 'Disponible', 190, 95, 0, 'manga'),
-(12, 'El Alquimista', 'Paulo Coelho', '9780061122415', '1988-05-01', 208, 'Rocco', 'La historia de un joven pastor que busca su leyenda personal', 'https://www.planetadelibros.com/usuaris/libros/fotos/201/original/portada_el-alquimista_paulo-coelho_201612191218.jpg', 'https://mep.janium.net/janium/Documentos/286143.pdf', 'Portugués', 'Prestado', 140, 65, 0, 'manga'),
-(13, 'La Chica del Tren', 'Paula Hawkins', '9780553448160', '2015-01-13', 325, 'Riverhead Books', 'Un thriller psicológico sobre una mujer obsesionada con la vida de otras personas', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/199/m_libros/portada_la-chica-del-tren_paula-hawkins_201611281622.jpg', 'https://sallebello.edu.co/images/La_chica_del_tren_-_Paula_Hawkins.pdf', 'Inglés', 'Disponible', 160, 75, 0, 'manga'),
-(14, 'El Juego del Ángel', 'Carlos Ruiz Zafón', '9788408099353', '2008-11-05', 447, 'Planeta', 'La secuela de La Sombra del Viento', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/246/m_libros/portada_el-juego-del-angel_carlos-ruiz-zafon_201701091638.jpg', '', 'Español', 'Prestado', 170, 85, 0, 'manga'),
-(15, 'La Casa de los Espíritus', 'Isabel Allende', '9781501116960', '1982-03-28', 448, 'Plaza & Janés', 'Una novela épica sobre la vida de una familia chilena', 'https://cdn.zendalibros.com/wp-content/uploads/2022/10/eal43438_la-casa-de-los-espiritus-scaled.jpg', 'https://www.suneo.mx/literatura/subidas/Isabel%20Allende%20La%20Casa%20de%20los%20Esp%C3%ADritus.pdf', 'Español', 'Disponible', 200, 90, 0, 'manga'),
-(165, 'Armados', NULL, NULL, '2024-09-25', NULL, NULL, 'El protagonista de la historia es Estic, joven que sueña con tener aventuras como sus héroes del manga. Un día liberará los poderes ocultos de su yoyo que le otorgará súperpoderes increíbles, una obra que sigue los pasos de grandes referentes del shonen.', '/uploads/3bea172c-e2a9-4402-ad9d-90c853ab6e20.jpg', NULL, NULL, NULL, 7, 0, 1, 'manga');
+INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, `FechaPublicacion`, `CantidadPaginas`, `Editorial`, `Sinopsis`, `imagen`, `pdf_link`, `Idioma`, `Estado`, `Visitas`, `Gustados`, `Original`, `Tipo`) VALUES
+(1, 'El Gran Gatsby', 'F. Scott Fitzgerald', '9780743273565', '1925-04-10', '2024-09-25 20:45:26', 180, 'Scribner', 'Un retrato de la era del jazz en los Estados Unidos', 'https://www.anagrama-ed.es/uploads/media/portadas/0001/15/b2834bc4ea71357c8b549dfccdd16d611c6586ea.jpeg', 'https://www.imprentanacional.go.cr/editorialdigital/libros/literatura%20universal/el_gran_gatsby_edincr.pdf', 'Español', 'Disponible', 104, 50, 0, 'manga'),
+(2, 'Cien Años de Soledad', 'Gabriel García Márquez', '9780060883287', '1967-06-05', '2024-09-25 20:45:26', 417, 'Harper & Row', 'La historia de la familia Buendía en el pueblo ficticio de Macondo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUgsUCPHp3SOTsijY_tNLp8zOiGxJCUZ0yEA&s', 'https://www.secst.cl/upfiles/documentos/19072016_1207am_578dc39115fe9.pdf', 'Español', 'Disponible', 201, 120, 0, 'manga'),
+(3, 'El Código Da Vinci', 'Dan Brown', '9780307474278', '2003-03-18', '2024-09-25 20:45:26', 689, 'Doubleday', 'Un thriller sobre la búsqueda del Santo Grial', 'https://images.cdn2.buscalibre.com/fit-in/360x360/49/54/4954e233ad1e1a43e3f8187cd91c6997.jpg', 'https://usercontent.one/wp/www.puro-geek.com/wp-content/uploads/2021/11/El-codigo-Da-Vinci-Dan-Brown.pdf?media=1630018077', 'Español', 'Prestado', 151, 80, 0, 'manga'),
+(4, 'Orgullo y Prejuicio', 'Jane Austen', '9780141439518', '1813-01-28', '2024-09-25 20:45:26', 279, 'T. Egerton', 'Una novela sobre el amor y las relaciones en la Inglaterra del siglo XIX', 'https://images.cdn3.buscalibre.com/fit-in/360x360/46/6b/466b0b47e932561b186c56358acbe55e.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/orgullo_y_prejuicio.pdf', 'Español', 'Disponible', 188, 60, 0, 'manga'),
+(5, '1984', 'George Orwell', '9780451524935', '1949-06-08', '2024-09-25 20:45:26', 328, 'Secker & Warburg', 'Una novela distópica sobre un régimen totalitario', 'https://images.cdn1.buscalibre.com/fit-in/360x360/b0/39/b039af065268818b7bd3b0e016f8db65.jpg', 'https://wjccschools.org/jhs/wp-content/uploads/sites/17/2019/05/1984-Spanish.pdf', 'Inglés', 'Reservado', 253, 100, 0, 'manga'),
+(6, 'La Sombra del Viento', 'Carlos Ruiz Zafón', '9788408093498', '2001-04-17', '2024-09-25 20:45:26', 487, 'Planeta', 'Un joven descubre un libro misterioso en la Barcelona de la posguerra', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/48/m_libros/47856_portada___201609051317.jpg', 'https://cel.edu.py/v2/wp-content/uploads/2020/10/Ruiz-Zafon-Carlos-La-Sombra-Del-Viento_54Y.pdf', 'Español', 'Disponible', 130, 90, 0, 'manga'),
+(7, 'Harry Potter y la Piedra Filosofal', 'J.K. Rowling', '9780747532699', '1997-06-26', '2024-09-25 20:45:26', 223, 'Bloomsbury', 'El primer libro de la famosa serie sobre el joven mago', 'https://images.cdn3.buscalibre.com/fit-in/360x360/ce/e6/cee6ef96dad70d3f599b953f0e50afc7.jpg', 'https://fecolsa.com.co/upload/Actividades%20Equilibrio%20Total/Rowling,%20J.%20K.%20-%20%20Harry%20Potter%20y%20la%20piedra%20filosofal.pdf', 'Inglés', 'Prestado', 301, 150, 0, 'manga'),
+(8, 'Los Pilares de la Tierra', 'Ken Follett', '9780451222521', '1989-08-01', '2024-09-25 20:45:26', 973, 'William Morrow', 'Una épica historia sobre la construcción de una catedral en la Edad Media', 'https://images.cdn2.buscalibre.com/fit-in/360x360/61/32/61328f4133cbc217435c385c1eaefd74.jpg', '', 'Inglés', 'Disponible', 160, 70, 0, 'manga'),
+(9, 'Matar a un Ruiseñor', 'Harper Lee', '9780061120084', '1960-07-11', '2024-09-25 20:45:26', 281, 'J.B. Lippincott & Co.', 'Una novela sobre la injusticia racial en el sur de los Estados Unidos', 'https://images.cdn3.buscalibre.com/fit-in/360x360/1b/d7/1bd7b432c94ccdcf816c917d8abe8e83.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/Harper,%20Lee%20-%20Matar%20Un%20Ruise%C3%B1or.pdf', 'Inglés', 'Disponible', 210, 80, 0, 'manga'),
+(10, 'El Señor de los Anillos', 'J.R.R. Tolkien', '9780261103573', '1954-07-29', '2024-09-25 20:45:26', 1178, 'Allen & Unwin', 'Una épica aventura en un mundo de fantasía', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIr1UuugXCIim35lyIBMaHQXLXtZqUQnnxDg&s', 'https://web.seducoahuila.gob.mx/biblioweb/upload/J.R.R.%20Tolkien%20La%20Comunidad%20del%20anillo%20I.pdf', 'Inglés', 'Reservado', 180, 110, 0, 'manga'),
+(11, 'Don Quijote de la Mancha', 'Miguel de Cervantes', '9788420463306', '1605-01-16', '2024-09-25 20:45:26', 1050, 'Francisco de Robles', 'La famosa novela sobre un caballero loco y su fiel escudero', 'https://images.cdn1.buscalibre.com/fit-in/360x360/a6/18/a618be10eae5c2a608ec6e22e6917e29.jpg', 'https://cvc.cervantes.es/literatura/lee/coleccion/pdf/quijote.pdf', 'Español', 'Disponible', 190, 95, 0, 'manga'),
+(12, 'El Alquimista', 'Paulo Coelho', '9780061122415', '1988-05-01', '2024-09-25 20:45:26', 208, 'Rocco', 'La historia de un joven pastor que busca su leyenda personal', 'https://www.planetadelibros.com/usuaris/libros/fotos/201/original/portada_el-alquimista_paulo-coelho_201612191218.jpg', 'https://mep.janium.net/janium/Documentos/286143.pdf', 'Portugués', 'Prestado', 140, 65, 0, 'manga'),
+(13, 'La Chica del Tren', 'Paula Hawkins', '9780553448160', '2015-01-13', '2024-09-25 20:45:26', 325, 'Riverhead Books', 'Un thriller psicológico sobre una mujer obsesionada con la vida de otras personas', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/199/m_libros/portada_la-chica-del-tren_paula-hawkins_201611281622.jpg', 'https://sallebello.edu.co/images/La_chica_del_tren_-_Paula_Hawkins.pdf', 'Inglés', 'Disponible', 160, 75, 0, 'manga'),
+(14, 'El Juego del Ángel', 'Carlos Ruiz Zafón', '9788408099353', '2008-11-05', '2024-09-25 20:45:26', 447, 'Planeta', 'La secuela de La Sombra del Viento', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/246/m_libros/portada_el-juego-del-angel_carlos-ruiz-zafon_201701091638.jpg', '', 'Español', 'Prestado', 170, 85, 0, 'manga'),
+(15, 'La Casa de los Espíritus', 'Isabel Allende', '9781501116960', '1982-03-28', '2024-09-25 20:45:26', 448, 'Plaza & Janés', 'Una novela épica sobre la vida de una familia chilena', 'https://cdn.zendalibros.com/wp-content/uploads/2022/10/eal43438_la-casa-de-los-espiritus-scaled.jpg', 'https://www.suneo.mx/literatura/subidas/Isabel%20Allende%20La%20Casa%20de%20los%20Esp%C3%ADritus.pdf', 'Español', 'Disponible', 200, 90, 0, 'manga'),
+(165, 'Armados', NULL, NULL, '2024-09-25', '2024-09-25 20:45:37', NULL, NULL, 'El protagonista de la historia es Estic, joven que sueña con tener aventuras como sus héroes del manga. Un día liberará los poderes ocultos de su yoyo que le otorgará súperpoderes increíbles, una obra que sigue los pasos de grandes referentes del shonen.', '/uploads/3bea172c-e2a9-4402-ad9d-90c853ab6e20.jpg', NULL, NULL, NULL, 9, 0, 1, 'manga'),
+(166, 'Cruce de caminos', 'elpepe', '978-950-563-6', '0000-00-00', '2024-09-25 20:48:26', 700, 'dsadsad', 'FKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJS', '/uploads/63d15c40-3258-4072-a24b-6ffcd9102e47.webp', 'https://repositorio.uco.edu.co/server/api/core/bitstreams/ef384797-d498-4e8b-94e9-7a80f0496163/content', 'Español', 'Disponible', 6, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -294,7 +297,10 @@ INSERT INTO `libros_categorias` (`LibroID`, `CategoriaID`) VALUES
 (165, 7),
 (165, 11),
 (165, 12),
-(165, 14);
+(165, 14),
+(166, 1),
+(166, 3),
+(166, 4);
 
 -- --------------------------------------------------------
 
@@ -349,20 +355,6 @@ INSERT INTO `mangas_imagenes` (`MangaImagenID`, `MangaID`, `CapituloID`, `Imagen
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reservas`
---
-
-CREATE TABLE `reservas` (
-  `ReservaID` int(11) NOT NULL,
-  `UsuarioID` int(11) NOT NULL,
-  `LibroID` int(11) NOT NULL,
-  `FechaReserva` date DEFAULT NULL,
-  `Estado` enum('Activa','Cancelada','Finalizada') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `roles`
 --
 
@@ -403,7 +395,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`UsuarioID`, `Nombre`, `CorreoElectronico`, `Imagen`, `Contrasenia`, `RollID`, `Autor`) VALUES
 (1, 'dsaasd', 'ow@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 1, 0),
-(2, 'elpepe', 'owomolo123@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 1, 0),
+(2, 'usuario', 'owomolo123@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 2, 0),
 (3, 'admin', 'oww@gmail.com', '/uploads/b8ba20ff-8abe-45a8-9110-cd794c120692.jpg', '$2b$10$ha2A16xWuw0zleP0e2T6qet5jQ85zgSEBNZtIvGywAv9V436JBFE6', 3, 0),
 (4, 'exaedro', 'elpepe@gmail.com', '/uploads/2f4adc1f-b3b8-4ea2-88c7-73765823db3b.jpg', '$2b$10$KKSaDN3FgjCqRDuiBLJMT.ivLBqN7wFtZdqxVNZqN.uUq/K1PJhCq', 3, 1),
 (7, 'dasasddas', 'dasdas@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$ZaRGgVda.C4ae7TDnNboeeth/6/CV.Bt3/0zVRq/GqoRkWJQBbwzK', 1, 0),
@@ -430,6 +422,21 @@ INSERT INTO `ver_mas_tarde` (`TardeID`, `UsuarioID`, `LibroID`) VALUES
 (8, 3, 4),
 (10, 3, 3),
 (11, 3, 152);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `visitas`
+--
+
+CREATE TABLE `visitas` (
+  `VisitaID` int(11) NOT NULL,
+  `LibroID` int(11) NOT NULL,
+  `Pais` varchar(45) NOT NULL,
+  `Ip` varchar(45) NOT NULL,
+  `Dispositivo` varchar(100) NOT NULL,
+  `FechaVisita` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Índices para tablas volcadas
@@ -524,14 +531,6 @@ ALTER TABLE `mangas_imagenes`
   ADD KEY `MangaID` (`MangaID`);
 
 --
--- Indices de la tabla `reservas`
---
-ALTER TABLE `reservas`
-  ADD PRIMARY KEY (`ReservaID`),
-  ADD KEY `UsuarioID` (`UsuarioID`),
-  ADD KEY `LibroID` (`LibroID`);
-
---
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -551,6 +550,13 @@ ALTER TABLE `ver_mas_tarde`
   ADD PRIMARY KEY (`TardeID`),
   ADD KEY `LibroID` (`LibroID`),
   ADD KEY `UsuarioID` (`UsuarioID`);
+
+--
+-- Indices de la tabla `visitas`
+--
+ALTER TABLE `visitas`
+  ADD PRIMARY KEY (`VisitaID`),
+  ADD KEY `LibroID` (`LibroID`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -578,7 +584,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `ComentarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `ComentarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de la tabla `favoritos`
@@ -596,13 +602,13 @@ ALTER TABLE `gustados`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT de la tabla `mangas_capitulos`
@@ -615,12 +621,6 @@ ALTER TABLE `mangas_capitulos`
 --
 ALTER TABLE `mangas_imagenes`
   MODIFY `MangaImagenID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT de la tabla `reservas`
---
-ALTER TABLE `reservas`
-  MODIFY `ReservaID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -639,6 +639,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `ver_mas_tarde`
   MODIFY `TardeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de la tabla `visitas`
+--
+ALTER TABLE `visitas`
+  MODIFY `VisitaID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -704,13 +710,6 @@ ALTER TABLE `mangas_capitulos`
 ALTER TABLE `mangas_imagenes`
   ADD CONSTRAINT `mangas_imagenes_ibfk_1` FOREIGN KEY (`MangaID`) REFERENCES `libros` (`LibroID`),
   ADD CONSTRAINT `mangas_imagenes_ibfk_2` FOREIGN KEY (`CapituloID`) REFERENCES `mangas_capitulos` (`CapituloID`);
-
---
--- Filtros para la tabla `reservas`
---
-ALTER TABLE `reservas`
-  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`UsuarioID`) REFERENCES `usuarios` (`UsuarioID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`LibroID`) REFERENCES `libros` (`LibroID`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`
