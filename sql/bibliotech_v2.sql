@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2024 a las 02:02:42
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 27-09-2024 a las 18:08:16
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,7 +28,7 @@ CREATE TABLE `autorizaciones` (
   `Descripcion` varchar(500) NOT NULL,
   `LibroImagen` varchar(120) NOT NULL,
   `FechaAutorizacion` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE `calificaciones` (
   `LibroID` int(11) NOT NULL,
   `Calificacion` int(1) NOT NULL CHECK (`Calificacion` >= 1 and `Calificacion` <= 5),
   `FechaCalificacion` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -53,7 +53,7 @@ CREATE TABLE `calificaciones` (
 CREATE TABLE `categorias` (
   `CategoriaID` int(11) NOT NULL,
   `NombreCategoria` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `categorias`
@@ -89,7 +89,7 @@ CREATE TABLE `comentarios` (
   `Comentario` text NOT NULL,
   `FechaComentario` datetime DEFAULT current_timestamp(),
   `Editado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `comentarios`
@@ -123,7 +123,7 @@ CREATE TABLE `favoritos` (
   `FavoritoID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `favoritos`
@@ -143,7 +143,7 @@ CREATE TABLE `gustados` (
   `GustadoID` int(11) NOT NULL,
   `UsuarioID` int(11) DEFAULT NULL,
   `LibroID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `gustados`
@@ -163,7 +163,7 @@ CREATE TABLE `historial` (
   `UsuarioID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL,
   `FechaAccion` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `historial`
@@ -177,7 +177,12 @@ INSERT INTO `historial` (`HistorialID`, `UsuarioID`, `LibroID`, `FechaAccion`) V
 (32, 3, 3, '2024-09-20 11:23:08'),
 (33, 10, 165, '2024-09-25 18:21:31'),
 (35, 4, 165, '2024-09-25 19:24:53'),
-(36, 3, 166, '2024-09-25 20:12:09');
+(36, 3, 166, '2024-09-25 20:12:09'),
+(37, 3, 165, '2024-09-25 22:33:07'),
+(38, 11, 1, '2024-09-26 12:14:16'),
+(39, 11, 165, '2024-09-26 12:18:40'),
+(40, 10, 167, '2024-09-26 13:45:34'),
+(41, 3, 167, '2024-09-26 19:38:19');
 
 -- --------------------------------------------------------
 
@@ -203,19 +208,19 @@ CREATE TABLE `libros` (
   `Gustados` int(11) NOT NULL DEFAULT 0,
   `Original` tinyint(1) NOT NULL DEFAULT 0,
   `Tipo` enum('manga','manwha','manhua','novela') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `libros`
 --
 
 INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, `FechaPublicacion`, `CantidadPaginas`, `Editorial`, `Sinopsis`, `imagen`, `pdf_link`, `Idioma`, `Estado`, `Visitas`, `Gustados`, `Original`, `Tipo`) VALUES
-(1, 'El Gran Gatsby', 'F. Scott Fitzgerald', '9780743273565', '1925-04-10', '2024-09-25 20:45:26', 180, 'Scribner', 'Un retrato de la era del jazz en los Estados Unidos', 'https://www.anagrama-ed.es/uploads/media/portadas/0001/15/b2834bc4ea71357c8b549dfccdd16d611c6586ea.jpeg', 'https://www.imprentanacional.go.cr/editorialdigital/libros/literatura%20universal/el_gran_gatsby_edincr.pdf', 'Español', 'Disponible', 104, 50, 0, 'manga'),
+(1, 'El Gran Gatsby', 'F. Scott Fitzgerald', '9780743273565', '1925-04-10', '2024-09-25 20:45:26', 180, 'Scribner', 'Un retrato de la era del jazz en los Estados Unidos', 'https://www.anagrama-ed.es/uploads/media/portadas/0001/15/b2834bc4ea71357c8b549dfccdd16d611c6586ea.jpeg', 'https://www.imprentanacional.go.cr/editorialdigital/libros/literatura%20universal/el_gran_gatsby_edincr.pdf', 'Español', 'Disponible', 106, 50, 0, 'manga'),
 (2, 'Cien Años de Soledad', 'Gabriel García Márquez', '9780060883287', '1967-06-05', '2024-09-25 20:45:26', 417, 'Harper & Row', 'La historia de la familia Buendía en el pueblo ficticio de Macondo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUgsUCPHp3SOTsijY_tNLp8zOiGxJCUZ0yEA&s', 'https://www.secst.cl/upfiles/documentos/19072016_1207am_578dc39115fe9.pdf', 'Español', 'Disponible', 201, 120, 0, 'manga'),
 (3, 'El Código Da Vinci', 'Dan Brown', '9780307474278', '2003-03-18', '2024-09-25 20:45:26', 689, 'Doubleday', 'Un thriller sobre la búsqueda del Santo Grial', 'https://images.cdn2.buscalibre.com/fit-in/360x360/49/54/4954e233ad1e1a43e3f8187cd91c6997.jpg', 'https://usercontent.one/wp/www.puro-geek.com/wp-content/uploads/2021/11/El-codigo-Da-Vinci-Dan-Brown.pdf?media=1630018077', 'Español', 'Prestado', 151, 80, 0, 'manga'),
 (4, 'Orgullo y Prejuicio', 'Jane Austen', '9780141439518', '1813-01-28', '2024-09-25 20:45:26', 279, 'T. Egerton', 'Una novela sobre el amor y las relaciones en la Inglaterra del siglo XIX', 'https://images.cdn3.buscalibre.com/fit-in/360x360/46/6b/466b0b47e932561b186c56358acbe55e.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/orgullo_y_prejuicio.pdf', 'Español', 'Disponible', 188, 60, 0, 'manga'),
 (5, '1984', 'George Orwell', '9780451524935', '1949-06-08', '2024-09-25 20:45:26', 328, 'Secker & Warburg', 'Una novela distópica sobre un régimen totalitario', 'https://images.cdn1.buscalibre.com/fit-in/360x360/b0/39/b039af065268818b7bd3b0e016f8db65.jpg', 'https://wjccschools.org/jhs/wp-content/uploads/sites/17/2019/05/1984-Spanish.pdf', 'Inglés', 'Reservado', 253, 100, 0, 'manga'),
-(6, 'La Sombra del Viento', 'Carlos Ruiz Zafón', '9788408093498', '2001-04-17', '2024-09-25 20:45:26', 487, 'Planeta', 'Un joven descubre un libro misterioso en la Barcelona de la posguerra', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/48/m_libros/47856_portada___201609051317.jpg', 'https://cel.edu.py/v2/wp-content/uploads/2020/10/Ruiz-Zafon-Carlos-La-Sombra-Del-Viento_54Y.pdf', 'Español', 'Disponible', 130, 90, 0, 'manga'),
+(6, 'La Sombra del Viento', 'Carlos Ruiz Zafón', '9788408093498', '2001-04-17', '2024-09-25 20:45:26', 487, 'Planeta', 'Un joven descubre un libro misterioso en la Barcelona de la posguerra', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/48/m_libros/47856_portada___201609051317.jpg', 'https://cel.edu.py/v2/wp-content/uploads/2020/10/Ruiz-Zafon-Carlos-La-Sombra-Del-Viento_54Y.pdf', 'Español', 'Disponible', 131, 90, 0, 'manga'),
 (7, 'Harry Potter y la Piedra Filosofal', 'J.K. Rowling', '9780747532699', '1997-06-26', '2024-09-25 20:45:26', 223, 'Bloomsbury', 'El primer libro de la famosa serie sobre el joven mago', 'https://images.cdn3.buscalibre.com/fit-in/360x360/ce/e6/cee6ef96dad70d3f599b953f0e50afc7.jpg', 'https://fecolsa.com.co/upload/Actividades%20Equilibrio%20Total/Rowling,%20J.%20K.%20-%20%20Harry%20Potter%20y%20la%20piedra%20filosofal.pdf', 'Inglés', 'Prestado', 301, 150, 0, 'manga'),
 (8, 'Los Pilares de la Tierra', 'Ken Follett', '9780451222521', '1989-08-01', '2024-09-25 20:45:26', 973, 'William Morrow', 'Una épica historia sobre la construcción de una catedral en la Edad Media', 'https://images.cdn2.buscalibre.com/fit-in/360x360/61/32/61328f4133cbc217435c385c1eaefd74.jpg', '', 'Inglés', 'Disponible', 160, 70, 0, 'manga'),
 (9, 'Matar a un Ruiseñor', 'Harper Lee', '9780061120084', '1960-07-11', '2024-09-25 20:45:26', 281, 'J.B. Lippincott & Co.', 'Una novela sobre la injusticia racial en el sur de los Estados Unidos', 'https://images.cdn3.buscalibre.com/fit-in/360x360/1b/d7/1bd7b432c94ccdcf816c917d8abe8e83.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/Harper,%20Lee%20-%20Matar%20Un%20Ruise%C3%B1or.pdf', 'Inglés', 'Disponible', 210, 80, 0, 'manga'),
@@ -225,8 +230,9 @@ INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, 
 (13, 'La Chica del Tren', 'Paula Hawkins', '9780553448160', '2015-01-13', '2024-09-25 20:45:26', 325, 'Riverhead Books', 'Un thriller psicológico sobre una mujer obsesionada con la vida de otras personas', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/199/m_libros/portada_la-chica-del-tren_paula-hawkins_201611281622.jpg', 'https://sallebello.edu.co/images/La_chica_del_tren_-_Paula_Hawkins.pdf', 'Inglés', 'Disponible', 160, 75, 0, 'manga'),
 (14, 'El Juego del Ángel', 'Carlos Ruiz Zafón', '9788408099353', '2008-11-05', '2024-09-25 20:45:26', 447, 'Planeta', 'La secuela de La Sombra del Viento', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/246/m_libros/portada_el-juego-del-angel_carlos-ruiz-zafon_201701091638.jpg', '', 'Español', 'Prestado', 170, 85, 0, 'manga'),
 (15, 'La Casa de los Espíritus', 'Isabel Allende', '9781501116960', '1982-03-28', '2024-09-25 20:45:26', 448, 'Plaza & Janés', 'Una novela épica sobre la vida de una familia chilena', 'https://cdn.zendalibros.com/wp-content/uploads/2022/10/eal43438_la-casa-de-los-espiritus-scaled.jpg', 'https://www.suneo.mx/literatura/subidas/Isabel%20Allende%20La%20Casa%20de%20los%20Esp%C3%ADritus.pdf', 'Español', 'Disponible', 200, 90, 0, 'manga'),
-(165, 'Armados', NULL, NULL, '2024-09-25', '2024-09-25 20:45:37', NULL, NULL, 'El protagonista de la historia es Estic, joven que sueña con tener aventuras como sus héroes del manga. Un día liberará los poderes ocultos de su yoyo que le otorgará súperpoderes increíbles, una obra que sigue los pasos de grandes referentes del shonen.', '/uploads/3bea172c-e2a9-4402-ad9d-90c853ab6e20.jpg', NULL, NULL, NULL, 9, 0, 1, 'manga'),
-(166, 'Cruce de caminos', 'elpepe', '978-950-563-6', '0000-00-00', '2024-09-25 20:48:26', 700, 'dsadsad', 'FKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJS', '/uploads/63d15c40-3258-4072-a24b-6ffcd9102e47.webp', 'https://repositorio.uco.edu.co/server/api/core/bitstreams/ef384797-d498-4e8b-94e9-7a80f0496163/content', 'Español', 'Disponible', 6, 0, 0, NULL);
+(165, 'Armados', 'saikomic', 'undefined', '0000-00-00', '2024-09-25 20:45:37', 0, 'undefined', 'El protagonista de la historia es Estic, joven que sueña con tener aventuras como sus héroes del manga. Un día liberará los poderes ocultos de su yoyo que le otorgará súperpoderes increíbles, una obra que sigue los pasos de grandes referentes del shonen.', '/uploads/3bea172c-e2a9-4402-ad9d-90c853ab6e20.jpg', NULL, 'undefined', '', 20, 0, 1, 'manga'),
+(166, 'Cruce de caminos', 'elpepe', '978-950-563-6', '2024-09-11', '2024-09-25 20:48:26', 700, 'dsadsad', 'FKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJS', '/uploads/63d15c40-3258-4072-a24b-6ffcd9102e47.webp', 'https://repositorio.uco.edu.co/server/api/core/bitstreams/ef384797-d498-4e8b-94e9-7a80f0496163/content', 'Español', 'Disponible', 7, 0, 0, NULL),
+(167, 'Antagonista', 'saikomic', 'undefined', '0000-00-00', '2024-09-26 13:45:34', 0, 'undefined', 'En un mundo regido por el brillo del neón, poder que dota de superhabilidades a los personajes, y en una sociedad custodiada por los Vigilantes, Antagonista irá contra todo y todos para imponer su utopía y acabar la crueldad con crueldad.', '/uploads/e0e53ba5-fcc1-4167-9cab-3759f9e84b6c.jpg', NULL, 'undefined', '', 0, 0, 1, 'manga');
 
 -- --------------------------------------------------------
 
@@ -237,14 +243,15 @@ INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, 
 CREATE TABLE `libros_autores` (
   `LibroID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `libros_autores`
 --
 
 INSERT INTO `libros_autores` (`LibroID`, `UsuarioID`) VALUES
-(165, 10);
+(165, 10),
+(167, 10);
 
 -- --------------------------------------------------------
 
@@ -255,7 +262,7 @@ INSERT INTO `libros_autores` (`LibroID`, `UsuarioID`) VALUES
 CREATE TABLE `libros_categorias` (
   `LibroID` int(11) NOT NULL,
   `CategoriaID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `libros_categorias`
@@ -295,12 +302,16 @@ INSERT INTO `libros_categorias` (`LibroID`, `CategoriaID`) VALUES
 (165, 1),
 (165, 5),
 (165, 7),
+(165, 9),
 (165, 11),
 (165, 12),
 (165, 14),
 (166, 1),
 (166, 3),
-(166, 4);
+(166, 4),
+(167, 1),
+(167, 3),
+(167, 12);
 
 -- --------------------------------------------------------
 
@@ -314,7 +325,7 @@ CREATE TABLE `mangas_capitulos` (
   `CapituloNumero` int(11) NOT NULL,
   `CapituloNombre` varchar(255) NOT NULL,
   `CapituloFecha` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `mangas_capitulos`
@@ -334,7 +345,7 @@ CREATE TABLE `mangas_imagenes` (
   `MangaID` int(11) DEFAULT NULL,
   `CapituloID` int(11) NOT NULL,
   `Imagen` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `mangas_imagenes`
@@ -361,7 +372,7 @@ INSERT INTO `mangas_imagenes` (`MangaImagenID`, `MangaID`, `CapituloID`, `Imagen
 CREATE TABLE `roles` (
   `RollID` int(11) NOT NULL,
   `NombreRol` enum('propietario','admin','mod','user') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -387,7 +398,7 @@ CREATE TABLE `usuarios` (
   `Contrasenia` varchar(255) NOT NULL,
   `RollID` int(11) NOT NULL DEFAULT 1,
   `Autor` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -400,7 +411,8 @@ INSERT INTO `usuarios` (`UsuarioID`, `Nombre`, `CorreoElectronico`, `Imagen`, `C
 (4, 'exaedro', 'elpepe@gmail.com', '/uploads/2f4adc1f-b3b8-4ea2-88c7-73765823db3b.jpg', '$2b$10$KKSaDN3FgjCqRDuiBLJMT.ivLBqN7wFtZdqxVNZqN.uUq/K1PJhCq', 3, 1),
 (7, 'dasasddas', 'dasdas@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$ZaRGgVda.C4ae7TDnNboeeth/6/CV.Bt3/0zVRq/GqoRkWJQBbwzK', 1, 0),
 (8, 'holaaa', 'elpopencio123@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$JSQrRWH1MFa8pFZTofdP/.3WBSeSnfsi5IlFYlvUupM9IjsMyB6xa', 1, 0),
-(10, 'saikomic', 'saikomic@gmail.com', '/uploads/44698584-e9bc-4e25-9f41-681a3e089c3e.jpg', '$2b$10$R57BEj8zR5n05jSC7ussXuBcFzY4caQItVjO8k47JNqtLv7bBX4aG', 1, 1);
+(10, 'saikomic', 'saikomic@gmail.com', '/uploads/44698584-e9bc-4e25-9f41-681a3e089c3e.jpg', '$2b$10$R57BEj8zR5n05jSC7ussXuBcFzY4caQItVjO8k47JNqtLv7bBX4aG', 1, 1),
+(11, 'escritor', 'escritor@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$aJqh6omBSdLPbwNTJkR5Q.YKU38ZMSuFzthCgKkk78c2qIV48XeKG', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -412,7 +424,7 @@ CREATE TABLE `ver_mas_tarde` (
   `TardeID` int(11) NOT NULL,
   `UsuarioID` int(11) DEFAULT NULL,
   `LibroID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `ver_mas_tarde`
@@ -432,11 +444,58 @@ INSERT INTO `ver_mas_tarde` (`TardeID`, `UsuarioID`, `LibroID`) VALUES
 CREATE TABLE `visitas` (
   `VisitaID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL,
-  `Pais` varchar(45) NOT NULL,
+  `Pais` varchar(45) DEFAULT NULL,
   `Ip` varchar(45) NOT NULL,
-  `Dispositivo` varchar(100) NOT NULL,
+  `Dispositivo` varchar(100) DEFAULT NULL,
   `FechaVisita` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `visitas`
+--
+
+INSERT INTO `visitas` (`VisitaID`, `LibroID`, `Pais`, `Ip`, `Dispositivo`, `FechaVisita`) VALUES
+(2, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 12:41:05'),
+(3, 2, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 12:41:35'),
+(4, 4, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 12:41:38'),
+(5, 2, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 12:44:44'),
+(6, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 13:45:35'),
+(7, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:20:22'),
+(8, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:20:31'),
+(9, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:21:16'),
+(10, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:38:03'),
+(11, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:38:20'),
+(12, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:38:32'),
+(13, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:38:41'),
+(14, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:39:55'),
+(15, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:39:56'),
+(16, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:41:46'),
+(17, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:42:24'),
+(18, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:43:08'),
+(19, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:43:45'),
+(20, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:44:50'),
+(21, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 19:54:29'),
+(22, 5, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:38'),
+(23, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:40'),
+(24, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:42'),
+(25, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:43'),
+(26, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:44'),
+(27, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:45'),
+(28, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:45'),
+(29, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:46'),
+(30, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:16:46'),
+(31, 7, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-26 20:17:06'),
+(32, 165, NULL, '::ffff:127.0.0.1', NULL, '2024-09-26 23:26:44'),
+(33, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:26:42'),
+(34, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:26:43'),
+(35, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:26:43'),
+(36, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:31:25'),
+(37, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:31:29'),
+(38, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:31:31'),
+(39, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:31:31'),
+(40, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:31:32'),
+(41, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:31:32'),
+(42, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:35:18');
 
 --
 -- Índices para tablas volcadas
@@ -602,13 +661,13 @@ ALTER TABLE `gustados`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT de la tabla `mangas_capitulos`
@@ -632,7 +691,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `ver_mas_tarde`
@@ -644,7 +703,7 @@ ALTER TABLE `ver_mas_tarde`
 -- AUTO_INCREMENT de la tabla `visitas`
 --
 ALTER TABLE `visitas`
-  MODIFY `VisitaID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `VisitaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- Restricciones para tablas volcadas
