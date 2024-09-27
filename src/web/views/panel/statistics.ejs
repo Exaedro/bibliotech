@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../partials/admin/head.ejs') %>
+	</head>
+	<body>
+        <style>
+            .estadisticas {
+                display: flex;
+            }
+            
+            .estadisticas .visitas {
+                width: 50%;
+            }
+
+            .estadisticas .gustados {
+                width: 50%;
+            }
+        </style>
+		<div class="panel">
+            <%- include('../partials/admin/sidebar.ejs') %>
+            <main class="contenedor">
+                <%- include('../partials/admin/navbar.ejs') %>
+                <h1>Estadísticas</h1>
+                <div class="editUserContainer estadisticas">
+
+                    <div class="visitas">
+                        <canvas id="general" data-labels="<%- mostVisited.titles %>" data-values="<%- mostVisited.visits %>"></canvas>
+                    </div>
+                </div>
+                <div class="editUserContainer estadisticas">
+                    <div class="visitas">
+                        <canvas id="visitas"></canvas>
+                    </div>
+                    <div class="gustados">
+                        <canvas id="gustados"></canvas>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+
+        <script>
+            const torta = document.querySelector("#general");
+
+            const libros = torta.getAttribute('data-labels').split(',')
+            const visitas = torta.getAttribute('data-values').split(',')
+
+            const colors_3 = ['rgb(69,177,223)', 'rgb(99,201,122)', 'rgb(203,82,82)', 'rgb(229,224,88)'];
+
+            const dataTorta = {
+                labels: libros,
+                datasets: [{
+                    data: visitas,
+                    backgroundColor: colors_3
+                }]
+            };
+
+            const configTorta = {
+                type: 'pie',
+                data: dataTorta,
+            };
+
+            new Chart(torta, configTorta);
+        </script>
+        
+        <script>
+            const labels = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
+            const dataset1 = {
+                label: "Visitas",
+                data: [234, 163, 453, 123, 234, 123, 453],
+                borderColor: 'rgba(248, 37, 37, 0.8)',
+                fill: true,
+                tension: 0.3
+            };
+
+            const graph = document.querySelector("#visitas");
+
+            const data = {
+                labels: labels,
+                datasets: [dataset1]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+            };
+
+            new Chart(graph, config);
+        </script>
+
+        <script>
+            const labels_2 = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
+            const dataset1_2 = {
+                label: "Gustados",
+                data: [234, 163, 453, 123, 234, 123, 453],
+                borderColor: 'rgba(100, 500, 37, 0.8)',
+                fill: true,
+                tension: 0.3
+            };
+
+            const graph_2 = document.querySelector("#gustados");
+
+            const data_2 = {
+                labels: labels_2,
+                datasets: [dataset1_2]
+            };
+
+            const config_2 = {
+                type: 'line',
+                data: data_2,
+            };
+
+            new Chart(graph_2, config_2);
+        </script>
+
+        <script src="js/cambiarTema.js"></script>
+	</body>
+</html>

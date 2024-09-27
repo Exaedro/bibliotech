@@ -23,28 +23,41 @@
                         <!-- Formulario en el otro costado -->
                         <div class="datos">
                             <div class="row">
+                                <% if(book.original == 0) { %>
+                                    <div class="columna">
+                                        <h4>Titulo</h4>
+                                        <input type="text" value="<%- book.title %>" placeholder="..." name="title">
+                                        <h4>Autor</h4>
+                                        <input type="text" value="<%- book.author %>" placeholder="..."  name="author">
+                                        <h4>ISBN</h4>
+                                        <input type="text" value="<%- book.isbn %>" placeholder="..." name="isbn">
+                                        <h4>Publicación</h4>
+                                        <input type="date" value="<%- book.date %>" placeholder="..." name="date">
+                                    </div>
+                                <% } else { %>
+                                    <div class="columna">
+                                        <h4>Titulo</h4>
+                                        <input type="text" value="<%- book.title %>" placeholder="..." name="title">
+                                    </div>  
+                                    <div class="columna">
+                                        <h4>Autor</h4>
+                                        <input type="text" value="<%- book.author %>" readonly="true"  name="author">
+                                    </div>
+                                <% } %>
                                 <div class="columna">
-                                    <h4>Titulo</h4>
-                                    <input type="text" value="<%- book.title %>" placeholder="..." name="title">
-                                    <h4>Autor</h4>
-                                    <input type="text" value="<%- book.author %>" placeholder="..." name="author">
-                                    <h4>ISBN</h4>
-                                    <input type="text" value="<%- book.isbn %>" placeholder="..." name="isbn">
-                                    <h4>Publicación</h4>
-                                    <input type="date" value="<%- book.date %>" placeholder="..." name="date">
-                                </div>
-                                <div class="columna">
-                                    <h4>Cantidad de paginas</h4>
-                                    <input type="text" value="<%- book.pages %>" placeholder="..." name="pages">
-                                    <h4>Idioma</h4>
-                                    <input type="text" value="<%- book.language %>" placeholder="..." name="language">
-                                    <h4>Editorial</h4>
-                                    <input type="text" value="<%- book.publisher %>" placeholder="..." name="publisher">
-                                    <h4>Estado</h4>
-                                    <select name="state">
-                                        <option value="disponible">Disponible</option>
-                                        <option value="prestado">Prestado</option>
-                                    </select>
+                                    <% if(book.original == 0) { %>
+                                        <h4>Cantidad de paginas</h4>
+                                        <input type="text" value="<%- book.pages %>" placeholder="..." name="pages">
+                                        <h4>Idioma</h4>
+                                        <input type="text" value="<%- book.language %>" placeholder="..." name="language">
+                                        <h4>Editorial</h4>
+                                        <input type="text" value="<%- book.publisher %>" placeholder="..." name="publisher">
+                                        <h4>Estado</h4>
+                                        <select name="state">
+                                            <option value="disponible">Disponible</option>
+                                            <option value="prestado">Prestado</option>
+                                        </select>
+                                    <% } %>
                                 </div>
                             </div>
                             <h4>Sinopsis</h4>

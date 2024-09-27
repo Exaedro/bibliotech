@@ -1,7 +1,6 @@
 export const bookObject = ({ data }) => {
     if (!data || data.length === 0) return null
 
-    console.log(data)
     let booksArray = []
     let temporalGenres = []
     let bookRepeat
@@ -62,12 +61,15 @@ export const mangaObject = ({ data }) => {
         let book = data[i]
 
         const bookInfo = {
-            id: book.MangaID,
+            id: book.LibroID,
             title: book.Titulo,
-            date: book.FechaLanzamiento,
+            author: book.Nombre,
+            authorId: book.UsuarioID,
+            date: book.FechaPublicacion,
             synopsis: book.Sinopsis,
-            image: book.Imagen,
+            image: book.imagen,
             type: book.Tipo,
+            original: book.Original
         }
 
         if (bookInfo.id != bookActual) {
@@ -78,7 +80,7 @@ export const mangaObject = ({ data }) => {
         temporalGenres.push({ id: book.CategoriaID, name: book.NombreCategoria })
         bookInfo.genres = temporalGenres
 
-        if (data[i + 1]?.MangaID != bookInfo.id) {
+        if (data[i + 1]?.LibroID != bookInfo.id) {
             booksArray.push(bookInfo)
 
             bookActual = null

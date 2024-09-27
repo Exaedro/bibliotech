@@ -39,6 +39,19 @@ panelRouter.get('/panel/books', async (req, res) => {
     )
 })
 
+panelRouter.get('/panel/books/original', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    const books = await (await fetch(`${apiUrl}/mangas`, { method: 'GET' })).json()
+
+    res.render('panel/authors/books',
+        {
+            title: 'Bibliotech - Libros', books,
+            user: { username, role, userId }
+        }
+    )
+})
+
 panelRouter.get('/panel/books/:id/edit', async (req, res) => {
     const { username, role, userId } = req.session
     const { id } = req.params // Id del libro
@@ -317,6 +330,28 @@ panelRouter.get('/panel/requests/:id', async (req, res) => {
             title: 'Bibliotech - Solicitud de autor',
             user: { username, role, userId },
             request
+        }
+    )
+})
+
+panelRouter.get('/panel/statistics', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    const visits = await (await fetch(`${apiUrl}/books/visited?limit=3`, { method: 'GET' })).json()
+
+    const mostVisitedTitles = visits.map(visit => visit.title)
+    const mostVisitedVisits = visits.map(visit => visit.visits)
+
+    res.render('panel/statistics',
+        {
+            title: 'Bibliotech - Estadísticas', 
+            mostVisited: {  
+                titles: mostVisitedTitles, 
+                visits: mostVisitedVisits
+            },
+            user: { 
+                username, role, userId 
+            }
         }
     )
 })

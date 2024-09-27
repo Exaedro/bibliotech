@@ -31,9 +31,12 @@ indexRouter.get('/', async (req, res) => {
 indexRouter.get('/error', async (req, res) => {
     const { username, role, userId } = req.session
 
+    // Mensaje de error
+    const { message } = req.query
+
     res.render('error',
         {
-            title: 'Bibliotech - Error', 
+            title: 'Bibliotech - Error', message,
             user: {
                 username, role, userId
             }
@@ -82,7 +85,7 @@ indexRouter.get('/book/:bookId', async (req, res) => {
     const book = await (await fetch(`${apiUrl}/book/${bookId}`, { method: 'GET' })).json()
 
     if(book.error) {
-        return res.redirect('/error')
+        return res.redirect('/error?message=not_found')
     }
 
     const comments = await (await fetch(`${apiUrl}/comments?bookId=${bookId}`)).json()
@@ -110,13 +113,16 @@ indexRouter.get('/book/:bookId', async (req, res) => {
         }
     )
 
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const ipReal = ip === '::1' ? '8.8.8.8' : ip;
+
     await fetch(`${apiUrl}/book/add/visit`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id: book[0].id })
+        body: JSON.stringify({ id: book[0].id, ip: ipReal })
     })
 })
 

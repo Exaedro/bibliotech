@@ -14,7 +14,16 @@ export const isAdmin = (req, res, next) => {
         return res.redirect('/login')
 
     if(role != 'admin')
-        return res.redirect('/error')
+        return res.redirect('/error?message=forbidden')
+
+    next()
+}
+
+export const isAuthor = (req, res, next) => {
+    const { autor } = req.session
+
+    if(!autor)
+        return res.redirect('/login')
 
     next()
 }

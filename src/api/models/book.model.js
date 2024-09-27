@@ -26,30 +26,30 @@ class BookModel {
         const paramsKeys = Object.keys(params)
 
         let sql = `SELECT DISTINCT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID`
-       
+
         // Variable para saber si existe algun parametro en el objeto
         let whereExists = false
 
         // Verificar si existe algun parametro en el objeto
-        for(let i = 0; i < paramsKeys.length; i++) {
+        for (let i = 0; i < paramsKeys.length; i++) {
             const key = paramsKeys[i]
             const value = params[key]
 
             // Si existe un parametro, se agrega al SELECT
-            if(value) {
+            if (value) {
                 // Si ya existe un parametro, se agrega un AND
-                if(whereExists) {
+                if (whereExists) {
 
                     // Si es una categoria se cambia la L del join por una C
-                    if(key == 'CategoriaID') { 
+                    if (key == 'CategoriaID') {
                         sql += ` AND c.CategoriaID = '${value}'`
                     }
-                    else { 
-                        if(key == 'FechaLanzamiento') {
+                    else {
+                        if (key == 'FechaLanzamiento') {
                             sql += ` AND YEAR(l.FechaLanzamiento) = '${value}'`
                         } else {
 
-                            if(key == 'CantidadPaginas') {
+                            if (key == 'CantidadPaginas') {
                                 sql += ` AND l.CantidadPaginas >= '${value}'`
                             } else {
                                 sql += ` AND l.${key} LIKE '%${value}%'`
@@ -58,23 +58,23 @@ class BookModel {
                     }
                 } else {
                     // Si no existe un parametro, se agrega un WHERE
-                    if(!whereExists) sql += ` WHERE ` 
+                    if (!whereExists) sql += ` WHERE `
 
-                    if(key == 'CategoriaID')
+                    if (key == 'CategoriaID')
                         sql += ` c.CategoriaID = '${value}'`
-                    else { 
-                        if(key == 'FechaLanzamiento') {
+                    else {
+                        if (key == 'FechaLanzamiento') {
                             sql += ` YEAR(l.FechaLanzamiento) = '${value}'`
-                        } else { 
-                            if(key == 'CantidadPaginas') {
+                        } else {
+                            if (key == 'CantidadPaginas') {
                                 sql += ` l.CantidadPaginas >= '${value}'`
                             } else {
                                 sql += ` l.${key} LIKE '%${value}%'`
                             }
                         }
-                    }     
+                    }
                 }
-                
+
                 // Marcar que existe un parametro
                 whereExists = true
             }
@@ -84,7 +84,7 @@ class BookModel {
         const totalBooks = await this.getTotalBooks({ books })
 
         const data = books.map(book => { return { id: book.LibroID, title: book.Titulo, image: book.imagen } })
-        
+
         const object = {
             data: {
                 totalBooks
@@ -97,7 +97,7 @@ class BookModel {
 
     static async getAll({ page } = {}) {
         let sql = `SELECT * FROM libros`
-        if(page) {
+        if (page) {
             const offset = page * 10
             sql = `SELECT * FROM libros LIMIT 10 OFFSET ${offset}`
         }
@@ -113,12 +113,12 @@ class BookModel {
             },
             books: data,
         }
-    
+
         return object
     }
 
     static async getTotalBooks({ books } = {}) {
-        if(books) {
+        if (books) {
             const [searchBooks] = await db.query(`SELECT COUNT(*) as total FROM libros`)
             const total = searchBooks[0].total
             return total
@@ -143,7 +143,7 @@ class BookModel {
         const [categories] = await db.query('SELECT c.CategoriaID, c.NombreCategoria FROM categorias c')
 
         const data = categories.map(category => { return { id: category.CategoriaID, name: category.NombreCategoria } })
-        
+
         return data
     }
 
@@ -175,10 +175,10 @@ class BookModel {
      */
     static async createBook({ title, author, isbn, date, pages, language, publisher, synopsis, image, pdfLink, state, categories }) {
         await db.query(`INSERT INTO libros (Titulo, Autor, ISBN, FechaLanzamiento, CantidadPaginas, Idioma, Editorial, Sinopsis, imagen, pdf_link, Estado) VALUES ('${title}', '${author}', '${isbn}', '${date}', '${pages}', '${language}', '${publisher}', '${synopsis}', '${image}', '${pdfLink}', '${state}')`)
-    
+
         // Insertar categorías en la tabla de libros_categorias
         const [bookId] = await db.query(`SELECT LibroID FROM libros WHERE Titulo = '${title}'`)
-    
+
         categories.forEach(async categorie => {
             await db.query(`INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES ('${bookId[0].LibroID}', '${categorie}')`)
         })
@@ -213,9 +213,9 @@ class BookModel {
      * @param {integer} limit - cantidad de libros que se va a obtener 
      */
     static async getMostVisited({ limit }) {
-        const [books] = await db.query(`SELECT * FROM libros ORDER BY Visitas DESC LIMIT ${limit}`)
+        const [books] = await db.query(`SELECT l.*, COUNT(*) AS visits FROM visitas v JOIN libros l ON v.LibroID = l.LibroID GROUP BY l.LibroID ORDER BY visits DESC LIMIT ?`, [parseInt(limit)])
 
-        const data = bookObjectComplex({ data: books })
+        const data = await bookObjectComplex({ data: books })
 
         return data
     }
@@ -258,15 +258,15 @@ class BookModel {
      * @param {string} synopsis - sinopsis del libro
      * @param {object} file - imagen del libro
      */
-    static async editById({ id, title, author, date, isbn, pages, language, publisher , state, synopsis, categories, file }) {
+    static async editById({ id, title, author, date, isbn, pages, language, publisher, state, synopsis, categories, file }) {
         // Si el usuario ingreso una portada se le agrega a la consulta el campo "imagen"
         let sql = `UPDATE libros SET Titulo = '${title}', Autor = '${author}', Editorial = '${publisher}', FechaLanzamiento = '${date}', ISBN = '${isbn}', CantidadPaginas = '${pages}', Idioma = '${language}', Estado = '${state}', Sinopsis = '${synopsis}' WHERE LibroID = ${id};`
-        if(file) sql = `UPDATE libros SET Titulo = '${title}', Autor = '${author}', Editorial = '${publisher}', FechaLanzamiento = '${date}', ISBN = '${isbn}', CantidadPaginas = '${pages}', Idioma = '${language}', Estado = '${state}', Sinopsis = '${synopsis}', imagen = '${file}' WHERE LibroID = ${id};`
+        if (file) sql = `UPDATE libros SET Titulo = '${title}', Autor = '${author}', Editorial = '${publisher}', FechaLanzamiento = '${date}', ISBN = '${isbn}', CantidadPaginas = '${pages}', Idioma = '${language}', Estado = '${state}', Sinopsis = '${synopsis}', imagen = '${file}' WHERE LibroID = ${id};`
 
-        if(typeof categories == 'object' && categories.length > 0) {
+        if (typeof categories == 'object' && categories.length > 0) {
             // Eliminar todas los generos que tenia antes el libro
             await db.query('DELETE FROM libros_categorias WHERE LibroID = ?', [id])
-            
+
             // Insertar los nuevos generos
             categories.forEach(async categorie => {
                 await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [id, categorie])
@@ -274,7 +274,7 @@ class BookModel {
         }
 
         // Si el usuario ingreso solo una categoria
-        if(typeof categories == 'string') {
+        if (typeof categories == 'string') {
             await db.query('DELETE FROM libros_categorias WHERE LibroID = ?', [id])
             await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [id, categories])
         }
@@ -291,19 +291,44 @@ class BookModel {
         await db.query(`DELETE FROM libros WHERE LibroID = '${bookId}'`)
     }
 
+    /**
+     * 
+     * @param {integer} id - id del libro
+     * @returns 
+     */
     static async getVisits({ id }) {
-        const [data] = await db.query(`SELECT Visitas FROM libros WHERE LibroID = ?`, [id])
-        const visits = data[0].Visitas
-        
+        const [data] = await db.query(`SELECT COUNT(*) as visits FROM visitas WHERE LibroID = ?`, [id])
+        const visits = data[0].visits
+
         return visits
     }
 
-    static async addVisit({ id }) {
-        await db.query(`UPDATE libros SET Visitas = Visitas + 1 WHERE LibroID = ?`, [id])
+    /**
+     * @param {integer} id - id del libro
+     * @param {string} ip - ip del usuario
+     */
+    static async addVisit({ id, ip }) {
+        const response = await fetch(`http://ip-api.com/json/${ip}?lang=es`, { method: 'GET' });
+        const json = await response.json();
+        const country = json.country
+
+        await db.query('INSERT INTO visitas (LibroID, Pais, Ip) VALUES (?, ?, ?)', [id, country, ip])
     }
 
+    /**
+     * 
+     * @param {integer} id - id del libro
+     */
     static async deleteVisit({ id }) {
-        await db.query(`UPDATE libros SET Visitas = Visitas - 1 WHERE LibroID = ?`, [id])
+        await db.query(`DELETE FROM visitas WHERE LibroID = ?`, [id])
+    }
+
+    static async getMangas() {
+        const [data] = await db.query(`SELECT l.LibroID, l.Titulo, l.FechaPublicacion, l.Sinopsis, l.imagen, l.Original, l.Tipo, c.NombreCategoria, c.CategoriaID, u.UsuarioID, u.Nombre FROM libros l JOIN libros_categorias lc ON lc.LibroID = l.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID JOIN libros_autores la ON l.LibroID = la.LibroID JOIN usuarios u ON u.UsuarioID = la.UsuarioID WHERE l.Original = 1`)
+
+        const books = mangaObject({ data })
+
+        return books
     }
 
     /**
@@ -321,13 +346,13 @@ class BookModel {
         const mangaId = query[0].LibroID
 
         // Agregar las categorias al libro
-        for(let category of categories) {
+        for (let category of categories) {
             await db.query('INSERT INTO libros_categorias (LibroID, CategoriaID) VALUES (?, ?)', [mangaId, category])
         }
 
         // Agregar autor al libro
         await db.query('INSERT INTO libros_autores (LibroID, UsuarioID) VALUES (?, ?)', [mangaId, userId])
-        
+
         const [manga] = await db.query(`SELECT * FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID JOIN libros_autores la ON l.LibroID = la.LibroID WHERE l.LibroID = ?`, [mangaId])
 
         const data = bookObject({ data: manga })
@@ -382,9 +407,9 @@ class BookModel {
      * @param {array} images - array de imagenes del manga
      */
     static async uploadImages({ id, chapterId, images }) {
-        for(let image of images) {
+        for (let image of images) {
             const imagePath = `/uploads/${image.filename}`
-        
+
             await db.query(`INSERT INTO mangas_imagenes (MangaID, CapituloID, Imagen) VALUES (?, ?, ?)`, [id, chapterId, imagePath])
         }
     }
@@ -407,7 +432,7 @@ function bookObjectComplex({ data }) {
         // Obtener los generos de del libro
         const genresArray = await BookModel.getCategoriesByBookId({ bookId: book.LibroID })
         const genres = genresArray.map(genre => { return { id: genre.CategoriaID, name: genre.NombreCategoria } })
-        
+
         return {
             id: book.LibroID,
             title: book.Titulo,
@@ -421,7 +446,7 @@ function bookObjectComplex({ data }) {
             pdfLink: book.pdf_link,
             language: book.Idioma,
             state: book.Estado,
-            visits: book.Visitas,
+            visits: book.visits,
             likes: book.Gustados,
             genres
         }

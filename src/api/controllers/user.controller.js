@@ -125,8 +125,6 @@ class UserController {
 
             if(response == 'user_not_exist')
                 return res.status(404).json({ message: 'this user not exists', error: response })
-
-            console.log(response)
             
             res.status(200).json({ valid: response, error: false })
         } catch(err) {
@@ -417,7 +415,6 @@ class UserController {
     addAuthorRequest = async (req, res, next) => {
         const { userId, bookTitle, bookInfo, image } = req.body
 
-        console.log(userId, bookTitle, bookInfo, image)
         try {
             if(!userId || !bookTitle || !bookInfo || !image)
                 throw new ClientError('missing fields')

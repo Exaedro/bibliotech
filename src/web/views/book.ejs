@@ -59,7 +59,7 @@
                 <div class="generos">
                     <% book[0].genres.forEach(genre => { %>
                       <a href="/catalog?genre=<%- genre.id %>">
-                        <span class="genero"><%- genre.name %></span>
+                        <div class="genero"><%- genre.name %></div>
                       </a>
                     <%})%>
                 </div> 
@@ -93,16 +93,20 @@
         <% if(book[0].original) { %>
           <section class="capitulos">
             <h2>Capítulos</h2>
-            <% let i = chapters.length %>
-            <% chapters.forEach(chapter => { %>
-              <a href="/book/<%- book[0].id %>/chapter/<%- chapter.chapterId %>">
-                <article class="capitulo">
-                  <h3>Capitulo <%- i %> - <%- chapter.chapterTitle %></h3>
-                  <p><%- format(chapter.chapterDate) %></p>
-                </article>
-              </a>
-            <% i-- %>
-            <% }) %>
+            <% if(chapters.length > 0) { %>
+              <% let i = chapters.length %>
+              <% chapters.forEach(chapter => { %>
+                <a href="/book/<%- book[0].id %>/chapter/<%- chapter.chapterId %>">
+                  <article class="capitulo">
+                    <h3>Capitulo <%- i %> - <%- chapter.chapterTitle %></h3>
+                    <p><%- format(chapter.chapterDate) %></p>
+                  </article>
+                </a>
+              <% i-- %>
+              <% }) %>
+            <% } else { %>
+              <p>No hay capítulos disponibles</p>
+            <% } %>
           </section>
         <% } else { %>
             <iframe class="pdf" src="<%- book[0].pdf %>" frameborder="0"></iframe>

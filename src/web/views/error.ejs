@@ -8,16 +8,20 @@
         <%- include('partials/navbar.ejs') %>
     </header>
     <main class="errorContainer">
-        <% if(typeof error != 'undefined') { %>
-            <% if(error == 'user_not_exist') { %>
+        <% if(typeof message != 'undefined') { %>
+            <% if(message == 'not_found') { %>
                 <h1>404</h1>
                 <p>Esta página no existe.</p>
                 <a href="/">Volver al inicio</a>
-            <% } else { %>
-                <h1>500</h1>
-                <p>Ha ocurrido un error inesperado.</p>
+            <% } else if(message == 'forbidden') { %>
+                <h1>403</h1>
+                <p>No tienes permisos para acceder a esta página.</p>
                 <a href="/">Volver al inicio</a>
             <% } %>
+        <% } else { %>
+            <h1>500</h1>
+            <p>Ha ocurrido un error inesperado.</p>
+            <a href="#" style="cursor: default;">Vuelve a entrar mas tarde.</a>
         <% } %>
     </main>
     <footer class="footerContainer">

@@ -251,7 +251,7 @@
 }
 
 .capituloViewer[paginated="false"] {
-    width: clamp(300px, 95vw, 1200px);
+    width: clamp(300px, 95vw, 820px);
     margin: 0 auto;
 }
 

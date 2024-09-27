@@ -152,13 +152,13 @@ class BookController {
     }
 
     addVisit = async (req, res, next) => {
-        const { id } = req.body
+        const { id, ip } = req.body
 
         try {
             if(isNaN(id)) 
                 throw new ClientError('id must be a number')
 
-            await this.bookModel.addVisit({ id })
+            await this.bookModel.addVisit({ id, ip })
             res.status(200).json({ message: 'added' })
         } catch(err) {
             next(err)

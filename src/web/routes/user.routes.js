@@ -116,7 +116,6 @@ userRouter.post('/upload/book', async (req, res) => {
 
     const [manga] = (await response.json()).manga
 
-    console.log(manga)
     res.redirect(`/book/${manga.id}`)
 })
 

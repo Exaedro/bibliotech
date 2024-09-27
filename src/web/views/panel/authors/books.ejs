@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<%- include('../partials/admin/head.ejs') %>
+		<%- include('../../partials/admin/head.ejs') %>
 	</head>
 	<body>
 		<div class="panel">
-            <%- include('../partials/admin/sidebar.ejs') %>
+            <%- include('../../partials/admin/sidebar.ejs') %>
             <main>
-                <%- include('../partials/admin/navbar.ejs') %>
+                <%- include('../../partials/admin/navbar.ejs') %>
                 <div class="contenedor">
                     <h1>Catálogo de libros</h1>
                     <section class="libros">
@@ -21,8 +21,7 @@
                                     <th>ID</th>
                                     <th>Título</th>
                                     <th>Autor</th>
-                                    <th>ISBN</th>
-                                    <th>Editorial</th>
+                                    <th>Fecha de publicación</th>
                                     <th>Ver</th>
                                     <th>Editar</th>
                                     <th>Eliminar</th>
@@ -30,32 +29,27 @@
                             </thead>
                             <tbody>
                                 <% books.forEach(book => { %>
-                                    <% if(book.isbn == 'undefined' || typeof book.isbn == 'undefined') { %>
-                                        <% return %>
-                                    <% } else { %> 
-                                        <tr>
-                                            <td><%- book.id %></td>
-                                            <td><%- book.title %></td>
-                                            <td><%- book.author %></td>
-                                            <td><%- book.isbn %></td>
-                                            <td><%- book.publisher %></td>
-                                            <td class="columnaVer">
-                                                <a href="/book/<%- book.id %>" class="ver verde">
-                                                    <i class="fa-solid fa-eye"></i>
-                                                </a>
-                                            </td>
-                                            <td class="columnaEditar">
-                                                <a href="/panel/books/<%- book.id %>/edit" class="editar">
-                                                    <i class="fa-solid fa-pencil"></i>
-                                                </a>
-                                            </td>
-                                            <td class="columnaEliminar">
-                                                <button href="#" class="borrar" data-modal="modal<%- book.id %>">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <% } %>
+                                    <tr>
+                                        <td><%- book.id %></td>
+                                        <td><%- book.title %></td>
+                                        <td><%- book.author %></td>
+                                        <td><%- new Date(book.date).toLocaleString() %></td>
+                                        <td class="columnaVer">
+                                            <a href="/book/<%- book.id %>" class="ver verde">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                        </td>
+                                        <td class="columnaEditar">
+                                            <a href="/panel/books/<%- book.id %>/edit" class="editar">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </a>
+                                        </td>
+                                        <td class="columnaEliminar">
+                                            <button href="#" class="borrar" data-modal="modal<%- book.id %>">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 <% }) %>
                             </tbody>
                         </table>

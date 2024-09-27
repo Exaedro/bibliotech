@@ -18,7 +18,7 @@ profileRouter.get('/profile/:id', async (req, res) => {
     const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
 
     if(user.message?.includes('not'))
-        return res.redirect('/error')
+        return res.redirect('/error?message=not_found')
     
     const likedBooks = await (await fetch(`${apiUrl}/user/${id}/like/all`, { method: 'GET' })).json()
     const favoriteBooks = await (await fetch(`${apiUrl}/user/${id}/favorite/all`, { method: 'GET' })).json()
@@ -54,7 +54,7 @@ profileRouter.get('/profile/:id/edit', async (req, res) => {
     const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
 
     if(user.error == 'user_not_exists')
-        return res.redirect('/error')
+        return res.redirect('/error?message=not_found')
 
     res.render('profile/edit', 
         {
@@ -98,10 +98,6 @@ profileRouter.post('/profile/edit', async (req, res) => {
             return res.redirect('/profile/myself/edit?error=invalid_password')
     }
 
-    console.log(`Contraseña actual: ${actualPassword}`)
-    console.log(`Contraseña nueva: ${newPassword}`)
-    console.log(`Contraseña confirmada: ${confirmPassword}`)
-
     let object = {
         id: userId,
         username, 
@@ -138,7 +134,7 @@ profileRouter.get('/profile/:id/like', async (req, res) => {
     // ! AGREGAR ERRORES MAS TARDE
     const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
     if(user.error == 'user_not_exists')
-        return res.redirect('/error')
+        return res.redirect('/error?message=not_found')
 
     const data = await (await fetch(apiUrl + `/user/${id}/like/all`, { method: 'GET' })).json()
 
@@ -157,7 +153,7 @@ profileRouter.get('/profile/:id/favorite', async (req, res) => {
 
     const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
     if(user.error == 'user_not_exists')
-        return res.redirect('/error')
+        return res.redirect('/error?message=not_found')
 
     const data = await (await fetch(apiUrl + `/user/${id}/favorite/all`, { method: 'GET' })).json()
 
@@ -176,7 +172,7 @@ profileRouter.get('/profile/:id/see-later', async (req, res) => {
 
     const user = await (await fetch(`${apiUrl}/user/${id}`, { method: 'GET' })).json()
     if(user.error == 'user_not_exists')
-        return res.redirect('/error')
+        return res.redirect('/error?message=not_found')
 
     const data = await (await fetch(apiUrl + `/user/${id}/later/all`, { method: 'GET' })).json()
 
