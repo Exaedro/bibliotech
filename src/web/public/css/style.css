@@ -71,10 +71,16 @@
     }
 }
 
+[tema="dark"] {
+    .author-request-container::before {
+        background-image: url('../img/fondo2.png');
+    }
+}
+
 body {
     background-color: var(--color-fondo);
     color: var(--color-letra);
-    font-family: "letra";
+    font-family: "letra", system-ui, sans-serif;
     overflow-x: hidden;
 }
 

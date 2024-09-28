@@ -34,11 +34,11 @@
 									<a href="#" class="selected paginado">
 										<i class="fa-solid fa-book-open"></i>
 									</a>
-									<a href="/book/<%- data.book.id %>/chapter/<%- data.chapter.id %>">
+									<a class="cascada" href="/book/<%- data.book.id %>/chapter/<%- data.chapter.id %>">
 										<i class="fa-solid fa-file"></i>
 									</a>
 								<% } else { %>
-									<a href="/book/<%- data.book.id %>/chapter/<%- data.chapter.id %>/paginated">
+									<a class="paginado" href="/book/<%- data.book.id %>/chapter/<%- data.chapter.id %>?paginated=true">
 										<i class="fa-solid fa-book-open"></i>
 									</a>
 									<a href="#" class="selected cascada">

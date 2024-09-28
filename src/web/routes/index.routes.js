@@ -66,13 +66,19 @@ indexRouter.get('/catalog', async (req, res) => {
     } else {
         data = await (await fetch(`${apiUrl}/books/search?title=${title}&author=${author}&date=${date}&genre=${genre}&isbn=${isbn}&pages=${pages}&language=${language}&publisher=${publisher}&page=${page}`)).json()
     }
-
+    
+    let isAuthor = false
+    if(userId) {
+        const user = await (await fetch(`${apiUrl}/user/${userId}`)).json()
+        isAuthor = user.author ? true : false
+    }
+    
     const categories = await (await fetch(`${apiUrl}/books/categories`)).json()
 
     res.render('catalog',
         {
             title: 'Bibliotech - Catalogo', books: data.books, categories, booksCount: data.data.totalBooks, pageSelected: page,
-            user: { username, role, userId, autor }
+            user: { username, role, userId, autor: isAuthor }
         }
     )
 })
@@ -130,6 +136,8 @@ indexRouter.get('/book/:bookId/chapter/:chapterId', async (req, res) => {
     const { username, role, userId } = req.session
     const { bookId, chapterId } = req.params
     const { format } = res.locals
+    
+    const { paginated = false } = req.query
 
     const chapter = await (await fetch(`${apiUrl}/manga/${bookId}/chapter/${chapterId}`, { method: 'GET' })).json()
 
@@ -139,27 +147,7 @@ indexRouter.get('/book/:bookId/chapter/:chapterId', async (req, res) => {
     // ${chapter[0].chapterNumber} / ${chapter[0].chapterTitle}
     res.render('chapter',
         {
-            title: `Bibliotech`, data: chapter, format, paginated: false,
-            user: { username, role, userId }
-        }
-    )
-})
-
-indexRouter.get('/book/:bookId/chapter/:chapterId/paginated', async (req, res) => {
-    const { username, role, userId } = req.session
-
-    const { bookId, chapterId } = req.params
-    const { format } = res.locals
-
-    const chapter = await (await fetch(`${apiUrl}/manga/${bookId}/chapter/${chapterId}`, { method: 'GET' })).json()
-
-    if(!chapter)
-        return res.redirect('/error')
-
-    // ${chapter[0].chapterNumber} / ${chapter[0].chapterTitle}
-    res.render('chapter',
-        {
-            title: `Bibliotech`, data: chapter, format, paginated: true,
+            title: `Bibliotech`, data: chapter, format, paginated,
             user: { username, role, userId }
         }
     )

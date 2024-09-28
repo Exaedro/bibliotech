@@ -37,6 +37,7 @@ class UserModel {
                 email: userInfo.CorreoElectronico,
                 image: userInfo.Imagen,
                 roleId: userInfo.RollID,
+                author: userInfo.Autor,
                 password: userInfo.Contrasenia
             }
         })

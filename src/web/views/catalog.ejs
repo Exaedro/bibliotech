@@ -136,7 +136,7 @@
 					<% } %>
 				</div>
 				<div class="paginador">
-					<% console.log(books) %> <% for(let i = 0; i < booksCount;
+					<% for(let i = 0; i < booksCount;
 					i++) { %> <% if(i % 10 == 0) {%> <% let pagina =
 					Math.floor(i / 10) %> <% if(pageSelected == pagina) { %>
 					<a href="/catalog?page=<%- pagina %>" class="paginaActual">
