@@ -19,6 +19,11 @@
 			<main class="capituloContainer">
 				<h1>Capítulo <%- data.chapter.number %> - <%- data.chapter.title %></h1>
 				<header class="capituloHeader">
+					<div class="desplegable">
+						<div class="icono">
+							<i class="fa-solid fa-caret-down"></i>
+						</div>
+					</div>
 					<div class="herramientas">
 						<div class="separacion">
 							<p>Separación de páginas</p>
@@ -75,59 +80,7 @@
 				<%- include('partials/footer.ejs') %>
 			</footer>
 
-			<script type="module">
-				tippy('.paginado', {
-					content: "Paginado",
-					placement: 'bottom'
-				});
-
-				tippy('.cascada', {
-					content: "Cascada",
-					placement: 'bottom'
-				});
-
-				const fullScreen = document.querySelector('.paginaCompleta')
-				const separationRange = document.getElementById('separation_range')
-				const separationNumber = document.getElementById('separation_number')
-				const imagesContainer = document.getElementById('capituloViewer')
-
-				separationRange.addEventListener('input', (e) => {
-					const value = e.target.value
-
-					separationNumber.value = value
-					changeGap({ value })
-				})
-
-				separationNumber.addEventListener('input', (e) => {
-					const value = e.target.value
-
-					if(value.includes('-'))
-						return e.target.value = value.replace(/-+/gi, '')
-
-					separationRange.value = value
-					
-					changeGap({ value })
-				})
-
-				function changeGap({ value }) {
-					imagesContainer.style.gap = `${value}px`
-				}
-
-				// Pantalla completa
-				fullScreen.addEventListener('click', (e) => {
-					const value = e.target.innerText
-					e.preventDefault()
-
-					const isFullScreen = document.fullscreenElement
-					if(isFullScreen) {
-						document.exitFullscreen()
-						e.target.innerHTML = '<i class="fa-solid fa-laptop"></i> Pagina completa'
-					} else {
-						document.documentElement.requestFullscreen()
-						e.target.innerHTML = '<i class="fa-solid fa-laptop"></i> Salir de pantalla completa'
-					}
-				})
-			</script>
+			<script type="module" src="/js/chapter.js"></script>
 		</div>
 	</body>
 </html>
