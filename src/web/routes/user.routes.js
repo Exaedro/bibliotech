@@ -34,8 +34,17 @@ userRouter.post('/login', async (req, res) => {
 
     const user = await response.json()
 
-    if (!response.ok)
+    if (!response.ok) { 
+        const { message } = user
+
+        if(message.includes('email not exists'))
+            return res.redirect(`/login?error=user_not_exist`)
+
+        if(message.includes('incorrect password'))
+            return res.redirect(`/login?error=invalid_password`)
+
         return res.redirect(`/login?error=${user.error}`)
+    }
 
     req.session.userId = user.id
     req.session.username = user.username

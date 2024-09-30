@@ -12,7 +12,7 @@ class BookModel {
      * @param {string} date - fecha de lanzamiento del libro
      * @param {string} genre - categoria del libro
      */
-    static async search({ title, author, date, genre, isbn, pages, language, publisher, page }) {
+    static async search({ title, author, date, genre, isbn, pages, language, publisher, page, type }) {
         const params = {
             Titulo: title || undefined,
             Autor: author || undefined,
@@ -21,8 +21,11 @@ class BookModel {
             ISBN: isbn || undefined,
             CantidadPaginas: pages || undefined,
             Idioma: language || undefined,
-            Editorial: publisher || undefined
+            Editorial: publisher || undefined,
         }
+
+        if(type !== 'all') params.Tipo = type
+
         const paramsKeys = Object.keys(params)
 
         let sql = `SELECT DISTINCT l.LibroID, l.Titulo, l.imagen FROM libros l JOIN libros_categorias lc ON l.LibroID = lc.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID`
@@ -220,6 +223,48 @@ class BookModel {
         return data
     }
 
+    static async getWeeklyVisits({ id }) {
+        const [weeklyVisits] = await db.query(`SELECT 
+    DATE_FORMAT(
+        DATE_ADD(CURDATE(), INTERVAL (dias.DiaSemana - DAYOFWEEK(CURDATE())) DAY), 
+        '%d/%m/%Y'
+    ) AS Fecha,
+    COALESCE(visitas.NumeroVisitas, 0) AS NumeroVisitas
+FROM (
+    SELECT 1 AS DiaSemana  -- Domingo
+    UNION ALL
+    SELECT 2 AS DiaSemana  -- Lunes
+    UNION ALL
+    SELECT 3 AS DiaSemana  -- Martes
+    UNION ALL
+    SELECT 4 AS DiaSemana  -- Miércoles
+    UNION ALL
+    SELECT 5 AS DiaSemana  -- Jueves
+    UNION ALL
+    SELECT 6 AS DiaSemana  -- Viernes
+    UNION ALL
+    SELECT 7 AS DiaSemana  -- Sábado
+) AS dias
+LEFT JOIN (
+    SELECT 
+        DAYOFWEEK(FechaVisita) AS DiaSemana, 
+        COUNT(*) AS NumeroVisitas
+    FROM visitas
+    WHERE FechaVisita >= (CURDATE() - INTERVAL DAYOFWEEK(CURDATE()) - 1 DAY)
+    AND FechaVisita < (CURDATE() + INTERVAL (7 - DAYOFWEEK(CURDATE())) DAY)
+    AND visitas.LibroID = ?
+    GROUP BY DiaSemana
+) AS visitas
+ON dias.DiaSemana = visitas.DiaSemana
+ORDER BY FIELD(dias.DiaSemana, 1, 2, 3, 4, 5, 6, 7);
+`, [id])
+
+        const data = weeklyVisits.map(visit => { return { date: visit.Fecha, visits: visit.NumeroVisitas } })
+        console.log(data)
+
+        return data
+    }
+
     /**
      * 
      * @param {integer} id - id del libro 
@@ -312,7 +357,13 @@ class BookModel {
         const json = await response.json();
         const country = json.country
 
-        await db.query('INSERT INTO visitas (LibroID, Pais, Ip) VALUES (?, ?, ?)', [id, country, ip])
+        const [result] = await db.query('INSERT INTO visitas (LibroID, Pais, Ip) VALUES (?, ?, ?)', [id, country, ip])
+
+        const queryId = result.insertId
+
+        const [visit] = await db.query('SELECT * FROM visitas WHERE VisitaID = ?', [queryId])
+
+        return visit
     }
 
     /**

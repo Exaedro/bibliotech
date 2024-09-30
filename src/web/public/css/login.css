@@ -79,7 +79,8 @@
     display: block;
     padding: 15px 0;
     background: #f37f7f;
-    color: #fff;
+    color: #fff!important;
+    opacity: 1;
     border-radius: 5px;
     border: 1px solid #e50000;
     cursor: pointer;

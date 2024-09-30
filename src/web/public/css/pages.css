@@ -44,6 +44,12 @@
 
 .libroIndividual .tipo {
     text-transform: capitalize;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.libroIndividual .tipo:hover {
+    text-decoration: underline;
 }
 
 .libroIndividual .original {

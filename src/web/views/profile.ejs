@@ -36,6 +36,27 @@
             <% } %>
         </section>
         <section class="libros">
+            <% if(userBooks) { %>
+                <article class="librosAutor">
+                    <h2>Obras de <%- userProfile.username %></h2>
+                    <div class="librosContenedor">
+                        <% userBooks.forEach(book => {%>
+                            <div class="libro">
+                                <figure>
+                                    <a href="/book/<%- book.id %>">
+                                        <img src="<%- book.image %>" alt="<%- book.title %>">
+                                    </a>
+                                </figure>
+                                <a href="/book/<%- book.id %>">
+                                    <p><%- book.title %></p>
+                                </a>
+                            </div>
+                        <%})%>
+                    </div>
+                    <a href="/profile/<%- userProfile.id %>/books" class="botonVerTodo">Ver todo</a>
+                </article>
+            <% } %>
+
             <% if(likedBooks.length == 0 && favoriteBooks.length == 0 && seeLaterBooks.length == 0) {%>
                 <% if(userProfile.username == user.username) { %>
                     <p class="noBookMessage">Agrega libros a tu lista de gustados, favoritos o leer mas tarde para verlos aquí.</p>

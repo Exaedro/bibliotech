@@ -18,10 +18,10 @@ class BookController {
     }
 
     search = async (req, res, next) => {
-        const { title, author, date, genre, isbn, pages, language, publisher, page } = req.query
+        const { title, author, date, genre, isbn, pages, language, publisher, page, type } = req.query
 
         try {
-            const books = await this.bookModel.search({ title, author, date, genre, isbn, pages, language, publisher, page })
+            const books = await this.bookModel.search({ title, author, date, genre, isbn, pages, language, publisher, page, type })
             res.status(200).json(books)
         } catch(err) {
             next(err)
@@ -65,6 +65,20 @@ class BookController {
 
             const books = await this.bookModel.getMostVisited({ limit })
             res.status(200).json(books)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    getWeeklyVisits = async (req, res, next) => {
+        const { id } = req.query
+
+        try {
+            if(isNaN(id)) 
+                throw new ClientError('id must be a number')
+
+            const weeklyVisits = await this.bookModel.getWeeklyVisits({ id })
+            res.status(200).json(weeklyVisits)
         } catch(err) {
             next(err)
         }
@@ -158,8 +172,8 @@ class BookController {
             if(isNaN(id)) 
                 throw new ClientError('id must be a number')
 
-            await this.bookModel.addVisit({ id, ip })
-            res.status(200).json({ message: 'added' })
+            const [data] = await this.bookModel.addVisit({ id, ip })
+            res.status(200).json({ message: 'added', data })
         } catch(err) {
             next(err)
         }

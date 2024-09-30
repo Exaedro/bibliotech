@@ -174,12 +174,11 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    background-color: var(--color-fondo);
     backdrop-filter: blur(12px) brightness(0.5);
     transition: background 0.3s ease;
     cursor: pointer;
 }
-
-
 
 .capituloHeader .icono {
     position: relative;
@@ -188,6 +187,7 @@
 .capituloHeader .icono i {
     position: absolute;
     left: -5px;
+    color: var(--color-letra);
     top: 3px;
 }
 

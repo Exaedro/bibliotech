@@ -396,6 +396,25 @@ class UserModel {
     static async declineAuthorRequest({ authorId }) {
         this.deleteAuthorRequest({ id: authorId })
     }
+
+    static async getAuthorBooks({ authorId }) {
+        const [data] = await db.query('SELECT l.LibroID, l.Titulo, l.Autor, l.FechaPublicacion, l.Sinopsis, l.imagen, l.Original, l.Tipo FROM usuarios u JOIN libros_autores la ON u.UsuarioID = la.UsuarioID JOIN libros l ON l.LibroID = la.LibroID WHERE u.UsuarioID = ?', [authorId])
+
+        const books = data.map(book => {
+            return {
+                id: book.LibroID,
+                title: book.Titulo,
+                author: book.Autor,
+                date: book.FechaPublicacion,
+                synopsis: book.Sinopsis,
+                image: book.imagen,
+                original: book.Original,
+                type: book.Tipo
+            }
+        })
+
+        return books
+    }
 }
 
 /**

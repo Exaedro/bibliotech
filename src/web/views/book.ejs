@@ -2,6 +2,14 @@
 <html lang="en" data-bookId="<%- book[0].id %>" data-userId="<%- user.userId %>">
   <head>
     <%- include('partials/head.ejs') %>
+    <!-- <script src="/socket.io/socket.io.js" type="module"></script>
+    <script type="module">
+    const bookId = document.documentElement.getAttribute('data-bookId')
+
+    const socket = io();
+
+    socket.emit('add visit', { id: bookId })
+    </script> -->
   </head>
   <body>
     <header>
@@ -52,7 +60,9 @@
 
                 <% if(book[0].original) { %>
                   <h4>Tipo</h4>
-                  <p class="tipo"><%- book[0].type %></p>
+                  <a href="/catalog?type=<%- book[0].type %>">
+                    <p class="tipo"><%- book[0].type %></p>
+                  </a>
                 <% } %>
 
                 <h4>Géneros</h4>
@@ -133,7 +143,7 @@
                   <span class="date"><%- format(comment.date) %></span>
                   <% if(user.role == 'admin' || user.role == 'mod' || user.userId == comment.user.id) { %>
                     <div class="modAcciones">
-                      <i class="fa-solid fa-x borrar" data-commentId="<%- comment.id %>"></i>
+                      <i class="fa-solid fa-x borrar" data-modal="<%- comment.id %>"></i>
                       <% if(user.userId == comment.user.id) { %>
                         <i class="fa-solid fa-pen-to-square editar" data-commentId="<%- comment.id %>"></i>
                       <% } %>
@@ -155,6 +165,25 @@
       <%- include('partials/footer.ejs') %>
     </footer>
     </div>
+
+    <% comments.forEach(comment => { %>
+      <dialog data-modal="modal<%- comment.id %>">
+        <h3>¿Esta seguro que quiere eliminar este comentario?</h3>
+        <div class="botones">
+          <form method="dialog">
+            <button class="cancelarEliminar">Cancelar</button>
+          </form>
+          <button
+            href="#"
+            class="confirmarEliminar"
+            data-commentId="<%- comment.id %>"
+          >
+            Eliminar
+          </button>
+        </div>
+      </dialog>
+      <% }) %>
+
     <script src="js/book.js"></script>
   </body>
 </html>

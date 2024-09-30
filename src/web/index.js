@@ -4,8 +4,12 @@ import session from 'express-session'
 import { randomUUID } from 'node:crypto'
 import multer from 'multer'
 import { format } from './utils/format.js'
+import { createServer } from 'node:http'
+import { Server } from 'socket.io'
 
 const webApp = express()
+const server = createServer(webApp)
+export const io = new Server(server)
 
 // API
 import { appApi } from '../api/index.js'
@@ -65,6 +69,15 @@ webApp.use((err, req, res, next) => {
     )
 })
 
+io.on('connection', (socket) => {
+    socket.on('add visit', async (data) => {
+        console.log(data)
+    })
+    socket.on('update visits', async (data) => {
+        console.log(data)
+    })
+})
+
 // Estaticos
 webApp.use('/', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/book', express.static(path.join(process.cwd(), 'src/web/public')))
@@ -83,7 +96,7 @@ webApp.use('/panel/users/:id', express.static(path.join(process.cwd(), 'src/web/
 webApp.use('/panel/docs', express.static(path.join(process.cwd(), 'src/web/public')))
 webApp.use('/panel/requests', express.static(path.join(process.cwd(), 'src/web/public')))
 
-webApp.listen(webApp.get('PORT'), () => {
+server.listen(webApp.get('PORT'), () => {
     console.log('Web en funcionamiento')
 })
 

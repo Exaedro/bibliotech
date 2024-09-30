@@ -2,10 +2,112 @@
 <html lang="en">
 	<head>
 		<%- include('../partials/admin/head.ejs') %>
+		<script
+			type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"
+			type="module"
+		></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+		<!--These jQuery libraries for  
+           chosen need to be included-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css"
+		/>
+
+		<!--These jQuery libraries for select2  
+            need to be included-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"
+		/>
+
+		<script type="module">
+			const torta = document.querySelector("#general");
+
+			let libros = torta.getAttribute("data-labels").split(",");
+			let visitas = torta.getAttribute("data-values").split(",");
+
+			const colors_3 = [
+				"rgb(69,177,223)",
+				"rgb(99,201,122)",
+				"rgb(203,82,82)",
+				"rgb(229,224,88)",
+			];
+
+			let dataTorta = {
+				labels: libros,
+				datasets: [
+					{
+						data: visitas,
+						backgroundColor: colors_3,
+					},
+				],
+			};
+
+			let configTorta = {
+				type: "pie",
+				data: dataTorta,
+				options: {
+					animation: false,
+				},
+			};
+
+			let miTorta = new Chart(torta, configTorta);
+
+			import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+
+			const socket = io();
+
+			socket.on("add visit", async (data) => {
+				const visits = await (
+					await fetch(
+						`http://localhost:3000/api/v1/books/visited?limit=3`,
+						{ method: "GET" }
+					)
+				).json();
+
+				const mostVisitedTitles = visits.map((visit) => visit.title);
+				const mostVisitedVisits = visits.map((visit) => visit.visits);
+
+				torta.setAttribute("data-labels", mostVisitedTitles.join(","));
+				torta.setAttribute("data-values", mostVisitedVisits.join(","));
+
+				libros = torta.getAttribute("data-labels").split(",");
+				visitas = torta.getAttribute("data-values").split(",");
+
+				dataTorta = {
+					labels: libros,
+					datasets: [
+						{
+							data: visitas,
+							backgroundColor: colors_3,
+						},
+					],
+				};
+
+				configTorta = {
+					type: "pie",
+					data: dataTorta,
+					options: {
+						animation: false,
+					},
+				};
+
+				if (miTorta) {
+					miTorta.destroy();
+				}
+
+				miTorta = new Chart(torta, configTorta);
+			});
+		</script>
 	</head>
 	<body>
-        <style>
-            .estadisticas {
+		<style>
+			/* .estadisticas {
                 display: flex;
             }
             
@@ -15,108 +117,135 @@
 
             .estadisticas .gustados {
                 width: 50%;
-            }
-        </style>
+            } */
+		</style>
 		<div class="panel">
-            <%- include('../partials/admin/sidebar.ejs') %>
-            <main class="contenedor">
-                <%- include('../partials/admin/navbar.ejs') %>
-                <h1>Estadísticas</h1>
-                <div class="editUserContainer estadisticas">
-
-                    <div class="visitas">
-                        <canvas id="general" data-labels="<%- mostVisited.titles %>" data-values="<%- mostVisited.visits %>"></canvas>
-                    </div>
-                </div>
-                <div class="editUserContainer estadisticas">
-                    <div class="visitas">
+			<%- include('../partials/admin/sidebar.ejs') %>
+			<main class="contenedor">
+				<%- include('../partials/admin/navbar.ejs') %>
+				<h1>Estadísticas</h1>
+				<div class="editUserContainer estadisticas">
+					<div class="visitas">
+						<h3>Los tres libros mas vistos.</h3>
+						<canvas
+							id="general"
+							data-labels="<%- mostVisited.titles %>"
+							data-values="<%- mostVisited.visits %>"
+						></canvas>
+					</div>
+				</div>
+				<div class="editUserContainer estadisticas">
+					<div class="libroVisitas">
+                        <select class="bookSelect" name="book">
+                            <% books.forEach(book => { %>
+                            <option value="<%- book.title %>" data-bookId="<%- book.id %>">
+                                <%- book.title %>
+                            </option>
+                            <% }) %>
+                        </select>
                         <canvas id="visitas"></canvas>
                     </div>
-                    <div class="gustados">
-                        <canvas id="gustados"></canvas>
-                    </div>
-                </div>
-            </main>
-        </div>
+				</div>
+			</main>
+		</div>
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+		<script>
+			$(document).ready(() => {
+				$(".bookSelect").select2();
+			});
+		</script>
 
-        <script>
-            const torta = document.querySelector("#general");
-
-            const libros = torta.getAttribute('data-labels').split(',')
-            const visitas = torta.getAttribute('data-values').split(',')
-
-            const colors_3 = ['rgb(69,177,223)', 'rgb(99,201,122)', 'rgb(203,82,82)', 'rgb(229,224,88)'];
-
-            const dataTorta = {
-                labels: libros,
-                datasets: [{
-                    data: visitas,
-                    backgroundColor: colors_3
-                }]
-            };
-
-            const configTorta = {
-                type: 'pie',
-                data: dataTorta,
-            };
-
-            new Chart(torta, configTorta);
-        </script>
-        
-        <script>
-            const labels = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-
-            const dataset1 = {
-                label: "Visitas",
-                data: [234, 163, 453, 123, 234, 123, 453],
-                borderColor: 'rgba(248, 37, 37, 0.8)',
-                fill: true,
-                tension: 0.3
-            };
+		<script>
+			const labels = [
+				"Lunes",
+				"Martes",
+				"Miércoles",
+				"Jueves",
+				"Viernes",
+				"Sábado",
+				"Domingo",
+			];
 
             const graph = document.querySelector("#visitas");
+            const select = document.querySelector(".bookSelect");
 
-            const data = {
-                labels: labels,
-                datasets: [dataset1]
-            };
+            let dataset1 = {
+				label: "Visitas",
+				data: [234, 163, 453, 123, 234, 123, 453],
+				borderColor: "rgba(248, 37, 37, 0.8)",
+				fill: true,
+				tension: 0.3,
+			};
 
-            const config = {
-                type: 'line',
-                data: data,
-            };
+			let data = {
+				labels: labels,
+				datasets: [dataset1],
+			};
 
-            new Chart(graph, config);
-        </script>
+			let config = {
+				type: "line",
+				data: data,
+                animation: false
+			};
+            
+            let visitasGrafico = new Chart(graph, config);
 
-        <script>
-            const labels_2 = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+            $(document).ready(function() {
+                $('.bookSelect').on('change', async function() {
+                    // Id del libro
+                    const id = $(this).find(':selected').data('bookid');
+                    
+                    const fetchData = await ( await fetch(`http://localhost:3000/api/v1/books/weekly/visits?id=${id}`, { method: "GET" } )).json()
 
-            const dataset1_2 = {
-                label: "Gustados",
-                data: [234, 163, 453, 123, 234, 123, 453],
-                borderColor: 'rgba(100, 500, 37, 0.8)',
-                fill: true,
-                tension: 0.3
-            };
+                    const visits = fetchData.map(visit => visit.visits);
 
-            const graph_2 = document.querySelector("#gustados");
+                    dataset1.data = visits;
+                    data.datasets[0] = dataset1;
+                    config.data = data;
 
-            const data_2 = {
-                labels: labels_2,
-                datasets: [dataset1_2]
-            };
+                    visitasGrafico.destroy();
 
-            const config_2 = {
-                type: 'line',
-                data: data_2,
-            };
+                    visitasGrafico = new Chart(graph, config);
+                });
+            });
 
-            new Chart(graph_2, config_2);
-        </script>
+			
+		</script>
 
-        <script src="js/cambiarTema.js"></script>
+		<script>
+			const labels_2 = [
+				"Lunes",
+				"Martes",
+				"Miércoles",
+				"Jueves",
+				"Viernes",
+				"Sábado",
+				"Domingo",
+			];
+
+			const dataset1_2 = {
+				label: "Gustados",
+				data: [234, 163, 453, 123, 234, 123, 453],
+				borderColor: "rgba(100, 500, 37, 0.8)",
+				fill: true,
+				tension: 0.3,
+			};
+
+			const graph_2 = document.querySelector("#gustados");
+
+			const data_2 = {
+				labels: labels_2,
+				datasets: [dataset1_2],
+			};
+
+			const config_2 = {
+				type: "line",
+				data: data_2,
+			};
+
+			new Chart(graph_2, config_2);
+		</script>
+
+		<script src="js/cambiarTema.js"></script>
 	</body>
 </html>

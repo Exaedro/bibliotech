@@ -20,7 +20,9 @@ bookRouter.get(`${prefix}/books/search`, bookController.search)
 
 bookRouter.get(`${prefix}/books/recent`, bookController.getRecent)
 bookRouter.get(`${prefix}/books/liked`, bookController.getMostLiked)
+
 bookRouter.get(`${prefix}/books/visited`, bookController.getMostVisited)
+bookRouter.get(`${prefix}/books/weekly/visits`, bookController.getWeeklyVisits)
 
 bookRouter.post(`${prefix}/book/create`, bookController.createBook)
 bookRouter.post(`${prefix}/book/delete`, bookController.deleteById)

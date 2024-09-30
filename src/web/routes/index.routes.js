@@ -1,6 +1,9 @@
 import { Router } from "express";
 const indexRouter = new Router()
 
+// Socket
+import { io } from '../index.js'
+
 // Validadores
 import { validationResult } from "express-validator";
 import { authorRequestValidator } from "../utils/validators.js";
@@ -46,7 +49,7 @@ indexRouter.get('/error', async (req, res) => {
 
 indexRouter.get('/catalog', async (req, res) => {
     const { username, role, userId, autor } = req.session
-    let { title, genre, author, date, isbn, pages, language, publisher, page } = req.query
+    let { title, genre, author, date, isbn, pages, language, publisher, page, type } = req.query
     
     title = title ? title : ''
     author = author ? author : ''
@@ -64,7 +67,7 @@ indexRouter.get('/catalog', async (req, res) => {
     if(Object.keys(req.query).length <= 0 || (req.query.page && Object.keys(req.query).length == 1)) {
         data = await (await fetch(`${apiUrl}/books?page=${page}`)).json()
     } else {
-        data = await (await fetch(`${apiUrl}/books/search?title=${title}&author=${author}&date=${date}&genre=${genre}&isbn=${isbn}&pages=${pages}&language=${language}&publisher=${publisher}&page=${page}`)).json()
+        data = await (await fetch(`${apiUrl}/books/search?title=${title}&author=${author}&date=${date}&genre=${genre}&isbn=${isbn}&pages=${pages}&language=${language}&publisher=${publisher}&page=${page}&type=${type}`)).json()
     }
     
     let isAuthor = false
@@ -122,7 +125,7 @@ indexRouter.get('/book/:bookId', async (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const ipReal = ip === '::1' ? '8.8.8.8' : ip;
 
-    await fetch(`${apiUrl}/book/add/visit`, {
+    const response = await fetch(`${apiUrl}/book/add/visit`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -130,6 +133,9 @@ indexRouter.get('/book/:bookId', async (req, res) => {
         },
         body: JSON.stringify({ id: book[0].id, ip: ipReal })
     })
+
+    const data = await response.json()
+    io.emit('add visit', data)
 })
 
 indexRouter.get('/book/:bookId/chapter/:chapterId', async (req, res) => {

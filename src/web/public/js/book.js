@@ -14,7 +14,9 @@ const botonEditar = document.querySelectorAll('.comentarios .editar')
 const textoComentarios = document.querySelectorAll('.comentarios .texto')
 
 // Botones para eliminar los comentarios
-const botonesBorrar = document.querySelectorAll('.comentarios .borrar')
+const modalesComentarios = document.querySelectorAll("dialog");
+const botonesEliminar = document.querySelectorAll('.comentarios .borrar')
+const botonesBorrar = document.querySelectorAll('dialog .confirmarEliminar')
 
 // Componente HTML para notificaciones
 const notificacion = document.getElementById('notificacion')
@@ -92,6 +94,24 @@ botonEditar.forEach(boton => {
         })
     })
 })
+
+// Funcion para confirmacion al eliminar comentarios
+botonesEliminar.forEach((boton) => {
+    boton.addEventListener("click", (elem) => {
+        const modalId = boton.getAttribute("data-modal");
+
+        verificarModal({ botonId: modalId });
+    });
+});
+const verificarModal = ({ botonId }) => {
+    modalesComentarios.forEach((modal) => {
+        const modalId = modal.getAttribute("data-modal").replace('modal', '');
+
+        if (botonId == modalId) {
+            modal.showModal();
+        }
+    });
+};
 
 /**
  * Si el error del formulario de comentarios esta visible,

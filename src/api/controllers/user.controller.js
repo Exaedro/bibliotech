@@ -483,6 +483,17 @@ class UserController {
             next(err)
         }
     }
+
+    getAuthorBooks = async (req, res, next) => {
+        const { id } = req.params
+
+        try {
+            const books = await this.userModel.getAuthorBooks({ authorId: id })
+            res.status(200).json(books)
+        } catch(err) {
+            next(err)
+        }
+    }
 }
 
 export default UserController

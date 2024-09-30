@@ -68,6 +68,10 @@
     margin-bottom: 10px;
 }
 
+.perfil .librosAutor {
+    border: 2px solid var(--color-primario);
+}
+
 .perfil .librosContenedor figure {
     position: relative;
     width: 180px;

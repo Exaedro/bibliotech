@@ -13,7 +13,7 @@ const prefix = process.env.API_PREFIX
 
 // Rutas
 
-// CRUD de usuarios
+// Usuarios
 userRouter.get(`${prefix}/users`, userController.getAll)
 userRouter.get(`${prefix}/user/:id`, userController.getUserById)
 userRouter.post(`${prefix}/users/create`, userController.createUser)
@@ -24,20 +24,21 @@ userRouter.post(`${prefix}/users/edit`, userController.editUser)
 userRouter.post(`${prefix}/users/password`, userController.validPassword)
 userRouter.post(`${prefix}/users/login`, userController.login)
 
-// CRUD de autorizaciones
+// Autorizaciones y autores
 userRouter.get(`${prefix}/users/author-requests`, userController.getAuthorRequests)
 userRouter.get(`${prefix}/users/author-request/:id`, userController.getAuthorRequestById)
+userRouter.get(`${prefix}/user/:id/books`, userController.getAuthorBooks)
 userRouter.post(`${prefix}/users/author-request`, userController.addAuthorRequest)
 userRouter.post(`${prefix}/users/author-request/delete`, userController.deleteAuthorRequest)
 userRouter.post(`${prefix}/users/author-request/approve`, userController.aproveAuthorRequest)
 userRouter.post(`${prefix}/users/author-request/decline`, userController.declineAuthorRequest)
 
-// CRUD de historial
+// Historial
 userRouter.get(`${prefix}/user/record/:id`, userController.getUserRecord)
 userRouter.post(`${prefix}/user/record/add`, userController.addRecord)
 userRouter.post(`${prefix}/user/record/delete`, userController.deleteRecord)
 
-// CRUD de favoritos, gustados y ver mas tarde
+// Favoritos, gustados y ver mas tarde
 userRouter.get(`${prefix}/user/:id/favorite/all`, userController.getFavorites)
 userRouter.get(`${prefix}/user/:id/like/all`, userController.getLikes)
 userRouter.get(`${prefix}/user/:id/later/all`, userController.getLater)

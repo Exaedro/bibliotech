@@ -28,6 +28,9 @@
                 <% if(error == 'invalid_password') { %>
                     <span class="error">La contraseña es invalida.</span>
                 <% } %>
+                <% if(error == true) { %>
+                    <span class="error">Ocurrió un error inesperado.</span>
+                <% } %>
             <% } %>
             
             <button type="submit" id="formButton">Iniciar sesión</button>

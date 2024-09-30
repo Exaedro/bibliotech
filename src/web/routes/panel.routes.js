@@ -1,6 +1,9 @@
 import { Router } from "express";
 const panelRouter = new Router()
 
+// Socket
+import { io } from '../index.js'
+
 // Funcion para saber si el usuario esta logeado
 import { isAdmin } from '../utils/auth.js'
 
@@ -337,10 +340,11 @@ panelRouter.get('/panel/requests/:id', async (req, res) => {
 panelRouter.get('/panel/statistics', async (req, res) => {
     const { username, role, userId } = req.session
 
-    const visits = await (await fetch(`${apiUrl}/books/visited?limit=3`, { method: 'GET' })).json()
+    const allVisited = await (await fetch(`${apiUrl}/books/visited?limit=99999`, { method: 'GET' })).json()
+    const threeMostVisited = await (await fetch(`${apiUrl}/books/visited?limit=3`, { method: 'GET' })).json()
 
-    const mostVisitedTitles = visits.map(visit => visit.title)
-    const mostVisitedVisits = visits.map(visit => visit.visits)
+    const mostVisitedTitles = threeMostVisited.map(visit => visit.title)
+    const mostVisitedVisits = threeMostVisited.map(visit => visit.visits)
 
     res.render('panel/statistics',
         {
@@ -349,6 +353,7 @@ panelRouter.get('/panel/statistics', async (req, res) => {
                 titles: mostVisitedTitles, 
                 visits: mostVisitedVisits
             },
+            books: allVisited,
             user: { 
                 username, role, userId 
             }
