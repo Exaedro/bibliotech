@@ -594,6 +594,10 @@ html {
     color: var(--color-letra);
 }
 
+.panel .estadisticas .visitas {
+    width: 50%;
+}
+
 .panel .editUserContainer form {
     display: flex;
     gap: 15px;
