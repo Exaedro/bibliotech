@@ -41,22 +41,40 @@
 								<h3>Portada</h3>
 								<img src="<%- request.book.image %>" alt="<%- request.book.title %>">
 							</div>
-							<div class="botones">
+							<form class="botones" method="POST" action="/panel/requests/<%- request.id %>/approve">
 								<a href="/panel/requests" class="cancelar">
 									<i class="fa-solid fa-arrow-left"></i>
 									Volver
 								</a>
+								<input type="text" value="<%- request.user.email %>" name="userEmail" hidden>
+								<input type="text" value="<%- request.user.id %>" name="userId" hidden>
 								<div class="accionadores">
-									<button class="declinar" data-userId="<%- request.user.id %>" data-authorId="<%- request.id %>">
+									<button class="declinar">
 										<i class="fa-solid fa-times"></i>
 										Rechazar
 									</button>
-									<button class="confirmar" data-userId="<%- request.user.id %>" data-authorId="<%- request.id %>">
+									<button class="confirmar">
 										<i class="fa-solid fa-check"></i>
 										Aceptar
 									</button>
 								</div>
-							</div>
+							</form>
+
+							<form class="declinarSolicitud hidden" method="POST" action="/panel/requests/<%- request.id %>/decline">
+								<h3>Rechazar solicitud.</h3>
+								<textarea name="declineMessage" placeholder="Escribe aquí tu mensaje..."></textarea>
+								<input type="text" value="<%- request.user.email %>" name="userEmail" hidden>
+								<div>
+									<button class="cancelar">
+										<i class="fa-solid fa-trash"></i>
+										Cancelar
+									</button>
+									<button type="submit" class="enviar">
+										<i class="fa-solid fa-paper-plane"></i>
+										Rechazar
+									</button>
+								</div>
+							</form>
 						</div>
                     </div>
 				</div>
@@ -64,58 +82,27 @@
 		</div>
 
 		<script>
-			const botonConfirmar = document.querySelector('.confirmar')
+			const botonesContainer = document.querySelector('.botones')
 			const botonCancelar = document.querySelector('.declinar')
+			const botonCancelarSolicitud = document.querySelector('.declinarSolicitud .cancelar')
+
+			const declinarSolicitud = document.querySelector('.declinarSolicitud')
+
+			botonCancelarSolicitud.addEventListener('click', (e) => {
+				if(!declinarSolicitud.classList.contains('hidden')) {
+					botonesContainer.classList.remove('hidden')
+					declinarSolicitud.classList.add('hidden')
+				}
+			})
 
 			botonCancelar.addEventListener('click', async (e) => {
 				e.preventDefault()
 
 				const authorId = botonCancelar.getAttribute('data-authorId')
 
-				const response = await fetch(
-					'http://localhost:3000/api/v1/users/author-request/decline',
-					{
-						method: 'POST',
-						headers: {
-							'Accept': 'application/json',
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({ authorId })
-					}
-				);
-
-				if(response.ok) {
-					location.href = '/panel/requests'
-					return
-				}
-
-				location.href = '/panel/error'
-			})
-
-			botonConfirmar.addEventListener('click', async (e) => {
-				e.preventDefault();
-
-				const userId = botonConfirmar.getAttribute('data-userId')
-				const authorId = botonConfirmar.getAttribute('data-authorId')
-
-				const response = await fetch(
-					'http://localhost:3000/api/v1/users/author-request/approve',
-					{
-						method: 'POST',
-						headers: {
-							'Accept': 'application/json',
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({ userId, authorId })
-					}
-				);
-
-				if(response.ok) {
-					location.href = '/panel/requests'
-					return
-				}
-
-				location.href = '/panel/error'
+				botonesContainer.classList.add('hidden')
+				declinarSolicitud.classList.remove('hidden')
+				declinarSolicitud.querySelector('textarea').focus()			
 			})
 		</script>
 

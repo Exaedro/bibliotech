@@ -4,6 +4,9 @@ const panelRouter = new Router()
 // Socket
 import { io } from '../index.js'
 
+// Email
+import Email from "../utils/sendEmail.js";
+
 // Funcion para saber si el usuario esta logeado
 import { isAdmin } from '../utils/auth.js'
 
@@ -325,6 +328,8 @@ panelRouter.get('/panel/requests/:id', async (req, res) => {
         }
     })).json()
 
+    console.log(request)
+
     if(request.error == 'user_not_exists')
         return res.redirect('/panel/error')
 
@@ -335,6 +340,66 @@ panelRouter.get('/panel/requests/:id', async (req, res) => {
             request
         }
     )
+})
+
+panelRouter.post('/panel/requests/:id/decline', async (req, res) => {
+    const { userEmail, declineMessage } = req.body 
+    const { id } = req.params
+
+    const response = await fetch(
+        `${apiUrl}/users/author-request/decline`,
+        {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ authorId: id })
+        }
+    );
+
+    if(!response.ok)
+        return res.redirect(`/panel/requests/${id}?error=something_went_wrong`)
+
+    try {
+        const email = new Email({ email: process.env.EMAIL_ACCOUNT })
+        await email.send({ to: userEmail, subject: 'Bibliotech - Solicitud de autor rechazada.', text: declineMessage })
+    } catch(err) {
+        console.error(err)
+        return res.redirect(`/panel/requests/${id}?error=email_not_sent`)
+    }
+
+    res.redirect('/panel/requests')
+})
+
+panelRouter.post('/panel/requests/:id/approve', async (req, res) => {
+    const { userEmail, userId } = req.body
+    const { id } = req.params
+    
+    const response = await fetch(
+        `${apiUrl}/users/author-request/approve`,
+        {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId, authorId: id })
+        }
+    );
+
+    if(!response.ok)
+        return res.redirect(`/panel/requests/${id}?error=something_went_wrong`)
+
+    try {
+        const email = new Email({ email: process.env.EMAIL_ACCOUNT })
+        await email.send({ to: userEmail, subject: 'Bibliotech - Solicitud de autor aprobada.', text: 'Su solicitud ha sido aprobada.' })
+    } catch(err) {
+        console.error(err)
+        return res.redirect(`/panel/requests/${id}?error=email_not_sent`)
+    }
+
+    res.redirect('/panel/requests')
 })
 
 panelRouter.get('/panel/statistics', async (req, res) => {

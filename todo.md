@@ -6,6 +6,8 @@
 ## Para mas tarde
 - Responsive de chapter.css
 - Que se pueda mandar un mensaje al correo cuando se rechaza una solicitud de autor
+- Agregar validaciones de cuando un email o nombre de usuario ya existe en iniciar sesion
+- Que el refresh_token y access_token se actualicen solos
 
 ### CAPITULOS
 - (OPCIONAL) Agregar input para elegir el tamaño de las imagenes a gusto

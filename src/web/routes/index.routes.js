@@ -4,6 +4,8 @@ const indexRouter = new Router()
 // Socket
 import { io } from '../index.js'
 
+import Email from "../utils/sendEmail.js";
+
 // Validadores
 import { validationResult } from "express-validator";
 import { authorRequestValidator } from "../utils/validators.js";

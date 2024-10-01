@@ -342,6 +342,7 @@ class UserModel {
                 user: {
                     id: request.UsuarioID,
                     username: request.Nombre,
+                    email: request.CorreoElectronico,
                     image: request.Imagen
                 },
                 book: {

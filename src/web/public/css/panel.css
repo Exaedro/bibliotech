@@ -930,3 +930,55 @@ html {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.panel .solicitudes .declinarSolicitud {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panel .solicitudes .declinarSolicitud div {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.panel .solicitudes .declinarSolicitud textarea {
+    width: 100%;
+    height: 120px;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    color: var(--color-letra);
+    background-color: var(--color-input);
+    outline: none;
+    border: none;
+    resize: none;
+}
+
+.panel .solicitudes .declinarSolicitud .enviar {
+    background-color: var(--color-primario);
+    color: var(--color-letra-secundario);
+    padding: 10px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.panel .solicitudes .declinarSolicitud .cancelar {
+    background-color: red!important;
+    color: #fff;
+    padding: 10px 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.panel .solicitudes .hidden {
+    display: none!important;
+}
