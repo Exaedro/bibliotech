@@ -25,6 +25,7 @@ userRouter.post(`${prefix}/users/password`, userController.validPassword)
 userRouter.post(`${prefix}/users/login`, userController.login)
 
 // Autorizaciones y autores
+userRouter.get(`${prefix}/users/authors`, userController.getAuthors)
 userRouter.get(`${prefix}/users/author-requests`, userController.getAuthorRequests)
 userRouter.get(`${prefix}/users/author-request/:id`, userController.getAuthorRequestById)
 userRouter.get(`${prefix}/user/:id/books`, userController.getAuthorBooks)

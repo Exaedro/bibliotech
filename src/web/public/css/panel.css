@@ -25,6 +25,7 @@
     background-color: var(--color-fondo);
     width: 300px;
     position: fixed;
+    overflow-y: scroll;
     height: 100%;
     z-index: 700;
     border-right: 1px solid var(--color-fondo-secundario);
@@ -982,3 +983,72 @@ html {
 .panel .solicitudes .hidden {
     display: none!important;
 }
+
+
+.panel .authors-card{
+    margin: 50px;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.panel .author{
+    width: 14em;
+    height: 17em;
+    background: var(--color-fondo-secundario);
+    transition: 1s ease-in-out;
+    clip-path: polygon(
+        30px 0%,
+        100% 0,
+        100% calc(100% - 30px),
+        calc(100% - 30px) 100%,
+        0 100%,
+        0% 30px
+    );
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel .author span {
+    font-weight: bold;
+    color: var(--color-letra);
+    text-align: center;
+    display: block;
+    font-size: 1em;
+  }
+
+.panel .author .info {
+    font-weight: 400;
+    color: var(--color-letra);
+    display: block;
+    text-align: center;
+    font-size: 0.8em;
+    margin: 1em;
+  }
+  
+.panel .author img{
+    width: 4.8em;
+    height: 4.8em;
+    border-radius: 15px;
+    margin: auto;
+
+}
+
+.ver-autor {
+    padding: 0.6em 1.5em;
+    display: block;
+    margin: auto;
+    border-radius: 25px;
+    border: none;
+    font-weight: bold;
+    background: var(--color-primario);
+    color: rgb(0, 0, 0);
+    transition: 0.4s ease-in-out;
+  }
+
+  .ver-autor:hover {
+    background: var(--color-primario-hover);
+    cursor: pointer;
+  }

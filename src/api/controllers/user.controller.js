@@ -386,6 +386,16 @@ class UserController {
         }
     }
 
+    getAuthors = async (req, res, next) => {
+        try {
+            const authors = await this.userModel.getAuthors()
+            console.log(authors)
+            res.status(200).json(authors)
+        } catch(err) {
+            next(err)
+        }
+    }
+
     getAuthorRequests = async (req, res, next) => {
         try {
             const data = await this.userModel.getAuthorRequests()

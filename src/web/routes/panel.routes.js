@@ -301,6 +301,20 @@ panelRouter.get('/panel/error', async (req, res) => {
     )
 })
 
+panelRouter.get('/panel/authors', async (req, res) => {
+    const { username, role, userId } = req.session
+
+    const authors = await (await fetch(`${apiUrl}/users/authors`, { method: 'GET' })).json()
+
+    res.render('panel/authors/authors',
+        {
+            title: 'Bibliotech - Autores', authors,
+            user: { username, role, userId }
+        }
+    )
+})
+
+
 panelRouter.get('/panel/requests', async (req, res) => {
     const { username, role, userId } = req.session
 

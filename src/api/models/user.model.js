@@ -308,6 +308,13 @@ class UserModel {
     static async deleteSeeLater({ userId, bookId }) {
         await db.query(`DELETE FROM ver_mas_tarde WHERE UsuarioID = ? AND LibroID = ?`, [userId, bookId])
     }
+
+    static async getAuthors() {
+        const [authors] = await db.query('SELECT * FROM usuarios WHERE Autor = 1')
+
+        console.log(authors)
+        return authors
+    }
     
     static async getAuthorRequests() {
         const [requests] = await db.query(`SELECT * FROM autorizaciones a JOIN usuarios u ON a.UsuarioID = u.UsuarioID`)
