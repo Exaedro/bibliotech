@@ -24,12 +24,10 @@ profileRouter.get('/profile/:id', async (req, res) => {
     const favoriteBooks = await (await fetch(`${apiUrl}/user/${id}/favorite/all`, { method: 'GET' })).json()
     const seeLaterBooks = await (await fetch(`${apiUrl}/user/${id}/later/all`, { method: 'GET' })).json()
 
-    let userBooks
+    let userBooks = []
     if(user.author) {
         userBooks = await (await fetch(`${apiUrl}/user/${user.id}/books`, { method: 'GET' })).json()
     }
-
-    console.log(userBooks)
     
     res.render('profile',
         {

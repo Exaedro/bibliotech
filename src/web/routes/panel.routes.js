@@ -215,6 +215,7 @@ panelRouter.get('/panel/users/create', async (req, res) => {
 panelRouter.post('/panel/users/create', createUserValidator, async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
+        console.log(errors.array())
         return res.render('panel/createUser',
             {
                 title: 'Bibliotech - Crear Usuario', errors: errors.array(), values: req.body
