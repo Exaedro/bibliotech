@@ -99,10 +99,10 @@ class BookModel {
     }
 
     static async getAll({ page } = {}) {
-        let sql = `SELECT * FROM libros ORDER BY FechaLanzamiento DESC`
+        let sql = `SELECT * FROM libros ORDER BY LibroID DESC`
         if (page) {
             const offset = page * 10
-            sql = `SELECT * FROM libros ORDER BY FechaLanzamiento DESC LIMIT 10 OFFSET ${offset}`
+            sql = `SELECT * FROM libros ORDER BY LibroID DESC LIMIT 10 OFFSET ${offset}`
         }
 
         const [books] = await db.query(sql)
