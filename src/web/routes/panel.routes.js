@@ -213,12 +213,18 @@ panelRouter.get('/panel/users/create', async (req, res) => {
 })
 
 panelRouter.post('/panel/users/create', createUserValidator, async (req, res) => {
+    const { username, role: userRole, userId } = req.session
+    
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        console.log(errors.array())
         return res.render('panel/createUser',
             {
-                title: 'Bibliotech - Crear Usuario', errors: errors.array(), values: req.body
+                title: 'Bibliotech - Crear Usuario', errors: errors.array(), values: req.body,
+                user: {
+                    username,
+                    role: userRole,
+                    userId
+                }
             }
         )
     }
@@ -226,7 +232,6 @@ panelRouter.post('/panel/users/create', createUserValidator, async (req, res) =>
     const { name, email, password, confirmPassword, role } = req.body
     const image = req.files.length > 0 ? `/uploads/${req.files[0].filename}` : null
 
-    console.log(image)
     if (!name || !email || !password || !confirmPassword || !role || !image)
         return res.redirect('/panel/users/create?error=required_fields')
 
