@@ -99,10 +99,10 @@ class BookModel {
     }
 
     static async getAll({ page } = {}) {
-        let sql = `SELECT * FROM libros ORDER BY FechaLanzamiento ASC`
+        let sql = `SELECT * FROM libros ORDER BY FechaLanzamiento DESC`
         if (page) {
             const offset = page * 10
-            sql = `SELECT * FROM libros ORDER BY FechaLanzamiento ASC LIMIT 10 OFFSET ${offset}`
+            sql = `SELECT * FROM libros ORDER BY FechaLanzamiento DESC LIMIT 10 OFFSET ${offset}`
         }
 
         const [books] = await db.query(sql)
@@ -336,9 +336,12 @@ ORDER BY FIELD(dias.DiaSemana, 1, 2, 3, 4, 5, 6, 7);
 
         if(book.original) {
             // ! AGREGAR FUNCION PARA QUE LOS AUTORES PUEDAN ELIMINAR SUS LIBROS
+            // Eliminar autor
             await db.query('DELETE FROM libros_autores WHERE LibroID = ?', [bookId])            
-            await this.deleteVisit({ id: bookId })
         }
+
+        // Eliminar visitas del libro
+        await this.deleteVisit({ id: bookId })
 
         await db.query(`DELETE FROM libros WHERE LibroID = ?`, [bookId])
     }
