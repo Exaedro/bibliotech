@@ -332,8 +332,15 @@ ORDER BY FIELD(dias.DiaSemana, 1, 2, 3, 4, 5, 6, 7);
      * @param {integer} bookId - id del libro 
      */
     static async deleteById({ bookId }) {
+        const [book] = await this.getById({ id: bookId })
 
-        await db.query(`DELETE FROM libros WHERE LibroID = '${bookId}'`)
+        if(book.original) {
+            // ! AGREGAR FUNCION PARA QUE LOS AUTORES PUEDAN ELIMINAR SUS LIBROS
+            await db.query('DELETE FROM libros_autores WHERE LibroID = ?', [bookId])            
+            await this.deleteVisit({ id: bookId })
+        }
+
+        await db.query(`DELETE FROM libros WHERE LibroID = ?`, [bookId])
     }
 
     /**
