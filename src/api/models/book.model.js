@@ -99,10 +99,10 @@ class BookModel {
     }
 
     static async getAll({ page } = {}) {
-        let sql = `SELECT * FROM libros`
+        let sql = `SELECT * FROM libros ORDER BY LibroID DESC`
         if (page) {
             const offset = page * 10
-            sql = `SELECT * FROM libros LIMIT 10 OFFSET ${offset}`
+            sql = `SELECT * FROM libros ORDER BY LibroID DESC LIMIT 10 OFFSET ${offset}`
         }
 
         const [books] = await db.query(sql)
@@ -332,8 +332,18 @@ ORDER BY FIELD(dias.DiaSemana, 1, 2, 3, 4, 5, 6, 7);
      * @param {integer} bookId - id del libro 
      */
     static async deleteById({ bookId }) {
+        const [book] = await this.getById({ id: bookId })
 
-        await db.query(`DELETE FROM libros WHERE LibroID = '${bookId}'`)
+        if(book.original) {
+            // ! AGREGAR FUNCION PARA QUE LOS AUTORES PUEDAN ELIMINAR SUS LIBROS
+            // Eliminar autor
+            await db.query('DELETE FROM libros_autores WHERE LibroID = ?', [bookId])            
+        }
+
+        // Eliminar visitas del libro
+        await this.deleteVisit({ id: bookId })
+
+        await db.query(`DELETE FROM libros WHERE LibroID = ?`, [bookId])
     }
 
     /**
@@ -375,7 +385,7 @@ ORDER BY FIELD(dias.DiaSemana, 1, 2, 3, 4, 5, 6, 7);
     }
 
     static async getMangas() {
-        const [data] = await db.query(`SELECT l.LibroID, l.Titulo, l.FechaPublicacion, l.Sinopsis, l.imagen, l.Original, l.Tipo, c.NombreCategoria, c.CategoriaID, u.UsuarioID, u.Nombre FROM libros l JOIN libros_categorias lc ON lc.LibroID = l.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID JOIN libros_autores la ON l.LibroID = la.LibroID JOIN usuarios u ON u.UsuarioID = la.UsuarioID WHERE l.Original = 1`)
+        const [data] = await db.query(`SELECT l.LibroID, l.Titulo, l.FechaPublicacion, l.Sinopsis, l.imagen, l.Original, l.Tipo, c.NombreCategoria, c.CategoriaID, u.UsuarioID, u.Nombre FROM libros l JOIN libros_categorias lc ON lc.LibroID = l.LibroID JOIN categorias c ON lc.CategoriaID = c.CategoriaID JOIN libros_autores la ON l.LibroID = la.LibroID JOIN usuarios u ON u.UsuarioID = la.UsuarioID WHERE l.Original = 1 ORDER BY l.FechaPublicacion ASC`)
 
         const books = mangaObject({ data })
 

@@ -36,7 +36,7 @@
             <% } %>
         </section>
         <section class="libros">
-            <% if(userBooks) { %>
+            <% if(userBooks.length > 0) { %>
                 <article class="librosAutor">
                     <h2>Obras de <%- userProfile.username %></h2>
                     <div class="librosContenedor">
@@ -61,7 +61,10 @@
                 <% if(userProfile.username == user.username) { %>
                     <p class="noBookMessage">Agrega libros a tu lista de gustados, favoritos o leer mas tarde para verlos aquí.</p>
                 <%} else { %>
-                    <p class="noBookMessage"><%- userProfile.username %> no tiene libros añadidos en sus listas.</p>
+
+                    <% if(!userBooks.length > 0) {%>
+                        <p class="noBookMessage"><%- userProfile.username %> no tiene libros añadidos en sus listas.</p>
+                    <% } %>
                 <%}%>
             <% } else {%>
                 <% if(likedBooks.length > 0) {%>
