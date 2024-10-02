@@ -756,7 +756,7 @@ h1, h2, h4, h5, p {
 
 .editContainer .info h3::before {
     content: '';
-    background-color: #000;
+    background-color: var(--color-primario);
     position: absolute;
     bottom: 0;
     height: 2px;
@@ -771,7 +771,7 @@ h1, h2, h4, h5, p {
 
 .editContainer article {
     padding: 40px;
-    background-color: var(--color-formulario);
+    border: 1px solid var(--color-fondo-secundario);
     border-radius: 5px;
 }
 
@@ -817,7 +817,7 @@ h1, h2, h4, h5, p {
 
 .editContainer .changePassword h3.title:before {
     content: '';
-    background-color: #000;
+    background-color: var(--color-primario);
     position: absolute;
     bottom: 0;
     height: 2px;
