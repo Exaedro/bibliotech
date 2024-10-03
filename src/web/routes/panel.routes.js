@@ -426,10 +426,16 @@ panelRouter.get('/panel/statistics', async (req, res) => {
     const { username, role, userId } = req.session
 
     const allVisited = await (await fetch(`${apiUrl}/books/visited?limit=99999`, { method: 'GET' })).json()
+    const allLiked = await (await fetch(`${apiUrl}/books/liked?limit=99999`, { method: 'GET' })).json()
+
     const threeMostVisited = await (await fetch(`${apiUrl}/books/visited?limit=3`, { method: 'GET' })).json()
+    const threeMostLiked = await (await fetch(`${apiUrl}/books/liked`)).json()
 
     const mostVisitedTitles = threeMostVisited.map(visit => visit.title)
     const mostVisitedVisits = threeMostVisited.map(visit => visit.visits)
+
+    const mostLikedTitles = threeMostLiked.map(like => like.title)
+    const mostLikedLikes = threeMostLiked.map(like => like.gustados)
 
     res.render('panel/statistics',
         {
@@ -438,7 +444,14 @@ panelRouter.get('/panel/statistics', async (req, res) => {
                 titles: mostVisitedTitles, 
                 visits: mostVisitedVisits
             },
-            books: allVisited,
+            mostLiked: {
+                titles: mostLikedTitles,
+                likes: mostLikedLikes
+            },
+            books: {
+                allVisited,
+                allLiked
+            },
             user: { 
                 username, role, userId 
             }
