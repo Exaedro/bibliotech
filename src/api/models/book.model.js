@@ -203,8 +203,8 @@ class BookModel {
      * 
      * @param {integer} limit - cantidad de libros que se va a obtener 
      */
-    static async getMostLiked({ limit }) {
-        const [books] = await db.query(`SELECT l.*, COUNT(*) AS gustados FROM gustados v JOIN libros l ON v.LibroID = l.LibroID GROUP BY l.LibroID ORDER BY gustados DESC LIMIT ?`)
+    static async getMostLiked({ limit } = 4) {
+        const [books] = await db.query(`SELECT l.*, COUNT(*) AS gustados FROM gustados v JOIN libros l ON v.LibroID = l.LibroID GROUP BY l.LibroID ORDER BY gustados DESC LIMIT ?`, [parseInt(limit)])
 
         const data = bookObjectComplex({ data: books })
 

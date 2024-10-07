@@ -1,3 +1,7 @@
+// Socket.io
+import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+const socket = io();
+
 // Botones de las acciones
 const botonVerLuego = document.getElementById('espera')
 const botonMeGusta = document.getElementById('gustado')
@@ -235,8 +239,10 @@ class BookActions {
         if (message.includes('already'))
             return this.duplicatedError()
 
-        if (response.ok)
+        if (response.ok) {
+            socket.emit('add like', { id: bookId })
             return this.bookAdded({ list: spanish })
+        }
     }
 
     static duplicatedError() {

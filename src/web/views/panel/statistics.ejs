@@ -26,20 +26,33 @@
 		/>
 
 		<script type="module">
-			const torta = document.querySelector("#general");
+			const tortaVisitas = document.querySelector("#visited");
+			const tortaGustados = document.querySelector("#liked");
 
-			let libros = torta.getAttribute("data-labels").split(",");
-			let visitas = torta.getAttribute("data-values").split(",");
+			let librosVisitas = tortaVisitas.getAttribute("data-labels").split(",");
+			let visitas = tortaVisitas.getAttribute("data-values").split(",");
+
+			let librosGustados = tortaGustados.getAttribute("data-labels").split(",");
+			let gustados = tortaGustados.getAttribute("data-values").split(",");
 
 			const colors_3 = [
 				"rgb(69,177,223)",
 				"rgb(99,201,122)",
 				"rgb(203,82,82)",
-				"rgb(229,224,88)",
 			];
 
-			let dataTorta = {
-				labels: libros,
+			let dataTortaGustados = {
+				labels: librosGustados,
+				datasets: [
+					{
+						data: gustados,
+						backgroundColor: colors_3,
+					},
+				],
+			}
+
+			let dataTortaVisitas = {
+				labels: librosVisitas,
 				datasets: [
 					{
 						data: visitas,
@@ -48,21 +61,41 @@
 				],
 			};
 
-			let configTorta = {
+			let configTortaGustados = {
 				type: "pie",
-				data: dataTorta,
+				data: dataTortaGustados,
+				options: {
+					animation: false,
+				},
+			}
+
+			let configTortaVisitas = {
+				type: "pie",
+				data: dataTortaVisitas,
 				options: {
 					animation: false,
 				},
 			};
 
-			let miTorta = new Chart(torta, configTorta);
+			let chartGustados = new Chart(tortaGustados, configTortaGustados);
+			let chartVisitas = new Chart(tortaVisitas, configTortaVisitas);
 
 			import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
 			const socket = io();
 
 			socket.on("add visit", async (data) => {
+				updateVisitsChart()
+			});
+
+			socket.on("add like", async (data) => {
+				updateLikesChart()
+			})
+			socket.on("remove like", async (data) => {
+				updateLikesChart()
+			})
+
+			async function updateVisitsChart() {
 				const visits = await (
 					await fetch(
 						`http://localhost:3000/api/v1/books/visited?limit=3`,
@@ -73,14 +106,14 @@
 				const mostVisitedTitles = visits.map((visit) => visit.title);
 				const mostVisitedVisits = visits.map((visit) => visit.visits);
 
-				torta.setAttribute("data-labels", mostVisitedTitles.join(","));
-				torta.setAttribute("data-values", mostVisitedVisits.join(","));
+				tortaVisitas.setAttribute("data-labels", mostVisitedTitles.join(","));
+				tortaVisitas.setAttribute("data-values", mostVisitedVisits.join(","));
 
-				libros = torta.getAttribute("data-labels").split(",");
-				visitas = torta.getAttribute("data-values").split(",");
+				librosVisitas = tortaVisitas.getAttribute("data-labels").split(",");
+				visitas = tortaVisitas.getAttribute("data-values").split(",");
 
-				dataTorta = {
-					labels: libros,
+				dataTortaVisitas = {
+					labels: librosVisitas,
 					datasets: [
 						{
 							data: visitas,
@@ -89,20 +122,62 @@
 					],
 				};
 
-				configTorta = {
+				configTortaVisitas = {
 					type: "pie",
-					data: dataTorta,
+					data: dataTortaVisitas,
 					options: {
 						animation: false,
 					},
 				};
 
-				if (miTorta) {
-					miTorta.destroy();
+				if (chartVisitas) {
+					chartVisitas.destroy();
 				}
 
-				miTorta = new Chart(torta, configTorta);
-			});
+				chartVisitas = new Chart(tortaVisitas, configTortaVisitas);
+			}
+
+			async function updateLikesChart() {
+				const likes = await (
+					await fetch(
+						`http://localhost:3000/api/v1/books/liked?limit=3`,
+						{ method: "GET" }
+					)
+				).json();
+
+				const mostLikedTitles = likes.map((like) => like.title);
+				const mostLikedLikes = likes.map((like) => like.likes);
+
+				tortaGustados.setAttribute("data-labels", mostLikedTitles.join(","));
+				tortaGustados.setAttribute("data-values", mostLikedLikes.join(","));
+
+				librosGustados = tortaGustados.getAttribute("data-labels").split(",");
+				gustados = tortaGustados.getAttribute("data-values").split(",");
+
+				dataTortaGustados = {
+					labels: librosGustados,
+					datasets: [
+						{
+							data: gustados,
+							backgroundColor: colors_3,
+						},
+					],
+				};
+
+				configTortaGustados = {
+					type: "pie",
+					data: dataTortaGustados,
+					options: {
+						animation: false,
+					},
+				};
+
+				if(chartGustados) {
+					chartGustados.destroy()
+				}
+
+				chartGustados = new Chart(tortaGustados, configTortaGustados)
+			}
 		</script>
 	</head>
 	<body>
@@ -115,16 +190,24 @@
 					<div class="visitas">
 						<h3>Los tres libros mas vistos.</h3>
 						<canvas
-							id="general"
+							id="visited"
 							data-labels="<%- mostVisited.titles %>"
 							data-values="<%- mostVisited.visits %>"
+						></canvas>
+					</div>
+					<div class="gustados">
+						<h3>Los tres libros más gustados.</h3>
+						<canvas
+							id="liked"
+							data-labels="<%- mostLiked.titles %>"
+							data-values="<%- mostLiked.likes %>"
 						></canvas>
 					</div>
 				</div>
 				<div class="editUserContainer estadisticas">
 					<div class="libroVisitas">
                         <select class="bookSelect" name="book">
-                            <% books.forEach(book => { %>
+                            <% books.allVisited.forEach(book => { %>
                             <option value="<%- book.title %>" data-bookId="<%- book.id %>">
                                 <%- book.title %>
                             </option>

@@ -1,3 +1,7 @@
+// Socket.io
+import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+const socket = io();
+
 // Botones para eliminar libros de las listas
 const buttonsDelete = document.querySelectorAll('.borrar')
 
@@ -22,52 +26,59 @@ buttonsDelete.forEach(button => {
             body: JSON.stringify({ userId, bookId })
         })
 
-        if (response.ok)
+        if (response.ok) {
+            if(bookType == 'like') {
+                socket.emit('remove like', { id: bookId })
+            }
+
             return location.reload()
+        }
     })
 })
 
-// Botones para eliminar los historiales
-const botonesEliminar = document.querySelectorAll('.historial .eliminar')
+if(location.href.includes('record')) {
+    // Botones para eliminar los historiales
+    const botonesEliminar = document.querySelectorAll('.historial .eliminar')
 
-botonesEliminar.forEach(boton => {
-    boton.addEventListener('click', async (elem) => {
-        const recordId = boton.getAttribute('data-recordId')
+    botonesEliminar.forEach(boton => {
+        boton.addEventListener('click', async (elem) => {
+            const recordId = boton.getAttribute('data-recordId')
 
-        const response = await fetch(`http://localhost:3000/api/v1/user/record/delete`,
-            {
-                method: 'POST',
-                headers:
+            const response = await fetch(`http://localhost:3000/api/v1/user/record/delete`,
                 {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: recordId })
-            })
+                    method: 'POST',
+                    headers:
+                    {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: recordId })
+                })
 
-        if (response.ok)
-            return location.reload()
+            if (response.ok)
+                return location.reload()
+        })
     })
-})
 
-// Boton para borrar todo el historial
-const botonBorrarHistorial = document.querySelector('dialog .confirmarEliminar')
+    // Boton para borrar todo el historial
+    const botonBorrarHistorial = document.querySelector('dialog .confirmarEliminar')
 
-botonBorrarHistorial.addEventListener('click', async (elem) => {
-    for (let boton of botonesEliminar) {
-        const recordId = boton.getAttribute('data-recordId')
+    botonBorrarHistorial.addEventListener('click', async (elem) => {
+        for (let boton of botonesEliminar) {
+            const recordId = boton.getAttribute('data-recordId')
 
-        await fetch(`http://localhost:3000/api/v1/user/record/delete`,
-            {
-                method: 'POST',
-                headers:
+            await fetch(`http://localhost:3000/api/v1/user/record/delete`,
                 {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: recordId })
-            })
-    }
+                    method: 'POST',
+                    headers:
+                    {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: recordId })
+                })
+        }
 
-    return location.reload()
-})
+        return location.reload()
+    })
+}

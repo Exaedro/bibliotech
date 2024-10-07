@@ -2,14 +2,6 @@
 <html lang="en" data-bookId="<%- book[0].id %>" data-userId="<%- user.userId %>">
   <head>
     <%- include('partials/head.ejs') %>
-    <!-- <script src="/socket.io/socket.io.js" type="module"></script>
-    <script type="module">
-    const bookId = document.documentElement.getAttribute('data-bookId')
-
-    const socket = io();
-
-    socket.emit('add visit', { id: bookId })
-    </script> -->
   </head>
   <body>
     <header>
@@ -184,6 +176,6 @@
       </dialog>
       <% }) %>
 
-    <script src="js/book.js"></script>
+    <script src="js/book.js" type="module"></script>
   </body>
 </html>

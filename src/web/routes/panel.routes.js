@@ -435,7 +435,7 @@ panelRouter.get('/panel/statistics', async (req, res) => {
     const mostVisitedVisits = threeMostVisited.map(visit => visit.visits)
 
     const mostLikedTitles = threeMostLiked.map(like => like.title)
-    const mostLikedLikes = threeMostLiked.map(like => like.gustados)
+    const mostLikedLikes = threeMostLiked.map(like => like.likes)
 
     res.render('panel/statistics',
         {
