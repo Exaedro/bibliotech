@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-10-2024 a las 01:49:04
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 09-10-2024 a las 21:31:32
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,7 +28,7 @@ CREATE TABLE `autorizaciones` (
   `Descripcion` varchar(500) NOT NULL,
   `LibroImagen` varchar(120) NOT NULL,
   `FechaAutorizacion` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE `calificaciones` (
   `LibroID` int(11) NOT NULL,
   `Calificacion` int(1) NOT NULL CHECK (`Calificacion` >= 1 and `Calificacion` <= 5),
   `FechaCalificacion` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -53,7 +53,7 @@ CREATE TABLE `calificaciones` (
 CREATE TABLE `categorias` (
   `CategoriaID` int(11) NOT NULL,
   `NombreCategoria` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `categorias`
@@ -89,7 +89,7 @@ CREATE TABLE `comentarios` (
   `Comentario` text NOT NULL,
   `FechaComentario` datetime DEFAULT current_timestamp(),
   `Editado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `comentarios`
@@ -123,7 +123,15 @@ CREATE TABLE `favoritos` (
   `FavoritoID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `favoritos`
+--
+
+INSERT INTO `favoritos` (`FavoritoID`, `UsuarioID`, `LibroID`) VALUES
+(1, 3, 3),
+(12, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -134,9 +142,19 @@ CREATE TABLE `favoritos` (
 CREATE TABLE `gustados` (
   `GustadoID` int(11) NOT NULL,
   `UsuarioID` int(11) DEFAULT NULL,
-  `LibroID` int(11) DEFAULT NULL,
-  `FechaGustado` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `LibroID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `gustados`
+--
+
+INSERT INTO `gustados` (`GustadoID`, `UsuarioID`, `LibroID`) VALUES
+(17, 3, 1),
+(19, 3, 165),
+(39, 3, 166),
+(42, 10, 167),
+(43, 11, 166);
 
 -- --------------------------------------------------------
 
@@ -149,26 +167,26 @@ CREATE TABLE `historial` (
   `UsuarioID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL,
   `FechaAccion` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `historial`
 --
 
 INSERT INTO `historial` (`HistorialID`, `UsuarioID`, `LibroID`, `FechaAccion`) VALUES
-(28, 3, 5, '2024-08-29 20:19:47'),
 (29, 3, 4, '2024-08-29 22:19:35'),
 (30, 3, 1, '2024-08-29 22:19:44'),
 (31, 3, 2, '2024-09-20 11:14:14'),
 (32, 3, 3, '2024-09-20 11:23:08'),
 (33, 10, 165, '2024-09-25 18:21:31'),
 (35, 4, 165, '2024-09-25 19:24:53'),
+(36, 3, 166, '2024-09-25 20:12:09'),
 (37, 3, 165, '2024-09-25 22:33:07'),
-(38, 11, 1, '2024-09-26 12:14:16'),
-(39, 11, 165, '2024-09-26 12:18:40'),
 (40, 10, 167, '2024-09-26 13:45:34'),
 (41, 3, 167, '2024-09-26 19:38:19'),
-(43, 10, 1, '2024-10-02 19:04:31');
+(43, 13, 167, '2024-10-04 11:10:01'),
+(47, 11, 167, '2024-10-09 11:16:48'),
+(48, 11, 165, '2024-10-09 11:16:57');
 
 -- --------------------------------------------------------
 
@@ -194,7 +212,7 @@ CREATE TABLE `libros` (
   `Gustados` int(11) NOT NULL DEFAULT 0,
   `Original` tinyint(1) NOT NULL DEFAULT 0,
   `Tipo` enum('manga','manwha','manhua','novela') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `libros`
@@ -216,8 +234,9 @@ INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, 
 (13, 'La Chica del Tren', 'Paula Hawkins', '9780553448160', '2015-01-13', '2024-09-25 20:45:26', 325, 'Riverhead Books', 'Un thriller psicológico sobre una mujer obsesionada con la vida de otras personas', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/199/m_libros/portada_la-chica-del-tren_paula-hawkins_201611281622.jpg', 'https://sallebello.edu.co/images/La_chica_del_tren_-_Paula_Hawkins.pdf', 'Inglés', 'Disponible', 160, 75, 0, NULL),
 (14, 'El Juego del Ángel', 'Carlos Ruiz Zafón', '9788408099353', '2008-11-05', '2024-09-25 20:45:26', 447, 'Planeta', 'La secuela de La Sombra del Viento', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/246/m_libros/portada_el-juego-del-angel_carlos-ruiz-zafon_201701091638.jpg', '', 'Español', 'Prestado', 170, 85, 0, NULL),
 (15, 'La Casa de los Espíritus', 'Isabel Allende', '9781501116960', '1982-03-28', '2024-09-25 20:45:26', 448, 'Plaza & Janés', 'Una novela épica sobre la vida de una familia chilena', 'https://cdn.zendalibros.com/wp-content/uploads/2022/10/eal43438_la-casa-de-los-espiritus-scaled.jpg', 'https://www.suneo.mx/literatura/subidas/Isabel%20Allende%20La%20Casa%20de%20los%20Esp%C3%ADritus.pdf', 'Español', 'Disponible', 200, 90, 0, NULL),
-(165, 'Armados', 'saikomic', 'undefined', '2024-09-24', '2024-09-25 20:45:37', 0, 'undefined', 'El protagonista de la historia es Estic, joven que sueña con tener aventuras como sus héroes del manga. Un día liberará los poderes ocultos de su yoyo que le otorgará súperpoderes increíbles, una obra que sigue los pasos de grandes referentes del shonen.', '/uploads/3bea172c-e2a9-4402-ad9d-90c853ab6e20.jpg', NULL, 'undefined', '', 20, 0, 1, 'manga'),
-(167, 'Antagonista', 'saikomic', 'undefined', '2024-09-24', '2024-09-26 13:45:34', 0, 'undefined', 'En un mundo regido por el brillo del neón, poder que dota de superhabilidades a los personajes, y en una sociedad custodiada por los Vigilantes, Antagonista irá contra todo y todos para imponer su utopía y acabar la crueldad con crueldad.', '/uploads/e0e53ba5-fcc1-4167-9cab-3759f9e84b6c.jpg', NULL, 'undefined', '', 0, 0, 1, 'manga');
+(165, 'Armados', 'saikomic', NULL, '0000-00-00', '2024-09-25 20:45:37', 0, 'undefined', 'El protagonista de la historia es Estic, joven que sueña con tener aventuras como sus héroes del manga. Un día liberará los poderes ocultos de su yoyo que le otorgará súperpoderes increíbles, una obra que sigue los pasos de grandes referentes del shonen.', '/uploads/3bea172c-e2a9-4402-ad9d-90c853ab6e20.jpg', NULL, 'undefined', '', 20, 0, 1, 'manga'),
+(166, 'Cruce de caminos', 'elpepe', '978-950-563-6', '2024-09-11', '2024-09-25 20:48:26', 700, 'dsadsad', 'FKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJS', '/uploads/63d15c40-3258-4072-a24b-6ffcd9102e47.webp', 'https://repositorio.uco.edu.co/server/api/core/bitstreams/ef384797-d498-4e8b-94e9-7a80f0496163/content', 'Español', 'Disponible', 7, 0, 0, NULL),
+(167, 'Antagonista', 'saikomic', 'undefined', '0000-00-00', '2024-09-26 13:45:34', 0, 'undefined', 'En un mundo regido por el brillo del neón, poder que dota de superhabilidades a los personajes, y en una sociedad custodiada por los Vigilantes, Antagonista irá contra todo y todos para imponer su utopía y acabar la crueldad con crueldad.', '/uploads/e0e53ba5-fcc1-4167-9cab-3759f9e84b6c.jpg', NULL, 'undefined', '', 0, 0, 1, 'manga');
 
 -- --------------------------------------------------------
 
@@ -228,7 +247,7 @@ INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, 
 CREATE TABLE `libros_autores` (
   `LibroID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `libros_autores`
@@ -247,7 +266,7 @@ INSERT INTO `libros_autores` (`LibroID`, `UsuarioID`) VALUES
 CREATE TABLE `libros_categorias` (
   `LibroID` int(11) NOT NULL,
   `CategoriaID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `libros_categorias`
@@ -291,6 +310,9 @@ INSERT INTO `libros_categorias` (`LibroID`, `CategoriaID`) VALUES
 (165, 11),
 (165, 12),
 (165, 14),
+(166, 1),
+(166, 3),
+(166, 4),
 (167, 1),
 (167, 3),
 (167, 12);
@@ -307,7 +329,7 @@ CREATE TABLE `mangas_capitulos` (
   `CapituloNumero` int(11) NOT NULL,
   `CapituloNombre` varchar(255) NOT NULL,
   `CapituloFecha` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `mangas_capitulos`
@@ -327,7 +349,7 @@ CREATE TABLE `mangas_imagenes` (
   `MangaID` int(11) DEFAULT NULL,
   `CapituloID` int(11) NOT NULL,
   `Imagen` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `mangas_imagenes`
@@ -354,7 +376,7 @@ INSERT INTO `mangas_imagenes` (`MangaImagenID`, `MangaID`, `CapituloID`, `Imagen
 CREATE TABLE `roles` (
   `RollID` int(11) NOT NULL,
   `NombreRol` enum('propietario','admin','mod','user') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -380,7 +402,7 @@ CREATE TABLE `usuarios` (
   `Contrasenia` varchar(255) NOT NULL,
   `RollID` int(11) NOT NULL DEFAULT 1,
   `Autor` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -388,13 +410,14 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`UsuarioID`, `Nombre`, `CorreoElectronico`, `Imagen`, `Contrasenia`, `RollID`, `Autor`) VALUES
 (1, 'dsaasd', 'ow@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 1, 0),
-(2, 'usuario', 'owomolo123@gmail.com', '	https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png	', '123', 2, 0),
 (3, 'admin', 'oww@gmail.com', '/uploads/b8ba20ff-8abe-45a8-9110-cd794c120692.jpg', '$2b$10$ha2A16xWuw0zleP0e2T6qet5jQ85zgSEBNZtIvGywAv9V436JBFE6', 3, 0),
-(4, 'exaedro', 'elpepe@gmail.com', '/uploads/2f4adc1f-b3b8-4ea2-88c7-73765823db3b.jpg', '$2b$10$KKSaDN3FgjCqRDuiBLJMT.ivLBqN7wFtZdqxVNZqN.uUq/K1PJhCq', 3, 1),
+(4, 'exaedro', 'elpepe@gmail.com', '/uploads/2f4adc1f-b3b8-4ea2-88c7-73765823db3b.jpg', '$2b$10$KKSaDN3FgjCqRDuiBLJMT.ivLBqN7wFtZdqxVNZqN.uUq/K1PJhCq', 3, 0),
 (7, 'dasasddas', 'dasdas@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$ZaRGgVda.C4ae7TDnNboeeth/6/CV.Bt3/0zVRq/GqoRkWJQBbwzK', 1, 0),
 (8, 'holaaa', 'elpopencio123@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$JSQrRWH1MFa8pFZTofdP/.3WBSeSnfsi5IlFYlvUupM9IjsMyB6xa', 1, 0),
 (10, 'saikomic', 'saikomic@gmail.com', '/uploads/44698584-e9bc-4e25-9f41-681a3e089c3e.jpg', '$2b$10$R57BEj8zR5n05jSC7ussXuBcFzY4caQItVjO8k47JNqtLv7bBX4aG', 1, 1),
-(11, 'escritor', 'escritor@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$aJqh6omBSdLPbwNTJkR5Q.YKU38ZMSuFzthCgKkk78c2qIV48XeKG', 1, 0);
+(11, 'NOMELEAS', 'escritor@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$aJqh6omBSdLPbwNTJkR5Q.YKU38ZMSuFzthCgKkk78c2qIV48XeKG', 1, 0),
+(12, 'Cuadrilatero', 'owomolo123@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$9pN6v/LqAFsPhq7Pp6OWCuK9eKUfVuCRRnQNs6z.H/X/.GPMztKSe', 1, 1),
+(13, 'pruebinha', 'pruebinha@gmail.com', 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', '$2b$10$MisxZKDgBzlYkh429c4WI.Rj1n.xSc63CpqN9dJID3t7E4i9btV62', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -406,13 +429,15 @@ CREATE TABLE `ver_mas_tarde` (
   `TardeID` int(11) NOT NULL,
   `UsuarioID` int(11) DEFAULT NULL,
   `LibroID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `ver_mas_tarde`
 --
 
 INSERT INTO `ver_mas_tarde` (`TardeID`, `UsuarioID`, `LibroID`) VALUES
+(8, 3, 4),
+(10, 3, 3),
 (11, 3, 152);
 
 -- --------------------------------------------------------
@@ -428,7 +453,7 @@ CREATE TABLE `visitas` (
   `Ip` varchar(45) NOT NULL,
   `Dispositivo` varchar(100) DEFAULT NULL,
   `FechaVisita` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `visitas`
@@ -476,48 +501,93 @@ INSERT INTO `visitas` (`VisitaID`, `LibroID`, `Pais`, `Ip`, `Dispositivo`, `Fech
 (40, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:31:32'),
 (41, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:31:32'),
 (42, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-27 09:35:18'),
-(43, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 17:56:21'),
-(44, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 17:56:30'),
-(45, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 17:57:06'),
-(46, 3, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 17:57:13'),
-(47, 4, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 17:57:35'),
-(54, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:48:57'),
-(55, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:49:31'),
-(57, 8, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:52:05'),
-(58, 2, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:52:57'),
-(59, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:53:06'),
-(60, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:53:08'),
-(61, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:53:11'),
-(63, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:54:28'),
-(64, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:55:21'),
-(65, 4, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:56:20'),
-(66, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 18:59:53'),
-(67, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:01:28'),
-(69, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:01:32'),
-(70, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:01:48'),
-(71, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:02:57'),
-(72, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:04:11'),
-(73, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:04:32'),
-(74, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:04:36'),
-(75, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:04:42'),
-(76, 2, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:15:59'),
-(77, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:16:11'),
-(78, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:16:27'),
-(79, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:17:00'),
-(80, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:17:05'),
-(81, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:17:05'),
-(82, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:17:06'),
-(83, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:17:07'),
-(84, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:17:07'),
-(85, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:18:15'),
-(86, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:19:19'),
-(87, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 19:19:53'),
-(88, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 20:16:45'),
-(89, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 20:18:04'),
-(90, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 20:20:10'),
-(91, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 20:22:13'),
-(92, 13, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 20:29:03'),
-(93, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 20:29:06');
+(43, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-30 17:35:24'),
+(44, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-09-30 17:37:39'),
+(45, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 10:43:30'),
+(46, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 10:51:42'),
+(47, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-02 10:54:43'),
+(48, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-03 09:54:36'),
+(49, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-03 09:54:37'),
+(50, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-03 09:54:39'),
+(51, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-03 09:54:42'),
+(52, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-03 10:12:55'),
+(53, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-03 10:13:41'),
+(54, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-03 12:25:05'),
+(55, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 10:54:10'),
+(56, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 10:54:12'),
+(57, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 10:54:13'),
+(58, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:04:10'),
+(59, 1, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:04:24'),
+(60, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:04:44'),
+(61, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:05:04'),
+(62, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:05:28'),
+(63, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:05:44'),
+(64, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:07:10'),
+(65, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:09:05'),
+(66, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:09:36'),
+(67, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:10:01'),
+(68, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:11:40'),
+(69, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:11:58'),
+(70, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:12:10'),
+(71, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:14:32'),
+(72, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:15:02'),
+(73, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:15:03'),
+(74, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:16:09'),
+(75, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:18:51'),
+(76, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:19:11'),
+(77, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:19:13'),
+(78, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:23:55'),
+(79, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:29:40'),
+(80, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:29:46'),
+(81, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:31:38'),
+(82, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:34:22'),
+(83, 167, NULL, '::ffff:127.0.0.1', NULL, '2024-10-04 11:35:05'),
+(84, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:35:09'),
+(85, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:36:20'),
+(86, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:40:56'),
+(87, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-04 11:41:13'),
+(88, 9, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-05 14:42:14'),
+(89, 9, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-05 14:43:35'),
+(90, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-05 14:43:37'),
+(91, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-05 14:45:20'),
+(92, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-05 14:46:12'),
+(93, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-05 14:51:00'),
+(94, 166, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-05 14:51:14'),
+(95, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-05 14:51:22'),
+(96, 166, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 09:29:09'),
+(97, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 09:29:12'),
+(98, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 09:29:45'),
+(99, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 09:31:08'),
+(100, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 09:31:20'),
+(101, 3, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 09:34:36'),
+(102, 4, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 09:34:38'),
+(103, 5, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 09:34:40'),
+(104, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:16:49'),
+(105, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:16:57'),
+(106, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:34:21'),
+(107, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:34:36'),
+(108, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:34:58'),
+(109, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:35:05'),
+(110, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:35:19'),
+(111, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:36:04'),
+(112, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:38:09'),
+(113, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:38:16'),
+(114, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:44:07'),
+(115, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:44:56'),
+(116, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 11:47:39'),
+(117, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 13:50:59'),
+(118, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 13:52:17'),
+(119, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 13:56:29'),
+(120, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:18:08'),
+(121, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:18:39'),
+(122, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:23:32'),
+(123, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:24:42'),
+(124, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:24:46'),
+(125, 167, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:29:04'),
+(126, 166, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:29:09'),
+(127, 166, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:31:05'),
+(128, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:36:51'),
+(129, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:40:29');
 
 --
 -- Índices para tablas volcadas
@@ -647,7 +717,7 @@ ALTER TABLE `visitas`
 -- AUTO_INCREMENT de la tabla `autorizaciones`
 --
 ALTER TABLE `autorizaciones`
-  MODIFY `AutorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `AutorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `calificaciones`
@@ -665,31 +735,31 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `ComentarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `ComentarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `FavoritoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `FavoritoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `gustados`
 --
 ALTER TABLE `gustados`
-  MODIFY `GustadoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `GustadoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT de la tabla `mangas_capitulos`
@@ -713,7 +783,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `ver_mas_tarde`
@@ -725,7 +795,7 @@ ALTER TABLE `ver_mas_tarde`
 -- AUTO_INCREMENT de la tabla `visitas`
 --
 ALTER TABLE `visitas`
-  MODIFY `VisitaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `VisitaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- Restricciones para tablas volcadas
