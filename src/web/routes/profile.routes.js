@@ -110,7 +110,7 @@ profileRouter.post('/profile/edit', async (req, res) => {
         password: newPassword,
     }
 
-    if(file.length > 0)
+    if(file)
         object.avatar = '/uploads/' + file.filename
 
     const response = await fetch(`${apiUrl}/users/edit`, {

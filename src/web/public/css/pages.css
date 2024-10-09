@@ -87,7 +87,11 @@
 .libroIndividual .genero {
     padding: 13px 20px;
     border: 2px solid var(--color-primario);
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.libroIndividual .genero:active {
+    transform: scale(0.96);
 }
 
 .libroIndividual .genero:hover {
