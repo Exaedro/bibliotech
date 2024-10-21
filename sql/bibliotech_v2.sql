@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-10-2024 a las 21:31:32
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 22-10-2024 a las 01:06:45
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,7 +28,7 @@ CREATE TABLE `autorizaciones` (
   `Descripcion` varchar(500) NOT NULL,
   `LibroImagen` varchar(120) NOT NULL,
   `FechaAutorizacion` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE `calificaciones` (
   `LibroID` int(11) NOT NULL,
   `Calificacion` int(1) NOT NULL CHECK (`Calificacion` >= 1 and `Calificacion` <= 5),
   `FechaCalificacion` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -53,7 +53,7 @@ CREATE TABLE `calificaciones` (
 CREATE TABLE `categorias` (
   `CategoriaID` int(11) NOT NULL,
   `NombreCategoria` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `categorias`
@@ -89,7 +89,7 @@ CREATE TABLE `comentarios` (
   `Comentario` text NOT NULL,
   `FechaComentario` datetime DEFAULT current_timestamp(),
   `Editado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `comentarios`
@@ -123,7 +123,7 @@ CREATE TABLE `favoritos` (
   `FavoritoID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `favoritos`
@@ -143,7 +143,7 @@ CREATE TABLE `gustados` (
   `GustadoID` int(11) NOT NULL,
   `UsuarioID` int(11) DEFAULT NULL,
   `LibroID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `gustados`
@@ -167,7 +167,7 @@ CREATE TABLE `historial` (
   `UsuarioID` int(11) NOT NULL,
   `LibroID` int(11) NOT NULL,
   `FechaAccion` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `historial`
@@ -186,7 +186,9 @@ INSERT INTO `historial` (`HistorialID`, `UsuarioID`, `LibroID`, `FechaAccion`) V
 (41, 3, 167, '2024-09-26 19:38:19'),
 (43, 13, 167, '2024-10-04 11:10:01'),
 (47, 11, 167, '2024-10-09 11:16:48'),
-(48, 11, 165, '2024-10-09 11:16:57');
+(48, 11, 165, '2024-10-09 11:16:57'),
+(50, 3, 168, '2024-10-21 18:06:58'),
+(51, 3, 15, '2024-10-21 19:06:29');
 
 -- --------------------------------------------------------
 
@@ -212,17 +214,17 @@ CREATE TABLE `libros` (
   `Gustados` int(11) NOT NULL DEFAULT 0,
   `Original` tinyint(1) NOT NULL DEFAULT 0,
   `Tipo` enum('manga','manwha','manhua','novela') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `libros`
 --
 
 INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, `FechaPublicacion`, `CantidadPaginas`, `Editorial`, `Sinopsis`, `imagen`, `pdf_link`, `Idioma`, `Estado`, `Visitas`, `Gustados`, `Original`, `Tipo`) VALUES
-(1, 'El Gran Gatsby', 'F. Scott Fitzgerald', '9780743273565', '1925-04-10', '2024-09-25 20:45:26', 180, 'Scribner', 'Un retrato de la era del jazz en los Estados Unidos', 'https://www.anagrama-ed.es/uploads/media/portadas/0001/15/b2834bc4ea71357c8b549dfccdd16d611c6586ea.jpeg', 'https://www.imprentanacional.go.cr/editorialdigital/libros/literatura%20universal/el_gran_gatsby_edincr.pdf', 'Español', 'Disponible', 106, 50, 0, NULL),
-(2, 'Cien Años de Soledad', 'Gabriel García Márquez', '9780060883287', '1967-06-05', '2024-09-25 20:45:26', 417, 'Harper & Row', 'La historia de la familia Buendía en el pueblo ficticio de Macondo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUgsUCPHp3SOTsijY_tNLp8zOiGxJCUZ0yEA&s', 'https://www.secst.cl/upfiles/documentos/19072016_1207am_578dc39115fe9.pdf', 'Español', 'Disponible', 201, 120, 0, NULL),
-(3, 'El Código Da Vinci', 'Dan Brown', '9780307474278', '2003-03-18', '2024-09-25 20:45:26', 689, 'Doubleday', 'Un thriller sobre la búsqueda del Santo Grial', 'https://images.cdn2.buscalibre.com/fit-in/360x360/49/54/4954e233ad1e1a43e3f8187cd91c6997.jpg', 'https://usercontent.one/wp/www.puro-geek.com/wp-content/uploads/2021/11/El-codigo-Da-Vinci-Dan-Brown.pdf?media=1630018077', 'Español', 'Prestado', 151, 80, 0, NULL),
-(4, 'Orgullo y Prejuicio', 'Jane Austen', '9780141439518', '1813-01-28', '2024-09-25 20:45:26', 279, 'T. Egerton', 'Una novela sobre el amor y las relaciones en la Inglaterra del siglo XIX', 'https://images.cdn3.buscalibre.com/fit-in/360x360/46/6b/466b0b47e932561b186c56358acbe55e.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/orgullo_y_prejuicio.pdf', 'Español', 'Disponible', 188, 60, 0, NULL),
+(1, 'El Gran Gatsby', 'F. Scott Fitzgerald', '9780743273565', '1925-04-10', '2024-09-25 20:45:26', 180, 'Scribner', 'Un retrato de la era del jazz en los Estados Unidos', 'https://www.anagrama-ed.es/uploads/media/portadas/0001/15/b2834bc4ea71357c8b549dfccdd16d611c6586ea.jpeg', 'https://www.imprentanacional.go.cr/editorialdigital/libros/literatura%20universal/el_gran_gatsby_edincr.pdf', 'Español', 'Disponible', 106, 50, 0, 'novela'),
+(2, 'Cien Años de Soledad', 'Gabriel García Márquez', '9780060883287', '1967-06-05', '2024-09-25 20:45:26', 417, 'Harper & Row', 'La historia de la familia Buendía en el pueblo ficticio de Macondo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUgsUCPHp3SOTsijY_tNLp8zOiGxJCUZ0yEA&s', 'https://www.secst.cl/upfiles/documentos/19072016_1207am_578dc39115fe9.pdf', 'Español', 'Disponible', 201, 120, 0, 'novela'),
+(3, 'El Código Da Vinci', 'Dan Brown', '9780307474278', '2003-03-18', '2024-09-25 20:45:26', 689, 'Doubleday', 'Un thriller sobre la búsqueda del Santo Grial', 'https://images.cdn2.buscalibre.com/fit-in/360x360/49/54/4954e233ad1e1a43e3f8187cd91c6997.jpg', 'https://usercontent.one/wp/www.puro-geek.com/wp-content/uploads/2021/11/El-codigo-Da-Vinci-Dan-Brown.pdf?media=1630018077', 'Español', 'Prestado', 151, 80, 0, 'novela'),
+(4, 'Orgullo y Prejuicio', 'Jane Austen', '9780141439518', '1813-01-28', '2024-09-25 20:45:26', 279, 'T. Egerton', 'Una novela sobre el amor y las relaciones en la Inglaterra del siglo XIX', 'https://images.cdn3.buscalibre.com/fit-in/360x360/46/6b/466b0b47e932561b186c56358acbe55e.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/orgullo_y_prejuicio.pdf', 'Español', 'Disponible', 188, 60, 0, 'novela'),
 (5, '1984', 'George Orwell', '9780451524935', '1949-06-08', '2024-09-25 20:45:26', 328, 'Secker & Warburg', 'Una novela distópica sobre un régimen totalitario', 'https://images.cdn1.buscalibre.com/fit-in/360x360/b0/39/b039af065268818b7bd3b0e016f8db65.jpg', 'https://wjccschools.org/jhs/wp-content/uploads/sites/17/2019/05/1984-Spanish.pdf', 'Inglés', 'Reservado', 253, 100, 0, NULL),
 (6, 'La Sombra del Viento', 'Carlos Ruiz Zafón', '9788408093498', '2001-04-17', '2024-09-25 20:45:26', 487, 'Planeta', 'Un joven descubre un libro misterioso en la Barcelona de la posguerra', 'https://www.planetadelibros.com.ar/usuaris/libros/fotos/48/m_libros/47856_portada___201609051317.jpg', 'https://cel.edu.py/v2/wp-content/uploads/2020/10/Ruiz-Zafon-Carlos-La-Sombra-Del-Viento_54Y.pdf', 'Español', 'Disponible', 131, 90, 0, NULL),
 (7, 'Harry Potter y la Piedra Filosofal', 'J.K. Rowling', '9780747532699', '1997-06-26', '2024-09-25 20:45:26', 223, 'Bloomsbury', 'El primer libro de la famosa serie sobre el joven mago', 'https://images.cdn3.buscalibre.com/fit-in/360x360/ce/e6/cee6ef96dad70d3f599b953f0e50afc7.jpg', 'https://fecolsa.com.co/upload/Actividades%20Equilibrio%20Total/Rowling,%20J.%20K.%20-%20%20Harry%20Potter%20y%20la%20piedra%20filosofal.pdf', 'Inglés', 'Prestado', 301, 150, 0, NULL),
@@ -236,7 +238,23 @@ INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, 
 (15, 'La Casa de los Espíritus', 'Isabel Allende', '9781501116960', '1982-03-28', '2024-09-25 20:45:26', 448, 'Plaza & Janés', 'Una novela épica sobre la vida de una familia chilena', 'https://cdn.zendalibros.com/wp-content/uploads/2022/10/eal43438_la-casa-de-los-espiritus-scaled.jpg', 'https://www.suneo.mx/literatura/subidas/Isabel%20Allende%20La%20Casa%20de%20los%20Esp%C3%ADritus.pdf', 'Español', 'Disponible', 200, 90, 0, NULL),
 (165, 'Armados', 'saikomic', NULL, '0000-00-00', '2024-09-25 20:45:37', 0, 'undefined', 'El protagonista de la historia es Estic, joven que sueña con tener aventuras como sus héroes del manga. Un día liberará los poderes ocultos de su yoyo que le otorgará súperpoderes increíbles, una obra que sigue los pasos de grandes referentes del shonen.', '/uploads/3bea172c-e2a9-4402-ad9d-90c853ab6e20.jpg', NULL, 'undefined', '', 20, 0, 1, 'manga'),
 (166, 'Cruce de caminos', 'elpepe', '978-950-563-6', '2024-09-11', '2024-09-25 20:48:26', 700, 'dsadsad', 'FKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJSFKFDJFDSFDS DSFDS FKJDSFD FKSFKDSFKDSFSFSKFSDKJF DSKJDSFDSFDSFDS KFDSFKJS', '/uploads/63d15c40-3258-4072-a24b-6ffcd9102e47.webp', 'https://repositorio.uco.edu.co/server/api/core/bitstreams/ef384797-d498-4e8b-94e9-7a80f0496163/content', 'Español', 'Disponible', 7, 0, 0, NULL),
-(167, 'Antagonista', 'saikomic', 'undefined', '0000-00-00', '2024-09-26 13:45:34', 0, 'undefined', 'En un mundo regido por el brillo del neón, poder que dota de superhabilidades a los personajes, y en una sociedad custodiada por los Vigilantes, Antagonista irá contra todo y todos para imponer su utopía y acabar la crueldad con crueldad.', '/uploads/e0e53ba5-fcc1-4167-9cab-3759f9e84b6c.jpg', NULL, 'undefined', '', 0, 0, 1, 'manga');
+(167, 'Antagonista', 'saikomic', 'undefined', '0000-00-00', '2024-09-26 13:45:34', 0, 'undefined', 'En un mundo regido por el brillo del neón, poder que dota de superhabilidades a los personajes, y en una sociedad custodiada por los Vigilantes, Antagonista irá contra todo y todos para imponer su utopía y acabar la crueldad con crueldad.', '/uploads/e0e53ba5-fcc1-4167-9cab-3759f9e84b6c.jpg', NULL, 'undefined', '', 0, 0, 1, 'manga'),
+(168, 'guion inglés técnico cambiado', 'kanikas cambiado', '978-950-563-7', '3000-06-25', '2024-10-21 18:06:54', 11, 'bibliotech cambiado', 'un guion de ingles tecnico cambiado', '/uploads/e74b92df-5eb5-4582-a822-fb1b01b086d7.jfif', '\n                https://publuu.com/flip-book/694218/1544122', 'español cambiado', 'Prestado', 0, 0, 0, NULL),
+(173, 'El Amor en los Tiempos del Cólera', 'Gabriel García Márquez', '9780307389732', '1985-09-05', '2024-10-21 19:01:03', 188, 'Penguin Books', 'Una historia de amor que trasciende el tiempo', 'https://images.cdn1.buscalibre.com/fit-in/360x360/b0/3e/b03e98118b9e2cf5b94bb0548bfa59c5.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/Garc%C3%ADa%20Gabriel%20-%20El%20amor%20en.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(174, 'Rayuela', 'Julio Cortázar', '9780140264753', '1963-06-28', '2024-10-21 19:01:03', 457, 'Pantheon Books', 'Una novela que desafía las convenciones de la narrativa tradicional', 'https://acdn.mitiendanube.com/stores/001/029/689/products/rayuela1-70d4301f60dc01384c16171187155984-640-0.png', 'https://web.seducoahuila.gob.mx/biblioweb/upload/Cortazar,%20Julio%20-%20Rayuela.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(175, 'Pedro Páramo', 'Juan Rulfo', '9788420469285', '1955-03-27', '2024-10-21 19:01:03', 115, 'Fondo de Cultura Económica', 'Una obra maestra de la literatura mexicana sobre la búsqueda de un padre', 'https://images.cdn3.buscalibre.com/fit-in/520x520/4b/7e/4b7ee861b9f473b4dcd55bbea2893916.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/Juan%20Rulfo%20-%20Pedro%20P%C3%A1ramo.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(176, 'La Ciudad y los Perros', 'Mario Vargas Llosa', '9788420471837', '1963-07-10', '2024-10-21 19:01:03', 153, 'Seix Barral', 'Un retrato de la vida en una academia militar peruana', 'https://www.rae.es/sites/default/files/la_ciudad_y_los_perros.jpg', 'https://www.guao.org/sites/default/files/biblioteca/La%20ciudad%20y%20los%20perros%20Vargas%20LLosa.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(177, 'El Tunel', 'Ernesto Sabato', '9788432231164', '1948-05-30', '2024-10-21 19:01:03', 160, 'Editorial Planeta', 'Una exploración psicológica de la obsesión y el crimen', 'https://cdn11.bigcommerce.com/s-3stx4pub31/images/stencil/1280x1280/products/4834/12907/el-tunel-ernesto-sabato-booket-book__41392.1637347969.jpg?c=2', 'https://www.ues.mx/movilidad/Docs/MovilidadAcademica/Libro_El_Tunel.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(178, 'Ficciones', 'Jorge Luis Borges', '9788420415275', '1944-01-01', '2024-10-21 19:01:03', 86, 'Editorial Sur', 'Una colección de cuentos que exploran temas de filosofía y metafísica', 'https://images.cdn3.buscalibre.com/fit-in/360x360/46/85/4685286dbc1ec2013245afe1d537acfb.jpg', 'https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(179, 'Los Detectives Salvajes', 'Roberto Bolaño', '9788433966799', '1998-11-25', '2024-10-21 19:01:03', 561, 'Anagrama', 'Una novela sobre un grupo de poetas en busca del realismo visceral', 'https://www.clarin.com/2023/11/20/tfPa2tgSo_720x0__1.jpg', 'https://www.derechopenalenlared.com/libros/los-detectives-salvajes-roberto-bolano.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(180, '2666', 'Roberto Bolaño', '9788433967314', '2004-10-22', '2024-10-21 19:01:03', 576, 'Anagrama', 'Una novela épica que explora el mal en el mundo moderno', 'https://www.anagrama-ed.es/uploads/media/portadas/0001/19/286f5f73995431acccf11d83cabbaadda7ae638b.jpeg', 'https://biblioteca.choapa.cl/Libros/roberto%202666.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(182, 'El Aleph', 'Jorge Luis Borges', '9788420423225', '1949-01-01', '2024-10-21 19:01:03', 18, 'Editorial Sur', 'Una colección de cuentos que exploran la infinitud y el tiempo', 'https://luisbermer.com/wp-content/uploads/2017/07/El-Aleph-de-Jorge-Luis-Borges.jpg', 'https://www.ucm.es/data/cont/docs/119-2014-02-11-Borges.El%20Aleph76.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(183, 'La Tregua', 'Mario Benedetti', '9788420408741', '1960-01-01', '2024-10-21 19:01:03', 157, 'Editorial Sudamericana', 'Una novela epistolar sobre la vida de un oficinista en Montevideo', 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkmVlZIsXmWx3oZaL7HmOj-eDNEPMtXTxeFK82iv8rTHSi0YcVjDVGVI82MxauCkVV6c8YULvainu7HykKpiRTswaqv3NYq6Kt78XJ-tIfq6tnXzGAszvVnloaMdM2anoIgVTfZrB38_Vo/w1200-h630-p-k-no-nu/portada-tregua_grande.jpg', 'https://www.tomasdeaquino.cl/upfiles/documentos/04012018_516am_5a4e1b36bb7f6.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(184, 'Cuentos de la Selva', 'Horacio Quiroga', '9788497611081', '1918-01-01', '2024-10-21 19:01:03', 24, 'Editorial Losada', 'Una colección de cuentos sobre la vida en la selva', 'https://laestacioneditora.com/wp-content/uploads/2019/02/L107-CtosSelv_Tapa.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/Quiroga%20Horacio%20-%20Cuentos%20de%20la%20selva.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(185, 'El Llano en Llamas', 'Juan Rulfo', '9788420469285', '1953-01-01', '2024-10-21 19:01:03', 80, 'Fondo de Cultura Económica', 'Una colección de cuentos sobre la vida rural en México', 'https://www.anagrama-ed.es/uploads/media/portadas/0001/20/d6bc016cd5e245ee7a3175ab91acae14f8321368.jpeg', 'https://ens9004-infd.mendoza.edu.ar/sitio/literatura-latinoamericana/upload/Juan_Rulfo._Llano_en_llamas..pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(186, 'Crónica de una Muerte Anunciada', 'Gabriel García Márquez', '9780307388940', '1981-04-12', '2024-10-21 19:01:03', 62, 'Vintage Books', 'Una historia sobre el asesinato de Santiago Nasar', 'https://images.cdn2.buscalibre.com/fit-in/360x360/13/97/1397a4f28df5ed21f99177884f3276bd.jpg', 'https://unisinucartagena.edu.co/wp-content/uploads/2020/07/Cronica_de_una_Muerte_Anunciada-Gabriel_Garcia_Marquez.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(187, 'La Fiesta del Chivo', 'Mario Vargas Llosa', '9788408103527', '2000-04-04', '2024-10-21 19:01:03', 396, 'Alfaguara', 'Una novela sobre la dictadura de Trujillo en la República Dominicana', 'https://images.cdn2.buscalibre.com/fit-in/360x360/eb/f3/ebf312ad01be9e04367852a8203a83f3.jpg', 'https://web.seducoahuila.gob.mx/biblioweb/upload/Mario%20Vargas%20Llosa%20-%20La%20fiesta%20del%20chivo.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela'),
+(188, 'La Casa de Bernarda Alba', 'Federico García Lorca', '9788437622677', '1936-06-19', '2024-10-21 19:01:03', 51, 'Cátedra', 'Un drama sobre la represión y la pasión en una familia española', 'https://images.cdn1.buscalibre.com/fit-in/360x360/97/6b/976b3f7fd974b9b56b26e0ca70c000cf.jpg', 'https://biblioteca.org.ar/libros/157286.pdf', 'Español', 'Disponible', 0, 0, 0, 'novela');
 
 -- --------------------------------------------------------
 
@@ -247,7 +265,7 @@ INSERT INTO `libros` (`LibroID`, `Titulo`, `Autor`, `ISBN`, `FechaLanzamiento`, 
 CREATE TABLE `libros_autores` (
   `LibroID` int(11) NOT NULL,
   `UsuarioID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `libros_autores`
@@ -266,7 +284,7 @@ INSERT INTO `libros_autores` (`LibroID`, `UsuarioID`) VALUES
 CREATE TABLE `libros_categorias` (
   `LibroID` int(11) NOT NULL,
   `CategoriaID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `libros_categorias`
@@ -315,7 +333,41 @@ INSERT INTO `libros_categorias` (`LibroID`, `CategoriaID`) VALUES
 (166, 4),
 (167, 1),
 (167, 3),
-(167, 12);
+(167, 12),
+(168, 1),
+(168, 2),
+(168, 3),
+(168, 4),
+(168, 7),
+(173, 1),
+(173, 5),
+(174, 2),
+(174, 4),
+(175, 4),
+(175, 5),
+(176, 3),
+(176, 4),
+(177, 1),
+(177, 4),
+(178, 1),
+(178, 4),
+(179, 1),
+(179, 4),
+(180, 1),
+(180, 4),
+(182, 1),
+(182, 4),
+(183, 2),
+(183, 4),
+(184, 1),
+(184, 4),
+(185, 1),
+(185, 4),
+(186, 1),
+(186, 5),
+(187, 1),
+(187, 4),
+(188, 2);
 
 -- --------------------------------------------------------
 
@@ -329,7 +381,7 @@ CREATE TABLE `mangas_capitulos` (
   `CapituloNumero` int(11) NOT NULL,
   `CapituloNombre` varchar(255) NOT NULL,
   `CapituloFecha` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `mangas_capitulos`
@@ -349,7 +401,7 @@ CREATE TABLE `mangas_imagenes` (
   `MangaID` int(11) DEFAULT NULL,
   `CapituloID` int(11) NOT NULL,
   `Imagen` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `mangas_imagenes`
@@ -376,7 +428,7 @@ INSERT INTO `mangas_imagenes` (`MangaImagenID`, `MangaID`, `CapituloID`, `Imagen
 CREATE TABLE `roles` (
   `RollID` int(11) NOT NULL,
   `NombreRol` enum('propietario','admin','mod','user') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -402,7 +454,7 @@ CREATE TABLE `usuarios` (
   `Contrasenia` varchar(255) NOT NULL,
   `RollID` int(11) NOT NULL DEFAULT 1,
   `Autor` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -429,7 +481,7 @@ CREATE TABLE `ver_mas_tarde` (
   `TardeID` int(11) NOT NULL,
   `UsuarioID` int(11) DEFAULT NULL,
   `LibroID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `ver_mas_tarde`
@@ -453,7 +505,7 @@ CREATE TABLE `visitas` (
   `Ip` varchar(45) NOT NULL,
   `Dispositivo` varchar(100) DEFAULT NULL,
   `FechaVisita` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `visitas`
@@ -587,7 +639,33 @@ INSERT INTO `visitas` (`VisitaID`, `LibroID`, `Pais`, `Ip`, `Dispositivo`, `Fech
 (126, 166, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:29:09'),
 (127, 166, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:31:05'),
 (128, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:36:51'),
-(129, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:40:29');
+(129, 165, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-09 14:40:29'),
+(130, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:06:58'),
+(131, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:07:40'),
+(132, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:08:11'),
+(133, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:10:37'),
+(134, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:15:19'),
+(135, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:15:22'),
+(136, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:16:05'),
+(137, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:17:03'),
+(138, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:17:52'),
+(139, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:18:24'),
+(140, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:23:45'),
+(141, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:25:53'),
+(142, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:38:15'),
+(143, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:38:20'),
+(144, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:40:54'),
+(145, 168, NULL, '::ffff:127.0.0.1', NULL, '2024-10-21 18:41:59'),
+(146, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:42:08'),
+(147, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:48:38'),
+(148, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:49:44'),
+(149, 168, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 18:50:09'),
+(150, 2, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 19:03:22'),
+(151, 2, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 19:03:41'),
+(152, 15, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 19:06:30'),
+(153, 174, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 19:24:24'),
+(154, 175, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 19:24:47'),
+(155, 173, 'Estados Unidos', '8.8.8.8', NULL, '2024-10-21 19:27:29');
 
 --
 -- Índices para tablas volcadas
@@ -753,13 +831,13 @@ ALTER TABLE `gustados`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `HistorialID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `LibroID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT de la tabla `mangas_capitulos`
@@ -795,7 +873,7 @@ ALTER TABLE `ver_mas_tarde`
 -- AUTO_INCREMENT de la tabla `visitas`
 --
 ALTER TABLE `visitas`
-  MODIFY `VisitaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `VisitaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
 -- Restricciones para tablas volcadas
